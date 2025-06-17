@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+
 
 @Component({
   selector: 'app-reset-forgot-password',
@@ -8,4 +10,11 @@ import { Component } from '@angular/core';
 })
 export class ResetForgotPasswordComponent {
 
+
+
+
+  onSubmit () {
+    
+  }
 }
+

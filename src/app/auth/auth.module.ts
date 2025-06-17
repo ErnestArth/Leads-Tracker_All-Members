@@ -15,6 +15,7 @@ const routes: Routes = [
       { path: '', redirectTo: 'login', pathMatch: 'full' },
       { path: 'login', component: LoginComponent },
       { path: 'otp-auth', component: OtpAuthComponent },
+      {path: 'reset-forgot-password', component: ResetForgotPasswordComponent},
     ],
   },
 ];
