@@ -13,7 +13,7 @@
       </p>
 
       <form
-      formGroup ="loginForm" (ngSubmit)="onSubmit()">
+      [formGroup] ="loginForm" (ngSubmit)="onSubmit()">
         <div class="form-group">
           <label for="email">Email</label>
           <input

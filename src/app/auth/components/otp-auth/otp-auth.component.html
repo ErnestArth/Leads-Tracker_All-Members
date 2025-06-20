@@ -1,74 +1,68 @@
-<div class="login-container">
-  <img src="OTP Vector.jpg" alt="Vector Image" class="vector-image" />
-  <div class="login-content">
-    <img src="Lead Tracker Logo.jpg" alt="LeadTracker Logo" class="logo" />
-    <div class="login-text">
-      <h3 class="welcome-text">Welcome back to Leads Tracker</h3>
-      <span>Admin acess only</span>
-    </div>
+<div class="main-container">
+  <!-- <img src="OTP Vector" alt="Vector Image" class="vector-image" /> -->
+  <div class="login-container">
     <div class="login-form">
-      <p class="access-text">
-        Enter your assigned credentials to <br />
-        access your account
-      </p>
+      <div class="form-top">
+        <img src="Lead Tracker Logo.jpg" alt="logo" />
+        <h1 class="welcomeMessage">Welcome back to Leads Tracker</h1>
+      </div>
 
-      <form formGroup="loginForm" (ngSubmit)="onSubmit()">
-        <label for="email">Email</label>
-        <input
-          type="email"
-          id="email"
-          formControlName="email"
-          placeholder="email@email.com"
-        />
-        <div
-          *ngIf="
-            loginForm.get('email')?.invalid && loginForm.get('email')?.touched
-          "
-          class="error-message"
-        >
-          <small
-            class="error-text"
-            *ngIf="loginForm.get('email')?.errors?.['required']"
-            >Email is required.</small
-          >
-          <small
-            class="error-text"
-            *ngIf="loginForm.get('email')?.errors?.['email']"
-            >Please enter a valid email address.</small
-          >
-        </div>
+      <div class="form-container">
+        <h2 class="loginInstruction">Log in to access your dashboard</h2>
+        <form [formGroup]="otpLoginForm" (ngSubmit)="onSubmit()" novalidate>
+          <div class="email-sec">
+            <label class="email" for="email">Email</label>
+            <input
+              type="email"
+              id="email"
+              formControlName="email"
+              placeholder="email@email.com"
+              [ngClass]="{
+                'invalid-input': otpLoginForm.get('email')?.touched && otpLoginForm.get('email')?.invalid
+              }"
+            />
+            <div class="error-message" *ngIf="otpLoginForm.get('email')?.touched && otpLoginForm.get('email')?.invalid">
+              <small *ngIf="otpLoginForm.get('email')?.errors?.['required']">Email is required.</small>
+              <small *ngIf="otpLoginForm.get('email')?.errors?.['email']">Invalid email format.</small>
+            </div>
+          </div>
+          <div class="password-sec">
+            <div class="password-top">
+              <label class="password" for="password">Password</label>
+              <div class="forgot-password">Forgot Password?</div>
+            </div>
 
-        <label for="password">Password</label>
-        <input
-          type="password"
-          id="password"
-          formControlName="password"
-          placeholder="Enter Password"
-        />
-        <div
-          *ngIf="
-            loginForm.get('Password')?.invalid &&
-            loginForm.get('Password')?.touched
-          "
-          class="error-message"
-        >
-          <small
-            class="error-text"
-            *ngIf="loginForm.get('Password')?.errors?.['required']"
-            >Password is required.</small
-          >
-          <small
-            class="error-text"
-            *ngIf="loginForm.get('Password')?.errors?.['minlength']"
-            >Password must be at least 8 characters long.</small
-          >
-        </div>
+            <input
+              type="password"
+              id="password"
+              formControlName="password"
+              placeholder="Enter Password"
+              [ngClass]="{
+                'invalid-input': otpLoginForm.get('password')?.touched && otpLoginForm.get('password')?.invalid
+              }"
+            />
+            <span
+              toggle="#password-field"
+              class="fa fa-fw fa-eye field-icon toggle-password"
+            ></span>
 
-        <div class="login-button">
-          <button type="submit">Login</button>
-        </div>
-      </form>
+            <div class="error-message" *ngIf="otpLoginForm.get('password')?.touched && otpLoginForm.get('password')?.invalid">
+              <small *ngIf="otpLoginForm.get('password')?.errors?.['required']">Password is required.</small>
+              <small *ngIf="otpLoginForm.get('password')?.errors?.['minlength']">Min 8 characters required.</small>
+              <small *ngIf="otpLoginForm.get('password')?.errors?.['weakPassword']">Must include a letter and number.</small>
+            </div>
+          </div>
+          <div class="login-button">
+            <button type="submit">
+              Login
+              <i class="fa-solid fa-arrow-right"></i>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="login-image">
+      <img src="OTP Login.jpg" alt="" />
     </div>
   </div>
-  <img src="OTP Login.jpg" alt="tracker-image" class="login-image" />
 </div>

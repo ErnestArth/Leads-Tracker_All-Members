@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ResetForgotPasswordComponent } from './auth/components/reset-forgot-password/reset-forgot-password.component';
+
 
 const routes: Routes = [
   {path: '', redirectTo: 'authentication', pathMatch: 'full'},

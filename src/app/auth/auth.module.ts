@@ -25,7 +25,9 @@ const routes: Routes = [
     ResetForgotPasswordComponent,
     OtpAuthComponent,
     AuthComponent,
+
+
   ],
-  imports: [CommonModule, RouterModule.forChild(routes)],
+  imports: [CommonModule, RouterModule.forChild(routes),ReactiveFormsModule,RouterModule],
 })
 export class AuthModule {}
