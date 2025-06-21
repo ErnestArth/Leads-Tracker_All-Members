@@ -1,49 +1,114 @@
-<img src="Vector.jpg" alt="Vector Image" class="vector-image" />
+<!-- Devine's Code -->
+
+<!-- <img src="OTP Vector" alt="Vector Image" class="vector-image" />
 <div class="login-container">
-  <div class="login-content">
+  <div>
     <img src="Lead Tracker Logo.jpg" alt="LeadTracker Logo" class="logo" />
-    <div class="login-text">
-      <span>Hi Admin,</span>
-      <h3 class="welcome-text">Welcome to Leads Tracker!</h3>
-    </div>
-    <div class="login-form">
-      <p class="access-text">
-        Enter your assigned credentials to <br />
-        access your account
-      </p>
-      <!-- formGroup="loginForm" -->
-      <form  (ngSubmit)="onSubmit()">
-
-        <label for="email">Email</label>
-        <input
-          type="email"
-          id="email"
-          formControlName="email"
-          placeholder="email@email.com"
-        />
-        <div *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched" class="error-message">
-          <small class="error-text" *ngIf="loginForm.get('email')?.errors?.['required']">Email is required.</small>
-          <small class="error-text" *ngIf="loginForm.get('email')?.errors?.['email']">Please enter a valid email address.</small>
-        </div>
-
-
-        <label for="password">Password</label>
-        <input
-          type="password"
-          id="password"
-          formControlName="password"
-          placeholder ="Enter Password"
-        />
-        <div *ngIf="loginForm.get('Password')?.invalid && loginForm.get('Password')?.touched" class="error-message">
-          <small class="error-text" *ngIf="loginForm.get('Password')?.errors?.['required']">Password is required.</small>
-          <small class="error-text" *ngIf="loginForm.get('Password')?.errors?.['minlength']">Password must be at least 8 characters long.</small>
-        </div>
-
-        <div class="login-button">
-          <button type="submit">Login</button>
-        </div>
-      </form>
+    <div>
+      <h2>Hi <span>[Admin Name]</span></h2>
+      <h3>Welcome to Leads Tracker!</h3>
+      <div class="login-form"> -->
+<!-- <form [formGroup]="loginForm" (ngSubmit)="onSubmit()"> -->
+<!-- <div class="form-group">
+          <p class="login-text">
+            Enter your assigned credentials to <br />
+            access your account
+          </p>
+          <label for="email">Email</label>
+          <input
+            type="email"
+            id="email"
+            formControlName="email"
+            placeholder="email@email.com"
+          />
+        </div> -->
+<!-- </form> -->
+<!-- <form class="form-group">
+          <label for="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            formControlName="password"
+            placeholder="Enter Password"
+          />
+        </form> -->
+<!-- <div class="form-group"> -->
+<!-- <button type="submit" [disabled]="loginForm.invalid">Login</button> -->
+<!-- </div>
+      </div>
     </div>
   </div>
-  <img src="Frame 2.jpg" alt="tracker-image" class="login-image" />
+  <img src="OTP Login.jpg" alt="tracker-image" class="otp-login" />
+</div> -->
+
+<div class="main-container">
+  <!-- <img src="OTP Vector" alt="Vector Image" class="vector-image" /> -->
+  <div class="login-container">
+    <div class="login-form">
+      <div class="form-top">
+        <img class="logo" src="Lead Tracker Logo.png" alt="logo" />
+        <h1 class="welcomeMessage">Welcome back to Leads Tracker</h1>
+      </div>
+
+      <div class="form-container">
+        <h2 class="loginInstruction">Log in to access your dashboard</h2>
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" >
+          <div class="email-sec">
+            <label class="email" for="email">Email</label>
+            <input
+              type="email"
+              id="email"
+              formControlName="email"
+              placeholder="email@email.com"
+              [ngClass]="{
+                'invalid-input': loginForm.get('email')?.invalid && loginForm.get('email')?.touched
+              }"
+            />
+            <div *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.invalid">
+              <span class="error-message" *ngIf="loginForm.get('email')?.errors?.['required']">Email is required.</span>
+              <span class="error-message" *ngIf="loginForm.get('email')?.errors?.['email']">Invalid email format.</span>
+            </div>
+          </div>
+          <div class="password-sec">
+            <div class="password-top">
+              <label class="password" for="password">Password</label>
+              <div class="forgot-password"><a [routerLink]="['/authentication/reset-password']"  [queryParams]=" { source: 'email' }">Forgot Password?</a></div>
+              <!-- <a [routerLink]="['/reset-flow']" [queryParams]="{ status: 'resetSuccess' }">Password Reset Success</a> -->
+
+            </div>
+
+            <input
+              type="password"
+              id="password"
+              formControlName="password"
+              placeholder="Enter Password"
+              [ngClass]="{
+                'invalid-input': loginForm.get('password')?.invalid && loginForm.get('password')?.touched
+              }"
+            />
+            <span
+              toggle="#password-field"
+              class="fa fa-fw fa-eye field-icon toggle-password"
+            ></span>
+
+            <div *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid">
+              <span *ngIf="loginForm.get('password')?.errors?.['required']"></span>
+              <span *ngIf="loginForm.get('password')?.errors?.['minlength']"></span>
+              <span class="error-message" *ngIf="loginForm.get('password')?.errors?.['weakPassword']">password is incorrect / required</span>
+            </div>
+          </div>
+          <div class="login-button">
+            <button  [formGroup]="loginForm" type="submit" (ngSubmit)="onSubmit()">
+              Login
+              <i class="fa-solid fa-arrow-right"></i>
+              
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="login-image">
+      <img src="OTP Login.jpg" alt="" />
+    </div>
+  </div>
 </div>

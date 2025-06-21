@@ -1,105 +1,97 @@
-<!-- Devine's Code -->
-
-<!-- <img src="OTP Vector" alt="Vector Image" class="vector-image" />
-<div class="login-container">
-  <div>
-    <img src="Lead Tracker Logo.jpg" alt="LeadTracker Logo" class="logo" />
-    <div>
-      <h2>Hi <span>[Admin Name]</span></h2>
-      <h3>Welcome to Leads Tracker!</h3>
-      <div class="login-form"> -->
-<!-- <form [formGroup]="loginForm" (ngSubmit)="onSubmit()"> -->
-<!-- <div class="form-group">
-          <p class="login-text">
-            Enter your assigned credentials to <br />
-            access your account
+    <div *ngIf="!isLocked && !isPermanentlyLocked && !isVerified">
+    <div class="comp-wrapper">
+        <img src="OTPVector.jpg" alt="" class="bg-image">
+        <div class="main-container">
+          <img src="icon.png" alt="email-icon" />
+          <h3>Verify your email</h3>
+          <p class="enter-verification">
+            Enter the verification code we sent to <br />
+            <span class="mail">********&#64;gmail.com</span>
           </p>
-          <label for="email">Email</label>
-          <input
-            type="email"
-            id="email"
-            formControlName="email"
-            placeholder="email@email.com"
-          />
-        </div> -->
-<!-- </form> -->
-<!-- <form class="form-group">
-          <label for="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            formControlName="password"
-            placeholder="Enter Password"
-          />
-        </form> -->
-<!-- <div class="form-group"> -->
-<!-- <button type="submit" [disabled]="loginForm.invalid">Login</button> -->
-<!-- </div>
+      
+          <div class="otp-input"><ng-otp-input #ngOtpInput [config]="config" [formControl]=" otpFormControl"></ng-otp-input></div>
+          <div class="down-text">
+              <div *ngIf="errorMessage">{{errorMessage}}</div>
+           <div><p class="otp">OTP expire in {{otpRemainingTime}}mins</p></div> 
+            <p class="code">Didn't recieve a code? <span class="resend">Resend</span></p>
+          </div>
+          @if(isLoading){
+            <button class="disabled-button">Proceed</button>
+          }
+          @if(!isLoading){
+              <button>Proceed</button>
+          }
+          
+        </div>
       </div>
     </div>
-  </div>
-  <img src="OTP Login.jpg" alt="tracker-image" class="otp-login" />
-</div> -->
 
-<div class="main-container">
-  <!-- <img src="OTP Vector" alt="Vector Image" class="vector-image" /> -->
-  <div class="login-container">
-    <div class="login-form">
-      <div class="form-top">
-        <img src="Lead Tracker Logo.png" alt="logo" />
-        <h1 class="welcomeMessage">Welcome back to Leads Tracker</h1>
-      </div>
+<!-- Temporal -->
+    <div *ngIf="isLocked && !isPermanentlyLocked && !isVerified" >
+        <!-- <p>Temporal Denial</p>
+        <p>Try again in {{ remainingTime }} seconds.</p> -->
 
-      <div class="form-container">
-        <h2 class="loginInstruction">Log in to access your dashboard</h2>
-        <form [formGroup]="otpLoginForm" (ngSubmit)="onSubmit()" novalidate>
-          <div class="email-sec">
-            <label class="email" for="email">Email</label>
-            <input
-              type="email"
-              id="email"
-              formControlName="email"
-              placeholder="email@email.com"
-            />
-            <div *ngIf="otpLoginForm.get('email')?.touched && otpLoginForm.get('email')?.invalid">
-              <small *ngIf="otpLoginForm.get('email')?.errors?.['required']">Email is required.</small>
-              <small *ngIf="otpLoginForm.get('email')?.errors?.['email']">Invalid email format.</small>
+        <div class="temporal-comp-wrapper">
+            <img src="OTPVector.jpg" alt="" class="temporal-bg-image">
+            <div class="temporal-main-container">
+              <img src="temporalDecline.png" alt="danger-icon" />
+              <h3 class="temporal-warning">Access Decline</h3>
+              
+              <div>
+                <p class="temporal-warning-info">
+                    Too many failed attempts (3).
+                  </p>
+                  <p class="temporal-warning-info">
+                    5th Failed attempt will have access <br>locked permanently
+                  </p>
+              </div>
+              
+              <div class="temporal-down-text">
+               <div class="temporal-timer-info">Please wait 15 minutes to sign in.</div> 
+              </div>
+              @if(isLoading){
+                 spin
+              }
+              @if(!isLoading){
+                  <button>{{ remainingTime }}s left</button>
+              }
+              
             </div>
           </div>
-          <div class="password-sec">
-            <div class="password-top">
-              <label class="password" for="password">Password</label>
-              <div class="forgot-password">Forgot Password?</div>
-            </div>
-
-            <input
-              type="password"
-              id="password"
-              formControlName="password"
-              placeholder="Enter Password"
-            />
-            <span
-              toggle="#password-field"
-              class="fa fa-fw fa-eye field-icon toggle-password"
-            ></span>
-
-            <div *ngIf="otpLoginForm.get('password')?.touched && otpLoginForm.get('password')?.invalid">
-              <small *ngIf="otpLoginForm.get('password')?.errors?.['required']">Password is required.</small>
-              <small *ngIf="otpLoginForm.get('password')?.errors?.['minlength']">Min 8 characters required.</small>
-              <small *ngIf="otpLoginForm.get('password')?.errors?.['weakPassword']">Must include a letter and number.</small>
-            </div>
-          </div>
-          <div class="login-button">
-            <button type="submit">
-              Login
-              <i class="fa-solid fa-arrow-right"></i>
-            </button>
-          </div>
-        </form>
-      </div>
     </div>
-    <div class="login-image">
-      <img src="OTP Login.jpg" alt="" />
+
+
+    <div *ngIf="isVerified">
+        <p>Succesful</p>
     </div>
-  </div>
-</div>
+    
+    <!-- permanent -->
+
+    
+    <div *ngIf="isPermanentlyLocked || showAccessDenied && !isVerified" class="access-denied-screen">
+       
+
+    
+
+        <div class="permanent-comp-wrapper">
+            <img src="OTPVector.jpg" alt="" class="permanent-bg-image">
+            <div class="permanent-main-container">
+              <img src="permanentLock.png" alt="danger-icon" />
+              <h3 class="permanent-warning">PERMANENTLY LOCKED</h3>
+              <div class="permanent-box">
+              <div>
+                <p class="permanent-warning-info">
+                    Too many failed attempts.
+                </p>
+              </div>
+              
+                  <button class="permanent-button">Contact us</button>
+              
+            </div>
+        </div>
+          </div>
+    
+      </div>
+   
+
+

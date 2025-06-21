@@ -1,3 +1,4 @@
+
 *{
     font-family: "Instrument Sans", sans-serif;
   font-optical-sizing: auto;
@@ -5,100 +6,244 @@
   font-variation-settings:
     "wdth" 100;
 }
-.main-container{
+.bg-image{
+    position: absolute;
+    width: 10%;
+    left: 4%;
+    top: 10%;
+}
+
+.comp-wrapper{
     margin: 0;
-    padding: 0;
     height: 100vh;
-    display: flex
-;
     align-content: center;
-    flex-direction: column;
-    align-items: anchor-center;
-    justify-content: center;
-
+    justify-self: center;
+    text-align: center;
 }
 
-.login-container{
-    display: flex;
-    flex-direction: row;
-    gap: 80px;
-}
-form{
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    padding:10px 1px;
-    gap:20px;
-}
-.form-container{
-    padding: 10px 44px;
+.main-container{
+    padding: 50px 30px;
     border: 1px solid #F1F1F4;
-    border-radius: 13.3px;
-}
-.login-form{
-    align-content: center;
-    text-align: left;
-}
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 
-
-.welcomeMessage{
-    text-align: center;
-    font-size: 19.95px;
-    font-weight: 500;
+   
+    
 }
 
-.loginInstruction{
-    font-size: 14px;
-    font-weight: 400;
-    text-align: center;
+h3{
+    font-size: 18px;
+    font-weight: 600 ;
+}
+
+.enter-verification{
+    font-size: 13px;
+    font-weight: 100;
+    color: #4B5675;
+    line-height: 1.7;
+    margin-top: 0px;
+    /* margin-bottom: 44px; */
+
+}
+.mail{
+    font-weight: 600;
+    color: black;
+}
+img{
+    width: 106px;
+    align-self: center;
+    
+}
+.down-text{
+    font-size: 12px;
     color: #4B5675;
 }
-label{
-    display: block;
-    padding-bottom: 10px;
-    font-size: 14px;
-    font-weight: 400;
+.otp-input{
+    padding: 8px;
+}
+.code,.otp{
+    margin:2px;
+}
+.resend{
+    color: #F46036;
+}
+
+button{
+    background: #F46036;
+    padding: 10px;
+    border: none;
+    color:white;
+    border-radius: 6px;
+}
+.disabled-button{
+    background: #C4C4C4;
+    color: #b3b1b1;
+}
+
+/* Temporal styling */
+
+
+.temporal-bg-image{
+    position: absolute;
+    width: 10%;
+    left: 4%;
+    top: 10%;
+}
+
+.temporal-comp-wrapper{
+    margin: 0;
+    height: 100vh;
+    align-content: center;
+    justify-self: center;
+    text-align: center;
+}
+
+.temporal-main-container{
+    padding: 50px 30px;
+    border: 1px solid #F1F1F4;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+
+   
+    
+}
+
+.temporal-warning{
+
+    font-size: 32px;
+    font-weight: 800 ;
+    color: #DC362E;
+    margin-top:10px;
+    margin-bottom: 15px;
+}
+
+.temporal-warning-info{
+    font-size: 13px;
+    font-weight: 100;
+    color: #DC362E;
+    line-height: 1.7;
+    margin-top: 0px;
+    margin-bottom: 0px;
 
 }
-input{
-    display: block;
-    width: 94%;
+.temporal-mail{
+    font-weight: 600;
+    color: black;
+}
+temporal-img{
+    width: 106px;
+    align-self: center;
+    
+}
+.temporal-down-text{
+    font-size: 12px;
+    color: #4B5675;
+}
+.temporal-otp-input{
     padding: 8px;
-    border: #F1F1F4 1px solid;
-    border-radius: 6.65px;
+}
+.temporal-timer-info{
+    margin-bottom:15px;
+}
+.resend{
+    color: #F46036;
+}
+
+button{
+    background: #F46036;
+    padding: 10px;
+    border: none;
+    color:white;
+    border-radius: 6px;
+}
+
+/* Permanent */
+
+.permanent-bg-image{
+    position: absolute;
+    width: 10%;
+    left: 4%;
+    top: 10%;
+}
+
+.permanent-comp-wrapper{
+    margin: 0;
+    height: 100vh;
+    align-content: center;
+    justify-self: center;
+    text-align: center;
+}
+
+.permanent-main-container{
+    padding: 50px 30px;
+    /* border: 1px solid #F1F1F4;
+    border-radius: 12px; */
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+
+   
+    
+}
+
+.permanent-warning{
+
+    font-size: 32px;
+    font-weight: 800 ;
+    color: #DC362E;
+    margin-top:10px;
+    margin-bottom: 15px;
+}
+
+.permanent-warning-info{
+    font-size: 16px;
+    font-weight: 100;
+    color: #DC362E;
+    line-height: 1.7;
+    margin-top: 0px;
+    margin-bottom: 12px;
+
+}
+.permanent-mail{
+    font-weight: 600;
+    color: black;
+}
+img{
+    width: 106px;
+    align-self: center;
+    
+}
+.permanent-box{
+    border: 1px solid #F1F1F4;
+    width: 410.3px;
+    height: 184px;
+    border-radius: 13.3px;
+    align-content: center;
+}
+.permanent-down-text{
+    font-size: 12px;
+    color: #4B5675;
    
 }
-input::placeholder{
-    color: #78829D;
-    font-size: 14px;
+.permanent-otp-input{
+    padding: 8px;
 }
-button{
-    width: 100%;
+.permanent-timer-info{
+    margin-bottom:15px;
+}
+.resend{
+    color: #F46036;
+}
+
+.permanent-button{
+    background: #F46036;
     padding: 10px;
-    background-color: #F46036;
     border: none;
-    border-radius: 6.65px;
-    color: white;
-
-}
-.password-top{
-    display: flex;
-    justify-content: space-between;
-}
-.forgot-password{
-    font-size: 13px;
-    color: #1B84FF;
-}
-
-.field-icon{
-    float: right;
-    position: relative;
-    z-index: 2;
-    margin-left: -50px;
-    margin-top: -24px;
-    padding-right: 10px;
-}
-
-.login-button{
-    margin-bottom: 30px;
+    color:white;
+    border-radius: 6px;
+    width: 70%;
 }
