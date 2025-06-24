@@ -72,7 +72,7 @@
           <div class="password-sec">
             <div class="password-top">
               <label class="password" for="password">Password</label>
-              <div class="forgot-password"><a [routerLink]="['/authentication/reset-password']"  [queryParams]=" { source: 'email' }">Forgot Password?</a></div>
+              <div class="forgot-password"><a [routerLink]="['/authentication/reset-password']"  >Forgot Password?</a></div>
               <!-- <a [routerLink]="['/reset-flow']" [queryParams]="{ status: 'resetSuccess' }">Password Reset Success</a> -->
 
             </div>
@@ -88,8 +88,8 @@
             />
             <span
               toggle="#password-field"
-              class="fa fa-fw fa-eye field-icon toggle-password"
-            ></span>
+              class=" field-icon toggle-password"
+            > <i class="fa-solid fa-eye" aria-hidden="true"></i></span>
 
             <div *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid">
               <span *ngIf="loginForm.get('password')?.errors?.['required']"></span>
@@ -101,6 +101,7 @@
             <button  [formGroup]="loginForm" type="submit" (ngSubmit)="onSubmit()">
               Login
               <i class="fa-solid fa-arrow-right"></i>
+             
               
             </button>
           </div>

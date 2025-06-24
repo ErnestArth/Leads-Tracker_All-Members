@@ -9,7 +9,10 @@ import { OtpAuthComponent } from './components/otp-auth/otp-auth.component';
 import { from } from 'rxjs';
 import { NgOtpInputModule } from 'ng-otp-input';
 import { NgIf } from '@angular/common';
-
+import { BrowserModule } from '@angular/platform-browser';
+import { AppComponent } from '../app.component';
+import { provideHttpClient } from '@angular/common/http';
+import { ResettingPasswordComponent } from './components/resetting-password/resetting-password.component';
 
 
 
@@ -22,8 +25,9 @@ const routes: Routes = [
       { path: '', redirectTo: 'login', pathMatch: 'full' },
       { path: 'otpAuthComponent', component:OtpAuthComponent} ,
       { path: 'login', component: LoginComponent },
-      { path: 'reset-password', component: ResetForgotPasswordComponent },
-      { path: 'otpAuthComponent', component:OtpAuthComponent} 
+      { path: 'login-reset-password', component: ResetForgotPasswordComponent },
+      { path: 'otpAuthComponent', component:OtpAuthComponent} ,
+      {path: 'ResettingPasswordComponent', component:ResettingPasswordComponent}
       // { path: 'otp-auth', component: OtpAuthComponent },
     ],
   },
@@ -33,7 +37,8 @@ const routes: Routes = [
     LoginComponent,
     ResetForgotPasswordComponent,
     AuthComponent,
-    OtpAuthComponent
+    OtpAuthComponent,
+    ResettingPasswordComponent
     
     
    
@@ -47,5 +52,7 @@ const routes: Routes = [
     
   
   ],
+  providers: [provideHttpClient()],
+  bootstrap: [AppComponent],
 })
 export class AuthModule {}

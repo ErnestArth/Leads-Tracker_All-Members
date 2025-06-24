@@ -76,6 +76,7 @@ button{
     border: none;
     color:white;
     border-radius: 6px;
+    width: 100%;
 }
 .disabled-button{
     background: #C4C4C4;

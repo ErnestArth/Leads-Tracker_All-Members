@@ -7,10 +7,13 @@ import { CommonModule } from '@angular/common'
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NgOtpInputComponent } from 'ng-otp-input';
+import { HttpClientModule } from '@angular/common/http';
+// import { ResettingPasswordComponent } from './auth/components/resetting-password/resetting-password.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+  
    
 
   ],
@@ -20,7 +23,7 @@ import { NgOtpInputComponent } from 'ng-otp-input';
     ReactiveFormsModule,
     RouterModule,
     CommonModule,
-   
+    HttpClientModule 
   ],
   providers: [],
   bootstrap: [AppComponent]

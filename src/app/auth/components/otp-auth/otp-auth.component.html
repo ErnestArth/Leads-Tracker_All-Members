@@ -8,20 +8,20 @@
             Enter the verification code we sent to <br />
             <span class="mail">********&#64;gmail.com</span>
           </p>
-      
-          <div class="otp-input"><ng-otp-input #ngOtpInput [config]="config" [formControl]=" otpFormControl"></ng-otp-input></div>
+          <form [formGroup]="otpForm" (ngSubmit)="onSubmit()">
+          <div class="otp-input"><ng-otp-input #ngOtpInput [config]="config" [formControl]=" otpFormControl "></ng-otp-input></div>
           <div class="down-text">
               <div *ngIf="errorMessage">{{errorMessage}}</div>
            <div><p class="otp">OTP expire in {{otpRemainingTime}}mins</p></div> 
             <p class="code">Didn't recieve a code? <span class="resend">Resend</span></p>
           </div>
           @if(isLoading){
-            <button class="disabled-button">Proceed</button>
+            <button class="disabled-button" >Proceed</button>
           }
           @if(!isLoading){
-              <button>Proceed</button>
+              <button type="submit" (ngSubmit)="onSubmit()">Proceed</button>
           }
-          
+        </form>
         </div>
       </div>
     </div>
