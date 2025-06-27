@@ -11,6 +11,10 @@ const routes: Routes = [
     path: 'authentication',
     loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),
   },
+  {
+    path: 'admin',
+    loadChildren: () => import('./admin/admin.module').then((m) => m.AdminModule),
+  },
   { path: 'otp-auth', component:OtpAuthComponent},
   // { path: 'reset-password', component:ResetForgotPasswordComponent},
   // { path: 'login', component:LoginComponent}
