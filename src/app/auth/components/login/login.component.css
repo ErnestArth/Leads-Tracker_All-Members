@@ -13,7 +13,7 @@
 ;
     align-content: center;
     flex-direction: column;
-    align-items: anchor-center;
+    align-items: center;
     justify-content: center;
 
 }
@@ -71,7 +71,7 @@ input{
     padding: 8px;
     border: #F1F1F4 1px solid;
     border-radius: 6.65px;
-   
+
 }
 input::placeholder{
     color: #78829D;
@@ -126,34 +126,34 @@ button{
 
 
 
- /* smaller laptops (<1024px) */ 
+ /* smaller laptops (<1024px) */
 @media (max-width: 1024px) {
     .login-container {
       gap: 20px;
       padding: 0 20px;
     }
-  
+
     .form-container {
       padding: 10px 24px;
     }
-  
+
     .welcomeMessage {
       font-size: 18px;
     }
-  
+
     .loginInstruction {
       font-size: 13px;
     }
-  
+
     input {
       width: 100%;
     }
-  
+
     button {
       font-size: 14px;
     }
   }
-  
+
   /* tablets(<768px) */
   @media (max-width: 768px) {
     .main-container {
@@ -161,7 +161,7 @@ button{
       padding: 20px 10px;
       justify-content: flex-start;
     }
-  
+
     .login-container {
       flex-direction: column;
       gap: 30px;
@@ -170,48 +170,48 @@ button{
       justify-content: center;
       padding-right: 0;
     }
-  
+
     .login-image {
-      display: none; 
+      display: none;
     }
-  
+
     .form-container {
       width: 100%;
       padding: 20px;
       border-radius: 10px;
     }
-  
+
     .welcomeMessage,
     .loginInstruction {
       text-align: center;
       font-size: 16px;
     }
-  
-    
+
+
     button {
       max-width: 100%;
     }
     input{
         max-width: 96%;
     }
-  
+
     .password-top {
       flex-direction: row;
       align-items: center;
       gap: 5px;
     }
-  
+
     .forgot-password {
       text-align: left;
       margin-bottom: 10px;
     }
-  
+
     .field-icon {
       margin-left: -40px;
       margin-top: -25px;
     }
   }
-  
+
   /* mobile phones (<480px) */
   @media (max-width: 480px) {
     .form-container {
@@ -225,27 +225,31 @@ button{
         max-width: 94%;
     }
     }
-  
+
     .welcomeMessage {
       font-size: 16px;
     }
-  
+
     .loginInstruction {
       font-size: 12px;
     }
-  
+
     label,
     input::placeholder {
       font-size: 13px;
     }
-  
+
     .forgot-password {
       font-size: 12px;
     }
-  
+
     button {
       padding: 10px 8px;
       font-size: 13px;
     }
-    
-  
+
+    .login-image {
+      height: 762px;
+      width: 574px;
+    }
+
