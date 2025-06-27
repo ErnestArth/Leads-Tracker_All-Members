@@ -21,6 +21,7 @@ export class LoginComponent {
   
   faEye = faEye;
   faEyeSlash = faEyeSlash;
+  fieldTextType = false
  
  
   
@@ -77,6 +78,10 @@ export class LoginComponent {
     } else {
       this.loginForm.markAllAsTouched();
     }
+  }
+
+  toggleFieldTextType() {
+    this.fieldTextType = !this.fieldTextType;
   }
   
   

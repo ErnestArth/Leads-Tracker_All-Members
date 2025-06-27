@@ -17,6 +17,9 @@ export class ResettingPasswordComponent implements OnInit{
   resetPage = true
   successPage = false
   showErrors = false
+  showGuide = false
+  fieldTextType2= false
+  fieldTextType= false
 
 
   constructor(private fb: FormBuilder,private router: Router){
@@ -28,8 +31,8 @@ export class ResettingPasswordComponent implements OnInit{
       ]],
       confirmPassword: ['',Validators.required]
     },
-    {Validators: this.passwordsMatchValidator}
-  );
+    {validators: this.passwordsMatchValidator}
+  ); 
   }
 
 
@@ -44,24 +47,30 @@ export class ResettingPasswordComponent implements OnInit{
     }
   }
 
-  passwordsMatchValidator(group: AbstractControl): { [key: string]: any } | null {
-    const password = group.get('newPassword')?.value;
-    const confirmPassword = group.get('confirmPassword')?.value;
-    return password === confirmPassword ? null : { passwordsMismatch: true };
+
+  passwordsMatchValidator(form: FormGroup) {
+    const password = form.get('password')?.value;
+    const confirmPassword = form.get('confirmPassword')?.value;
+    return password === confirmPassword ? null : { mismatch: true };
   }
   ngOnInit(): void {
-    this.ResettingPasswordFormControl.valueChanges.subscribe({
+    this.ResettingPasswordForm.valueChanges.subscribe({
       next: (value:any) =>{
         console.log(value)
+        if(value){
+          this.showGuide= true
+          console.log(this.showGuide)
+        }
         
       }
     })
     
   }
+
  
 
   onSubmit(): void{
-    console.log("yu")
+    
     if (this.ResettingPasswordForm.valid){
       // this.router.navigate(['/login']);
       this.resetPage = false
@@ -73,5 +82,12 @@ export class ResettingPasswordComponent implements OnInit{
     }
   }
 
+  toggleFieldTextType2() {
+    this.fieldTextType2 = !this.fieldTextType2;
+  }
+
+  toggleFieldTextType() {
+    this.fieldTextType = !this.fieldTextType;
+  }
 
 }

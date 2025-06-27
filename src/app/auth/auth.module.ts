@@ -27,7 +27,7 @@ const routes: Routes = [
       { path: 'login', component: LoginComponent },
       { path: 'login-reset-password', component: ResetForgotPasswordComponent },
       { path: 'otpAuthComponent', component:OtpAuthComponent} ,
-      {path: 'ResettingPasswordComponent', component:ResettingPasswordComponent}
+      {path: 'ResettingPasswordComponent', component:ResettingPasswordComponent},
       // { path: 'otp-auth', component: OtpAuthComponent },
     ],
   },

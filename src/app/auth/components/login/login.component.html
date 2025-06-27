@@ -79,6 +79,7 @@
 
             <input
               type="password"
+              [type]=" fieldTextType ? 'text' : 'password'"
               id="password"
               formControlName="password"
               placeholder="Enter Password"
@@ -88,8 +89,13 @@
             />
             <span
               toggle="#password-field"
-              class=" field-icon toggle-password"
-            > <i class="fa-solid fa-eye" aria-hidden="true"></i></span>
+              class="fa fa-fw fa-eye-slash field-icon  toggle-password"
+              [ngClass]="{
+                'fa-eye-slash': !fieldTextType,
+                'fa-eye': fieldTextType
+              }"
+              (click)="toggleFieldTextType()"
+            ></span>
 
             <div *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid">
               <span *ngIf="loginForm.get('password')?.errors?.['required']"></span>

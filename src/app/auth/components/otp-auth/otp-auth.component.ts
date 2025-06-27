@@ -65,7 +65,7 @@ export class OtpAuthComponent implements OnInit {
         next: (value: any) =>{
           console.log(value)
 
-          if(value.toString().length === this.config.length){
+          if(value.length === this.config.length){
             this.onSubmit();
           }
         }
@@ -94,7 +94,7 @@ export class OtpAuthComponent implements OnInit {
           
           
 
-          if(response.status !== 'success'){
+          if(response.status === 'success'){
             this.isVerified = true
             this.isOtpFailed= false
             this.otpFailCount = 0;

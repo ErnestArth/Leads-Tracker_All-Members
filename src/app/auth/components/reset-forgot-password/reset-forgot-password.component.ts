@@ -77,13 +77,13 @@ export class ResetForgotPasswordComponent implements OnInit {
 
       this.authService.verifyforgotPassword(this.emailForgotPasswordForm.value)
       .subscribe({
-       
-        next: (response:forgotPasswordResponse) => {
-          
+        
+        next: (response: forgotPasswordResponse) => {
+          console.log(response)
           
 
-          if(response.message === "Password reset instructions have been sent to your email."){
-           
+          if(response.message === 'Password reset instructions have been sent to your email.'){
+            console.log(response);
             this.isEmailValid =true;
             console.log(this.isEmailValid)
             this.emailDoesNotExist = false;
@@ -97,14 +97,14 @@ export class ResetForgotPasswordComponent implements OnInit {
             console.log(this.forgotPasswordPage);
             console.log(this.isEmailValid);
             console.log(this.emailDoesNotExist);
-            console.log('Login response:', response);
+            // console.log('Login response:', response);
           }
           
         },
         error: (err) => {
           this.emailDoesNotExist =true
           this.isEmailValid =false;
-          console.log(err.error?.message);
+          console.log(err.error?.message || 'Login failed');
         }
         
       })

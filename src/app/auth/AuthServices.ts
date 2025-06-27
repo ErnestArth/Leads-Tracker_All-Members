@@ -33,7 +33,7 @@ export interface forgotPasswordRequest {
   email: string;
 }
 
-export interface forgotPasswordResponse {
+export interface forgotPasswordResponse{
   message: string;
 }
 
@@ -41,7 +41,7 @@ export interface forgotPasswordResponse {
   providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl = ' http://127.0.0.1:4010'; 
+  private apiUrl = 'http://127.0.0.1:4010'; 
 
 //   http://13.48.84.210:8080
 // leads-tracker/leads/login
@@ -59,4 +59,5 @@ export class AuthService {
   verifyforgotPassword(forgotPasswordRequest: forgotPasswordRequest): Observable<forgotPasswordResponse> {
     return this.http.post<forgotPasswordResponse>(`${this.apiUrl}/forgot-password-request`, forgotPasswordRequest);
   }
+
 }
