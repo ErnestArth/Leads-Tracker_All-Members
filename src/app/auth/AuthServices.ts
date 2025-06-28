@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
+
 export interface LoginCredentials {
   email: string;
   password: string;
@@ -15,17 +16,14 @@ export interface LoginResponse {
 }
 
 export interface VerifyOtpRequest {
-    otp: string;
+    email: string | null;
+    otp: string | null;
+    
 }
 export interface VerifyOtpResponse {
    
     status: string;
-    message: string;
-        data: {
-          user_id: string;
-          access_token: string;
-          token_type: string;
-        }
+    token: string;
      
 }
 
@@ -49,7 +47,7 @@ export class AuthService {
   constructor(private http: HttpClient) {}
 
   login(credentials: LoginCredentials): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>(`${this.apiUrl}/login`, credentials);
+    return this.http.post<LoginResponse>(`${this.apiUrl}/leads-tracker/leads/login`, credentials);
   }
 
   verifyOtp(otpRequest: VerifyOtpRequest): Observable<VerifyOtpResponse> {
@@ -57,7 +55,7 @@ export class AuthService {
   }
 
   verifyforgotPassword(forgotPasswordRequest: forgotPasswordRequest): Observable<forgotPasswordResponse> {
-    return this.http.post<forgotPasswordResponse>(`${this.apiUrl}/forgot-password-request`, forgotPasswordRequest);
+    return this.http.post<forgotPasswordResponse>(`${this.apiUrl}/leads-tracker/api/v1/leads/forgot-password-request`, forgotPasswordRequest);
   }
 
 }

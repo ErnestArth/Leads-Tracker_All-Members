@@ -3,6 +3,7 @@ import { NgOtpInputComponent, NgOtpInputConfig } from 'ng-otp-input';
 import {FormControl, FormGroup,FormBuilder, Validators} from '@angular/forms';
 import { ViewChild } from '@angular/core';
 import { VerifyOtpResponse } from '../../AuthServices';
+import { VerifyOtpRequest } from '../../AuthServices';
 import { AuthService } from '../../AuthServices';
 
 
@@ -53,8 +54,11 @@ export class OtpAuthComponent implements OnInit {
   }
   
 
-  constructor(private authService: AuthService) {
-    this.otpForm = new FormGroup({})
+  constructor(private authService: AuthService, private fb: FormBuilder) {
+    // this.otpForm = new FormGroup({})
+    this.otpForm = this.fb.group({
+      otp:['',Validators.required]
+    })
    }
   @ViewChild('ngOtpInput',{static:false}) ngOtpInput!: NgOtpInputComponent
 
@@ -67,6 +71,7 @@ export class OtpAuthComponent implements OnInit {
 
           if(value.length === this.config.length){
             this.onSubmit();
+            
           }
         }
       })
@@ -84,8 +89,26 @@ export class OtpAuthComponent implements OnInit {
   //   console.log('otp code is', this.otpCode);
   // }
 
+   
+
   onSubmit(): void {
-    this.authService.verifyOtp(this.otpForm.value).subscribe({
+    const email = localStorage.getItem('login_email');
+    const otp = this.otpFormControl.value;
+    console.log(this.otpFormControl.value)
+
+    // if (!email) {
+    //   console.log('Email not in local storage');
+    //   return;
+    // }
+    // if (!otp) {
+    //   console.log('no otp');
+    //   return;
+    // }
+
+    const payload : VerifyOtpRequest = {email,otp}
+    console.log(payload)
+
+    this.authService.verifyOtp(payload).subscribe({
       next: (response: VerifyOtpResponse) => {
         console.log('Login response:', response);
        
@@ -94,7 +117,7 @@ export class OtpAuthComponent implements OnInit {
           
           
 
-          if(response.status === 'success'){
+          if(response.status === 'LOGIN_SUCCESS'){
             this.isVerified = true
             this.isOtpFailed= false
             this.otpFailCount = 0;
