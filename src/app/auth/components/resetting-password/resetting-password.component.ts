@@ -55,6 +55,7 @@ export class ResettingPasswordComponent implements OnInit{
 
 
 
+
   strongPasswordValidator(control: AbstractControl): ValidationErrors | null {
     const value = control.value || '';
     const valid = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!./%*#?&]{8,}$/.test(value);
@@ -84,8 +85,6 @@ export class ResettingPasswordComponent implements OnInit{
     })
 
   }
-
-
 
 
 

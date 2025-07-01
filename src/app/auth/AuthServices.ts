@@ -16,7 +16,7 @@ export interface LoginResponse {
 
 export interface VerifyOtpRequest {
   email : string | null;
-    otp: string;
+    otp: string | null;
 }
 export interface VerifyOtpResponse {
 
@@ -43,7 +43,7 @@ export interface forgotPasswordResponse{
 })
 export class AuthService {
   private apiUrl = 'http://51.20.75.12:8080';
-
+//  http://127.0.0.1:4010
 //   http://13.48.84.210:8080
 // leads-tracker/leads/login
 
@@ -63,6 +63,7 @@ export class AuthService {
   verifyforgotPassword(forgotPasswordRequest: forgotPasswordRequest): Observable<forgotPasswordResponse> {
     return this.http.post<forgotPasswordResponse>(`${this.apiUrl}/leads-tracker/api/v1/leads/forgot-password-request`, forgotPasswordRequest);
     // /leads-tracker/api/v1/leads/forgot-password-request
+    // /forgot-password-request
   }
 
 
