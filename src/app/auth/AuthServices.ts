@@ -15,6 +15,7 @@ export interface LoginResponse {
 }
 
 export interface VerifyOtpRequest {
+  email : string | null;
     otp: string;
 }
 export interface VerifyOtpResponse {
@@ -50,14 +51,19 @@ export class AuthService {
 
   login(credentials: LoginCredentials): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(`${this.apiUrl}/leads-tracker/leads/login`, credentials);
+    // /leads-tracker/leads/login
   }
 
   verifyOtp(otpRequest: VerifyOtpRequest): Observable<VerifyOtpResponse> {
     return this.http.post<VerifyOtpResponse>(`${this.apiUrl}/leads-tracker/api/v1/leads/verify-otp`, otpRequest);
+    // /leads-tracker/api/v1/leads/verify-otp
+    // /verify-otp
   }
 
   verifyforgotPassword(forgotPasswordRequest: forgotPasswordRequest): Observable<forgotPasswordResponse> {
     return this.http.post<forgotPasswordResponse>(`${this.apiUrl}/leads-tracker/api/v1/leads/forgot-password-request`, forgotPasswordRequest);
+    // /leads-tracker/api/v1/leads/forgot-password-request
   }
+
 
 }
