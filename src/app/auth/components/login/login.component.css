@@ -117,10 +117,10 @@ button{
     color: #DC362E;
     font-size: 13px;
   }
-  .login-image img {
+  /* .login-image img {
     max-width: 100%;
     height: auto;
-  }
+  } */
 
 
 
@@ -252,4 +252,9 @@ button{
       height: 762px;
       width: 574px;
     }
+
+.disable-button:disabled {
+  background-color: #B3B3B3;
+  color: white;
+}
 

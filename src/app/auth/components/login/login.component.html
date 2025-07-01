@@ -1,46 +1,3 @@
-<!-- Devine's Code -->
-
-<!-- <img src="OTP Vector" alt="Vector Image" class="vector-image" />
-<div class="login-container">
-  <div>
-    <img src="Lead Tracker Logo.jpg" alt="LeadTracker Logo" class="logo" />
-    <div>
-      <h2>Hi <span>[Admin Name]</span></h2>
-      <h3>Welcome to Leads Tracker!</h3>
-      <div class="login-form"> -->
-<!-- <form [formGroup]="loginForm" (ngSubmit)="onSubmit()"> -->
-<!-- <div class="form-group">
-          <p class="login-text">
-            Enter your assigned credentials to <br />
-            access your account
-          </p>
-          <label for="email">Email</label>
-          <input
-            type="email"
-            id="email"
-            formControlName="email"
-            placeholder="email@email.com"
-          />
-        </div> -->
-<!-- </form> -->
-<!-- <form class="form-group">
-          <label for="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            formControlName="password"
-            placeholder="Enter Password"
-          />
-        </form> -->
-<!-- <div class="form-group"> -->
-<!-- <button type="submit" [disabled]="loginForm.invalid">Login</button> -->
-<!-- </div>
-      </div>
-    </div>
-  </div>
-  <img src="OTP Login.jpg" alt="tracker-image" class="otp-login" />
-</div> -->
-
 <div class="main-container">
   <!-- <img src="OTP Vector" alt="Vector Image" class="vector-image" /> -->
   <div class="login-container">
@@ -52,7 +9,7 @@
 
       <div class="form-container">
         <h2 class="loginInstruction">Log in to access your dashboard</h2>
-        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" >
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
           <div class="email-sec">
             <label class="email" for="email">Email</label>
             <input
@@ -61,35 +18,55 @@
               formControlName="email"
               placeholder="email@email.com"
               [ngClass]="{
-                'invalid-input': loginForm.get('email')?.invalid && loginForm.get('email')?.touched
+                'invalid-input':
+                  loginForm.get('email')?.invalid &&
+                  loginForm.get('email')?.touched
               }"
             />
-            <div *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.invalid">
-              <span class="error-message" *ngIf="loginForm.get('email')?.errors?.['required']">Email is required.</span>
-              <span class="error-message" *ngIf="loginForm.get('email')?.errors?.['email']">Invalid email format.</span>
+            <div
+              *ngIf="
+                loginForm.get('email')?.touched &&
+                loginForm.get('email')?.invalid
+              "
+            >
+              <span
+                class="error-message"
+                *ngIf="loginForm.get('email')?.errors?.['required']"
+                >Email is required.</span
+              >
+              <span
+                class="error-message"
+                *ngIf="loginForm.get('email')?.errors?.['email']"
+                >Invalid email format.</span
+              >
             </div>
           </div>
           <div class="password-sec">
             <div class="password-top">
               <label class="password" for="password">Password</label>
-              <div class="forgot-password"><a [routerLink]="['/authentication/reset-password']"  >Forgot Password?</a></div>
+              <div class="forgot-password">
+                <a [routerLink]="['/authentication/reset-password']"
+                  >Forgot Password?</a
+                >
+              </div>
               <!-- <a [routerLink]="['/reset-flow']" [queryParams]="{ status: 'resetSuccess' }">Password Reset Success</a> -->
-
             </div>
 
             <input
               type="password"
-              [type]=" fieldTextType ? 'text' : 'password'"
+              [type]="fieldTextType ? 'text' : 'password'"
               id="password"
               formControlName="password"
               placeholder="Enter Password"
               [ngClass]="{
-                'invalid-input': loginForm.get('password')?.invalid && loginForm.get('password')?.touched
+                'invalid-input':
+                  loginForm.get('password')?.invalid &&
+                  loginForm.get('password')?.touched
               }"
             />
             <span
               toggle="#password-field"
-              class="fa fa-fw fa-eye-slash field-icon  toggle-password"
+              class="fa fa-fw fa-eye-slash field-icon toggle-password"
               [ngClass]="{
                 'fa-eye-slash': !fieldTextType,
                 'fa-eye': fieldTextType
@@ -97,25 +74,48 @@
               (click)="toggleFieldTextType()"
             ></span>
 
-            <div *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid">
-              <span *ngIf="loginForm.get('password')?.errors?.['required']"></span>
-              <span *ngIf="loginForm.get('password')?.errors?.['minlength']"></span>
-              <span class="error-message" *ngIf="loginForm.get('password')?.errors?.['weakPassword']">password is incorrect / required</span>
+            <div
+              *ngIf="
+                loginForm.get('password')?.touched &&
+                loginForm.get('password')?.invalid
+              "
+            >
+              <span
+                *ngIf="loginForm.get('password')?.errors?.['required']"
+              ></span>
+              <span
+                *ngIf="loginForm.get('password')?.errors?.['minlength']"
+              ></span>
+              <span
+                class="error-message"
+                *ngIf="loginForm.get('password')?.errors?.['weakPassword']"
+                >Password is incorrect / required</span
+              >
+              <p
+                *ngIf="loginForm.get('password')?.errors?.['minlength']"
+                class="error-message"
+              >
+                Password must be at least 8 characters long.
+              </p>
             </div>
           </div>
           <div class="login-button">
-            <button  [formGroup]="loginForm" type="submit" (ngSubmit)="onSubmit()">
+            <button
+              [formGroup]="loginForm"
+              type="submit"
+              (ngSubmit)="onSubmit()"
+              class="disable-button"
+              [disabled]="loginForm.invalid"
+            >
               Login
               <i class="fa-solid fa-arrow-right"></i>
-
-
             </button>
           </div>
         </form>
       </div>
     </div>
     <div class="login-image">
-      <img src="OTP Login.jpg" alt="Login-image" />
+      <img src="Frame 2.jpg" alt="Login-image" />
     </div>
   </div>
 </div>

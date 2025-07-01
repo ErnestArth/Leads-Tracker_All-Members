@@ -1,22 +1,139 @@
-
 <div class="dashboard-container">
-    <aside class="sidebar">
-        <div class="top">
-        <img class="dash-logo" src="dash-logo.png" alt="">
-        <ul>
-            <li>Overview</li>
-            <li>Team Leads</li>
-            <li>Team Members</li>
-        </ul>
+  <aside class="sidebar">
+    <div class="top">
+      <img class="dash-logo" src="dash-logo.png" alt="" />
+      <ul>
+        <li>Overview</li>
+        <li>Team Leads</li>
+        <li>Team Members</li>
+      </ul>
     </div>
-    <div class="down">
-        <p>Logout</p>
+    <div class="logout-button">
+      <p class="logout">Logout</p>
     </div>
+  </aside>
+  <main>
+    <aside class="header">
+      <h4>Overview</h4>
+      <div class="add-user-profile">
+        <button class="add-user-btn" type="button" class="btn btn-primary">
+          <span class="add-user-text">Add User</span>
+          <img
+            src="dashboard-images/lets-icons_user-add-alt-fill.png"
+            alt="add-user-icon"
+          />
+        </button>
+        <div class="profile-image-container">
+          <img
+            src="dashboard-images/Headshot 2.jpg"
+            alt="profile-image"
+            class="profile-image"
+          />
+        </div>
+      </div>
     </aside>
-    <main>
-        <aside class="header">
-            
-        </aside>
-    </main>
-
+    <div class="dashboard-content">
+      <div class="dashboard-text-options">
+        <div class="card-text">
+          <h3>Welcome Admin</h3>
+          <span class="access-text"
+            >Access, view, and manage relevant administrative activities</span
+          >
+        </div>
+        <div class="team-search">
+          <label for="options">Team:</label>
+          <select id="options" name="options" class="team-select">
+            <option value="all">All Teams</option>
+            <option value="team1">Team 1</option>
+            <option value="team2">Team 2</option>
+            <option value="team3">Team 3</option>
+            <option value="team4">Team 4</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="dashboard-cards">
+      <div class="total-clients">
+        <img
+          src="dashboard-images/Database.png"
+          alt="add-user-icon"
+          class="png-1"
+        />Total Clients
+        <div>
+          <p>1250</p>
+        </div>
+      </div>
+      <div class="completed-onboarding">
+        <img
+          src="dashboard-images/double-check.png"
+          alt="add-user-icon"
+          class="png"
+        />
+        Completed Onboarding
+        <p>800</p>
+      </div>
+      <div class="interested">
+        <img
+          src="dashboard-images/star.png"
+          alt="add-user-icon"
+          class="png"
+        />Interested
+        <p>260</p>
+      </div>
+      <div class="awaiting-documentation">
+        <img
+          src="dashboard-images/watch.png"
+          alt="add-user-icon"
+          class="png"
+        />Awaiting Documentation
+        <p>105</p>
+      </div>
+      <div class="pending">
+        <img
+          src="dashboard-images/abstract-8.png"
+          alt="add-user-icon"
+          class="png"
+        />Pending
+        <p>85</p>
+      </div>
+      <div class="not-interested">
+        <img
+          src="dashboard-images/cross-circle.png"
+          alt="add-user-icon"
+          class="png"
+        />Not Interested
+        <p>310</p>
+      </div>
+      <div class="status-breakdown">
+        <div class="text-and-option">
+          <img src="dashboard-images/chart-pie-3.png" alt="pie-chart" />
+          <div class="this-week-filter">
+            <select id="options" name="options" class="team-select">
+              <option value="all">This Week</option>
+              <option value="team1">Team 1</option>
+              <option value="team2">Team 2</option>
+              <option value="team3">Team 3</option>
+              <option value="team4">Team 4</option>
+            </select>
+          </div>
+        </div>
+        <div class="pie-chart"></div>
+      </div>
+       <div class="status-breakdown">
+        <div class="text-and-option">
+          <img src="dashboard-images/chart-simple-2.png" alt="bar-chart" />
+          <div class="this-week-filter">
+            <select id="options" name="options" class="team-select">
+              <option value="all">This Week</option>
+              <option value="team1">Team 1</option>
+              <option value="team2">Team 2</option>
+              <option value="team3">Team 3</option>
+              <option value="team4">Team 4</option>
+            </select>
+          </div>
+        </div>
+        <div class="pie-chart"></div>
+      </div>
+    </div>
+  </main>
 </div>

@@ -21,7 +21,7 @@ export class OtpAuthComponent implements OnInit {
       fontSize: '16px',
       color:'#4B5675',
       fontWeight:'500',
-      
+
     }
     ,allowNumbersOnly:true
   }
@@ -51,7 +51,7 @@ export class OtpAuthComponent implements OnInit {
   pad(num: number): string {
     return num < 10 ? '0' + num : num.toString();
   }
-  
+
 
   constructor(private authService: AuthService) {
     this.otpForm = new FormGroup({})
@@ -88,13 +88,13 @@ export class OtpAuthComponent implements OnInit {
     this.authService.verifyOtp(this.otpForm.value).subscribe({
       next: (response: VerifyOtpResponse) => {
         console.log('Login response:', response);
-       
-        
-        // setTimeout(() => {
-          
-          
 
-          if(response.status === 'success'){
+
+        // setTimeout(() => {
+
+
+
+          if(response.status === 'LOGIN_SUCCESS'){
             this.isVerified = true
             this.isOtpFailed= false
             this.otpFailCount = 0;
@@ -118,10 +118,10 @@ export class OtpAuthComponent implements OnInit {
             console.log(this.lockStartTime)
           }
 
-          
+
         // },2000)
-       
-      
+
+
 
         //  temporal and permanent lock logic
       if (this.otpFailCount === 3) {
@@ -147,26 +147,26 @@ export class OtpAuthComponent implements OnInit {
       if (this.lockStartTime) {
         const now = Date.now();
         const timeSinceLock = now - this.lockStartTime;
-    
+
         if (timeSinceLock >= this.lockDurationMs) {
-          
+
           this.isLocked = false;
           this.lockStartTime = null;
           this.errorMessage = '';
         } else {
-         
+
           this.isLocked = true;
         }
-      
-  
+
+
         // Temporal Screen timer
         const timeLeftMs = this.lockDurationMs - timeSinceLock;
-  
+
         if (timeLeftMs > 0) {
           const secondsLeft = Math.ceil(timeLeftMs / 1000);
           const minutes = Math.floor(secondsLeft / 60);
           const seconds = secondsLeft % 60;
-  
+
           // add zeros to the timer
           this.remainingTime = `${this.pad(minutes)}:${this.pad(seconds)}`;
         } else {
@@ -175,16 +175,16 @@ export class OtpAuthComponent implements OnInit {
           this.lockStartTime = null;
           this.errorMessage = '';
         }
-  
-        
+
+
       }
     }
-  
+
     startOtpTimer() {
       const now = Date.now();
       const timeSinceOtp = now - this.otpStartTime;
       const otpTimeLeftMs = this.otpDurationMs - timeSinceOtp;
-    
+
       if (otpTimeLeftMs > 0) {
         const secondsLeft = Math.ceil(otpTimeLeftMs / 1000);
         const minutes = Math.floor(secondsLeft / 60);
@@ -192,10 +192,10 @@ export class OtpAuthComponent implements OnInit {
         this.otpRemainingTime = `${this.pad(minutes)}:${this.pad(seconds)}`;
       } else {
         this.otpRemainingTime = '0:00';
-       
+
       }
     }
-  
+
     pad2(num:number){
       if(num<10){
         return '0'+num;
@@ -205,4 +205,3 @@ export class OtpAuthComponent implements OnInit {
     }
 
   }
-  

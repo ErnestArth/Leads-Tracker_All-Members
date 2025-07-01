@@ -21,6 +21,11 @@ export class ResettingPasswordComponent implements OnInit{
   fieldTextType2= false
   fieldTextType= false
 
+  hasUpperCase = false
+  hasLowerCase = false
+  hasNumber = false
+  hasSpecialChar = false
+  hasMinLength = false
 
   constructor(private fb: FormBuilder,private router: Router){
     this.ResettingPasswordForm=this.fb.group({
@@ -32,14 +37,27 @@ export class ResettingPasswordComponent implements OnInit{
       confirmPassword: ['',Validators.required]
     },
     {validators: this.passwordsMatchValidator}
-  ); 
+  );
   }
+
+  checkPasswordRules(): void {
+    const password = this.ResettingPasswordForm.get('password')?.value;
+
+    this.hasUpperCase = /[A-Z]/.test(password);
+    this.hasLowerCase = /[a-z]/.test(password);
+    this.hasNumber = /\d/.test(password);
+    this.hasSpecialChar = /[^A-Za-z0-9]/.test(password);
+    this.hasMinLength = password.length >= 8;
+
+    console.log(this.hasUpperCase);
+  }
+
 
 
 
   strongPasswordValidator(control: AbstractControl): ValidationErrors | null {
     const value = control.value || '';
-    const valid = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*#?&]{8,}$/.test(value);
+    const valid = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!./%*#?&]{8,}$/.test(value);
     if (valid) {
       return null;
     } else {
@@ -61,16 +79,18 @@ export class ResettingPasswordComponent implements OnInit{
           this.showGuide= true
           console.log(this.showGuide)
         }
-        
+
       }
     })
-    
+
   }
 
- 
+
+
+
 
   onSubmit(): void{
-    
+
     if (this.ResettingPasswordForm.valid){
       // this.router.navigate(['/login']);
       this.resetPage = false

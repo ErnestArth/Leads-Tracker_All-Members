@@ -9,6 +9,7 @@ import { AppComponent } from './app.component';
 import { NgOtpInputComponent } from 'ng-otp-input';
 import { HttpClientModule } from '@angular/common/http';
 import { DashboardComponent } from './admin/components/dashboard/dashboard.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 // import { ResettingPasswordComponent } from './auth/components/resetting-password/resetting-password.component';
 
 @NgModule({
@@ -24,7 +25,8 @@ import { DashboardComponent } from './admin/components/dashboard/dashboard.compo
     ReactiveFormsModule,
     RouterModule,
     CommonModule,
-    HttpClientModule 
+    HttpClientModule,
+    FontAwesomeModule 
   ],
   providers: [],
   bootstrap: [AppComponent]
