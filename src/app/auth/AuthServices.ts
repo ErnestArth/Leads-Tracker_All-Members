@@ -47,11 +47,11 @@ export class AuthService {
   constructor(private http: HttpClient) {}
 
   login(credentials: LoginCredentials): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>(`${this.apiUrl}/leads-tracker/leads/login`, credentials);
+    return this.http.post<LoginResponse>(`${this.apiUrl}/login`, credentials);
   }
 
   verifyOtp(otpRequest: VerifyOtpRequest): Observable<VerifyOtpResponse> {
-    return this.http.post<VerifyOtpResponse>(`${this.apiUrl}/Verify-otp`, otpRequest);
+    return this.http.post<VerifyOtpResponse>(`${this.apiUrl}/verify-otp`, otpRequest);
   }
 
   verifyforgotPassword(forgotPasswordRequest: forgotPasswordRequest): Observable<forgotPasswordResponse> {

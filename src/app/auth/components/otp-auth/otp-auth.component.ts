@@ -96,14 +96,7 @@ export class OtpAuthComponent implements OnInit {
     const otp = this.otpFormControl.value;
     console.log(this.otpFormControl.value)
 
-    // if (!email) {
-    //   console.log('Email not in local storage');
-    //   return;
-    // }
-    // if (!otp) {
-    //   console.log('no otp');
-    //   return;
-    // }
+ 
 
     const payload : VerifyOtpRequest = {email,otp}
     console.log(payload)
