@@ -41,7 +41,7 @@ export class LoginComponent {
 
   strongPasswordValidator(control: AbstractControl): ValidationErrors | null {
     const value = control.value || '';
-    const valid = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*.#/?&]{8,}$/.test(value);
+    const valid = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*.#/?&+]{8,}$/.test(value);
     if (valid) {
       return null;
     } else {

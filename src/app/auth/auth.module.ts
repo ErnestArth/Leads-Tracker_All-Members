@@ -11,7 +11,7 @@ import { NgOtpInputModule } from 'ng-otp-input';
 import { NgIf } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from '../app.component';
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, HttpClientModule } from '@angular/common/http';
 import { ResettingPasswordComponent } from './components/resetting-password/resetting-password.component';
 
 
@@ -20,7 +20,7 @@ const routes: Routes = [
   { path: 'reset-password', component: ResetForgotPasswordComponent },
   {
     path: '',
-    component: AuthComponent, 
+    component: AuthComponent,
     children: [
       { path: '', redirectTo: 'login', pathMatch: 'full' },
       { path: 'otpAuthComponent', component:OtpAuthComponent} ,
@@ -39,9 +39,9 @@ const routes: Routes = [
     AuthComponent,
     OtpAuthComponent,
     ResettingPasswordComponent
-    
-    
-   
+
+
+
   ],
   imports: [
     CommonModule,
@@ -49,8 +49,8 @@ const routes: Routes = [
     ReactiveFormsModule,
     RouterModule,
     NgOtpInputModule,
-    
-  
+
+
   ],
   providers: [provideHttpClient()],
   bootstrap: [AppComponent],

@@ -29,7 +29,19 @@ export interface VerifyOtpResponse {
         }
 
 }
+export interface ResetPasswordRequest {
+  token: string;
+  newPassword: string | null;
+  confirmNewPassword : string | null;
+}
 
+export interface ResetPasswordResponse {
+  status: string;
+  message: string;
+  token_type: string;
+  access_token: string;
+
+}
 export interface forgotPasswordRequest {
   email: string;
 }
@@ -42,7 +54,7 @@ export interface forgotPasswordResponse{
   providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl = 'http://51.20.75.12:8080';
+  private apiUrl = 'http://16.16.217.252:8080';
 //  http://127.0.0.1:4010
 //   http://13.48.84.210:8080
 // leads-tracker/leads/login
@@ -65,6 +77,12 @@ export class AuthService {
     // /leads-tracker/api/v1/leads/forgot-password-request
     // /forgot-password-request
   }
+
+resetpassword(ResetPasswordRequest: ResetPasswordRequest): Observable<ResetPasswordResponse>{
+  return this.http.post<ResetPasswordResponse>(`${this.apiUrl}/leads-tracker/api/v1/leads/reset-password`, ResetPasswordRequest);
+  // /leads-tracker/api/v1/leads/reset-password
+  // /reset-password
+}
 
 
 }

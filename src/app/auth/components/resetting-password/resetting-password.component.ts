@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { from } from 'rxjs';
 import { AbstractControl, Form, FormBuilder,FormControl,FormGroup,ValidationErrors,Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ResetPasswordResponse, ResetPasswordRequest,AuthService} from '../../AuthServices';
+
 
 @Component({
   selector: 'app-resetting-password',
@@ -20,14 +22,14 @@ export class ResettingPasswordComponent implements OnInit{
   showGuide = false
   fieldTextType2= false
   fieldTextType= false
-
+  
   hasUpperCase = false
   hasLowerCase = false
   hasNumber = false
   hasSpecialChar = false
   hasMinLength = false
 
-  constructor(private fb: FormBuilder,private router: Router){
+  constructor(private fb: FormBuilder,private router: Router, private authService: AuthService) {
     this.ResettingPasswordForm=this.fb.group({
       password: ['',[
         Validators.required,
@@ -37,6 +39,7 @@ export class ResettingPasswordComponent implements OnInit{
       confirmPassword: ['',Validators.required]
     },
     {validators: this.passwordsMatchValidator}
+   
   );
   }
 
@@ -80,10 +83,14 @@ export class ResettingPasswordComponent implements OnInit{
           this.showGuide= true
           console.log(this.showGuide)
         }
-
       }
-    })
-
+      
+    });
+    
+    this.router.routerState.root.queryParams.subscribe(params => {
+      const token = params['token'];
+    });
+    
   }
 
 
@@ -91,6 +98,17 @@ export class ResettingPasswordComponent implements OnInit{
   onSubmit(): void{
 
     if (this.ResettingPasswordForm.valid){
+      const password = this.ResettingPasswordForm.get('password')?.value;
+      const confirmPassword = this.ResettingPasswordForm.get('confirmPassword')?.value;
+
+      this.authService.resetpassword(this.ResettingPasswordForm.value).subscribe({
+        next: (response: ResetPasswordResponse) => {
+          console.log('Reset Password Response', response);
+
+  }
+})
+
+
       // this.router.navigate(['/login']);
       this.resetPage = false
       this.successPage = true
@@ -101,6 +119,7 @@ export class ResettingPasswordComponent implements OnInit{
     }
   }
 
+
   toggleFieldTextType2() {
     this.fieldTextType2 = !this.fieldTextType2;
   }
@@ -108,5 +127,6 @@ export class ResettingPasswordComponent implements OnInit{
   toggleFieldTextType() {
     this.fieldTextType = !this.fieldTextType;
   }
+ 
 
 }

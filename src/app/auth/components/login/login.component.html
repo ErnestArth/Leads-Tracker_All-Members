@@ -89,14 +89,14 @@
               <span
                 class="error-message"
                 *ngIf="loginForm.get('password')?.errors?.['weakPassword']"
-                >Password is incorrect / required</span
+                >Password is required</span
               >
               <p
                 *ngIf="loginForm.get('password')?.errors?.['minlength']"
                 class="error-message"
               >
                 Password must be at least 8 characters long.
-              </p>
+          </p>
             </div>
           </div>
           <div class="login-button">
