@@ -97,11 +97,22 @@ export class ResettingPasswordComponent implements OnInit{
 
   onSubmit(): void{
 
-    if (this.ResettingPasswordForm.valid){
-      const password = this.ResettingPasswordForm.get('password')?.value;
-      const confirmPassword = this.ResettingPasswordForm.get('confirmPassword')?.value;
+    const token = localStorage.getItem('resetPaswordToken');
+    const  newPassword = this.ResettingPasswordForm.get('password')?.value
+    const confirmNewPassword = this.ResettingPasswordForm.get('confirmPassword')?.value
 
-      this.authService.resetpassword(this.ResettingPasswordForm.value).subscribe({
+    let payload : ResetPasswordRequest; 
+    if(token){
+      payload = {token,newPassword,confirmNewPassword}
+    }else{
+      console.log('No token found')
+      return
+    }
+    console.log(payload)
+
+    if (this.ResettingPasswordForm.valid){
+
+      this.authService.resetpassword(payload).subscribe({
         next: (response: ResetPasswordResponse) => {
           console.log('Reset Password Response', response);
 

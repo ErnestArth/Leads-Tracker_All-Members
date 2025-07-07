@@ -5,6 +5,11 @@ import { ViewChild } from '@angular/core';
 import { VerifyOtpResponse } from '../../AuthServices';
 import { VerifyOtpRequest } from '../../AuthServices';
 import { AuthService } from '../../AuthServices';
+import { resendOtpRequest } from '../../AuthServices';
+import { resendOtpResponse } from '../../AuthServices';
+import { HttpErrorResponse } from '@angular/common/http';
+
+
 
 
 
@@ -38,7 +43,7 @@ export class OtpAuthComponent implements OnInit {
   lockStartTime: number | null = null;
   otpStartTime: number  = Date.now();
   lockDurationMs = 5000;
-  otpDurationMs = 5000;
+  otpDurationMs = 180000;
   isLocked: boolean = false;
   showAccessDenied: boolean = false;
   isPermanentlyLocked: boolean =false
@@ -49,6 +54,9 @@ export class OtpAuthComponent implements OnInit {
   isLoading:boolean =false;
 
   otpForm: FormGroup;
+  activeButton: boolean =false
+  disabledButton: boolean= true
+  showOtpResendButton = false
   pad(num: number): string {
     return num < 10 ? '0' + num : num.toString();
   }
@@ -70,9 +78,17 @@ export class OtpAuthComponent implements OnInit {
           console.log(value)
 
           if(value.length === this.config.length){
+            this.activeButton =true;
+            this.disabledButton=false
+            console.log(this.activeButton)
             this.onSubmit();
 
           }
+
+          // if(value.length === this.config.length){
+          //   this.activeButton =true;
+          //   console.log(this.activeButton)
+          // }
         }
       })
 
@@ -84,10 +100,6 @@ export class OtpAuthComponent implements OnInit {
         this.startOtpTimer();
       }, 1);
   }
-  // generateNumber(){
-  //   this.otpCode = Math.floor(100000 + Math.random() * 9000);
-  //   console.log('otp code is', this.otpCode);
-  // }
 
 
 
@@ -95,6 +107,7 @@ export class OtpAuthComponent implements OnInit {
     const email = localStorage.getItem('login_email');
     const otp = this.otpFormControl.value;
     console.log(this.otpFormControl.value)
+    // this.ngOtpInput?.setValue('');
 
 
 
@@ -109,15 +122,16 @@ export class OtpAuthComponent implements OnInit {
         // setTimeout(() => {
 
 
-
-          if(response.status === 'LOGIN_SUCCESS'){
+          console.log(response.status)
+          if(response?.status === 'LOGIN_SUCCESS'){
 
             this.isVerified = true
             this.isOtpFailed= false
             this.otpFailCount = 0;
             console.log(response)
-            this.errorMessage = '';
-          }else{
+          }
+          else if (response?.status === 'FAILED'){
+            console.log("failed")
             this.ngOtpInput?.setValue('');
             this.isVerified =false
             this.config.inputStyles ={
@@ -128,6 +142,7 @@ export class OtpAuthComponent implements OnInit {
               'fontWeight':'500',
               'border': '1px solid red'
             }
+            
             this.errorMessage ='Invalid OTP. Please try again'
             // this.isOtpFailed=true
             this.otpFailCount++;
@@ -138,25 +153,23 @@ export class OtpAuthComponent implements OnInit {
 
         // },2000)
 
-
-
-        //  temporal and permanent lock logic
-      if (this.otpFailCount === 3) {
-        this.isLocked = true;
-        this.lockStartTime = Date.now();
-        this.errorMessage = 'You have been locked for 5 minutes.';
-      } else if (this.otpFailCount >= this.maxAttempts) {
-        this.isPermanentlyLocked = true;
-        this.showAccessDenied = true;
-        this.errorMessage = '';
-        console.log('show time')
-      }
-
-    this.ngOtpInput.otpForm.enable();
-    this.isLoading = false;
-
         }
       });
+
+    //  temporal and permanent lock logic
+  if (this.otpFailCount === 3) {
+    this.isLocked = true;
+    this.lockStartTime = Date.now();
+    this.errorMessage = 'You have been locked for 5 minutes.';
+  } else if (this.otpFailCount >= this.maxAttempts) {
+    this.isPermanentlyLocked = true;
+    this.showAccessDenied = true;
+    this.errorMessage = '';
+    console.log('show time')
+  }
+
+this.ngOtpInput.otpForm.enable();
+this.isLoading = false;
     }
 
 
@@ -209,6 +222,8 @@ export class OtpAuthComponent implements OnInit {
         this.otpRemainingTime = `${this.pad(minutes)}:${this.pad(seconds)}`;
       } else {
         this.otpRemainingTime = '0:00';
+        this.showOtpResendButton = true
+        
 
       }
     }
@@ -220,5 +235,18 @@ export class OtpAuthComponent implements OnInit {
         return num.toString();
       }
     }
+
+    resendOtp(){
+      console.log('clicked')
+      const email = localStorage.getItem('login_email');
+      const payload : resendOtpRequest = {email}
+      this.authService.resendOtp(payload).subscribe({
+        next: (resendOtpResponse: resendOtpResponse) => {
+          console.log(resendOtpResponse)
+        }
+      })
+    }
+
+
 
   }

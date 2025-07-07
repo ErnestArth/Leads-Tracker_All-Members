@@ -22,6 +22,7 @@ export class LoginComponent {
   faEye = faEye;
   faEyeSlash = faEyeSlash;
   fieldTextType = false
+  invalidLoginMessage = false
 
 
 
@@ -54,8 +55,11 @@ export class LoginComponent {
 
 
   onSubmit(): void {
+
+   
+
+
     if (this.loginForm.valid) {
-      const credentials = this.loginForm.value;
 
       this.authService.login(this.loginForm.value).subscribe({
         next: (response: LoginResponse) => {
@@ -69,7 +73,8 @@ export class LoginComponent {
             this.router.navigate(['/otp-auth']);
           }
           else if (response.status === 'PASSWORD_RESET_REQUIRED') {
-            this.router.navigate(['/ResettingPasswordComponent'])
+            localStorage.setItem('resetPaswordToken',response.token)
+            this.router.navigate(['/authentication/ResettingPasswordComponent'])
 
           }
 
@@ -82,7 +87,16 @@ export class LoginComponent {
 
 
         error: (err) => {
-          alert(err.error?.message || 'Login failed');
+/*************  ✨ Windsurf Command ⭐  *************/
+/**
+ * Handles error response from the login API call.
+ * Displays an alert with the error message, if available.
+ * If no specific error message is provided, displays a default 'Login failed' message.
+ * 
+ * @param err - The error object received from the API response.
+ */
+
+/*******  80d739b4-f6f1-47b1-9566-8bf033b7b003  *******/          alert(err.error?.message || 'Login failed');
         }
       });
 

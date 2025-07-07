@@ -12,6 +12,7 @@ export interface LoginResponse {
   email: string;
   message: string;
   status: string;
+  token: string ;
 }
 
 export interface VerifyOtpRequest {
@@ -29,6 +30,20 @@ export interface VerifyOtpResponse {
         }
 
 }
+
+export interface resendOtpRequest{
+  email: string | null;
+}
+
+export interface resendOtpResponse{
+  message: string;
+  timestamp: string;
+  details: {
+    resendAttemptsRemaining:string;
+  }
+  status: string;
+}
+
 export interface ResetPasswordRequest {
   token: string;
   newPassword: string | null;
@@ -37,9 +52,9 @@ export interface ResetPasswordRequest {
 
 export interface ResetPasswordResponse {
   status: string;
+  email: string;
   message: string;
-  token_type: string;
-  access_token: string;
+  token: string;
 
 }
 export interface forgotPasswordRequest {
@@ -50,11 +65,12 @@ export interface forgotPasswordResponse{
   message: string;
 }
 
+
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl = 'http://16.16.217.252:8080';
+  private apiUrl = 'http://16.170.231.64:8080';
 //  http://127.0.0.1:4010
 //   http://13.48.84.210:8080
 // leads-tracker/leads/login
@@ -82,6 +98,10 @@ resetpassword(ResetPasswordRequest: ResetPasswordRequest): Observable<ResetPassw
   return this.http.post<ResetPasswordResponse>(`${this.apiUrl}/leads-tracker/api/v1/leads/reset-password`, ResetPasswordRequest);
   // /leads-tracker/api/v1/leads/reset-password
   // /reset-password
+}
+
+resendOtp(resendOtpRequest: resendOtpRequest): Observable<resendOtpResponse>{
+  return this.http.post<resendOtpResponse>(`${this.apiUrl}/leads-tracker/api/v1/leads/resend-otp`, resendOtpRequest);
 }
 
 
