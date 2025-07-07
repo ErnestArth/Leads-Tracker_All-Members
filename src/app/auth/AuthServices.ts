@@ -8,6 +8,7 @@ export interface LoginCredentials {
   password: string;
 }
 
+
 export interface LoginResponse {
   email: string;
   message: string;

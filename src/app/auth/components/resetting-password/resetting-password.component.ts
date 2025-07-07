@@ -3,6 +3,7 @@ import { from } from 'rxjs';
 import { AbstractControl, Form, FormBuilder,FormControl,FormGroup,ValidationErrors,Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ResetPasswordResponse, ResetPasswordRequest,AuthService} from '../../AuthServices';
+import { HttpParams } from '@angular/common/http';
 
 
 @Component({
@@ -28,6 +29,8 @@ export class ResettingPasswordComponent implements OnInit{
   hasNumber = false
   hasSpecialChar = false
   hasMinLength = false
+
+  error: string | null = null;
 
   constructor(private fb: FormBuilder,private router: Router, private authService: AuthService) {
     this.ResettingPasswordForm=this.fb.group({
@@ -84,15 +87,15 @@ export class ResettingPasswordComponent implements OnInit{
           console.log(this.showGuide)
         }
       }
-      
     });
-    
-    this.router.routerState.root.queryParams.subscribe(params => {
-      const token = params['token'];
-    });
-    
-  }
 
+    this.router.routerState.root.queryParams.subscribe((params: any) => {
+      const token = params['token'];
+      if (token) {
+        sessionStorage.setItem('resetToken', token);
+      }
+    });
+  }
 
 
   onSubmit(): void{
@@ -138,6 +141,6 @@ export class ResettingPasswordComponent implements OnInit{
   toggleFieldTextType() {
     this.fieldTextType = !this.fieldTextType;
   }
- 
-
 }
+
+
