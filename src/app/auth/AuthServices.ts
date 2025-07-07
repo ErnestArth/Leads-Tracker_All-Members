@@ -8,6 +8,7 @@ export interface LoginCredentials {
   password: string;
 }
 
+
 export interface LoginResponse {
   email: string;
   message: string;
@@ -83,6 +84,23 @@ resetpassword(ResetPasswordRequest: ResetPasswordRequest): Observable<ResetPassw
   // /leads-tracker/api/v1/leads/reset-password
   // /reset-password
 }
+
+ private readonly TOKEN_KEY = 'resetToken';
+
+  saveResetToken(token: string) {
+    sessionStorage.setItem(this.TOKEN_KEY, token);
+  }
+
+  getResetToken(): string | null {
+    return sessionStorage.getItem(this.TOKEN_KEY);
+  }
+
+  clearResetToken() {
+    sessionStorage.removeItem(this.TOKEN_KEY);
+  }
+
+
+
 
 
 }

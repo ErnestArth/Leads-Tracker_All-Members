@@ -3,6 +3,7 @@ import { from } from 'rxjs';
 import { AbstractControl, Form, FormBuilder,FormControl,FormGroup,ValidationErrors,Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ResetPasswordResponse, ResetPasswordRequest,AuthService} from '../../AuthServices';
+import { HttpParams } from '@angular/common/http';
 
 
 @Component({
@@ -28,6 +29,8 @@ export class ResettingPasswordComponent implements OnInit{
   hasNumber = false
   hasSpecialChar = false
   hasMinLength = false
+
+  error: string | null = null;
 
   constructor(private fb: FormBuilder,private router: Router, private authService: AuthService) {
     this.ResettingPasswordForm=this.fb.group({
@@ -84,40 +87,46 @@ export class ResettingPasswordComponent implements OnInit{
           console.log(this.showGuide)
         }
       }
-      
     });
-    
-    this.router.routerState.root.queryParams.subscribe(params => {
+
+    this.router.routerState.root.queryParams.subscribe((params: any) => {
       const token = params['token'];
+      if (token) {
+        sessionStorage.setItem('resetToken', token);
+      }
     });
-    
   }
 
 
 
-  onSubmit(): void{
-
-    if (this.ResettingPasswordForm.valid){
-      const password = this.ResettingPasswordForm.get('password')?.value;
-      const confirmPassword = this.ResettingPasswordForm.get('confirmPassword')?.value;
-
-      this.authService.resetpassword(this.ResettingPasswordForm.value).subscribe({
-        next: (response: ResetPasswordResponse) => {
-          console.log('Reset Password Response', response);
-
+onSubmit(): void {
+  if (this.ResettingPasswordForm.invalid) {
+    this.showErrors = true;
+    this.ResettingPasswordForm.markAllAsTouched();
+    return;
   }
-})
 
+  const token = sessionStorage.getItem('resetToken') ?? ''; // Retrieve saved token, fallback to empty string if null
 
-      // this.router.navigate(['/login']);
-      this.resetPage = false
-      this.successPage = true
-      console.log('Afaluwa')
-    }else{
-      this.showErrors = true
-      this.ResettingPasswordForm.markAllAsTouched();
+  const { password, confirmPassword } = this.ResettingPasswordForm.value;
+
+  this.authService.resetpassword({
+    token,
+    newPassword: password,
+    confirmNewPassword: confirmPassword
+  }).subscribe({
+    next: () => {
+      sessionStorage.removeItem('resetToken'); // Clear token after success
+      this.router.navigate(['/login'], { queryParams: { reset: 'success' } });
+    },
+    error: (err) => {
+      this.error = err.error?.message || 'Reset failed';
+      this.resetPage = false;
+      this.successPage = true;
+      console.log('Afaluwa');
     }
-  }
+  });
+}
 
 
   toggleFieldTextType2() {
@@ -127,6 +136,6 @@ export class ResettingPasswordComponent implements OnInit{
   toggleFieldTextType() {
     this.fieldTextType = !this.fieldTextType;
   }
- 
-
 }
+
+

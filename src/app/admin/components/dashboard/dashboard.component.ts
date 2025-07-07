@@ -1,5 +1,7 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import {Chart, registerables} from 'chart.js';
+// import ChartDataLabels from 'chartjs-plugin-datalabel';
+
 Chart.register(...registerables);
 
 @Component({
@@ -10,53 +12,84 @@ Chart.register(...registerables);
 })
 
 
-export class DashboardComponent implements OnInit{
-  @ViewChild('myChart') myChart!: ElementRef<HTMLCanvasElement>;
-  @ViewChild('myChart2') myChart2!: ElementRef<HTMLCanvasElement>;
-  @ViewChild('myChart3') myChart3!: ElementRef<HTMLCanvasElement>;
-  @ViewChild('myChart4') myChart4!: ElementRef<HTMLCanvasElement>;
+export class DashboardComponent implements AfterViewInit {
 
-  chart!: Chart;
+  constructor() {}
 
+  ngAfterViewInit(): void {
+    Chart.register(...registerables);
 
-  seletedValue: string = '';
+    const doughnutData = {
+      labels: ['Completed', 'Interested', 'Awaiting Docs', 'Pending', 'Not Interested'],
+      datasets: [{
+        label: 'Onboarding Status',
+        data: [800, 260, 105, 85, 310],
+        backgroundColor: [
+          '#1B998B',  
+          '#F6B100',  
+          '#F46036',  
+          '#2C2368',  
+          '#FF3B30',
+        ],
+        borderWidth: 4
+      }]
+    };
 
-  constructor() { }
+    const barData = {
+      labels: ['Team A', 'Team B', 'Team C', 'Team D', 'Team E'],
+      datasets: [{
+        label: 'Team Recommendations',
+        data: [480, 510, 800, 285, 700],
+        backgroundColor: '#F46036',  
+        borderWidth: 1,
+        yAxisId: 'leftAxis'
+      }]
+    };
 
-  ngOnInit() : void {
+    const doughnutCanvas = document.getElementById('doughnutChart') as HTMLCanvasElement;
+    const barCanvas = document.getElementById('barChart') as HTMLCanvasElement;
 
-  }
-
-  ngAfterVeiewInit(): void {
-    this.chart = new Chart(this.myChart.nativeElement, {
-      type: 'bar',
-      data: {
-        labels: ['Onboarding', 'Interested', 'Awaiting Documentation', 'Pending', 'Not Interested'],
-        datasets: [
-          {
-            label: 'Leads',
-            data: [12, 19, 3, 5, 2], // Example data, replace with your actual data
-            backgroundColor: [
-              'rgba(75, 192, 192, 0.2)',
-              'rgba(54, 162, 235, 0.2)',
-              'rgba(255, 206, 86, 0.2)',
-              'rgba(255, 99, 132, 0.2)',
-              'rgba(153, 102, 255, 0.2)'
-            ],
-            borderColor: [
-              'rgba(75, 192, 192, 1)',
-              'rgba(54, 162, 235, 1)',
-              'rgba(255, 206, 86, 1)',
-              'rgba(255, 99, 132, 1)',
-              'rgba(153, 102, 255, 1)'
-            ],
-            borderWidth: 1
+    if (doughnutCanvas) {
+      new Chart(doughnutCanvas.getContext('2d')!, {
+        type: 'doughnut',
+        data: doughnutData,
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              position: 'bottom',
+              labels: {
+                boxWidth:12,
+                padding:10,
+                color: '#333',
+                font: {
+                  size: 12
+                }
+              }
+            }
           }
-        ]
-      }
-    })
+        }
+      });
+    }
+
+    if (barCanvas) {
+      new Chart(barCanvas.getContext('2d')!, {
+        type: 'bar',
+        data: barData,
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              position: 'bottom'
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          }
+        }
+      });
+    }
   }
-
-
-
 }

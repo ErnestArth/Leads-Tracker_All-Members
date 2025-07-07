@@ -16,7 +16,7 @@
             <p class="code">Didn't recieve a code? <span class="resend">Resend</span></p>
           </div>
           @if(isLoading){
-            <button class="disabled-button" >Proceed</button>
+            <button type="button" class="disabled-button">Proceed</button>
           }
           @if(!isLoading){
               <button type="submit" (ngSubmit)="onSubmit()">Proceed</button>
