@@ -9,6 +9,7 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatCardModule} from '@angular/material/card';
 import {MatTableModule} from '@angular/material/table';
 import {MatNativeDateModule} from '@angular/material/core';
+import { Dash2Component } from './dash2/dash2.component';
 
 
 const routes: Routes = [
@@ -17,6 +18,7 @@ const routes: Routes = [
     component: DashboardComponent,
     children: [
       { path: '', redirectTo: 'DashboardComponent', pathMatch: 'full' },
+      { path: 'dash2', component: Dash2Component },
       // { path: 'otpAuthComponent', component:OtpAuthComponent} ,
 
     ],
@@ -25,7 +27,7 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [
-
+    Dash2Component
   ],
   imports: [
     CommonModule,
