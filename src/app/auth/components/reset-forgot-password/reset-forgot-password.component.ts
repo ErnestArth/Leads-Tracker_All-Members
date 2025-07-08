@@ -5,6 +5,8 @@ import { FormControl } from '@angular/forms';
 import { of } from 'rxjs';
 import { AuthService } from '../../AuthServices';
 import { forgotPasswordResponse } from '../../AuthServices';
+import { resendOtpResponse } from '../../AuthServices';
+import { resendOtpRequest } from '../../AuthServices';
 
 
 
@@ -79,7 +81,6 @@ export class ResetForgotPasswordComponent implements OnInit {
       .subscribe({
         
         next: (response: forgotPasswordResponse) => {
-          console.log(response)
           
 
           if(response.message === 'Password reset instructions have been sent to your email.'){
@@ -90,9 +91,9 @@ export class ResetForgotPasswordComponent implements OnInit {
             this.forgotPasswordPage =false;
             console.log('Login response:', response);
          
-          }else{
+          }else if (response.message !== 'Password reset instructions have been sent to your email.'){
             this.emailDoesNotExist =true
-            this.isEmailValid =false;
+            this.isEmailValid =true;
             this.forgotPasswordPage =false;
             console.log(this.forgotPasswordPage);
             console.log(this.isEmailValid);
@@ -102,8 +103,9 @@ export class ResetForgotPasswordComponent implements OnInit {
           
         },
         error: (err) => {
-          this.emailDoesNotExist =true
-          this.isEmailValid =false;
+          this.emailDoesNotExist =false
+          this.forgotPasswordPage =false;
+          this.isEmailValid =true;
           console.log(err.error?.message || 'Login failed');
         }
         
@@ -124,6 +126,8 @@ export class ResetForgotPasswordComponent implements OnInit {
       
     }
   }
+
+ 
 
   
 

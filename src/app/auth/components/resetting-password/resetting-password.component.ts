@@ -98,35 +98,40 @@ export class ResettingPasswordComponent implements OnInit{
   }
 
 
+  onSubmit(): void{
 
-onSubmit(): void {
-  if (this.ResettingPasswordForm.invalid) {
-    this.showErrors = true;
-    this.ResettingPasswordForm.markAllAsTouched();
-    return;
-  }
+    const token = localStorage.getItem('resetPaswordToken');
+    const  newPassword = this.ResettingPasswordForm.get('password')?.value
+    const confirmNewPassword = this.ResettingPasswordForm.get('confirmPassword')?.value
 
-  const token = sessionStorage.getItem('resetToken') ?? ''; // Retrieve saved token, fallback to empty string if null
-
-  const { password, confirmPassword } = this.ResettingPasswordForm.value;
-
-  this.authService.resetpassword({
-    token,
-    newPassword: password,
-    confirmNewPassword: confirmPassword
-  }).subscribe({
-    next: () => {
-      sessionStorage.removeItem('resetToken'); // Clear token after success
-      this.router.navigate(['/login'], { queryParams: { reset: 'success' } });
-    },
-    error: (err) => {
-      this.error = err.error?.message || 'Reset failed';
-      this.resetPage = false;
-      this.successPage = true;
-      console.log('Afaluwa');
+    let payload : ResetPasswordRequest; 
+    if(token){
+      payload = {token,newPassword,confirmNewPassword}
+    }else{
+      console.log('No token found')
+      return
     }
-  });
-}
+    console.log(payload)
+
+    if (this.ResettingPasswordForm.valid){
+
+      this.authService.resetpassword(payload).subscribe({
+        next: (response: ResetPasswordResponse) => {
+          console.log('Reset Password Response', response);
+
+  }
+})
+
+
+      // this.router.navigate(['/login']);
+      this.resetPage = false
+      this.successPage = true
+      console.log('Afaluwa')
+    }else{
+      this.showErrors = true
+      this.ResettingPasswordForm.markAllAsTouched();
+    }
+  }
 
 
   toggleFieldTextType2() {

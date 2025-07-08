@@ -27,7 +27,7 @@
     border-radius: 12px;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 25px;
 
    
     
@@ -77,6 +77,16 @@ button{
     color:white;
     border-radius: 6px;
     width: 100%;
+    margin-top: 25px;
+}
+active-button{
+    background: #F46036 !important;
+    padding: 10px;
+    border: none;
+    color:white !important;
+    border-radius: 6px;
+    width: 100%;
+    margin-top: 25px;
 }
 .disabled-button{
     background: #C4C4C4;

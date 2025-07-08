@@ -13,13 +13,13 @@
           <div class="down-text">
               <div *ngIf="errorMessage">{{errorMessage}}</div>
            <div><p class="otp">OTP expire in {{otpRemainingTime}}mins</p></div> 
-            <p class="code">Didn't recieve a code? <span class="resend">Resend</span></p>
+            <p *ngIf="showOtpResendButton" class="code">Didn't recieve a code? <span class="resend" (click)="resendOtp()">Resend</span></p>
           </div>
-          @if(isLoading){
-            <button type="button" class="disabled-button">Proceed</button>
-          }
+          <!-- @if(isLoading){
+            <button class="disabled-button" [ngClass]="{ 'disabled-button': disabledButton }" >Proceed</button>
+          } -->
           @if(!isLoading){
-              <button type="submit" (ngSubmit)="onSubmit()">Proceed</button>
+              <button type="submit" (ngSubmit)="onSubmit()" [ngClass]="{'active-button': activeButton,'disabled-button':disabledButton}" >Proceed</button>
           }
         </form>
         </div>

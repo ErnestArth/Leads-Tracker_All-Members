@@ -34,6 +34,7 @@ form{
     padding: 10px 44px;
     border: 1px solid #F1F1F4;
     border-radius: 13.3px;
+    margin-top:20px;
 }
 .logo{
     height: auto;
@@ -50,6 +51,7 @@ form{
     text-align: center;
     font-size: 19.95px;
     font-weight: 500;
+    margin-top: 20px;
 }
 
 .loginInstruction{
