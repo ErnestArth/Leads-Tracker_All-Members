@@ -549,3 +549,47 @@ tbody td {
   height: 60px;
   border-bottom: solid 1px #78829d;
 }
+
+.add-user-dropdown {
+  position: absolute;
+  top:110%;
+  left: 0;
+  color: white;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  border-radius: 12px;
+  overflow: hidden;
+  z-index: 100;
+  min-width: 220px;
+
+}
+
+.dropdown-item {
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.dropdown-item.lead {
+  background-color: #f5f2ff;
+}
+
+.dropdown-item.member {
+  background-color: #ecfdfa;
+}
+
+.dropdown-item:hover {
+  opacity: 0.9;
+}
+
+.icon {
+  margin-right: 8px;
+}
+
+.arrow{
+  font-size: 14px;
+  color: #777;
+}
