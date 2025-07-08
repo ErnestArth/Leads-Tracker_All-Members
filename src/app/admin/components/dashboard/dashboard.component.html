@@ -24,13 +24,14 @@
   <main>
     <aside class="header">
       <h4>Overview</h4>
-      <div class="add-user-profile">
-        <button class="add-user-btn" type="button" id="btn btn-primary">
+      <div class="add-user-profile" (clickOutise)="closeDropdown()">
+        <button (click)="toggleDropdown($event)" class="add-user-btn" type="button" id="btn btn-primary">
           <span class="add-user-text">Add User</span>
           <img
             src="dashboard-images/lets-icons_user-add-alt-fill.png"
             alt="add-user-icon"
           />
+          
         </button>
         <div class="profile-image-container">
           <img
@@ -78,7 +79,7 @@
           alt="add-user-icon"
           class="png"
         />
-        Completed Onboarding
+        Onboarded
         <p>800</p>
       </div>
       <div class="interested">
@@ -183,7 +184,7 @@
               <td class="team-na">Team A</td>
             </tr>
             <tr>
-            <td class="client-na">Client Name</td>
+              <td class="client-na">Client Name</td>
               <td class="member-na">Member Name</td>
               <td class="date-allo">10/05/2025</td>
               <td class="overdue">4 Days</td>
@@ -249,7 +250,9 @@
           <tbody>
             <tr>
               <td class="client-con">Client Name</td>
-              <td class="badge-con"><span class="badge completed-onboarding">Onboarded</span></td>
+              <td class="badge-con">
+                <span class="badge completed-onboarding">Onboarded</span>
+              </td>
               <td class="date">10/04/2025</td>
               <td class="days">12 Days</td>
               <td class="mem-name">Member Name</td>
@@ -257,8 +260,10 @@
               <td class="team">Team A</td>
             </tr>
             <tr>
-      <td class="client-con">Client Name</td>
-              <td class="badge-con"><span class="badge not-interested">Not Interested</span></td>
+              <td class="client-con">Client Name</td>
+              <td class="badge-con">
+                <span class="badge not-interested">Not Interested</span>
+              </td>
               <td class="date">10/04/2025</td>
               <td class="days">12 Days</td>
               <td class="mem-name">Member Name</td>
@@ -266,8 +271,10 @@
               <td class="team">Team B</td>
             </tr>
             <tr>
-                 <td class="client-con">Client Name</td>
-              <td class="badge-con"><span  class="badge interested">Interested</span></td>
+              <td class="client-con">Client Name</td>
+              <td class="badge-con">
+                <span class="badge interested">Interested</span>
+              </td>
               <td class="date">10/04/2025</td>
               <td class="days">12 Days</td>
               <td class="mem-name">Member Name</td>
@@ -275,8 +282,10 @@
               <td class="team">Team C</td>
             </tr>
             <tr>
-                 <td class="client-con">Client Name</td>
-              <td class="badge-con"><span class="badge pending">Pending</span></td>
+              <td class="client-con">Client Name</td>
+              <td class="badge-con">
+                <span class="badge pending">Pending</span>
+              </td>
               <td class="date">10/04/2025</td>
               <td class="days">12 Days</td>
               <td class="mem-name">Member Name</td>
@@ -284,8 +293,12 @@
               <td class="team">Team D</td>
             </tr>
             <tr>
-         <td class="client-con">Client Name</td>
-              <td class="badge-con"><span class="badge awaiting-documentation">Awaiting Documentation</span></td>
+              <td class="client-con">Client Name</td>
+              <td class="badge-con">
+                <span class="badge awaiting-documentation"
+                  >Awaiting Documentation</span
+                >
+              </td>
               <td class="date">10/04/2025</td>
               <td class="days">12 Days</td>
               <td class="mem-name">Member Name</td>
@@ -313,4 +326,16 @@
       </div>
     </div>
   </main>
+</div>
+
+
+<div class="add-user-dropdown" ngIf="isDropdownOpen">
+  <div class="dropdown-item lead" (click)="addTeamLead()">
+  <span class="icon"><img src="dashboard-images/user-tick.png" alt=""></span>
+  Add Team Lead
+</div>
+<div class="dropdown-item member" (click)="addTeamMember()">
+  <span class="icon"><img src="dashboard-images/users.png" alt=""></span>
+  Add Team Member
+</div>
 </div>

@@ -16,6 +16,8 @@ export class DashboardComponent implements AfterViewInit {
 
   constructor() {}
 
+  isDropdownOpen = false;
+
   ngAfterViewInit(): void {
     Chart.register(...registerables);
 
@@ -91,5 +93,19 @@ export class DashboardComponent implements AfterViewInit {
         }
       });
     }
+  }
+  toggleDropdown(event: MouseEvent){
+    event.stopPropagation();
+    this.isDropdownOpen = !this.isDropdownOpen;
+  }
+  closeDropdown(){
+    setTimeout(() => this.isDropdownOpen = false, 150);
+  }
+  addTeamLead(){
+    console.log ('Adding Team Lead...');
+    
+  }
+  addTeamMember(){
+    console.log ('Adding Team Member...')
   }
 }

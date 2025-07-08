@@ -9,6 +9,8 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatCardModule} from '@angular/material/card';
 import {MatTableModule} from '@angular/material/table';
 import {MatNativeDateModule} from '@angular/material/core';
+import { DialogTeamLeadComponent } from './dialog/dialog-team-lead/dialog-team-lead.component';
+import { DialogTeamMemberComponent } from './dialog/dialog-team-member/dialog-team-member.component';
 import { Dash2Component } from './dash2/dash2.component';
 
 
@@ -27,6 +29,8 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [
+    DialogTeamLeadComponent,
+    DialogTeamMemberComponent,
     Dash2Component
   ],
   imports: [
