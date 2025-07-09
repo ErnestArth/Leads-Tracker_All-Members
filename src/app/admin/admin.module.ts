@@ -11,6 +11,8 @@ import { DialogTeamMemberComponent } from './dialog/dialog-team-member/dialog-te
 import { Dash2Component } from './dash2/dash2.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DialogComponent } from './dialog/dialog.component';
+import { PortalModule } from '@angular/cdk/portal';
+import { Overlay } from '@angular/cdk/overlay';
 
 
 const routes: Routes = [

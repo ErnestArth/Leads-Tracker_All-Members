@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output} from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
@@ -8,6 +8,11 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
   standalone: false, 
 })
 export class DialogComponent {
+
+  @Output() submit = new EventEmitter<any>();
+  @Output() close = new EventEmitter<any>();
+
+
   modalForm = new FormGroup({
       firstName: new FormControl('', [Validators.required]),
       otherNames: new FormControl(''),
@@ -28,8 +33,7 @@ export class DialogComponent {
   }
 
   closeModal(): void {
-    this.isModalOpen = false;
-    this.modalForm.reset();
+   this.close.emit();
   }
 
   submitForm(): void {

@@ -1,11 +1,10 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
-
+import {Overlay, OverlayRef} from '@angular/cdk/overlay';
+import { DialogComponent } from '../../dialog/dialog.component';
 
 import {Chart, registerables} from 'chart.js';
-// import ChartDataLabels from 'chartjs-plugin-datalabel';
-
-
+import { ComponentPortal } from '@angular/cdk/portal';
 Chart.register(...registerables);
 
 @Component({
@@ -18,6 +17,7 @@ Chart.register(...registerables);
 
 export class DashboardComponent  {
 
+
   modalForm = new FormGroup({
       firstName: new FormControl('', [Validators.required]),
       otherNames: new FormControl(''),
@@ -27,7 +27,7 @@ export class DashboardComponent  {
     });;
   isModalOpen = false;
 
-constructor(private fb: FormBuilder) {}
+constructor(private fb: FormBuilder, private overlay: Overlay) {}
 
   ngOnInit(): void {
     this.modalForm = this.fb.group({
@@ -123,17 +123,35 @@ constructor(private fb: FormBuilder) {}
     console.log ('Done')
   }
 
-  openModal(content?: string): void {
-    if (content !== undefined) {
-      this.modalContent = content;
-      this.isMenuOpen = false;
-    }
-    this.isModalOpen = true;
+  private overlayRef: OverlayRef | null = null;
+
+  
+
+
+  openModal() : void {
+    this.overlayRef = this.overlay.create({
+      hasBackdrop: true,
+      backdropClass: 'cdk-overlay-dark-backdrop',
+      positionStrategy: this.overlay.position().global().centerHorizontally().centerVertically()
+    });
+
+    const portal = new ComponentPortal(DialogComponent);
+    const componentRef = this.overlayRef.attach(portal);
+
+    this.overlayRef.backdropClick().subscribe(() => this.closeModal());
+
+    componentRef.instance.closeModal();
+
+    componentRef.instance.submitForm.apply((formData: any) => {
+      console.log ('Form Submitted:', formData);
+      this.closeModal();
+    });
+
   }
 
-  closeModal(): void {
-    this.isModalOpen = false;
-    this.modalContent = '';
+  private closeModal(): void {
+    this.overlayRef?.dispose();
+    this.overlayRef = null;
   }
 
   submitForm(): void {
@@ -141,4 +159,6 @@ constructor(private fb: FormBuilder) {}
     alert('Form submitted successfully!');
     this.closeModal();
   }
+
+
 }
