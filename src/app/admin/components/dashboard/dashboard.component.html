@@ -24,14 +24,14 @@
   <main>
     <aside class="header">
       <h4>Overview</h4>
-      <div class="add-user-profile" (clickOutise)="closeDropdown()">
-        <button (click)="toggleDropdown($event)" class="add-user-btn" type="button" id="btn btn-primary">
+      <div class="add-user-profile">
+        <button (click)="toggleMenu()" class="add-user-btn" type="button" id="btn btn-primary">
           <span class="add-user-text">Add User</span>
           <img
             src="dashboard-images/lets-icons_user-add-alt-fill.png"
             alt="add-user-icon"
           />
-          
+
         </button>
         <div class="profile-image-container">
           <img
@@ -40,6 +40,16 @@
             class="profile-image"
           />
         </div>
+        
+@if (isMenuOpen) {
+    <div class="menu" >
+  <ul>
+    <li (click)="openModal('')">Add Team Lead</li>
+    <li (click)="openModal('')">Add Team Member</li>
+  </ul>
+</div>
+
+}
       </div>
     </aside>
     <div class="dashboard-content">
@@ -329,13 +339,8 @@
 </div>
 
 
-<div class="add-user-dropdown" ngIf="isDropdownOpen">
-  <div class="dropdown-item lead" (click)="addTeamLead()">
-  <span class="icon"><img src="dashboard-images/user-tick.png" alt=""></span>
-  Add Team Lead
-</div>
-<div class="dropdown-item member" (click)="addTeamMember()">
-  <span class="icon"><img src="dashboard-images/users.png" alt=""></span>
-  Add Team Member
-</div>
-</div>
+
+
+
+
+

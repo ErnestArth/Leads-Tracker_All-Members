@@ -5,13 +5,12 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
-import {MatButtonModule} from '@angular/material/button';
-import {MatCardModule} from '@angular/material/card';
-import {MatTableModule} from '@angular/material/table';
 import {MatNativeDateModule} from '@angular/material/core';
 import { DialogTeamLeadComponent } from './dialog/dialog-team-lead/dialog-team-lead.component';
 import { DialogTeamMemberComponent } from './dialog/dialog-team-member/dialog-team-member.component';
 import { Dash2Component } from './dash2/dash2.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { DialogComponent } from './dialog/dialog.component';
 
 
 const routes: Routes = [
@@ -31,7 +30,8 @@ const routes: Routes = [
   declarations: [
     DialogTeamLeadComponent,
     DialogTeamMemberComponent,
-    Dash2Component
+    Dash2Component,
+    DialogComponent,
   ],
   imports: [
     CommonModule,
@@ -40,6 +40,8 @@ const routes: Routes = [
     MatInputModule,
     MatNativeDateModule,
     MatDatepickerModule,
+    CommonModule,
+    FormsModule, ReactiveFormsModule
   ]
 })
 export class AdminModule { }

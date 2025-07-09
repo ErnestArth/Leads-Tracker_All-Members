@@ -9,6 +9,7 @@ import { ResettingPasswordComponent } from './auth/components/resetting-password
 import { Dash2Component } from './admin/dash2/dash2.component';
 import { DialogComponent } from './admin/dialog/dialog.component';
 import { DialogTeamLeadComponent } from './admin/dialog/dialog-team-lead/dialog-team-lead.component';
+import { DashboardComponent } from './admin/components/dashboard/dashboard.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'authentication', pathMatch: 'full'},
@@ -26,7 +27,8 @@ const routes: Routes = [
   {path: 'ResettingPasswordComponent', component:ResettingPasswordComponent},
   {path: 'dialog', component:DialogComponent},
   {path: 'dialog-team-lead', component:DialogTeamLeadComponent},
-  {path: 'dialog-team-member', component:DialogTeamMemberComponent}
+  {path: 'dialog-team-member', component:DialogTeamMemberComponent},
+  {path: 'dash2', component:Dash2Component}
 
 
 

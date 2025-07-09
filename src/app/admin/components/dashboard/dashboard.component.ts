@@ -1,6 +1,10 @@
-import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
+
+
 import {Chart, registerables} from 'chart.js';
 // import ChartDataLabels from 'chartjs-plugin-datalabel';
+
 
 Chart.register(...registerables);
 
@@ -12,11 +16,31 @@ Chart.register(...registerables);
 })
 
 
-export class DashboardComponent implements AfterViewInit {
+export class DashboardComponent  {
 
-  constructor() {}
+  modalForm = new FormGroup({
+      firstName: new FormControl('', [Validators.required]),
+      otherNames: new FormControl(''),
+      email: new FormControl('', [Validators.required, Validators.email]),
+      phone: new FormControl('', Validators.required),
+      staffId: new FormControl('', Validators.required),
+    });;
+  isModalOpen = false;
 
-  isDropdownOpen = false;
+constructor(private fb: FormBuilder) {}
+
+  ngOnInit(): void {
+    this.modalForm = this.fb.group({
+      firstName: ['', Validators.required],
+      otherNames: [''],
+      email: ['', [Validators.required, Validators.email]],
+      phone: ['', [Validators.required]],
+      staffId: ['', Validators.required],
+    });
+  }
+
+  isMenuOpen = false;
+  modalContent = '';
 
   ngAfterViewInit(): void {
     Chart.register(...registerables);
@@ -27,10 +51,10 @@ export class DashboardComponent implements AfterViewInit {
         label: 'Onboarding Status',
         data: [800, 260, 105, 85, 310],
         backgroundColor: [
-          '#1B998B',  
-          '#F6B100',  
-          '#F46036',  
-          '#2C2368',  
+          '#1B998B',
+          '#F6B100',
+          '#F46036',
+          '#2C2368',
           '#FF3B30',
         ],
         borderWidth: 4
@@ -42,7 +66,7 @@ export class DashboardComponent implements AfterViewInit {
       datasets: [{
         label: 'Team Recommendations',
         data: [480, 510, 800, 285, 700],
-        backgroundColor: '#F46036',  
+        backgroundColor: '#F46036',
         borderWidth: 1,
         yAxisId: 'leftAxis'
       }]
@@ -94,18 +118,27 @@ export class DashboardComponent implements AfterViewInit {
       });
     }
   }
-  toggleDropdown(event: MouseEvent){
-    event.stopPropagation();
-    this.isDropdownOpen = !this.isDropdownOpen;
+ toggleMenu(): void {
+    this.isMenuOpen = !this.isMenuOpen;
+    console.log ('Done')
   }
-  closeDropdown(){
-    setTimeout(() => this.isDropdownOpen = false, 150);
+
+  openModal(content?: string): void {
+    if (content !== undefined) {
+      this.modalContent = content;
+      this.isMenuOpen = false;
+    }
+    this.isModalOpen = true;
   }
-  addTeamLead(){
-    console.log ('Adding Team Lead...');
-    
+
+  closeModal(): void {
+    this.isModalOpen = false;
+    this.modalContent = '';
   }
-  addTeamMember(){
-    console.log ('Adding Team Member...')
+
+  submitForm(): void {
+    console.log('Form Data:', this.modalForm);
+    alert('Form submitted successfully!');
+    this.closeModal();
   }
 }
