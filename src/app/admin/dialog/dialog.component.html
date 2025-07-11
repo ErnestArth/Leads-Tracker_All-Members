@@ -1,6 +1,8 @@
 
 
 <form [formGroup]= "modalForm" (ngSubmit)="submitForm()">
+
+  <h3> Create New Team Lead</h3>
       <div class="form-group">
         <label>First Name</label>
         <input type="text" formControlName="firstName" placeholder="Enter first name" title="First Name" />
@@ -10,7 +12,7 @@
       </div>
 
       <div class="form-group">
-        <label>Other Names</label>
+        <label>Other Name(s)</label>
         <input type="text" formControlName="otherNames" placeholder="Enter other names" title="Other Names" />
       </div>
 
@@ -38,6 +40,7 @@
         </div>
       </div>
 
-      <button type="submit">Submit</button>
+      <!-- <button type="submit">Submit</button> -->
+      <button type="button" (click)="closeModal()">Cancel</button>
     </form>
 
