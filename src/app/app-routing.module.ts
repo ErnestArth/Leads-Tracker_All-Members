@@ -6,7 +6,7 @@ import { LoginComponent } from './auth/components/login/login.component';
 import { ResetForgotPasswordComponent } from './auth/components/reset-forgot-password/reset-forgot-password.component';
 import { AuthComponent } from './auth/auth.component';
 import { ResettingPasswordComponent } from './auth/components/resetting-password/resetting-password.component';
-import { Dash2Component } from './admin/dash2/dash2.component';
+import { Dash2Component } from './admin/components/dash2/dash2.component';
 import { DialogComponent } from './admin/dialog/dialog.component';
 import { DialogTeamLeadComponent } from './admin/dialog/dialog-team-lead/dialog-team-lead.component';
 import { DashboardComponent } from './admin/components/dashboard/dashboard.component';

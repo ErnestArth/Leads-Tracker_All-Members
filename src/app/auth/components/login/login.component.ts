@@ -55,7 +55,7 @@ export class LoginComponent {
 
 
   onSubmit(): void {
-
+    
    
 
 
@@ -79,24 +79,18 @@ export class LoginComponent {
           }
 
 
-          else {
-            alert('Unexpected response status: ' + response.status);
-          }
+          // else {
+          //   // alert('Unexpected response status: ' + response.status);
+          //   this.invalidLoginMessage = true
+          //   console.log('Unexpected response status: ' + response.status);
+          // }
 
         },
 
 
         error: (err) => {
-/*************  ✨ Windsurf Command ⭐  *************/
-/**
- * Handles error response from the login API call.
- * Displays an alert with the error message, if available.
- * If no specific error message is provided, displays a default 'Login failed' message.
- * 
- * @param err - The error object received from the API response.
- */
-
-/*******  80d739b4-f6f1-47b1-9566-8bf033b7b003  *******/          alert(err.error?.message || 'Login failed');
+      // alert(err.error?.message || 'Login failed');
+      this.invalidLoginMessage = true
         }
       });
 
@@ -104,6 +98,7 @@ export class LoginComponent {
       this.loginForm.markAllAsTouched();
     }
   }
+  
 
   toggleFieldTextType() {
     this.fieldTextType = !this.fieldTextType;

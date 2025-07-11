@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms'
 import {Overlay, OverlayRef} from '@angular/cdk/overlay';
 import { DialogComponent } from '../../dialog/dialog.component';
 
-import {Chart, registerables} from 'chart.js';
+import {Chart, Colors, registerables, scales} from 'chart.js';
 import { ComponentPortal } from '@angular/cdk/portal';
 Chart.register(...registerables);
 
@@ -68,9 +68,13 @@ constructor(private fb: FormBuilder, private overlay: Overlay) {}
         data: [480, 510, 800, 285, 700],
         backgroundColor: '#F46036',
         borderWidth: 1,
+        barThickness: 28,
+        borderRadius: 5,
         yAxisId: 'leftAxis'
-      }]
-    };
+      }],
+      
+    }
+    
 
     const doughnutCanvas = document.getElementById('doughnutChart') as HTMLCanvasElement;
     const barCanvas = document.getElementById('barChart') as HTMLCanvasElement;
@@ -104,6 +108,7 @@ constructor(private fb: FormBuilder, private overlay: Overlay) {}
         data: barData,
         options: {
           responsive: true,
+          maintainAspectRatio: false,
           plugins: {
             legend: {
               position: 'bottom'
