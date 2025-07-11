@@ -8,19 +8,21 @@ import {MatInputModule} from '@angular/material/input';
 import {MatNativeDateModule} from '@angular/material/core';
 import { DialogTeamLeadComponent } from './dialog/dialog-team-lead/dialog-team-lead.component';
 import { DialogTeamMemberComponent } from './dialog/dialog-team-member/dialog-team-member.component';
-import { Dash2Component } from './dash2/dash2.component';
+import { Dash2Component } from './components/dash2/dash2.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DialogComponent } from './dialog/dialog.component';
 import { PortalModule } from '@angular/cdk/portal';
 import { Overlay } from '@angular/cdk/overlay';
+import {adminComponent} from './admin.component'
 
 
 const routes: Routes = [
   {
     path: '',
-    component: DashboardComponent,
+    component: adminComponent,
     children: [
-      { path: '', redirectTo: 'DashboardComponent', pathMatch: 'full' },
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+      { path: 'dashboard', component: DashboardComponent },
       { path: 'dash2', component: Dash2Component },
       // { path: 'otpAuthComponent', component:OtpAuthComponent} ,
 
@@ -34,6 +36,7 @@ const routes: Routes = [
     DialogTeamMemberComponent,
     Dash2Component,
     DialogComponent,
+    adminComponent
   ],
   imports: [
     CommonModule,

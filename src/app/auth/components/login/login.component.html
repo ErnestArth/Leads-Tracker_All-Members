@@ -97,8 +97,10 @@
               >
                 Password must be at least 8 characters long.
           </p>
+          
             </div>
           </div>
+          <p class="error-message" *ngIf="invalidLoginMessage"> Invalid Credintials</p>
           <div class="login-button">
             <button
               [formGroup]="loginForm"
