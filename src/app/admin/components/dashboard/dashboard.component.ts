@@ -61,21 +61,21 @@ constructor(private fb: FormBuilder, private overlay: Overlay, private zone: NgZ
       staffId: ['', Validators.required],
     });
 
-    combineLatest([this.currentPage$, this.pageSize$])
-      .pipe(
-        switchMap(([page, limit]) => this.userService.getUsers(page, limit))
-      )
-      .subscribe((res)=>{
-        this.users.next(res.items);
-        this.totalUsers.next(res.total);
-        this.totalPages.next(res.totalPages);
+    // combineLatest([this.currentPage$, this.pageSize$])
+    //   .pipe(
+    //     switchMap(([page, limit]) => this.userService.getUsers(page, limit))
+    //   )
+    //   .subscribe((res: any)=>{
+    //     this.users.next(res.items);
+    //     this.totalUsers.next(res.total);
+    //     this.totalPages.next(res.totalPages);
 
-      })
+    //   })
 
-    const totalPages$ = Math.ceil(res.total / this.pageSize);
-    this.totalPages.next(totalPages$);
+    // const totalPages$ = Math.ceil(res.total / this.pageSize);
+    // this.totalPages.next(totalPages$);
 
-    this.pages = Array.from({length: totalPages$}, (_, i) => i + 1);
+    // this.pages = Array.from({length: totalPages$}, (_, i) => i + 1);
 
 
   }

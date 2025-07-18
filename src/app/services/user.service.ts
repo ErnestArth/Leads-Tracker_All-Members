@@ -26,7 +26,7 @@ export class UserService {
 
   // Get a user by ID
   getUserById(id: number): Observable<User> {
-    return this.http.get<User>(`${this.apiUrl}/${id}`);
+    return this.http.get<User>(`${this.apiUrl}/leads-tracker/api/v1/leads/${id}`);
   }
 
   // Add a new user
@@ -36,11 +36,11 @@ export class UserService {
 
   // Update user profile by ID
   updateUser(id: number, user: Partial<User>): Observable<User> {
-    return this.http.put<User>(`${this.apiUrl}/${id}`, user);
+    return this.http.put<User>(`${this.apiUrl}/leads-tracker/api/v1/leads/${id}`, user);
   }
 
   // Delete user by ID
   deleteUser(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+    return this.http.delete<void>(`${this.apiUrl}/leads-tracker/api/v1/leads/${id}`);
   }
 }
