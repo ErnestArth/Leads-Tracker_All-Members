@@ -6,7 +6,7 @@
           <h3>Verify your email</h3>
           <p class="enter-verification">
             Enter the verification code we sent to <br />
-            <span class="mail">********&#64;gmail.com</span>
+            <span class="mail">{{maskedEmail}}</span>
           </p>
           <form [formGroup]="otpForm" (ngSubmit)="onSubmit()">
           <div class="otp-input"><ng-otp-input #ngOtpInput [config]="config" [formControl]=" otpFormControl "></ng-otp-input></div>

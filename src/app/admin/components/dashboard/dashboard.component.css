@@ -12,7 +12,12 @@
   height: 100vh;
   overflow: hidden;
 }
-.sidebar {
+main {
+  background-color: #f9f9f9;
+  flex: 1 0 90%;
+  overflow-y: auto;
+}
+/* .sidebar {
   background-color: #f1f1f4;
   flex: 1 0 10%;
   padding: 25px;
@@ -47,7 +52,7 @@ li {
   display: flex;
   align-items: center;
   gap: 15px;
-}
+} */
 
 .add-user-btn {
   background-color: #f46036;

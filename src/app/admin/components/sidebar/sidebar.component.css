@@ -1,0 +1,67 @@
+* {
+    margin: 0;
+    font-family: "Instrument Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+    font-variation-settings: "wdth" 100;
+  }
+  .dashboard-container {
+    display: flex;
+    height: 100vh;
+    /* overflow: hidden; */
+  }
+.sidebar {
+    background-color: #f1f1f4;
+    flex: 1 0 10%;
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-right: 1px solid #afafaf;
+  }
+  .dash-logo {
+    margin-bottom: 40px;
+  }
+  .logout-button{
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+  .logout {
+    color: #F46036;
+  }
+  main {
+    background-color: #f9f9f9;
+    flex: 1 0 90%;
+    overflow-y: auto;
+  }
+  
+  li {
+    list-style: none;
+    font-size: 14px;
+    padding: 10px;
+  }
+  .navigation-links{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+  }
+  .admin-functions{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .selected{
+    background: #FFF3EF;
+    display: block;
+    text-decoration: none;
+    color:#F46036
+  }
+  .selected path{
+    fill: #F46036;
+  }
+  .route-link{
+    text-decoration: none;
+    color: black;
+  }

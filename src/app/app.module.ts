@@ -11,12 +11,16 @@ import { HttpClientModule } from '@angular/common/http';
 import { AdminModule } from './admin/admin.module';
 import { DashboardComponent } from './admin/components/dashboard/dashboard.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { Dash2Component } from './admin/components/dash2/dash2.component';
+
+
+
 // import { ResettingPasswordComponent } from './auth/components/resetting-password/resetting-password.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+    
+  
   
 
 

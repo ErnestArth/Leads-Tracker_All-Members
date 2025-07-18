@@ -8,6 +8,7 @@ import { AuthService } from '../../AuthServices';
 import { resendOtpRequest } from '../../AuthServices';
 import { resendOtpResponse } from '../../AuthServices';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 
 
@@ -57,12 +58,13 @@ export class OtpAuthComponent implements OnInit {
   activeButton: boolean =false
   disabledButton: boolean= true
   showOtpResendButton = false
+  maskedEmail :string | undefined
   pad(num: number): string {
     return num < 10 ? '0' + num : num.toString();
   }
 
 
-  constructor(private authService: AuthService, private fb: FormBuilder) {
+  constructor(private authService: AuthService, private fb: FormBuilder, private router:Router) {
     // this.otpForm = new FormGroup({})
     this.otpForm = this.fb.group({
       otp:['',Validators.required]
@@ -71,7 +73,15 @@ export class OtpAuthComponent implements OnInit {
   @ViewChild('ngOtpInput',{static:false}) ngOtpInput!: NgOtpInputComponent
 
   ngOnInit(): void {
-      // this.generateNumber();
+      // masked email
+      const displayemail = localStorage.getItem('login_email');
+      const  atIndex =  displayemail?.indexOf('@')
+      const firstTwoChars = displayemail?.substring(0,2)
+      const maskChars = '*'.repeat(atIndex! - 2)
+      const maskedEmail = firstTwoChars + maskChars + displayemail?.substring(atIndex!)
+      this.maskedEmail = maskedEmail
+      console.log(maskedEmail)
+
 
       this.otpFormControl.valueChanges.subscribe({
         next: (value: any) =>{
@@ -124,14 +134,22 @@ export class OtpAuthComponent implements OnInit {
 
           console.log(response.status)
           if(response?.status === 'LOGIN_SUCCESS'){
-
+            this.router.navigate(['/admin']);
             this.isVerified = true
             this.isOtpFailed= false
             this.otpFailCount = 0;
             console.log(response)
+            
           }
-          else if (response?.status === 'FAILED'){
-            console.log("failed")
+
+
+        // },2000)
+
+        },
+
+        error:(err)=>{
+          console.log("Ellor Ellor Ellor")
+          console.log("failed")
             this.ngOtpInput?.setValue('');
             this.isVerified =false
             this.config.inputStyles ={
@@ -148,11 +166,6 @@ export class OtpAuthComponent implements OnInit {
             this.otpFailCount++;
             console.log(this.otpFailCount)
             console.log(this.lockStartTime)
-          }
-
-
-        // },2000)
-
         }
       });
 

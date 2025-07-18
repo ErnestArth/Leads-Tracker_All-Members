@@ -23,6 +23,7 @@ export class LoginComponent {
   faEyeSlash = faEyeSlash;
   fieldTextType = false
   invalidLoginMessage = false
+  spinner = false
 
 
 
@@ -42,7 +43,7 @@ export class LoginComponent {
 
   strongPasswordValidator(control: AbstractControl): ValidationErrors | null {
     const value = control.value || '';
-    const valid = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*.#/?&+]{8,}$/.test(value);
+    const valid = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!_%*.#/?&+]{8,}$/.test(value);
     if (valid) {
       return null;
     } else {
@@ -55,10 +56,11 @@ export class LoginComponent {
 
 
   onSubmit(): void {
-    
+    this.spinner = true
+    console.log(this.spinner)
+    setTimeout(() => {
+      
    
-
-
     if (this.loginForm.valid) {
 
       this.authService.login(this.loginForm.value).subscribe({
@@ -91,12 +93,16 @@ export class LoginComponent {
         error: (err) => {
       // alert(err.error?.message || 'Login failed');
       this.invalidLoginMessage = true
+      console.log("inv Mess")
         }
       });
 
     } else {
       this.loginForm.markAllAsTouched();
     }
+    this.spinner = false
+    console.log(this.spinner)
+  },3000)
   }
   
 

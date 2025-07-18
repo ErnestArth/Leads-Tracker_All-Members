@@ -1,5 +1,6 @@
 <div class="dashboard-container">
-  <aside class="sidebar">
+  <!-- <aside class="sidebar">
+
     <div class="top">
       <svg
       class="dash-logo"
@@ -137,7 +138,11 @@
     </svg>
       <p class="logout">Logout</p>
     </div>
+  </aside> -->
+  <aside>
+    <app-sidebar/>
   </aside>
+ 
   <main>
     <aside class="header">
       <h4>Overview</h4>
@@ -339,9 +344,7 @@
       
       <div class="overdue-actions-container">
         <div class="overdue-actions-header">
-          <!-- <div>
-            <img src="dashboard-images/client-alert.png" alt="client-image" />
-          </div> -->
+          
           <span>Overdue Actions</span>
           <div class="overdue-actions-filter-section filter-sections">
             <input
@@ -528,7 +531,9 @@
         </div>
       </div>
     </div>
-  </main>
+  </main> 
+
+  <router-outlet></router-outlet>
 </div>
 
 
