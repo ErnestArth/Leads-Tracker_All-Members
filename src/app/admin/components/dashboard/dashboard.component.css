@@ -748,3 +748,8 @@ input[type='tel'] {
     width: 78.5%;
   }
 }
+
+
+.table-responsive {
+  overflow-x: auto;
+}

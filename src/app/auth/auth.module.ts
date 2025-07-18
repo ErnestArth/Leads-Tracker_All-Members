@@ -13,6 +13,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from '../app.component';
 import { provideHttpClient, HttpClientModule } from '@angular/common/http';
 import { ResettingPasswordComponent } from './components/resetting-password/resetting-password.component';
+import { AuthService } from './AuthServices';
 
 
 
@@ -38,7 +39,7 @@ const routes: Routes = [
     ResetForgotPasswordComponent,
     AuthComponent,
     OtpAuthComponent,
-    ResettingPasswordComponent
+    ResettingPasswordComponent,
 
 
 
@@ -49,10 +50,9 @@ const routes: Routes = [
     ReactiveFormsModule,
     RouterModule,
     NgOtpInputModule,
-
-
+    HttpClientModule,
   ],
-  providers: [provideHttpClient()],
+  providers: [provideHttpClient(), AuthService],
   bootstrap: [AppComponent],
 })
 export class AuthModule {}

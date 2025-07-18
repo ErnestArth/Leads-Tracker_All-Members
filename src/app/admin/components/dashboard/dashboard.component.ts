@@ -2,6 +2,8 @@ import { Component, OnInit, AfterViewInit, HostListener, ElementRef, NgZone, Vie
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import {Overlay, OverlayRef} from '@angular/cdk/overlay';
 import { DialogComponent } from '../../dialog/dialog.component';
+import { BehaviorSubject } from 'rxjs';
+import { UserService, User } from '../../../services/user.service';
 
 import {Chart, Colors, registerables, scales} from 'chart.js';
 import { ComponentPortal } from '@angular/cdk/portal';
@@ -15,7 +17,21 @@ Chart.register(...registerables);
 })
 
 
-export class DashboardComponent  {
+export class DashboardComponent  implements OnInit, AfterViewInit {
+  users = new BehaviorSubject<User[]>([]);
+  totalUsers = new BehaviorSubject(0);
+  totalPages = new BehaviorSubject(0);
+
+  pageSizeOptions = [5, 6, 10, 15, 20];
+
+  private currentPage$ = new BehaviorSubject<number>(3);
+  private pageSize$ = new BehaviorSubject<number>(5);
+
+  pages: number[] = [];
+  currentPage = 3;
+  pageSize = 5;
+
+
 clickOutsideArea = false;
 isMenuOpen = false;
   modalContent = '';
@@ -34,7 +50,7 @@ modalType: 'team-lead' | 'team-member' = 'team-lead';
   teamMembers: { id: number, name: string }[] = [];
 
 
-constructor(private fb: FormBuilder, private overlay: Overlay, private zone: NgZone) {}
+constructor(private fb: FormBuilder, private overlay: Overlay, private zone: NgZone, private userService: UserService) {}
 
   ngOnInit(): void {
     this.modalForm = this.fb.group({
@@ -44,6 +60,24 @@ constructor(private fb: FormBuilder, private overlay: Overlay, private zone: NgZ
       phone: ['', [Validators.required]],
       staffId: ['', Validators.required],
     });
+
+    combineLatest([this.currentPage$, this.pageSize$])
+      .pipe(
+        switchMap(([page, limit]) => this.userService.getUsers(page, limit))
+      )
+      .subscribe((res)=>{
+        this.users.next(res.items);
+        this.totalUsers.next(res.total);
+        this.totalPages.next(res.totalPages);
+
+      })
+
+    const totalPages$ = Math.ceil(res.total / this.pageSize);
+    this.totalPages.next(totalPages$);
+
+    this.pages = Array.from({length: totalPages$}, (_, i) => i + 1);
+
+
   }
  get modalTitle(): string {
     return this.modalType === 'team-lead' ? 'Create New Team Lead' : 'Create New Team Member';
@@ -173,7 +207,7 @@ toggleMenu() {
 
   }
 
-  private closeModal(): void {
+  closeModal(): void {
     this.overlayRef?.dispose();
     this.overlayRef = null;
   }
@@ -195,6 +229,17 @@ toggleMenu() {
         this.clickOutsideArea = false;
       });
     }
+  }
+
+  onPageSizeChange(event: Event) {
+    const select = event.target as HTMLSelectElement;
+    const newSize = Number(select.value);
+    this.pageSize$.next(newSize);
+    this.currentPage$.next(1); // reset to page 1 on page size change
+  }
+
+  goToPage(page: number) {
+    this.currentPage$.next(page);
   }
 
 

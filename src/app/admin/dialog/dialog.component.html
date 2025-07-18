@@ -116,6 +116,18 @@
   <!-- Modal Buttons -->
   <div class="modal-buttons">
     <button type="button" (click)="onCancel()">Cancel</button>
-    <button type="submit" (click)="saveModal()" [disabled]="modalForm.invalid">Submit</button>
+    <button type="submit" (click)="submitForm()" [disabled]="modalForm.invalid">Submit</button>
   </div>
 </form>
+
+
+
+<div *ngIf="showSuccess" class="success-container">
+  <div class="success-content">
+    <img src="Frame5.png" alt="Success Icon" />
+    <p>Team Lead Successfully Added</p>
+    <button type="button" class="success-btn"  (click)="createAnotherTeamLead()">Create Another User</button>
+    <button type="button" class="success-btn"   (click)="backToDashboard()"
+    [routerLink]="['/admin']">Back to Dashboard</button>
+    </div>
+  </div>

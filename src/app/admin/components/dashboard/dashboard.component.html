@@ -173,6 +173,11 @@
   </ul>
 </div>
 
+<app-dialog
+  *ngIf="isModalOpen"
+  [modalType]="modalType"
+  (closeModal)="closeModal()">
+</app-dialog>
 
 
 }
@@ -372,7 +377,7 @@
             </select>
           </div>
         </div>
-      <div class="table-responsive" style="overflow-x:auto" type="table">
+      <div class="table-responsive"  type="table">
 
         <table>
           <thead>
@@ -518,22 +523,44 @@
             </tr>
           </tbody>
         </table>
-        <div class="pagination">
-          <label class="pag-text"
-            >Show
-            <select class="pag-select">
-              <option>6</option>
-            </select>
-            per page
-          </label>
-          <div class="pages">
-            <button type="button" class="active pagination-button">1</button>
-            <button type="button" class="pagination-button">2</button>
-            <button type="button" class="pagination-button">3</button>
-            <button type="button" class="pagination-button">4</button>
-            <button type="button" class="pagination-button">5</button>
-          </div>
-        </div>
+       <div class="pagination">
+  <label class="pag-text">
+    Show
+    <select class="pag-select" [value]="pageSize" (change)="onPageSizeChange($event)">
+      <option *ngFor="let size of pageSizeOptions" [value]="size">{{ size }}</option>
+    </select>
+    per page
+  </label>
+
+  <div class="pages">
+    <button
+      type="button"
+      *ngFor="let page of pages"
+      (click)="goToPage(page)"
+      [class.active]="page === currentPage"
+      class="pagination-button"
+    >
+      {{ page }}
+    </button>
+  </div>
+</div>
+
+<!-- Table of users -->
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <!-- add other headers -->
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let user of users | async">
+      <td>{{ user.name }}</td>
+
+    </tr>
+  </tbody>
+</table>
+
       </div>
     </div>
   </main>
