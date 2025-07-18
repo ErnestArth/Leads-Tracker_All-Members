@@ -55,8 +55,8 @@ export class LoginComponent {
 
 
   onSubmit(): void {
-    
-   
+
+
 
 
     if (this.loginForm.valid) {
@@ -98,7 +98,7 @@ export class LoginComponent {
       this.loginForm.markAllAsTouched();
     }
   }
-  
+
 
   toggleFieldTextType() {
     this.fieldTextType = !this.fieldTextType;

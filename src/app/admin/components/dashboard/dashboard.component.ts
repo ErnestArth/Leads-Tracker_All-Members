@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, HostListener, ElementRef, NgZone, ViewChild} from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import {Overlay, OverlayRef} from '@angular/cdk/overlay';
 import { DialogComponent } from '../../dialog/dialog.component';
@@ -16,6 +16,11 @@ Chart.register(...registerables);
 
 
 export class DashboardComponent  {
+clickOutsideArea = false;
+isMenuOpen = false;
+  modalContent = '';
+modalType: 'team-lead' | 'team-member' = 'team-lead';
+@ViewChild('menu', { static: false }) menu!: ElementRef;
 
 
   modalForm = new FormGroup({
@@ -26,8 +31,10 @@ export class DashboardComponent  {
       staffId: new FormControl('', Validators.required),
     });;
   isModalOpen = false;
+  teamMembers: { id: number, name: string }[] = [];
 
-constructor(private fb: FormBuilder, private overlay: Overlay) {}
+
+constructor(private fb: FormBuilder, private overlay: Overlay, private zone: NgZone) {}
 
   ngOnInit(): void {
     this.modalForm = this.fb.group({
@@ -38,9 +45,9 @@ constructor(private fb: FormBuilder, private overlay: Overlay) {}
       staffId: ['', Validators.required],
     });
   }
-
-  isMenuOpen = false;
-  modalContent = '';
+ get modalTitle(): string {
+    return this.modalType === 'team-lead' ? 'Create New Team Lead' : 'Create New Team Member';
+ }
 
   ngAfterViewInit(): void {
     Chart.register(...registerables);
@@ -72,9 +79,9 @@ constructor(private fb: FormBuilder, private overlay: Overlay) {}
         borderRadius: 5,
         yAxisId: 'leftAxis'
       }],
-      
+
     }
-    
+
 
     const doughnutCanvas = document.getElementById('doughnutChart') as HTMLCanvasElement;
     const barCanvas = document.getElementById('barChart') as HTMLCanvasElement;
@@ -123,17 +130,29 @@ constructor(private fb: FormBuilder, private overlay: Overlay) {}
       });
     }
   }
- toggleMenu(): void {
+toggleMenu() {
     this.isMenuOpen = !this.isMenuOpen;
-    console.log ('Done')
+
+    if (this.isMenuOpen) {
+      this.zone.runOutsideAngular(() => {
+        setTimeout(() => {
+          this.clickOutsideArea = true;
+        }, 0);
+      });
+    } else {
+      this.clickOutsideArea = false;
+    }
   }
 
   private overlayRef: OverlayRef | null = null;
 
-  
 
 
-  openModal() : void {
+
+  openModal(type: 'team-lead' | 'team-member') : void {
+    this.isModalOpen = true;
+    this.isModalOpen = true;
+    this.clickOutsideArea = false;
     this.overlayRef = this.overlay.create({
       hasBackdrop: true,
       backdropClass: 'cdk-overlay-dark-backdrop',
@@ -145,7 +164,7 @@ constructor(private fb: FormBuilder, private overlay: Overlay) {}
 
     this.overlayRef.backdropClick().subscribe(() => this.closeModal());
 
-    componentRef.instance.closeModal();
+    componentRef.instance.onCancel();
 
     componentRef.instance.submitForm.apply((formData: any) => {
       console.log ('Form Submitted:', formData);
@@ -163,6 +182,19 @@ constructor(private fb: FormBuilder, private overlay: Overlay) {}
     console.log('Form Data:', this.modalForm);
     alert('Form submitted successfully!');
     this.closeModal();
+  }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent): void {
+    if (!this.clickOutsideArea || !this.menu) return;
+
+    const clickedInside = this.menu.nativeElement.contains(event.target as Node);
+    if (!clickedInside) {
+      this.zone.run(() => {
+        this.isMenuOpen = false;
+        this.clickOutsideArea = false;
+      });
+    }
   }
 
 
