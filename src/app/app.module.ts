@@ -10,6 +10,9 @@ import { NgOtpInputComponent } from 'ng-otp-input';
 import { AdminModule } from './admin/admin.module';
 import { DashboardComponent } from './admin/components/dashboard/dashboard.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+
+
+
 import { Dash2Component } from './admin/components/dash2/dash2.component';
 import { DialogComponent } from './admin/dialog/dialog.component';
 
@@ -19,6 +22,11 @@ import { DialogComponent } from './admin/dialog/dialog.component';
   declarations: [
     AppComponent,
     DashboardComponent,
+
+
+
+
+
 
 
   ],

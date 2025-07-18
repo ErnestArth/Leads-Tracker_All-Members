@@ -14,6 +14,9 @@ import { DialogComponent } from './dialog/dialog.component';
 import { PortalModule } from '@angular/cdk/portal';
 import { Overlay } from '@angular/cdk/overlay';
 import {adminComponent} from './admin.component'
+import { TeamsComponent } from './components/teams/teams.component';
+import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { TeamsOverviewComponent } from './components/teams-overview/teams-overview.component';
 
 
 const routes: Routes = [
@@ -24,6 +27,9 @@ const routes: Routes = [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: 'dashboard', component: DashboardComponent },
       { path: 'dash2', component: Dash2Component },
+      { path: 'teams', component:TeamsComponent},
+      { path: 'teams/:teamId', component:TeamsOverviewComponent}
+
       // { path: 'otpAuthComponent', component:OtpAuthComponent} ,
 
     ],
@@ -36,7 +42,11 @@ const routes: Routes = [
     DialogTeamMemberComponent,
     Dash2Component,
     DialogComponent,
-    adminComponent
+    adminComponent,
+    TeamsComponent,
+    SidebarComponent,
+    DashboardComponent,
+    TeamsOverviewComponent
   ],
   imports: [
     CommonModule,

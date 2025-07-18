@@ -1,6 +1,5 @@
 <div class="dashboard-container">
-  <!-- <aside class="sidebar">
-    
+  <aside class="sidebar">
     <div class="top">
       <svg
         class="dash-logo"
@@ -47,7 +46,6 @@
           </clipPath>
         </defs>
       </svg>
-
       <ul class="admin-functions">
         <li class="navigation-links">
           <svg
@@ -69,6 +67,29 @@
           </svg>
           Overview
         </li>
+        <a routerLink="/admin/teams" routerLinkActive="selected" class="route-link"
+          ><li class="navigation-links">
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M11.0983 17.334C13.6828 17.334 15.7777 18.6581 15.778 20.292C15.778 21.926 13.683 23.251 11.0983 23.251C8.51372 23.2509 6.41864 21.926 6.41864 20.292C6.41897 18.6581 8.51393 17.334 11.0983 17.334ZM11.0983 8.45703C13.1797 8.45704 14.8668 10.1443 14.8669 12.2256C14.8669 14.307 13.1797 15.9941 11.0983 15.9941C9.01692 15.9941 7.32977 14.307 7.32977 12.2256C7.32985 10.1443 9.01697 8.45703 11.0983 8.45703Z"
+                fill="black"
+              />
+              <path
+                opacity="0.3"
+                d="M16.8812 9.55957C19.7382 9.55971 22.0555 10.9427 22.056 12.6299C22.056 14.3174 19.7494 15.7012 16.8919 15.7012C16.3782 15.6962 15.8656 15.6437 15.3616 15.5439C16.027 14.7174 16.4277 13.7092 16.5101 12.6514C16.5924 11.5934 16.3531 10.5348 15.8236 9.61523C16.1722 9.55904 16.5213 9.55957 16.8812 9.55957ZM5.10285 0.75C6.85478 0.750208 8.27473 2.17087 8.27473 3.92285C8.27452 5.67465 6.85465 7.09452 5.10285 7.09473C3.35087 7.09473 1.93021 5.67478 1.93 3.92285C1.93 2.17075 3.35075 0.75 5.10285 0.75ZM17.0609 0.75C18.813 0.75 20.2337 2.17075 20.2337 3.92285C20.2335 5.67478 18.8128 7.09473 17.0609 7.09473C15.3089 7.09472 13.8882 5.67478 13.888 3.92285C13.888 2.17075 15.3088 0.750002 17.0609 0.75Z"
+                fill="black"
+              />
+            </svg>
+
+            Teams
+          </li></a
+        >
         <li class="navigation-links">
           <svg
             width="24"
@@ -89,7 +110,7 @@
           </svg>
           Team Leads
         </li>
-        <li class="navigation-links">
+        <a routerLink="/admin/dash2"  routerLinkActive="selected" class="route-link"><li class="navigation-links">
           <svg
             width="24"
             height="24"
@@ -108,7 +129,7 @@
             />
           </svg>
           Team Members
-        </li>
+        </li></a>
       </ul>
     </div>
     <div class="logout-button">
@@ -129,167 +150,7 @@
           fill="#F46036"
         />
       </svg>
-
       <p class="logout">Logout</p>
     </div>
-  </aside> -->
-  <app-sidebar/>
-  <main>
-    <aside class="header">
-      <h4>Overview</h4>
-      <div class="add-user-profile">
-        <button class="add-user-btn" type="button" id="btn btn-primary">
-          <span class="add-user-text">Add User</span>
-          <img
-            src="dashboard-images/lets-icons_user-add-alt-fill.png"
-            alt="add-user-icon"
-          />
-        </button>
-        <div class="profile-image-container">
-          <img
-            src="dashboard-images/Headshot 2.jpg"
-            alt="profile-image"
-            class="profile-image"
-          />
-        </div>
-      </div>
-    </aside>
-    <div class="dashboard-content">
-      <div class="searc">
-        <input
-          type="search"
-          name="searchTeamLeads"
-          id=""
-          placeholder="Search by Name , Staff ID or Email..."
-        />
-        <i
-          class="fa-thin fa-magnifying-glass fa-rotate-by search-icon"
-        ></i>
-      </div>
-
-      <div class="team-lead-dash-cards-container">
-        <div class="team-lead-dash-cards">
-          <div class="team-lead-info-and-view-details">
-            <div class="team-lead-info">
-              <div class="team-lead-info-image">
-                <img class="user-image" src="user-1.jpg" alt="user" />
-              </div>
-              <div class="team-lead-info-name-and-">
-                <p class="team-lead-name">Team Lead Name</p>
-                <span class="team-lead-email">name&#64;domain.com</span>
-              </div>
-            </div>
-            <div class="view-details">View Details</div>
-          </div>
-
-          <div class="team-members-and-progress-bar">
-            <div class="Team-members">
-              <p class="team-members-text">Team Members</p>
-              <p class="team-members-count">18</p>
-            </div>
-
-            <div class="progress-bar">
-              <p>Total Recommendations Submitted: <span>50/80</span></p>
-              <div class="progress-outline">
-                <div class="progress"></div>
-                <span class="progress-percentage">60% </span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="team-lead-dash-cards">
-          <div class="team-lead-info-and-view-details">
-            <div class="team-lead-info">
-              <div class="team-lead-info-image">
-                <img class="user-image" src="user-1.jpg" alt="user" />
-              </div>
-              <div class="team-lead-info-name-and-">
-                <p class="team-lead-name">Team Lead Name</p>
-                <span class="team-lead-email">name&#64;domain.com</span>
-              </div>
-            </div>
-            <div class="view-details">View Details</div>
-          </div>
-
-          <div class="team-members-and-progress-bar">
-            <div class="Team-members">
-              <p class="team-members-text">Team Members</p>
-              <p class="team-members-count">18</p>
-            </div>
-
-            <div class="progress-bar">
-              <p>Total Recommendations Submitted: <span>50/80</span></p>
-              <div class="progress-outline">
-                <div class="progress"></div>
-                <span class="progress-percentage">60% </span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="team-lead-dash-cards-container container2">
-        <div class="team-lead-dash-cards">
-          <div class="team-lead-info-and-view-details">
-            <div class="team-lead-info">
-              <div class="team-lead-info-image">
-                <img class="user-image" src="user-1.jpg" alt="user" />
-              </div>
-              <div class="team-lead-info-name-and-">
-                <p class="team-lead-name">Team Lead Name</p>
-                <span class="team-lead-email">name&#64;domain.com</span>
-              </div>
-            </div>
-            <div class="view-details">View Details</div>
-          </div>
-
-          <div class="team-members-and-progress-bar">
-            <div class="Team-members">
-              <p class="team-members-text">Team Members</p>
-              <p class="team-members-count">18</p>
-            </div>
-
-            <div class="progress-bar">
-              <p>Total Recommendations Submitted: <span>50/80</span></p>
-              <div class="progress-outline">
-                <div class="progress"></div>
-                <span class="progress-percentage">60% </span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="team-lead-dash-cards">
-          <div class="team-lead-info-and-view-details">
-            <div class="team-lead-info">
-              <div class="team-lead-info-image">
-                <img class="user-image" src="user-1.jpg" alt="user" />
-              </div>
-              <div class="team-lead-info-name-and-">
-                <p class="team-lead-name">Team Lead Name</p>
-                <span class="team-lead-email">name&#64;domain.com</span>
-              </div>
-            </div>
-            <div class="view-details">View Details</div>
-          </div>
-
-          <div class="team-members-and-progress-bar">
-            <div class="Team-members">
-              <p class="team-members-text">Team Members</p>
-              <p class="team-members-count">18</p>
-            </div>
-
-            <div class="progress-bar">
-              <p>Total Recommendations Submitted: <span>50/80</span></p>
-              <div class="progress-outline">
-                <div class="progress"></div>
-                <span class="progress-percentage">60% </span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </main>
+  </aside>
 </div>
