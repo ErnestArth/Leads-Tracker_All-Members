@@ -1,10 +1,13 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, HostListener, ElementRef, NgZone, ViewChild} from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import {Overlay, OverlayRef} from '@angular/cdk/overlay';
 import { DialogComponent } from '../../dialog/dialog.component';
+import { BehaviorSubject } from 'rxjs';
+import { UserService, User } from '../../../services/user.service';
 
 import {Chart, Colors, registerables, scales} from 'chart.js';
 import { ComponentPortal } from '@angular/cdk/portal';
+import { MatDialog,} from '@angular/material/dialog';
 Chart.register(...registerables);
 
 @Component({
@@ -15,7 +18,26 @@ Chart.register(...registerables);
 })
 
 
-export class DashboardComponent  {
+export class DashboardComponent  implements OnInit, AfterViewInit {
+  users = new BehaviorSubject<User[]>([]);
+  totalUsers = new BehaviorSubject(0);
+  totalPages = new BehaviorSubject(0);
+
+  pageSizeOptions = [5, 6, 10, 15, 20];
+
+  private currentPage$ = new BehaviorSubject<number>(3);
+  private pageSize$ = new BehaviorSubject<number>(5);
+
+  pages: number[] = [];
+  currentPage = 3;
+  pageSize = 5;
+
+
+clickOutsideArea = false;
+isMenuOpen = false;
+  modalContent = '';
+modalType: 'team-lead' | 'team-member' = 'team-lead';
+@ViewChild('menu', { static: false }) menu!: ElementRef;
 
 
   modalForm = new FormGroup({
@@ -26,8 +48,9 @@ export class DashboardComponent  {
       staffId: new FormControl('', Validators.required),
     });;
   isModalOpen = false;
+  teamMembers: { id: number, name: string }[] = [];
 
-constructor(private fb: FormBuilder, private overlay: Overlay) {}
+constructor(private fb: FormBuilder, private dialog: MatDialog, private userService: UserService) {}
 
   ngOnInit(): void {
     this.modalForm = this.fb.group({
@@ -37,10 +60,28 @@ constructor(private fb: FormBuilder, private overlay: Overlay) {}
       phone: ['', [Validators.required]],
       staffId: ['', Validators.required],
     });
-  }
 
-  isMenuOpen = false;
-  modalContent = '';
+    // combineLatest([this.currentPage$, this.pageSize$])
+    //   .pipe(
+    //     switchMap(([page, limit]) => this.userService.getUsers(page, limit))
+    //   )
+    //   .subscribe((res: any)=>{
+    //     this.users.next(res.items);
+    //     this.totalUsers.next(res.total);
+    //     this.totalPages.next(res.totalPages);
+
+    //   })
+
+    // const totalPages$ = Math.ceil(res.total / this.pageSize);
+    // this.totalPages.next(totalPages$);
+
+    // this.pages = Array.from({length: totalPages$}, (_, i) => i + 1);
+
+
+  }
+ get modalTitle(): string {
+    return this.modalType === 'team-lead' ? 'Create New Team Lead' : 'Create New Team Member';
+ }
 
   ngAfterViewInit(): void {
     Chart.register(...registerables);
@@ -72,9 +113,9 @@ constructor(private fb: FormBuilder, private overlay: Overlay) {}
         borderRadius: 5,
         yAxisId: 'leftAxis'
       }],
-      
+
     }
-    
+
 
     const doughnutCanvas = document.getElementById('doughnutChart') as HTMLCanvasElement;
     const barCanvas = document.getElementById('barChart') as HTMLCanvasElement;
@@ -123,38 +164,35 @@ constructor(private fb: FormBuilder, private overlay: Overlay) {}
       });
     }
   }
- toggleMenu(): void {
+toggleMenu() {
     this.isMenuOpen = !this.isMenuOpen;
-    console.log ('Done')
+
+    if (this.isMenuOpen) {
+    } else {
+      this.clickOutsideArea = false;
+    }
   }
 
   private overlayRef: OverlayRef | null = null;
 
-  
 
 
-  openModal() : void {
-    this.overlayRef = this.overlay.create({
-      hasBackdrop: true,
-      backdropClass: 'cdk-overlay-dark-backdrop',
-      positionStrategy: this.overlay.position().global().centerHorizontally().centerVertically()
-    });
 
-    const portal = new ComponentPortal(DialogComponent);
-    const componentRef = this.overlayRef.attach(portal);
-
-    this.overlayRef.backdropClick().subscribe(() => this.closeModal());
-
-    componentRef.instance.closeModal();
-
-    componentRef.instance.submitForm.apply((formData: any) => {
-      console.log ('Form Submitted:', formData);
-      this.closeModal();
-    });
-
+  openDialog(type: 'team-lead' | 'team-member') {
+    const entityType = type.includes('lead') ? "Team Lead" : "Team Member"
+    const dialogRef = this.dialog.open(DialogComponent, {
+      width: "500px", maxHeight : "100vh",
+      data: {
+      title: "Create" + entityType,
+      buttonLabel: "Add" + entityType,
+      }
+  });
+  dialogRef.afterClosed().subscribe(data => {})
   }
 
-  private closeModal(): void {
+
+  closeModal(): void {
+    alert('Modal closed');
     this.overlayRef?.dispose();
     this.overlayRef = null;
   }
@@ -163,6 +201,26 @@ constructor(private fb: FormBuilder, private overlay: Overlay) {}
     console.log('Form Data:', this.modalForm);
     alert('Form submitted successfully!');
     this.closeModal();
+  }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent): void {
+    if (!this.clickOutsideArea || !this.menu) return;
+
+    const clickedInside = this.menu.nativeElement.contains(event.target as Node);
+    if (!clickedInside) {
+    }
+  }
+
+  onPageSizeChange(event: Event) {
+    const select = event.target as HTMLSelectElement;
+    const newSize = Number(select.value);
+    this.pageSize$.next(newSize);
+    this.currentPage$.next(1); // reset to page 1 on page size change
+  }
+
+  goToPage(page: number) {
+    this.currentPage$.next(page);
   }
 
 

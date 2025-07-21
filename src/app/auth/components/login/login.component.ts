@@ -59,8 +59,8 @@ export class LoginComponent {
     this.spinner = true
     console.log(this.spinner)
     setTimeout(() => {
-      
-   
+
+
     if (this.loginForm.valid) {
 
       this.authService.login(this.loginForm.value).subscribe({
@@ -104,7 +104,7 @@ export class LoginComponent {
     console.log(this.spinner)
   },3000)
   }
-  
+
 
   toggleFieldTextType() {
     this.fieldTextType = !this.fieldTextType;

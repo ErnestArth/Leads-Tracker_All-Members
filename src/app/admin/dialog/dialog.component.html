@@ -1,46 +1,133 @@
+<form *ngIf="!showSuccess" [formGroup]="modalForm" (ngSubmit)="onSubmit()">
+  <h3>{{ data?.title }}</h3>
 
-
-<form [formGroup]= "modalForm" (ngSubmit)="submitForm()">
-
-  <h3> Create New Team Lead</h3>
-      <div class="form-group">
-        <label>First Name</label>
-        <input type="text" formControlName="firstName" placeholder="Enter first name" title="First Name" />
-        <div class="error" *ngIf="modalForm.get('firstName')?.touched && modalForm.get('firstName')?.invalid">
-          First name is required
-        </div>
+  <!-- First Name -->
+  <div class="form-group">
+    <label for="firstName">First Name</label>
+    <input
+      type="text"
+      formControlName="firstName"
+      placeholder="Enter first name"
+      title="First Name"
+      id="firstName"
+    />
+    <div
+      class="error"
+      *ngIf="modalForm.get('firstName')?.touched && modalForm.get('firstName')?.invalid"
+    >
+      <div *ngIf="modalForm.get('firstName')?.hasError('required')">
+        First name is required.
       </div>
-
-      <div class="form-group">
-        <label>Other Name(s)</label>
-        <input type="text" formControlName="otherNames" placeholder="Enter other names" title="Other Names" />
+      <div *ngIf="modalForm.get('firstName')?.hasError('minlength')">
+        First name must be at least 3 characters long.
       </div>
+    </div>
+  </div>
 
-      <div class="form-group">
-        <label>Business Email</label>
-        <input type="email" formControlName="email" placeholder="Enter business email" title="Business Email" />
-        <div class="error" *ngIf="modalForm.get('email')?.touched && modalForm.get('email')?.invalid">
-          Enter a valid email
-        </div>
+  <!-- Other Name(s) -->
+  <div class="form-group">
+    <label for="otherNames">Other Name(s)</label>
+    <input
+      type="text"
+      formControlName="otherNames"
+      placeholder="Enter other names"
+      title="Other Names"
+      id="otherNames"
+    />
+    <div
+      class="error"
+      *ngIf="modalForm.get('otherNames')?.touched && modalForm.get('otherNames')?.invalid"
+    >
+      <div *ngIf="modalForm.get('otherNames')?.hasError('minlength')">
+        Other name(s) must be at least 3 characters long.
       </div>
+    </div>
+  </div>
 
-      <div class="form-group">
-        <label>Phone Number</label>
-        <input type="tel" formControlName="phone" placeholder="Enter phone number" title="Phone Number" />
-        <div class="error" *ngIf="modalForm.get('phone')?.touched && modalForm.get('phone')?.invalid">
-          Phone number is required
-        </div>
+  <!-- Business Email -->
+  <div class="form-group">
+    <label for="email">Business Email</label>
+    <input
+      type="email"
+      formControlName="email"
+      placeholder="Enter business email"
+      title="Business Email"
+      id="email"
+    />
+    <div
+      class="error"
+      *ngIf="modalForm.get('email')?.touched && modalForm.get('email')?.invalid"
+    >
+      <div *ngIf="modalForm.get('email')?.hasError('required')">
+        Business email is required.
       </div>
-
-      <div class="form-group">
-        <label>Staff ID</label>
-        <input type="text" formControlName="staffId" placeholder="Enter staff ID" title="Staff ID" />
-        <div class="error" *ngIf="modalForm.get('staffId')?.touched && modalForm.get('staffId')?.invalid">
-          Staff ID is required
-        </div>
+      <div *ngIf="modalForm.get('email')?.hasError('email')">
+        Please enter a valid business email address.
       </div>
+    </div>
+  </div>
 
-      <button type="submit">Submit</button>
-      <!-- <button type="button" (click)="closeModal()">Cancel</button> -->
-    </form>
+  <!-- Phone Number -->
+  <div class="form-group">
+    <label for="phone">Phone Number</label>
+    <input
+      type="tel"
+      formControlName="phone"
+      placeholder="Enter phone number"
+      title="Phone Number"
+      id="phone"
+    />
+    <div
+      class="error"
+      *ngIf="modalForm.get('phone')?.touched && modalForm.get('phone')?.invalid"
+    >
+      <div *ngIf="modalForm.get('phone')?.hasError('required')">
+        Phone number is required.
+      </div>
+      <div *ngIf="modalForm.get('phone')?.hasError('pattern')">
+        Please enter a valid phone number (e.g., +1234567890).
+      </div>
+    </div>
+  </div>
 
+  <!-- Staff ID -->
+  <div class="form-group">
+    <label for="staffId">Staff ID</label>
+    <input
+      type="text"
+      formControlName="staffId"
+      placeholder="Enter staff ID"
+      title="Staff ID"
+      id="staffId"
+    />
+    <div
+      class="error"
+      *ngIf="modalForm.get('staffId')?.touched && modalForm.get('staffId')?.invalid"
+    >
+      <div *ngIf="modalForm.get('staffId')?.hasError('required')">
+        Staff ID is required.
+      </div>
+      <div *ngIf="modalForm.get('staffId')?.hasError('minlength')">
+        Staff ID must be at least 5 characters long.
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Buttons -->
+  <div class="modal-buttons">
+    <button type="button" (click)="onClose()">Cancel</button>
+    <button type="submit" (click)="onSubmit()" [disabled]="modalForm.invalid">Submit</button>
+  </div>
+</form>
+
+
+
+<div *ngIf="showSuccess" class="success-container">
+  <div class="success-content">
+    <img src="Frame5.png" alt="Success Icon" />
+    <p>Team Lead Successfully Added</p>
+    <button type="button" class="success-btn"  (click)="createAnotherTeamLead()">Create Another User</button>
+    <button type="button" class="success-btn"   (click)="backToDashboard()"
+    [routerLink]="['/admin']">Back to Dashboard</button>
+    </div>
+  </div>

@@ -1,48 +1,71 @@
-import { Component, OnInit, EventEmitter, Output} from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, Input} from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialogRef, } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import { Inject } from '@angular/core';
 
 @Component({
   selector: 'app-dialog',
   templateUrl: './dialog.component.html',
   styleUrls: ['./dialog.component.css'],
-  standalone: false, 
+  standalone: false,
 })
-export class DialogComponent {
-
+export class DialogComponent implements OnInit {
+  @Input() modalType: string = '';
+  @Input() visible: boolean = false;
+  @Input() teamMembers: { id: number, name: string }[] = [];
   @Output() submit = new EventEmitter<any>();
   @Output() close = new EventEmitter<any>();
+  router: any;
 
 
-  modalForm = new FormGroup({
-      firstName: new FormControl('', [Validators.required]),
-      otherNames: new FormControl(''),
-      email: new FormControl('', [Validators.required, Validators.email]),
-      phone: new FormControl('', Validators.required),
-      staffId: new FormControl('', Validators.required),
-    });;
-  isModalOpen = false;
-
-  constructor(private fb: FormBuilder) {}
-
-  ngOnInit(): void {
-    this.modalForm
-  }
-
-  openModal(): void {
-    this.isModalOpen = true;
-  }
-
-  closeModal(): void {
-   this.close.emit();
-  }
-
-  submitForm(): void {
-    if (this.modalForm.valid) {
-      console.log('Form Data:', this.modalForm.value);
-      alert('Form submitted successfully!');
-      this.closeModal();
-    } else {
-      this.modalForm.markAllAsTouched();
-    }
-  }
+get modalTitle(): string {
+  return this.modalType === 'team-lead'  ? 'Create New Team Lead' : 'Create New Team Member';
 }
+
+  isModalOpen = false;
+  showSuccess = false;
+
+  constructor(private fb: FormBuilder, @Inject(MAT_DIALOG_DATA)public data: any,
+  private dialogRef: MatDialogRef<any>) {}
+
+  modalForm!: FormGroup;
+  ngOnInit(): void {
+    this.modalForm = this.fb.group({
+      firstName: ['', [Validators.required, Validators.minLength(3)]],
+      otherNames: ['', [Validators.required, Validators.minLength(3)]],
+      email: ['', [Validators.required, Validators.email]],
+      phone: ['', [Validators.required, Validators.pattern(/^\+?[1-9]\d{1,14}$/)]],
+      staffId: ['', Validators.required],
+    });
+  }
+
+
+
+  onClose(): void {
+    this.close.emit();
+    this.dialogRef.close();
+  }
+
+    onSubmit(): void {
+    if (this.modalForm.invalid) {
+      console.log('Form is invalid');
+      return;
+    }
+  this.showSuccess = true;
+}
+
+createAnotherTeamLead(): void {
+    this.modalForm.reset();
+    this.isModalOpen = true;
+    this.modalType = 'team-lead';
+  }
+
+  backToDashboard(): void {
+    this.close.emit();
+    this.router.navigate(['/admin/dashboard']);
+  }
+
+
+}
+
