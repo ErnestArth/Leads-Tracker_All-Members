@@ -1,0 +1,124 @@
+:host {
+    display: block;
+    /* max-width: 550px; */
+    width: 100%;
+    padding: 30px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    font-family: "Instrument Sans", sans-serif;
+    box-sizing: border-box;
+  }
+
+  .unassigned-members-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    box-sizing: border-box;
+    
+    
+  }
+  .title{
+    color: #1E1E1E;
+    font-size: 24px;
+    font-weight: 600;
+  }
+  .search-and-filter{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  input{
+    width: 70%;
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #DBDFE9;
+    background: #FCFCFC;
+    color:#4B5675
+  }
+  input::placeholder{
+    color: #78829D;
+    font-weight: 100;
+    font-family: sans-serif;
+  }
+  .filter{
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #DBDFE9;
+    width: 25%;
+    background: #FCFCFC;
+    color:#78829D ;
+    font-weight: 100;
+    font-family: sans-serif;
+  }
+  .list-of-unassigned-members-container{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .unassigned-member{
+    display: flex;
+    justify-content: space-between;
+    padding: 13px 8px;
+  }
+  .member-name{
+    color: #4B5675;
+    font-size: 13px;
+
+  }
+  .assign-member-button{
+    color:#1B998B;
+    font-size:12px;
+
+  }
+
+  .cancel-save-buttons{
+    display: flex;
+    justify-content: end;
+    gap: 10px;
+  }
+  .cancel-save-buttons button{
+    padding: 10px;
+    border-radius: 8px;
+    border:none;
+    font-size: 16px;
+
+  }
+  .cancel-button{
+    font-weight: 500;
+  }
+  .save-button{
+    background: #F46036;
+    color: white;
+  }
+
+  /* save changes */
+  .succesfully-added{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+    padding: 20px;
+}
+.succesfully-added p{
+    font-size: 24px;
+    font-weight: 400;
+    text-align: center;
+}
+.succesfully-added button{
+    width: 100%;
+    padding: 10px;
+    font-size: 20px;
+    border-radius: 5px;
+}
+.assign-button{
+    background: rgba(244, 96, 54, 0.2);
+    color: #F46036;
+    border: 1px solid #F46036;
+}
+.back-button{
+    background: #EDEDED;
+    border: none;
+
+}

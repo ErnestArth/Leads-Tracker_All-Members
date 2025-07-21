@@ -4,8 +4,56 @@
     margin: 0;
 }
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body { margin: 0; 
+        font-family: "Instrument Sans", sans-serif; 
+}
 
 .cdk-overlay-dark-backdrop {
   background: rgba(0, 0, 0, 0.5);
+}
+
+/* Angular Material select Modal styling */
+.mat-mdc-text-field-wrapper {
+  background: #F1F1F4 !important;
+  height: 50px !important;
+  border-radius: 4px !important;
+}
+.mdc-text-field {
+position: revert !important;
+}
+mat-label{
+  color: #4B5675;
+    font-size: 13px;
+}
+.mat-mdc-select-arrow{
+  color: #4B5675 !important;
+}
+/* .mat-mdc-form-field-infix{
+  top: -13px;
+} */
+div.mat-mdc-select-panel{
+  background: #F1F1F4 !important;
+}
+.mat-pseudo-checkbox-full{
+border-color: #4B5675 !important;
+}
+.mat-pseudo-checkbox-full.mat-pseudo-checkbox-checked{
+  background-color: #F46036 !important;
+  border: none;
+}
+.mdc-list-item__primary-text{
+  color: #4B5675;
+}
+.mat-pseudo-checkbox-full.mat-pseudo-checkbox-checked::after{
+  color:white !important;
+}
+.mat-mdc-select-min-line{
+  color:#4B5675;
+}
+
+/* modal responsiveness */
+@media(max-width:1000px){
+  .cdk-overlay-pane{
+    width: unset !important;
+  }
 }

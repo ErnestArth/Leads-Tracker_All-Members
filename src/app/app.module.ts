@@ -13,8 +13,6 @@ import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 
 
 
-import { Dash2Component } from './admin/components/dash2/dash2.component';
-import { DialogComponent } from './admin/dialog/dialog.component';
 
 // import { ResettingPasswordComponent } from './auth/components/resetting-password/resetting-password.component';
 import { HttpClientModule } from '@angular/common/http';
@@ -23,6 +21,17 @@ import { UserService } from './services/user.service';
 @NgModule({
   declarations: [
     AppComponent,
+
+
+
+
+
+
+
+
+
+
+
 
 
 

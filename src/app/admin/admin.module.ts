@@ -17,6 +17,11 @@ import {adminComponent} from './admin.component'
 import { TeamsComponent } from './components/teams/teams.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { TeamsOverviewComponent } from './components/teams-overview/teams-overview.component';
+import {MatSelectModule} from '@angular/material/select';
+import { DeactivateTeamModalComponent } from './components/deactivate-team-modal/deactivate-team-modal.component';
+import { AssignMembersModalComponent } from './components/assign-members-modal/assign-members-modal.component';
+import { EditTeamModalComponent } from './components/edit-team-modal/edit-team-modal.component';
+import { AddTeamModalComponent } from './components/add-team-modal/add-team-modal.component';
 
 
 
@@ -29,7 +34,9 @@ const routes: Routes = [
       { path: 'dashboard', component: DashboardComponent },
       { path: 'dash2', component: Dash2Component },
       { path: 'teams', component:TeamsComponent},
-      { path: 'teams/:teamId', component:TeamsOverviewComponent}
+      { path: 'teams/:teamId', component:TeamsOverviewComponent},
+      {path: 'edit-team', component:EditTeamModalComponent},
+      {path: 'add-team', component:AddTeamModalComponent},
 
       // { path: 'otpAuthComponent', component:OtpAuthComponent} ,
 
@@ -47,7 +54,11 @@ const routes: Routes = [
     TeamsComponent,
     SidebarComponent,
     DashboardComponent,
-    TeamsOverviewComponent
+    EditTeamModalComponent,
+    AssignMembersModalComponent,
+    TeamsOverviewComponent,
+    DeactivateTeamModalComponent,
+    AddTeamModalComponent
   ],
   imports: [
     CommonModule,
@@ -56,7 +67,9 @@ const routes: Routes = [
     MatInputModule,
     MatNativeDateModule,
     MatDatepickerModule,
+    MatSelectModule,
     CommonModule,
+    PortalModule,
     FormsModule, ReactiveFormsModule
   ]
 })

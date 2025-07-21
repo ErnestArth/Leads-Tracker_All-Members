@@ -1,0 +1,99 @@
+.mat-mdc-form-field{
+    width: 100%;
+}
+:host {
+    display: block;
+    /* max-width: 550px; */
+    width: 100%;
+    padding: 30px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    font-family: 'Segoe UI', sans-serif;
+  }
+  .assign-members-modal {
+    display: flex;
+    flex-direction: column;
+    padding : 0 30px;
+    gap: 16px;
+  }
+  .title{
+    font-size: 24px;
+    font-weight: 600;
+  }
+  .form-group{
+    padding: 10px;
+    border: 1px solid #DBDFE9;
+    background: #FCFCFC;
+    border-radius: 6px;
+  }
+
+  .create-new-member-button{
+    padding: 15px;
+    display: flex;
+    color: #F46036;
+    gap: 8px;
+  }
+  create-new-member-button:hover{
+    cursor: pointer;
+  }
+ .cancel-save-buttons{
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+  }
+  .cancel-save-buttons button{
+    padding: 10px;
+    border-radius: 8px;
+    border:none;
+    font-size: 16px;
+
+  }
+  .cancel-button{
+    font-weight: 500;
+  }
+  .save-button{
+    background: #F46036;
+    color: white;
+  }
+
+.selected-members{
+    font-size: 13px;
+    color: #4B5675;
+    padding: 15px;
+    border: 1px solid #DBDFE9;
+    background: #FCFCFC;
+    border-radius: 4px;
+    margin-bottom: 10px
+}
+ 
+/* succesful save changes */
+
+.succesfully-added{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+    padding: 20px;
+}
+.succesfully-added p{
+    font-size: 24px;
+    font-weight: 400;
+    text-align: center;
+}
+.succesfully-added button{
+    width: 100%;
+    padding: 10px;
+    font-size: 20px;
+    border-radius: 5px;
+}
+.assign-button{
+    background: rgba(244, 96, 54, 0.2);
+    color: #F46036;
+    border: 1px solid #F46036;
+}
+.back-button{
+    background: #EDEDED;
+    border: none;
+
+}

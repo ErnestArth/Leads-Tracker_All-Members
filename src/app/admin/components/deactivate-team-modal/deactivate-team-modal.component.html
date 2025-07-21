@@ -1,0 +1,54 @@
+@if(!isTeamDeactivated){
+    
+
+<div class="deactivate-team-modal">
+    <div class="deactivate-icon-and-title">
+        <svg width="53" height="47" viewBox="0 0 53 47" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M26.5001 16.6292V25.7147M26.5001 34.8001H26.5228M22.6161 4.95433L3.37757 37.0715C2.98092 37.7584 2.77104 38.5372 2.76882 39.3304C2.7666 40.1236 2.97211 40.9036 3.36491 41.5927C3.75771 42.2819 4.32411 42.8561 5.00775 43.2584C5.69139 43.6607 6.46845 43.8769 7.26161 43.8856H45.7386C46.5318 43.8769 47.3089 43.6607 47.9925 43.2584C48.6761 42.8561 49.2425 42.2819 49.6353 41.5927C50.0281 40.9036 50.2337 40.1236 50.2314 39.3304C50.2292 38.5372 50.0193 37.7584 49.6227 37.0715L30.3842 4.95433C29.9793 4.28679 29.4091 3.73487 28.7288 3.35184C28.0485 2.9688 27.2809 2.76758 26.5001 2.76758C25.7194 2.76758 24.9518 2.9688 24.2715 3.35184C23.5911 3.73487 23.021 4.28679 22.6161 4.95433Z" stroke="#F46036" stroke-width="4.76988" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            
+         <p> Deactivate Team ?</p>
+        </div>
+    <div class="deactivate-message">
+        <p>Do you want to permanently <br> deactivate this team?
+             This action <br> cannot be undone.</p>
+    </div>
+    <div class="cancel-deactivate-buttons">
+        <button (click)="cancel()"   class="cancel-button">cancel</button>
+        <button (click)="onTeamDeactivation()" class="deactivate-button">Yes, Deactivate </button>
+      </div>
+</div>
+}
+
+
+<!-- if team is deactivated -->
+@if(isTeamDeactivated){
+    <div class="succesfully-deleted">
+      <svg
+        width="71"
+        height="70"
+        viewBox="0 0 71 70"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <rect
+          x="0.807129"
+          y="0.296875"
+          width="69.3848"
+          height="69.3848"
+          rx="34.6924"
+          fill="#1B998B"
+        />
+        <path
+          d="M56.2949 33.0755V34.9887C56.2924 39.473 54.8403 43.8364 52.1553 47.428C49.4703 51.0196 45.6962 53.6471 41.3959 54.9186C37.0956 56.19 32.4995 56.0374 28.2931 54.4833C24.0867 52.9292 20.4953 50.0571 18.0546 46.2952C15.6139 42.5333 14.4546 38.0832 14.7497 33.6086C15.0447 29.134 16.7783 24.8746 19.6919 21.4658C22.6054 18.0569 26.5428 15.6812 30.9169 14.6929C35.291 13.7047 39.8673 14.1568 43.9634 15.9819M56.2949 18.3526L35.4998 39.1685L29.2612 32.93"
+          stroke="white"
+          stroke-width="4.15903"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+      <p>Team Successfully Deactivated</p>
+      <button (click)="cancel()"class="back-button">Back to Dashboard</button>
+    </div>
+    }
+    
