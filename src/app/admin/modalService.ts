@@ -58,7 +58,7 @@ export class ModalService {
     (componentRef.instance as { onCancel: EventEmitter<void> }).onCancel.subscribe(() => {
       overlayRef.dispose(); 
     });
-    return this.OverlayRef;
+   
 
     // componentRef.instance.onCancel.subscribe(() => {
     //   overlayRef.dispose(); 
