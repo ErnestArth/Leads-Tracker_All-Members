@@ -1,12 +1,12 @@
 @if(!isTeamDeactivated){
-    
+
 
 <div class="deactivate-team-modal">
     <div class="deactivate-icon-and-title">
         <svg width="53" height="47" viewBox="0 0 53 47" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M26.5001 16.6292V25.7147M26.5001 34.8001H26.5228M22.6161 4.95433L3.37757 37.0715C2.98092 37.7584 2.77104 38.5372 2.76882 39.3304C2.7666 40.1236 2.97211 40.9036 3.36491 41.5927C3.75771 42.2819 4.32411 42.8561 5.00775 43.2584C5.69139 43.6607 6.46845 43.8769 7.26161 43.8856H45.7386C46.5318 43.8769 47.3089 43.6607 47.9925 43.2584C48.6761 42.8561 49.2425 42.2819 49.6353 41.5927C50.0281 40.9036 50.2337 40.1236 50.2314 39.3304C50.2292 38.5372 50.0193 37.7584 49.6227 37.0715L30.3842 4.95433C29.9793 4.28679 29.4091 3.73487 28.7288 3.35184C28.0485 2.9688 27.2809 2.76758 26.5001 2.76758C25.7194 2.76758 24.9518 2.9688 24.2715 3.35184C23.5911 3.73487 23.021 4.28679 22.6161 4.95433Z" stroke="#F46036" stroke-width="4.76988" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
-            
+
          <p> Deactivate Team ?</p>
         </div>
     <div class="deactivate-message">
@@ -48,7 +48,6 @@
         />
       </svg>
       <p>Team Successfully Deactivated</p>
-      <button (click)="cancel()"class="back-button">Back to Dashboard</button>
+      <button type="button" (click)="cancel()"class="back-button">Back</button>
     </div>
     }
-    
