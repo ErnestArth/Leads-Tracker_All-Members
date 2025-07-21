@@ -28,7 +28,8 @@ const routes: Routes = [
   {path: 'dialog', component:DialogComponent},
   {path: 'dialog-team-lead', component:DialogTeamLeadComponent},
   {path: 'dialog-team-member', component:DialogTeamMemberComponent},
-  {path: 'dash2', component:Dash2Component}
+  {path: 'dash2', component:Dash2Component},
+  {path: 'admin', component:DashboardComponent},
 
 
 

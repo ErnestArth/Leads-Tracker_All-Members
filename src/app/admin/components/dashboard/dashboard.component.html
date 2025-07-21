@@ -142,7 +142,7 @@
   <aside>
     <app-sidebar/>
   </aside>
- 
+
   <main>
     <aside class="header">
       <h4>Overview</h4>
@@ -167,12 +167,12 @@
    <div class="menu" (click)="toggleMenu()">
   <ul>
 
-    <li (click)="openModal('team-lead')">
+    <li (click)="openDialog('team-lead')">
       <img src="dashboard-images/user-tick.png" alt="" class="icon"/>
       Add Team Lead</li>
 
 
-    <li (click)="openModal('team-member')">
+    <li (click)="openDialog('team-member')">
     <img src="dashboard-images/users.png" alt="" class="icon"/>
       Add Team Member</li>
   </ul>
@@ -358,7 +358,7 @@
 
       <div class="overdue-actions-container">
         <div class="overdue-actions-header">
-          
+
           <span>Overdue Actions</span>
           <div class="overdue-actions-filter-section filter-sections">
             <input
@@ -527,46 +527,41 @@
           </tbody>
         </table>
        <div class="pagination">
-  <label class="pag-text">
-    Show
-    <select class="pag-select" [value]="pageSize" (change)="onPageSizeChange($event)">
-      <option *ngFor="let size of pageSizeOptions" [value]="size">{{ size }}</option>
-    </select>
-    per page
-  </label>
-
-  <div class="pages">
-    <button
-      type="button"
-      *ngFor="let page of pages"
-      (click)="goToPage(page)"
-      [class.active]="page === currentPage"
-      class="pagination-button"
-    >
-      {{ page }}
-    </button>
-  </div>
-</div>
+          <label class="pag-text"
+            >Show
+            <select class="pag-select">
+              <option>6</option>
+            </select>
+            per page
+          </label>
+          <div class="pages">
+            <button type="button" class="active pagination-button">1</button>
+            <button type="button" class="pagination-button">2</button>
+            <button type="button" class="pagination-button">3</button>
+            <button type="button" class="pagination-button">4</button>
+            <button type="button" class="pagination-button">5</button>
+          </div>
+        </div>
 
 <!-- Table of users -->
-<table>
+<!-- <table>
   <thead>
     <tr>
       <th>Name</th>
       <!-- add other headers -->
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let user of users | async">
-      <td>{{ user.name }}</td>
+    <!-- </tr> -->
+  <!-- </thead> -->
+  <!-- <tbody> -->
+    <!-- <tr *ngFor="let user of users | async"> -->
+      <!-- <td>{{ user.name }}</td> -->
 
-    </tr>
-  </tbody>
-</table>
+    <!-- </tr> -->
+  <!-- </tbody> -->
+<!-- </table> --> -->
 
       </div>
     </div>
-  </main> 
+  </main>
 
   <router-outlet></router-outlet>
 </div>

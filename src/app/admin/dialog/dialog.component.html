@@ -1,5 +1,5 @@
-<form [formGroup]="modalForm" (ngSubmit)="submitForm()">
-  <h3>{{ modalTitle }}</h3>
+<form [formGroup]="modalForm" (ngSubmit)="onSubmit()">
+  <h3>{{ data?.title }}</h3>
 
   <!-- First Name -->
   <div class="form-group">
@@ -115,8 +115,8 @@
 
   <!-- Modal Buttons -->
   <div class="modal-buttons">
-    <button type="button" (click)="onCancel()">Cancel</button>
-    <button type="submit" (click)="submitForm()" [disabled]="modalForm.invalid">Submit</button>
+    <button type="button" (click)="onClose()">Cancel</button>
+    <button type="submit" (click)="onSubmit()" [disabled]="modalForm.invalid">Submit</button>
   </div>
 </form>
 

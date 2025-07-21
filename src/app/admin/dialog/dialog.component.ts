@@ -1,6 +1,8 @@
 import { Component, OnInit, EventEmitter, Output, Input} from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialogRef, } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { Inject } from '@angular/core';
 
 @Component({
   selector: 'app-dialog',
@@ -21,12 +23,11 @@ get modalTitle(): string {
   return this.modalType === 'team-lead'  ? 'Create New Team Lead' : 'Create New Team Member';
 }
 
-
-
   isModalOpen = false;
   showSuccess = false;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, @Inject(MAT_DIALOG_DATA)public data: any,
+  private dialogRef: MatDialogRef<any>) {}
 
   modalForm!: FormGroup;
   ngOnInit(): void {
@@ -39,23 +40,18 @@ get modalTitle(): string {
     });
   }
 
-  onCancel(): void {
+
+
+  onClose(): void {
     this.close.emit();
+    this.dialogRef.close();
   }
 
-    submitForm(): void {
+    onSubmit(): void {
     if (this.modalForm.invalid) {
       console.log('Form is invalid');
       return;
     }
-
-    const formData = this.modalForm.value;
-    console.log('Form Submitted:', formData);
-
-    if (this.modalForm.invalid) {
-    this.modalForm.markAllAsTouched();
-    return;
-}
   this.showSuccess = true;
 }
 

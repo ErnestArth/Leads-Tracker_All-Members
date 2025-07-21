@@ -7,6 +7,7 @@ import { UserService, User } from '../../../services/user.service';
 
 import {Chart, Colors, registerables, scales} from 'chart.js';
 import { ComponentPortal } from '@angular/cdk/portal';
+import { MatDialog,} from '@angular/material/dialog';
 Chart.register(...registerables);
 
 @Component({
@@ -49,8 +50,7 @@ modalType: 'team-lead' | 'team-member' = 'team-lead';
   isModalOpen = false;
   teamMembers: { id: number, name: string }[] = [];
 
-
-constructor(private fb: FormBuilder, private overlay: Overlay, private zone: NgZone, private userService: UserService) {}
+constructor(private fb: FormBuilder, private dialog: MatDialog, private userService: UserService) {}
 
   ngOnInit(): void {
     this.modalForm = this.fb.group({
@@ -168,11 +168,6 @@ toggleMenu() {
     this.isMenuOpen = !this.isMenuOpen;
 
     if (this.isMenuOpen) {
-      this.zone.runOutsideAngular(() => {
-        setTimeout(() => {
-          this.clickOutsideArea = true;
-        }, 0);
-      });
     } else {
       this.clickOutsideArea = false;
     }
@@ -183,31 +178,21 @@ toggleMenu() {
 
 
 
-  openModal(type: 'team-lead' | 'team-member') : void {
-    this.isModalOpen = true;
-    this.isModalOpen = true;
-    this.clickOutsideArea = false;
-    this.overlayRef = this.overlay.create({
-      hasBackdrop: true,
-      backdropClass: 'cdk-overlay-dark-backdrop',
-      positionStrategy: this.overlay.position().global().centerHorizontally().centerVertically()
-    });
-
-    const portal = new ComponentPortal(DialogComponent);
-    const componentRef = this.overlayRef.attach(portal);
-
-    this.overlayRef.backdropClick().subscribe(() => this.closeModal());
-
-    componentRef.instance.onCancel();
-
-    componentRef.instance.submitForm.apply((formData: any) => {
-      console.log ('Form Submitted:', formData);
-      this.closeModal();
-    });
-
+  openDialog(type: 'team-lead' | 'team-member') {
+    const entityType = type.includes('lead') ? "Team Lead" : "Team Member"
+    const dialogRef = this.dialog.open(DialogComponent, {
+      width: "500px", maxHeight : "100vh",
+      data: {
+      title: "Create" + entityType,
+      buttonLabel: "Add" + entityType,
+      }
+  });
+  dialogRef.afterClosed().subscribe(data => {})
   }
 
+
   closeModal(): void {
+    alert('Modal closed');
     this.overlayRef?.dispose();
     this.overlayRef = null;
   }
@@ -224,10 +209,6 @@ toggleMenu() {
 
     const clickedInside = this.menu.nativeElement.contains(event.target as Node);
     if (!clickedInside) {
-      this.zone.run(() => {
-        this.isMenuOpen = false;
-        this.clickOutsideArea = false;
-      });
     }
   }
 

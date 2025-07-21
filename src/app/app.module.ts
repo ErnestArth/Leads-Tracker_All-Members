@@ -8,8 +8,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NgOtpInputComponent } from 'ng-otp-input';
 import { AdminModule } from './admin/admin.module';
-import { DashboardComponent } from './admin/components/dashboard/dashboard.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 
 
 
@@ -17,11 +17,12 @@ import { Dash2Component } from './admin/components/dash2/dash2.component';
 import { DialogComponent } from './admin/dialog/dialog.component';
 
 // import { ResettingPasswordComponent } from './auth/components/resetting-password/resetting-password.component';
+import { HttpClientModule } from '@angular/common/http';
+import { UserService } from './services/user.service';
 
 @NgModule({
   declarations: [
     AppComponent,
-    DashboardComponent,
 
 
 
@@ -37,9 +38,12 @@ import { DialogComponent } from './admin/dialog/dialog.component';
     RouterModule,
     CommonModule,
     FontAwesomeModule,
+    HttpClientModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [
+    {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: false}},
+  ],
+  bootstrap: [AppComponent],
 })
 export class AppModule { }
