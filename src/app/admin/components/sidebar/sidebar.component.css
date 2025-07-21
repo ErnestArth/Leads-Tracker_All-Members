@@ -12,16 +12,34 @@
   }
 .sidebar {
     background-color: #f1f1f4;
-    flex: 1 0 10%;
+    width: 100%;
+    /* flex: 1 0 10%; */
     padding: 25px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     border-right: 1px solid #afafaf;
   }
-  .dash-logo {
-    margin-bottom: 40px;
+  .top{
+    display: flex ;
+    flex-direction: column;
+    gap: 50px;
   }
+  .logo{
+    display: flex;
+    gap: 10px;
+    margin-bottom: 30px;
+    align-items: center;
+    display: none;
+  }
+  .logo p{
+    color: #F46036;
+    font-weight: bolder;
+    font-size: 10px;
+    text-transform: uppercase;
+   
+  }
+  
   .logout-button{
     display: flex;
     gap: 10px;
@@ -30,11 +48,7 @@
   .logout {
     color: #F46036;
   }
-  main {
-    background-color: #f9f9f9;
-    flex: 1 0 90%;
-    overflow-y: auto;
-  }
+
   
   li {
     list-style: none;
@@ -64,4 +78,24 @@
   .route-link{
     text-decoration: none;
     color: black;
+  }
+
+  @media (max-width:1000px){
+    .sidebar{
+      /* width: 20%; */
+      padding: 15px;
+    }
+    .dash-desktop-logo{
+      display: none;
+    }
+    .logo{
+      display: block;
+      align-self: center;
+    }
+    .admin-functions p{
+      display: none;
+    }
+    .logout-button p{
+      display: none;
+    }
   }

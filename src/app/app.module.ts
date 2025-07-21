@@ -14,11 +14,16 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 
 
+
 // import { ResettingPasswordComponent } from './auth/components/resetting-password/resetting-password.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+  
+ 
+   
+ 
     
   
   

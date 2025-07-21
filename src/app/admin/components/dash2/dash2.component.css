@@ -35,7 +35,8 @@
   }
   main {
     background-color: #f9f9f9;
-    flex: 1 0 90%;
+    /* flex: 1 0 90%; */
+    width: 100%;
     overflow-y: auto;
   }
   
