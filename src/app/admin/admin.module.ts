@@ -22,6 +22,7 @@ import { DeactivateTeamModalComponent } from './components/deactivate-team-modal
 import { AssignMembersModalComponent } from './components/assign-members-modal/assign-members-modal.component';
 import { EditTeamModalComponent } from './components/edit-team-modal/edit-team-modal.component';
 import { AddTeamModalComponent } from './components/add-team-modal/add-team-modal.component';
+import { NotificationComponent } from './components/notification/notification.component';
 
 
 
@@ -37,6 +38,8 @@ const routes: Routes = [
       { path: 'teams/:teamId', component:TeamsOverviewComponent},
       {path: 'edit-team', component:EditTeamModalComponent},
       {path: 'add-team', component:AddTeamModalComponent},
+      {path: 'assign-members', component:AssignMembersModalComponent},
+      {path: 'notification', component:NotificationComponent},
 
       // { path: 'otpAuthComponent', component:OtpAuthComponent} ,
 
@@ -58,7 +61,8 @@ const routes: Routes = [
     AssignMembersModalComponent,
     TeamsOverviewComponent,
     DeactivateTeamModalComponent,
-    AddTeamModalComponent
+    AddTeamModalComponent,
+    NotificationComponent
   ],
   imports: [
     CommonModule,
