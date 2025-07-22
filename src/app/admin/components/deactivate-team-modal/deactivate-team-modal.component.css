@@ -1,3 +1,12 @@
+*{
+    font-family: "Instrument Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+  font-variation-settings:
+    "wdth" 100;
+}
+
+
 :host {
     display: block;
     /* max-width: 550px; */
@@ -14,7 +23,7 @@
     flex-direction: column;
     gap: 20px;
     text-align: center;
-    
+
   }
 
   .deactivate-icon-and-title{
@@ -29,7 +38,7 @@
     font-weight: 100;
     letter-spacing: 1px;
     line-height: 130%;
-    
+
   }
 
   .cancel-deactivate-buttons{
@@ -81,4 +90,12 @@
     background: #EDEDED;
     border: none;
 
+}
+
+button[class="back-button"]:hover {
+    background-color: transparent;
+    color: #F46036;
+    border: 1px solid #F46036;
+    border-radius: 5px;
+    cursor: pointer;
 }

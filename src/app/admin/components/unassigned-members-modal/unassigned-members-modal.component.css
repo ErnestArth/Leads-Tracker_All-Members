@@ -1,3 +1,11 @@
+*{
+    font-family: "Instrument Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+  font-variation-settings:
+    "wdth" 100;
+}
+
 :host {
     display: block;
     /* max-width: 550px; */
@@ -15,8 +23,8 @@
     flex-direction: column;
     gap: 15px;
     box-sizing: border-box;
-    
-    
+
+
   }
   .title{
     color: #1E1E1E;
@@ -113,12 +121,23 @@
     border-radius: 5px;
 }
 .assign-button{
-    background: rgba(244, 96, 54, 0.2);
-    color: #F46036;
-    border: 1px solid #F46036;
+    background: #EDEDED;
+    color: black;
+    border: none;
+    border-radius: 6px;
 }
 .back-button{
     background: #EDEDED;
     border: none;
+    border-radius: 6px;
+    color: black;
 
+}
+
+button[type="submit"]:hover {
+    background-color: transparent;
+    color: #F46036;
+    border: 1px solid #F46036;
+    border-radius: 5px;
+    cursor: pointer;
 }

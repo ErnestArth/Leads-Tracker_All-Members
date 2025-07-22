@@ -5,7 +5,7 @@
     </div>
     <div class="search-and-filter">
         <input type="text" placeholder="Find Members">
-        <select class="filter">
+        <select title="filter-side"    class="filter">
             <option value="all">All</option>
             <option value="team1">Team 1</option>
             <option value="team2">Team 2</option>
@@ -18,15 +18,15 @@
             <p class="member-name">Kwaku Adu</p>
             <p class="assign-member-button">Assign</p>
         </div>
-        <div class="unassigned-member"> 
+        <div class="unassigned-member">
             <p class="member-name">Kwaku Adu</p>
             <p class="assign-member-button">Assign</p>
         </div>
-        
+
     </div>
     <div class="cancel-save-buttons">
-        <button (click)="cancel()"   class="cancel-button">Cancel</button>
-        <button (click)="onSaveChanges()"  class="save-button">Save Changes</button>
+        <button type="button" (click)="cancel()"   class="cancel-button">Cancel</button>
+        <button type="button" (click)="onSaveChanges()"  class="save-button">Save Changes</button>
       </div>
 </div>
 }
@@ -58,9 +58,9 @@
       />
     </svg>
     <p>Member Successfully Added</p>
-    <button (click)="onSaveChanges()"  class="assign-button">
+    <button type="submit" (click)="onSaveChanges()"  class="assign-button">
       Assign New Member
     </button>
-    <button (click)="cancel()" class="back-button">Back to Dashboard</button>
-  </div> 
+    <button type="submit" (click)="cancel()" class="back-button">Back</button>
+  </div>
 }

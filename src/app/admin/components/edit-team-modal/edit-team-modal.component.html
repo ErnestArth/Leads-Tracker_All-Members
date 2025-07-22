@@ -1,6 +1,6 @@
 
 @if(!areChangesSaved){
-    
+
 
 <div class="edit-team-modal">
     <div class="title"> Edit Team</div>
@@ -11,12 +11,12 @@
     </div>
     <div class="form-group">
         <label>Assign Team Lead</label>
-        <select>
+        <select class="select-team-lead" title="team-lead" id="team-lead">
             <option value="">Akwasi</option>
         <option value="">Kwadwo</option>
         <option value="">Ama</option>
         </select>
-        
+
     </div>
     </form>
     <div class="cancel-save-buttons">
@@ -52,7 +52,6 @@
         />
       </svg>
       <p>Updated Successfully</p>
-      <button (click)="cancel()"class="back-button">Back to Dashboard</button>
+      <button type="button" (click)="cancel()"class="back-button">Back</button>
     </div>
     }
-    
