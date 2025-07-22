@@ -214,19 +214,17 @@
         </div>
       </div>
 
-      <div class="team-lead-dash-cards-container">
-        <div class="team-lead-dash-cards">
-          <div class="dash-cards-top-info">
+        <div class="team-lead-dash-cards-container">
+          <div *ngFor="let teamLead of allTeamLeads" class="team-lead-dash-cards">
+            <div class="dash-cards-top-info">
             <div class="team-lead-info-and-view-details">
               <div class="team-lead-info">
                 <div class="team-lead-info-image">
                   <img class="user-image" src="user-1.jpg" alt="user" />
                 </div>
                 <div class="team-lead-info-name-and-">
-                  <p class="team-lead-name" routerLink="/teams/:teamid">
-                    Team Lead Name
-                  </p>
-                  <span class="team-lead-email">name&#64;domain.com</span>
+                  <p class="team-lead-name" routerLink="/teams/:teamid">{{teamLead.firstName}}</p>
+                  <span class="team-lead-email">{{teamLead.email}}</span>
                 </div>
               </div>
 
@@ -286,7 +284,7 @@
                 <img src="user-1.jpg" alt="members-img" />
               </div>
             </div>
-            <div class="view-details" routerLink="/admin/teams/:teamid">
+            <div class="view-details" routerLink="/admin/teams/:teamId">
               <p>View Details</p>
             </div>
           </div>

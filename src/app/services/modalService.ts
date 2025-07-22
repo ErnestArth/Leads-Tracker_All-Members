@@ -2,11 +2,13 @@
 import { EventEmitter, Injectable, Injector, Type } from '@angular/core';
 import { Overlay, OverlayRef, OverlayConfig } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
-import { AssignMembersModalComponent } from './components/assign-members-modal/assign-members-modal.component';
-import { EditTeamModalComponent } from './components/edit-team-modal/edit-team-modal.component';
-import { DeactivateTeamModalComponent } from './components/deactivate-team-modal/deactivate-team-modal.component';
-import { AddTeamModalComponent } from './components/add-team-modal/add-team-modal.component';
-import { UnassignedMembersModalComponent } from './components/unassigned-members-modal/unassigned-members-modal.component';
+import { AssignMembersModalComponent } from '../admin/components/assign-members-modal/assign-members-modal.component';
+import { EditTeamModalComponent } from '../admin/components/edit-team-modal/edit-team-modal.component';
+import { DeactivateTeamModalComponent } from '../admin/components/deactivate-team-modal/deactivate-team-modal.component';
+import { AddTeamModalComponent } from '../admin/components/add-team-modal/add-team-modal.component';
+import { UnassignedMembersModalComponent } from '../admin/components/unassigned-members-modal/unassigned-members-modal.component';
+import { CreateTeamLeadComponent   } from '../admin/crete-team-lead/create-team-lead.component';
+import { CreateTeamMemberComponent } from '../admin/components/create-team-member/create-team-member.component';
 @Injectable({ providedIn: 'root' })
 
 export class ModalService {
@@ -16,7 +18,8 @@ export class ModalService {
     activeComponent : any;
 
   constructor(private overlay: Overlay ) {}
-  openModal(type: 'assignMembers'|'editTeam'|'deactivateTeam'|'addTeam'|'unassignedMembers') {
+  openModal(type: 'assignMembers'|'editTeam'|
+    'deactivateTeam'|'addTeam'|'unassignedMembers'|'teamLead'|'createTeamMember') {
    
     if(type === 'assignMembers'){
       this.activeComponent = AssignMembersModalComponent;
@@ -32,6 +35,12 @@ export class ModalService {
     }
     else if ( type === 'unassignedMembers'){
       this.activeComponent = UnassignedMembersModalComponent
+    }
+    else if (type === 'teamLead'){
+      this.activeComponent = CreateTeamLeadComponent 
+    }
+    else if (type === 'createTeamMember'){
+      this.activeComponent = CreateTeamMemberComponent
     }
     
     console.log('openModal');
@@ -58,7 +67,7 @@ export class ModalService {
     (componentRef.instance as { onCancel: EventEmitter<void> }).onCancel.subscribe(() => {
       overlayRef.dispose(); 
     });
-    return this.OverlayRef;
+   
 
     // componentRef.instance.onCancel.subscribe(() => {
     //   overlayRef.dispose(); 

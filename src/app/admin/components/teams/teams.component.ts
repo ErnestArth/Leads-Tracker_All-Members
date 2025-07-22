@@ -1,8 +1,9 @@
 import { Overlay, OverlayConfig } from '@angular/cdk/overlay';
 import { Component } from '@angular/core';
-import { DialogComponent } from '../../dialog/dialog.component';
+import { CreateTeamLeadComponent  } from '../../crete-team-lead/create-team-lead.component';
 import { ComponentPortal } from '@angular/cdk/portal';
-import { ModalService } from '../../modalService';
+import { ModalService } from '../../../services/modalService';
+import{ UserService,getAllTeamLeads} from '../../../services/user.service'
 @Component({
   selector: 'app-teams',
   standalone: false,
@@ -13,7 +14,9 @@ export class TeamsComponent {
       activeModal: any
       showOptionsDialog: boolean = false
 
-    constructor( private modal: ModalService) { }
+      allTeamLeads: getAllTeamLeads[] = []
+
+    constructor( private modal: ModalService, private userService:UserService) { }
     openModal(type: 'addTeam'|'editTeam'|'deactivateTeam'| 'unassignedMembers') {
       if(type === 'addTeam'){
         this.activeModal = 'addTeam'
@@ -24,7 +27,7 @@ export class TeamsComponent {
       else if(type === 'unassignedMembers'){
         this.activeModal = 'unassignedMembers'
       }
-      const overlayRef = this.modal.openModal(this.activeModal);
+     this.modal.openModal(this.activeModal);
     }
 
     toggleOptionsDialog() {
@@ -32,6 +35,14 @@ export class TeamsComponent {
     }
     deactivateOptionsDialog(){
       this.showOptionsDialog = false
+    }
+ 
+    ngOnInit(): void {
+     this.userService.getAllTeamLeads().subscribe({
+       next: (data) => {
+         this.allTeamLeads = data;  
+       }
+     }) 
     }
     
     

@@ -13,6 +13,7 @@ export interface LoginResponse {
   email: string;
   message: string;
   status: string;
+  role: string;
   token: string ;
 }
 
@@ -23,12 +24,7 @@ export interface VerifyOtpRequest {
 export interface VerifyOtpResponse {
 
     status: string;
-    message: string;
-        data: {
-          user_id: string;
-          access_token: string;
-          token_type: string;
-        }
+    token: string;
 
 }
 

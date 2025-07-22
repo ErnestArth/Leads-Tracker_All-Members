@@ -167,22 +167,20 @@
    <div class="menu" (click)="toggleMenu()">
   <ul>
 
-    <li (click)="openDialog('team-lead')">
+    <li (click)="openModal('teamLead')">
       <img src="dashboard-images/user-tick.png" alt="" class="icon"/>
       Add Team Lead</li>
 
 
-    <li (click)="openDialog('team-member')">
+    <li (click)="openModal('createTeamMember')">
     <img src="dashboard-images/users.png" alt="" class="icon"/>
       Add Team Member</li>
   </ul>
 </div>
 
-<app-dialog
-  *ngIf="isModalOpen"
-  [modalType]="modalType"
-  (closeModal)="closeModal()">
-</app-dialog>
+<!-- <app-dialog
+  *ngIf="isModalOpen">
+</app-dialog> -->
 
 
 }

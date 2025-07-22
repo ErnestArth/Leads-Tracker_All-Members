@@ -10,7 +10,7 @@ import { NgOtpInputComponent } from 'ng-otp-input';
 import { AdminModule } from './admin/admin.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
-
+import {HTTP_INTERCEPTORS} from '@angular/common/http';
 
 
 
@@ -21,14 +21,7 @@ import { UserService } from './services/user.service';
 @NgModule({
   declarations: [
     AppComponent,
-
-
-
-
-
-
-
-
+   
 
 
 
@@ -51,7 +44,8 @@ import { UserService } from './services/user.service';
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA ],
   providers: [
-    {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: false}},
+    // {provide: HTTP_INTERCEPTORS, useClass: UserService, multi: true},
+     
   ],
   bootstrap: [AppComponent],
 })

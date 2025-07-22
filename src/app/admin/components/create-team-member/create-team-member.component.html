@@ -1,0 +1,162 @@
+@if (!showSuccess){
+<form [formGroup]="modalForm" (ngSubmit)="onSubmit()">
+    <h3>Create New Team Member</h3>
+  
+    <!-- First Name -->
+    <div class="form-group">
+      <label for="firstName">First Name</label>
+      <input
+        type="text"
+        formControlName="firstName"
+        placeholder="Enter first name"
+        title="First Name"
+        id="firstName"
+      />
+      <div
+        class="error"
+        *ngIf="modalForm.get('firstName')?.touched && modalForm.get('firstName')?.invalid"
+      >
+        <div *ngIf="modalForm.get('firstName')?.hasError('required')">
+          First name is required.
+        </div>
+        <div *ngIf="modalForm.get('firstName')?.hasError('minlength')">
+          First name must be at least 3 characters long.
+        </div>
+      </div>
+    </div>
+  
+    <!-- Other Name(s) -->
+    <div class="form-group">
+      <label for="otherNames">Other Name(s)</label>
+      <input
+        type="text"
+        formControlName="otherNames"
+        placeholder="Enter other names"
+        title="Other Names"
+        id="otherNames"
+      />
+      <div
+        class="error"
+        *ngIf="modalForm.get('otherNames')?.touched && modalForm.get('otherNames')?.invalid"
+      >
+        <div *ngIf="modalForm.get('otherNames')?.hasError('minlength')">
+          Other name(s) must be at least 3 characters long.
+        </div>
+      </div>
+    </div>
+  
+    <!-- Business Email -->
+    <div class="form-group">
+      <label for="email">Business Email</label>
+      <input
+        type="email"
+        formControlName="email"
+        placeholder="Enter business email"
+        title="Business Email"
+        id="email"
+      />
+      <div
+        class="error"
+        *ngIf="modalForm.get('email')?.touched && modalForm.get('email')?.invalid"
+      >
+        <div *ngIf="modalForm.get('email')?.hasError('required')">
+          Business email is required.
+        </div>
+        <div *ngIf="modalForm.get('email')?.hasError('email')">
+          Please enter a valid business email address.
+        </div>
+      </div>
+    </div>
+  
+    <!-- Phone Number -->
+    <div class="form-group">
+      <label for="phone">Phone Number</label>
+      <input
+        type="tel"
+        formControlName="phone"
+        placeholder="Enter phone number"
+        title="Phone Number"
+        id="phone"
+      />
+      <div
+        class="error"
+        *ngIf="modalForm.get('phone')?.touched && modalForm.get('phone')?.invalid"
+      >
+        <div *ngIf="modalForm.get('phone')?.hasError('required')">
+          Phone number is required.
+        </div>
+        <div *ngIf="modalForm.get('phone')?.hasError('pattern')">
+          Please enter a valid phone number (e.g., +1234567890).
+        </div>
+      </div>
+    </div>
+  
+    <!-- Staff ID -->
+    <div class="form-group">
+      <label for="assignTeanLead">Assig Team Lead</label>
+      <select name="" id="">
+        <option value="">Kwame</option>
+        <option value="">Kwamina</option>
+        <option value="">Kwaks</option>
+        
+        
+      </select>
+      <div
+        class="error"
+        *ngIf="modalForm.get('staffId')?.touched && modalForm.get('staffId')?.invalid"
+      >
+        <div *ngIf="modalForm.get('staffId')?.hasError('required')">
+          Staff ID is required.
+        </div>
+        <div *ngIf="modalForm.get('staffId')?.hasError('minlength')">
+          Staff ID must be at least 5 characters long.
+        </div>
+      </div>
+    </div>
+  
+    <!-- Modal Buttons -->
+    <div class="modal-buttons">
+      <button type="button" (click)="cancel()" >Cancel</button>
+      <button type="submit" (click)="onSubmit()" [disabled]="modalForm.invalid">Submit</button>
+    </div>
+  </form>
+}
+
+@if(showSuccess){
+  
+  <!-- success -->
+  
+  <div  class="success-container">
+    <div class="succesfully-added">
+      <svg
+        width="71"
+        height="70"
+        viewBox="0 0 71 70"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <rect
+          x="0.807129"
+          y="0.296875"
+          width="69.3848"
+          height="69.3848"
+          rx="34.6924"
+          fill="#1B998B"
+        />
+        <path
+          d="M56.2949 33.0755V34.9887C56.2924 39.473 54.8403 43.8364 52.1553 47.428C49.4703 51.0196 45.6962 53.6471 41.3959 54.9186C37.0956 56.19 32.4995 56.0374 28.2931 54.4833C24.0867 52.9292 20.4953 50.0571 18.0546 46.2952C15.6139 42.5333 14.4546 38.0832 14.7497 33.6086C15.0447 29.134 16.7783 24.8746 19.6919 21.4658C22.6054 18.0569 26.5428 15.6812 30.9169 14.6929C35.291 13.7047 39.8673 14.1568 43.9634 15.9819M56.2949 18.3526L35.4998 39.1685L29.2612 32.93"
+          stroke="white"
+          stroke-width="4.15903"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+      <p>Team Lead Successfully Added</p>
+      <button (click)="onSaveChanges()"  class="assign-button">
+        Create Another User   
+      </button>
+      <button (click)="cancel()" class="back-button">Back</button>
+    </div> 
+  
+    </div>
+}

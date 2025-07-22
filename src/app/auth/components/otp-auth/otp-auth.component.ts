@@ -139,6 +139,8 @@ export class OtpAuthComponent implements OnInit {
             this.isOtpFailed= false
             this.otpFailCount = 0;
             console.log(response)
+            localStorage.setItem('token',response.token)
+            console.log(response.token)
             
           }
 
