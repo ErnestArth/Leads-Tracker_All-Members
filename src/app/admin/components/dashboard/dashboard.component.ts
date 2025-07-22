@@ -1,13 +1,15 @@
 import { Component, OnInit, AfterViewInit, HostListener, ElementRef, NgZone, ViewChild} from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import {Overlay, OverlayRef} from '@angular/cdk/overlay';
-import { DialogComponent } from '../../dialog/dialog.component';
+import { CreateTeamLeadComponent } from '../../crete-team-lead/create-team-lead.component';
+
 import { BehaviorSubject } from 'rxjs';
-import { UserService, User } from '../../../services/user.service';
+import { UserService } from '../../../services/user.service';
 
 import {Chart, Colors, registerables, scales} from 'chart.js';
 import { ComponentPortal } from '@angular/cdk/portal';
 import { MatDialog,} from '@angular/material/dialog';
+import { ModalService } from '../../../services/modalService';
 Chart.register(...registerables);
 
 @Component({
@@ -19,18 +21,24 @@ Chart.register(...registerables);
 
 
 export class DashboardComponent  implements OnInit, AfterViewInit {
-  users = new BehaviorSubject<User[]>([]);
-  totalUsers = new BehaviorSubject(0);
-  totalPages = new BehaviorSubject(0);
+  activeModal: any;
 
-  pageSizeOptions = [5, 6, 10, 15, 20];
 
-  private currentPage$ = new BehaviorSubject<number>(3);
-  private pageSize$ = new BehaviorSubject<number>(5);
 
-  pages: number[] = [];
-  currentPage = 3;
-  pageSize = 5;
+
+
+  // users = new BehaviorSubject<User[]>([]);
+  // totalUsers = new BehaviorSubject(0);
+  // totalPages = new BehaviorSubject(0);
+
+  // pageSizeOptions = [5, 6, 10, 15, 20];
+
+  // private currentPage$ = new BehaviorSubject<number>(3);
+  // private pageSize$ = new BehaviorSubject<number>(5);
+
+  // pages: number[] = [];
+  // currentPage = 3;
+  // pageSize = 5;
 
 
 clickOutsideArea = false;
@@ -50,7 +58,8 @@ modalType: 'team-lead' | 'team-member' = 'team-lead';
   isModalOpen = false;
   teamMembers: { id: number, name: string }[] = [];
 
-constructor(private fb: FormBuilder, private dialog: MatDialog, private userService: UserService) {}
+constructor(private fb: FormBuilder, private dialog: MatDialog, 
+  private userService: UserService, private modal: ModalService) {}
 
   ngOnInit(): void {
     this.modalForm = this.fb.group({
@@ -180,7 +189,7 @@ toggleMenu() {
 
   openDialog(type: 'team-lead' | 'team-member') {
     const entityType = type.includes('lead') ? "Team Lead" : "Team Member"
-    const dialogRef = this.dialog.open(DialogComponent, {
+    const dialogRef = this.dialog.open(CreateTeamLeadComponent , {
       width: "500px", maxHeight : "100vh",
       data: {
       title: "Create" + entityType,
@@ -212,16 +221,28 @@ toggleMenu() {
     }
   }
 
-  onPageSizeChange(event: Event) {
-    const select = event.target as HTMLSelectElement;
-    const newSize = Number(select.value);
-    this.pageSize$.next(newSize);
-    this.currentPage$.next(1); // reset to page 1 on page size change
-  }
+  // onPageSizeChange(event: Event) {
+  //   const select = event.target as HTMLSelectElement;
+  //   const newSize = Number(select.value);
+  //   this.pageSize$.next(newSize);
+  //   this.currentPage$.next(1); // reset to page 1 on page size change
+  // }
 
-  goToPage(page: number) {
-    this.currentPage$.next(page);
-  }
+  // goToPage(page: number) {
+  //   this.currentPage$.next(page);
+  // }
 
+  openModal(type: 'teamLead'|'createTeamMember'|'assignMembers') {
+    if(type === 'teamLead'){
+      this.activeModal = 'teamLead'
+    }
+    else if(type === 'createTeamMember'){
+      this.activeModal = 'createTeamMember'
+    }
+    else if (type === 'assignMembers'){
+      this.activeModal = 'assignMembers'
+    }
+    this.modal.openModal(this.activeModal);
+  }
 
 }

@@ -376,7 +376,6 @@ li {
   width: 100%;
   /* height: 350px; */
   /* border: 1px solid #f1f1f4; */
-  width: 89%;
   border-radius: 12px;
   box-sizing: border-box;
   border-right: 1px solid #F46036;
@@ -428,7 +427,6 @@ input {
 .client-activity-tracker-container {
   width: 100%;
   /* height: 600px; */
-  width: 89%;
   border: 1px solid #f1f1f4;
   border-radius: 8px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
@@ -727,23 +725,26 @@ input[type='tel'] {
 @media(max-width:1100px){
 
    .dashboard-data{
-    margin-left: 40px;
+    /* margin-left: 40px; */
    }
   .card-responsive-layout{
     flex-direction: column;
-    width: 38%;
+    width: 50%;
   }
   .doughnut-and-bar-chart-container{
     flex-direction: column;
   }
   .bar-chart-container{
-    width: 78%;
+    width: 99%;
   }
   .doughnut-chart-container{
-    width: 78%;
+    width: 100%;
   }
   .overdue-actions-container,.client-activity-tracker-container{
-    width: 78.5%;
+    width: 100%;
+  }
+  .data-cards{
+    width: 72%;
   }
 }
 

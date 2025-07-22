@@ -1,4 +1,4 @@
-import { DialogTeamMemberComponent } from './admin/dialog/dialog-team-member/dialog-team-member.component';
+import { DialogTeamMemberComponent } from './admin/crete-team-lead/dialog-team-member/dialog-team-member.component';
 import { NgModule, Component } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { OtpAuthComponent } from './auth/components/otp-auth/otp-auth.component';
@@ -7,8 +7,8 @@ import { ResetForgotPasswordComponent } from './auth/components/reset-forgot-pas
 import { AuthComponent } from './auth/auth.component';
 import { ResettingPasswordComponent } from './auth/components/resetting-password/resetting-password.component';
 import { Dash2Component } from './admin/components/dash2/dash2.component';
-import { DialogComponent } from './admin/dialog/dialog.component';
-import { DialogTeamLeadComponent } from './admin/dialog/dialog-team-lead/dialog-team-lead.component';
+import { CreateTeamLeadComponent } from './admin/crete-team-lead/create-team-lead.component';
+import { DialogTeamLeadComponent } from './admin/crete-team-lead/dialog-team-lead/dialog-team-lead.component';
 import { DashboardComponent } from './admin/components/dashboard/dashboard.component';
 
 const routes: Routes = [
@@ -25,7 +25,7 @@ const routes: Routes = [
   { path: 'reset-password', component:ResetForgotPasswordComponent},
   // { path: 'login', component:LoginComponent},
   {path: 'ResettingPasswordComponent', component:ResettingPasswordComponent},
-  {path: 'dialog', component:DialogComponent},
+  {path: 'dialog', component:CreateTeamLeadComponent },
   {path: 'dialog-team-lead', component:DialogTeamLeadComponent},
   {path: 'dialog-team-member', component:DialogTeamMemberComponent},
   {path: 'dash2', component:Dash2Component},

@@ -13,6 +13,7 @@ export interface LoginResponse {
   email: string;
   message: string;
   status: string;
+  role: string;
   token: string ;
 }
 
@@ -23,12 +24,7 @@ export interface VerifyOtpRequest {
 export interface VerifyOtpResponse {
 
     status: string;
-    message: string;
-        data: {
-          user_id: string;
-          access_token: string;
-          token_type: string;
-        }
+    token: string;
 
 }
 
@@ -71,7 +67,7 @@ export interface forgotPasswordResponse{
   providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl = 'http://51.21.149.152:8080';
+  private apiUrl = 'http://51.20.141.179:8080';
 //  http://127.0.0.1:4010
 //   http://13.48.84.210:8080
 // leads-tracker/leads/login

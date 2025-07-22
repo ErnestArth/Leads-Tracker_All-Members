@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { importProvidersFrom, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
@@ -6,11 +6,11 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {MatNativeDateModule} from '@angular/material/core';
-import { DialogTeamLeadComponent } from './dialog/dialog-team-lead/dialog-team-lead.component';
-import { DialogTeamMemberComponent } from './dialog/dialog-team-member/dialog-team-member.component';
+import { DialogTeamLeadComponent } from './crete-team-lead/dialog-team-lead/dialog-team-lead.component';
+import { DialogTeamMemberComponent } from './crete-team-lead/dialog-team-member/dialog-team-member.component';
 import { Dash2Component } from './components/dash2/dash2.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { DialogComponent } from './dialog/dialog.component';
+import { CreateTeamLeadComponent  } from './crete-team-lead/create-team-lead.component';
 import { PortalModule } from '@angular/cdk/portal';
 import { Overlay } from '@angular/cdk/overlay';
 import {adminComponent} from './admin.component'
@@ -22,6 +22,10 @@ import { DeactivateTeamModalComponent } from './components/deactivate-team-modal
 import { AssignMembersModalComponent } from './components/assign-members-modal/assign-members-modal.component';
 import { EditTeamModalComponent } from './components/edit-team-modal/edit-team-modal.component';
 import { AddTeamModalComponent } from './components/add-team-modal/add-team-modal.component';
+import { CreateTeamMemberComponent } from './components/create-team-member/create-team-member.component';
+import { UserService } from '../services/user.service';
+import { HTTP_INTERCEPTORS, HttpClientModule, provideHttpClient, withInterceptors } from '@angular/common/http';
+import { TokenInterceptor } from '../services/token.interceptor';
 
 
 
@@ -48,8 +52,9 @@ const routes: Routes = [
   declarations: [
     DialogTeamLeadComponent,
     DialogTeamMemberComponent,
+    CreateTeamMemberComponent,
     Dash2Component,
-    DialogComponent,
+    CreateTeamLeadComponent ,
     adminComponent,
     TeamsComponent,
     SidebarComponent,
@@ -71,6 +76,10 @@ const routes: Routes = [
     CommonModule,
     PortalModule,
     FormsModule, ReactiveFormsModule
+  ],
+  providers: [
+    importProvidersFrom(HttpClientModule),
+    provideHttpClient(withInterceptors([TokenInterceptor])),
   ]
 })
 export class AdminModule { }
