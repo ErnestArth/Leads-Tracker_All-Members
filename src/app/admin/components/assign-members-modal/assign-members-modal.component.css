@@ -66,7 +66,7 @@
     border-radius: 4px;
     margin-bottom: 10px
 }
- 
+
 /* succesful save changes */
 
 .succesfully-added{
@@ -96,4 +96,12 @@
     background: #EDEDED;
     border: none;
 
+}
+
+button[class="back-button"]:hover {
+    background-color: transparent;
+    color: #F46036;
+    border: 1px solid #F46036;
+    border-radius: 5px;
+    cursor: pointer;
 }

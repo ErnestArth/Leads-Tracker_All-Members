@@ -1,7 +1,7 @@
 @if (!showSuccess){
 <form [formGroup]="modalForm" (ngSubmit)="onSubmit()">
     <h3>Create New Team Member</h3>
-  
+
     <!-- First Name -->
     <div class="form-group">
       <label for="firstName">First Name</label>
@@ -24,7 +24,7 @@
         </div>
       </div>
     </div>
-  
+
     <!-- Other Name(s) -->
     <div class="form-group">
       <label for="otherNames">Other Name(s)</label>
@@ -44,7 +44,7 @@
         </div>
       </div>
     </div>
-  
+
     <!-- Business Email -->
     <div class="form-group">
       <label for="email">Business Email</label>
@@ -67,7 +67,7 @@
         </div>
       </div>
     </div>
-  
+
     <!-- Phone Number -->
     <div class="form-group">
       <label for="phone">Phone Number</label>
@@ -90,16 +90,16 @@
         </div>
       </div>
     </div>
-  
+
     <!-- Staff ID -->
     <div class="form-group">
       <label for="assignTeanLead">Assig Team Lead</label>
-      <select name="" id="">
+      <select title="assign-lead" name="" id="">
         <option value="">Kwame</option>
         <option value="">Kwamina</option>
         <option value="">Kwaks</option>
-        
-        
+
+
       </select>
       <div
         class="error"
@@ -113,7 +113,7 @@
         </div>
       </div>
     </div>
-  
+
     <!-- Modal Buttons -->
     <div class="modal-buttons">
       <button type="button" (click)="cancel()" >Cancel</button>
@@ -123,9 +123,9 @@
 }
 
 @if(showSuccess){
-  
+
   <!-- success -->
-  
+
   <div  class="success-container">
     <div class="succesfully-added">
       <svg
@@ -153,10 +153,10 @@
       </svg>
       <p>Team Lead Successfully Added</p>
       <button (click)="onSaveChanges()"  class="assign-button">
-        Create Another User   
+        Create Another User
       </button>
       <button (click)="cancel()" class="back-button">Back</button>
-    </div> 
-  
+    </div>
+
     </div>
 }

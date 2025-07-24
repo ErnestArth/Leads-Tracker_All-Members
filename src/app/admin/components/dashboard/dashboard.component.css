@@ -725,7 +725,7 @@ input[type='tel'] {
 @media(max-width:1100px){
 
    .dashboard-data{
-    /* margin-left: 40px; */
+    margin-left: 40px;
    }
   .card-responsive-layout{
     flex-direction: column;

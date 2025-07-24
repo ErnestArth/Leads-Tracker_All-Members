@@ -73,12 +73,12 @@
   <button (click)="onSaveChanges()" class="assign-button">
     Assign New Member
   </button>
-  <button (click)="cancel()" class="back-button">Back to Dashboard</button>
-</div> 
+  <button type="button" (click)="cancel()" class="back-button">Back</button>
+</div>
 
 }
 <!-- Create New Member -->
  @if(createNewMember && !areChangesSaved){
     <app-dialog/>
-     
+
  }
