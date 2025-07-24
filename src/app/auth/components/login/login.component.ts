@@ -93,7 +93,7 @@ export class LoginComponent {
         error: (err) => {
       // alert(err.error?.message || 'Login failed');
       this.invalidLoginMessage = true
-      console.log("inv Mess")
+      console.log(err)
         }
       });
 

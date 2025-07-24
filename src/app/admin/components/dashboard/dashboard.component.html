@@ -465,8 +465,8 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td class="client-con table-data">Client Name</td>
+            <tr *ngFor=" let client of clients">
+              <td class="client-con table-data">{{client.firstName}} {{client.lastName}}</td>
               <td class="badge-con table-data">
                 <span class="badge completed-onboarding">Onboarded</span>
               </td>
@@ -476,7 +476,7 @@
               <td class="name table-data">Name</td>
               <td class="team table-data">Team A</td>
             </tr>
-            <tr>
+            <!-- <tr>
               <td class="client-con table-data">Client Name</td>
               <td class="badge-con table-data">
                 <span class="badge not-interested">Not Interested</span>
@@ -521,7 +521,7 @@
               <td class="mem-name table-data">Member Name</td>
               <td class="name table-data">Name</td>
               <td class="team table-data">Team E</td>
-            </tr>
+            </tr> -->
           </tbody>
         </table>
        <div class="pagination">
@@ -546,7 +546,7 @@
   <thead>
     <tr>
       <th>Name</th>
-      <!-- add other headers -->
+      add other headers -->
     <!-- </tr> -->
   <!-- </thead> -->
   <!-- <tbody> -->
@@ -555,7 +555,7 @@
 
     <!-- </tr> -->
   <!-- </tbody> -->
-<!-- </table> --> -->
+<!-- </table> --> 
 
       </div>
     </div>

@@ -12,6 +12,28 @@ export interface createTeamMember {
   role: string,
   teamLeadUserId:string
 }
+export interface createTeamLead {
+  firstName:string,
+  lastName:string,
+  email:string,
+  password:string,
+  phoneNumber: string,
+  staffId: string,
+  role: string,
+}
+
+export interface createTeamMemberResponse {
+  firstName:string,
+  lastName:string,
+  email:string,
+  password:string,
+  phoneNumber: string,
+  staffId: string,
+  role: string,
+  userId:string
+}
+
+
 export interface  specificTeamMembers{
         userId: string
         firstName: string
@@ -34,18 +56,32 @@ export interface getAllTeamLeads{
   memberPerformance: string
 }
 
+export interface getAllClients{
+  clientId: string
+  firstName: string
+  lastName: string
+  phoneNumber: string
+  lastUpdated: string
+}
 
-const token =localStorage.getItem('token')
-const headers = new HttpHeaders({
-    'Authorization' : `Bearer ${token}`
-})
+
+
+// const token =localStorage.getItem('token')
+// console.log(token)
+// const headers = new HttpHeaders({
+//     'Authorization' : `Bearer ${token}`
+// })
 
   
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  private apiUrl = 'http://51.20.141.179:8080'; // 
+
+
+
+
+  private apiUrl = 'http://16.170.155.137:8080'; // 
   
 
   private teamMembers:createTeamMember[]=[];
@@ -54,26 +90,52 @@ export class UserService {
 
   
 
-  
+ 
 
 
 
   constructor(private http: HttpClient) {}
-
+// create a team member
   addTeamMember(teamMember: createTeamMember[]): Observable<void> {
+
+    const token =localStorage.getItem('token')
+    const headers = new HttpHeaders({'Authorization' : `Bearer ${token}`
+  })
     return this.http.post<void>(`${this.apiUrl}/leads-tracker/api/v1/leads`, teamMember,{headers} );
     
+  }
+
+  // create a team lead
+  addTeamLead(request: createTeamLead): Observable<void> {
+    
+    const token =localStorage.getItem('token')
+    const headers = new HttpHeaders({'Authorization' : `Bearer ${token}`})
+    return this.http.post<void>(`${this.apiUrl}/leads-tracker/api/v1/leads`, request,{headers})
   }
   
   // get team members under a specific team lead
 
   getTeamMembers(): Observable<specificTeamMembers[]> {
+    const token =localStorage.getItem('token')
+    const headers = new HttpHeaders({'Authorization' : `Bearer ${token}`
+  })
     return this.http.get<specificTeamMembers[]>(`${this.apiUrl}/leads-tracker/api/v1/leads/team-leads/l5g9duv5POh5Dad4Tvpz2xiZTDFNwZ/members`,{headers} );
   }
 
   getAllTeamLeads():Observable<getAllTeamLeads[]> {
+    const token =localStorage.getItem('token')
+    const headers = new HttpHeaders({'Authorization' : `Bearer ${token}`
+  })
     return this.http.get<getAllTeamLeads[]>(`${this.apiUrl}/leads-tracker/api/v1/leads/team-leads`,{headers} );
   }
+
+  getAllCients():Observable<getAllClients[]> {
+    const token =localStorage.getItem('token')
+    const headers = new HttpHeaders({'Authorization' : `Bearer ${token}`})
+    return this.http.get<getAllClients[]>(`${this.apiUrl}/leads-tracker/api/v1/clients/all-clients`,{headers});
+  }
+
+
 
   // constructor(private http: HttpClient) {}
 
@@ -105,3 +167,4 @@ export class UserService {
   //   return this.http.delete<void>(`${this.apiUrl}/leads-tracker/api/v1/leads/${id}`);
   // }
 }
+

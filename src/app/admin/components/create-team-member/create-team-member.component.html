@@ -25,22 +25,22 @@
       </div>
     </div>
   
-    <!-- Other Name(s) -->
+    <!-- last Name(s) -->
     <div class="form-group">
-      <label for="otherNames">Other Name(s)</label>
+      <label for="lastName">last Name(s)</label>
       <input
         type="text"
-        formControlName="otherNames"
-        placeholder="Enter other names"
-        title="Other Names"
-        id="otherNames"
+        formControlName="lastName"
+        placeholder="Enter last names"
+        title="last Names"
+        id="lastNames"
       />
       <div
         class="error"
-        *ngIf="modalForm.get('otherNames')?.touched && modalForm.get('otherNames')?.invalid"
+        *ngIf="modalForm.get('lastNames')?.touched && modalForm.get('lastNames')?.invalid"
       >
-        <div *ngIf="modalForm.get('otherNames')?.hasError('minlength')">
-          Other name(s) must be at least 3 characters long.
+        <div *ngIf="modalForm.get('lastNames')?.hasError('minlength')">
+          last name(s) must be at least 3 characters long.
         </div>
       </div>
     </div>
@@ -68,50 +68,62 @@
       </div>
     </div>
   
-    <!-- Phone Number -->
+    <!-- phone Number -->
     <div class="form-group">
-      <label for="phone">Phone Number</label>
+      <label for="phoneNumber">phone Number</label>
       <input
-        type="tel"
-        formControlName="phone"
+        
+        formControlName="phoneNumber"
         placeholder="Enter phone number"
-        title="Phone Number"
+        title="phone Number"
         id="phone"
       />
       <div
         class="error"
-        *ngIf="modalForm.get('phone')?.touched && modalForm.get('phone')?.invalid"
+        *ngIf="modalForm.get('phoneNumber')?.touched && modalForm.get('phoneNumber')?.invalid"
       >
-        <div *ngIf="modalForm.get('phone')?.hasError('required')">
-          Phone number is required.
+        <div *ngIf="modalForm.get('phoneNumber')?.hasError('required')">
+          phone number is required.
         </div>
-        <div *ngIf="modalForm.get('phone')?.hasError('pattern')">
-          Please enter a valid phone number (e.g., +1234567890).
+        <div *ngIf="modalForm.get('phoneNumber')?.hasError('pattern')">
+          Please enter a valid phone number (e.g., 0257689009).
         </div>
       </div>
     </div>
-  
+
     <!-- Staff ID -->
+  <div class="form-group">
+    <label for="staffId">Staff ID</label>
+    <input
+      type="text"
+      formControlName="staffId"
+      placeholder="Enter staff ID"
+      title="Staff ID"
+      id="staffId"
+    />
+    <div
+      class="error"
+      *ngIf="modalForm.get('staffId')?.touched && modalForm.get('staffId')?.invalid"
+    >
+      <div *ngIf="modalForm.get('staffId')?.hasError('required')">
+        Staff ID is required.
+      </div>
+      <div *ngIf="modalForm.get('staffId')?.hasError('minlength')">
+        Staff ID must be at least 5 characters long.
+      </div>
+    </div>
+  </div>
+  
+    <!-- select team lead -->
     <div class="form-group">
       <label for="assignTeanLead">Assig Team Lead</label>
-      <select name="" id="">
-        <option value="">Kwame</option>
-        <option value="">Kwamina</option>
-        <option value="">Kwaks</option>
-        
+      <select formControlName="teamLeadUserId" name="" id="">
+        <option *ngFor="let teamLead of allTeamLeads"  value={{teamLead.userId}}>{{teamLead.firstName}}</option>
+        <!-- <option value="kwamina">Kwamina</option>
+        <option value="kwaks">Kwaks</option>
+         -->
         
       </select>
-      <div
-        class="error"
-        *ngIf="modalForm.get('staffId')?.touched && modalForm.get('staffId')?.invalid"
-      >
-        <div *ngIf="modalForm.get('staffId')?.hasError('required')">
-          Staff ID is required.
-        </div>
-        <div *ngIf="modalForm.get('staffId')?.hasError('minlength')">
-          Staff ID must be at least 5 characters long.
-        </div>
-      </div>
     </div>
   
     <!-- Modal Buttons -->
@@ -153,7 +165,7 @@
       </svg>
       <p>Team Lead Successfully Added</p>
       <button (click)="onSaveChanges()"  class="assign-button">
-        Create Another User   
+        Create Anlast User   
       </button>
       <button (click)="cancel()" class="back-button">Back</button>
     </div> 
