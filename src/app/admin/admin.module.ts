@@ -25,7 +25,9 @@ import { AddTeamModalComponent } from './components/add-team-modal/add-team-moda
 import { CreateTeamMemberComponent } from './components/create-team-member/create-team-member.component';
 import { UserService } from '../services/user.service';
 import { HTTP_INTERCEPTORS, HttpClientModule, provideHttpClient, withInterceptors } from '@angular/common/http';
-import { TokenInterceptor } from '../services/token.interceptor';
+import { TokenInterceptor } from '../interceptor/token.interceptor';
+import { authGuard } from '../interceptor/auth.guard';
+// import { TokenInterceptor } from '../services/token.interceptor';
 import { NotificationComponent } from './components/notification/notification.component';
 
 
@@ -36,10 +38,10 @@ const routes: Routes = [
     component: adminComponent,
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-      { path: 'dashboard', component: DashboardComponent },
-      { path: 'dash2', component: Dash2Component },
-      { path: 'teams', component:TeamsComponent},
-      { path: 'teams/:teamId', component:TeamsOverviewComponent},
+      { path: 'dashboard', component: DashboardComponent, canActivate: [authGuard] },
+      { path: 'dash2', component: Dash2Component,canActivate: [authGuard] },
+      { path: 'teams', component:TeamsComponent,canActivate: [authGuard]},
+      { path: 'teams/:teamId', component:TeamsOverviewComponent, canActivate: [authGuard]},
       {path: 'edit-team', component:EditTeamModalComponent},
       {path: 'add-team', component:AddTeamModalComponent},
       {path: 'assign-members', component:AssignMembersModalComponent},

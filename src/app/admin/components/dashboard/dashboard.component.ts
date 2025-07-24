@@ -4,7 +4,7 @@ import {Overlay, OverlayRef} from '@angular/cdk/overlay';
 import { CreateTeamLeadComponent } from '../../crete-team-lead/create-team-lead.component';
 
 import { BehaviorSubject } from 'rxjs';
-import { UserService } from '../../../services/user.service';
+import { UserService,getAllClients } from '../../../services/user.service';
 
 import {Chart, Colors, registerables, scales} from 'chart.js';
 import { ComponentPortal } from '@angular/cdk/portal';
@@ -23,7 +23,7 @@ Chart.register(...registerables);
 export class DashboardComponent  implements OnInit, AfterViewInit {
   activeModal: any;
 
-
+  clients : getAllClients[] = [];
 
 
 
@@ -69,6 +69,17 @@ constructor(private fb: FormBuilder, private dialog: MatDialog,
       phone: ['', [Validators.required]],
       staffId: ['', Validators.required],
     });
+
+
+    // get all clients for client activity tracker
+    this.userService.getAllCients().subscribe({
+      next: (data) => {
+        this.clients = data;
+      },
+      error: (err) => {
+        console.log(err)
+      }
+    })
 
     // combineLatest([this.currentPage$, this.pageSize$])
     //   .pipe(
