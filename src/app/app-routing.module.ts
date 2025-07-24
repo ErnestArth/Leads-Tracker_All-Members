@@ -10,6 +10,7 @@ import { Dash2Component } from './admin/components/dash2/dash2.component';
 import { CreateTeamLeadComponent } from './admin/crete-team-lead/create-team-lead.component';
 import { DialogTeamLeadComponent } from './admin/crete-team-lead/dialog-team-lead/dialog-team-lead.component';
 import { DashboardComponent } from './admin/components/dashboard/dashboard.component';
+import { NotificationComponent } from './admin/components/notification/notification.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'authentication', pathMatch: 'full'},
@@ -30,6 +31,7 @@ const routes: Routes = [
   {path: 'dialog-team-member', component:DialogTeamMemberComponent},
   {path: 'dash2', component:Dash2Component},
   {path: 'admin', component:DashboardComponent},
+  {path: 'notification', component:NotificationComponent},
 
 
 

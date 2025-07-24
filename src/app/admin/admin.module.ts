@@ -27,6 +27,8 @@ import { UserService } from '../services/user.service';
 import { HTTP_INTERCEPTORS, HttpClientModule, provideHttpClient, withInterceptors } from '@angular/common/http';
 import { TokenInterceptor } from '../interceptor/token.interceptor';
 import { authGuard } from '../interceptor/auth.guard';
+// import { TokenInterceptor } from '../services/token.interceptor';
+import { NotificationComponent } from './components/notification/notification.component';
 
 
 
@@ -42,6 +44,8 @@ const routes: Routes = [
       { path: 'teams/:teamId', component:TeamsOverviewComponent, canActivate: [authGuard]},
       {path: 'edit-team', component:EditTeamModalComponent},
       {path: 'add-team', component:AddTeamModalComponent},
+      {path: 'assign-members', component:AssignMembersModalComponent},
+      {path: 'notification', component:NotificationComponent},
 
       // { path: 'otpAuthComponent', component:OtpAuthComponent} ,
 
@@ -64,7 +68,8 @@ const routes: Routes = [
     AssignMembersModalComponent,
     TeamsOverviewComponent,
     DeactivateTeamModalComponent,
-    AddTeamModalComponent
+    AddTeamModalComponent,
+    NotificationComponent
   ],
   imports: [
     CommonModule,
