@@ -22,7 +22,7 @@
     font-family: "Wix Madefor Display", sans-serif;
   }
 
-  .card-header {
+  .notification-container  {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -37,6 +37,11 @@
     margin-bottom: 2rem;
     background-color: #b3b3b35d;
     align-self: center;
+    padding: 40px;
+  }
+
+  .card-header{
+    background: white;
   }
 
   .card-header h5 {
@@ -53,5 +58,5 @@
     cursor: pointer;
     inline-size: none;
     padding-right: 30px;
-    
+
   }
