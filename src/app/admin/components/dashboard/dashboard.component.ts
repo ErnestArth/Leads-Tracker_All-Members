@@ -10,6 +10,7 @@ import {Chart, Colors, registerables, scales} from 'chart.js';
 import { ComponentPortal } from '@angular/cdk/portal';
 import { MatDialog,} from '@angular/material/dialog';
 import { ModalService } from '../../../services/modalService';
+import { Router } from '@angular/router';
 Chart.register(...registerables);
 
 @Component({
@@ -59,7 +60,9 @@ modalType: 'team-lead' | 'team-member' = 'team-lead';
   teamMembers: { id: number, name: string }[] = [];
 
 constructor(private fb: FormBuilder, private dialog: MatDialog, 
-  private userService: UserService, private modal: ModalService) {}
+  private userService: UserService, private modal: ModalService,
+  private router: Router
+) {}
 
   ngOnInit(): void {
     this.modalForm = this.fb.group({
@@ -75,9 +78,11 @@ constructor(private fb: FormBuilder, private dialog: MatDialog,
     this.userService.getAllCients().subscribe({
       next: (data) => {
         this.clients = data;
+
       },
       error: (err) => {
         console.log(err)
+        // this.router.navigate(['/authentication/login'])
       }
     })
 
