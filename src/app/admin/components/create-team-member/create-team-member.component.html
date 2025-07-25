@@ -1,7 +1,7 @@
 @if (!showSuccess){
 <form [formGroup]="modalForm" (ngSubmit)="onSubmit()">
     <h3>Create New Team Member</h3>
-  
+
     <!-- First Name -->
     <div class="form-group">
       <label for="firstName">First Name</label>
@@ -24,7 +24,9 @@
         </div>
       </div>
     </div>
-  
+
+    <!-- Other Name(s) -->
+
     <!-- last Name(s) -->
     <div class="form-group">
       <label for="lastName">last Name(s)</label>
@@ -44,7 +46,7 @@
         </div>
       </div>
     </div>
-  
+
     <!-- Business Email -->
     <div class="form-group">
       <label for="email">Business Email</label>
@@ -67,12 +69,14 @@
         </div>
       </div>
     </div>
-  
+
+    <!-- Phone Number -->
+
     <!-- phone Number -->
     <div class="form-group">
       <label for="phoneNumber">phone Number</label>
       <input
-        
+
         formControlName="phoneNumber"
         placeholder="Enter phone number"
         title="phone Number"
@@ -113,19 +117,19 @@
       </div>
     </div>
   </div>
-  
+
     <!-- select team lead -->
     <div class="form-group">
       <label for="assignTeanLead">Assig Team Lead</label>
-      <select formControlName="teamLeadUserId" name="" id="">
+      <select title="team-lead-user-id" formControlName="teamLeadUserId" name="" id="">
         <option *ngFor="let teamLead of allTeamLeads"  value={{teamLead.userId}}>{{teamLead.firstName}}</option>
         <!-- <option value="kwamina">Kwamina</option>
         <option value="kwaks">Kwaks</option>
          -->
-        
+
       </select>
     </div>
-  
+
     <!-- Modal Buttons -->
     <div class="modal-buttons">
       <button type="button" (click)="cancel()" >Cancel</button>
@@ -135,9 +139,9 @@
 }
 
 @if(showSuccess){
-  
+
   <!-- success -->
-  
+
   <div  class="success-container">
     <div class="succesfully-added">
       <svg
@@ -165,10 +169,11 @@
       </svg>
       <p>Team Lead Successfully Added</p>
       <button (click)="onSaveChanges()"  class="assign-button">
-        Create Anlast User   
+        Create Another User
+        Create Anlast User
       </button>
       <button (click)="cancel()" class="back-button">Back</button>
-    </div> 
-  
+    </div>
+
     </div>
 }

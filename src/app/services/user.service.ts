@@ -95,7 +95,7 @@ export interface getSpecificTeamLead{
   role:string
   phoneNumber:string
   staffId:string
-  teamPerformance:teamPerformance 
+  teamPerformance:teamPerformance
 }
 
 
@@ -106,7 +106,7 @@ export interface getSpecificTeamLead{
 //     'Authorization' : `Bearer ${token}`
 // })
 
-  
+
 @Injectable({
   providedIn: 'root'
 })
@@ -115,16 +115,16 @@ export class UserService {
 
 
 
-  private apiUrl = 'http://56.228.17.87:8080'; // 
-  
+  private apiUrl = 'http://56.228.17.87:8080'; //
+
 
   private teamMembers:createTeamMember[]=[];
 
   private specificTeamMembers:specificTeamMembers[]=[]
 
-  
 
- 
+
+
 
 
 
@@ -136,17 +136,17 @@ export class UserService {
     const headers = new HttpHeaders({'Authorization' : `Bearer ${token}`
   })
     return this.http.post<void>(`${this.apiUrl}/leads-tracker/api/v1/leads`, teamMember,{headers} );
-    
+
   }
 
   // create a team lead
   addTeamLead(request: createTeamLead): Observable<void> {
-    
+
     const token =localStorage.getItem('token')
     const headers = new HttpHeaders({'Authorization' : `Bearer ${token}`})
     return this.http.post<void>(`${this.apiUrl}/leads-tracker/api/v1/leads`, request,{headers})
   }
-  
+
   // get team members under a specific team lead
 
   getTeamMembers(userId: string): Observable<specificTeamMembers[]> {
@@ -175,6 +175,6 @@ getSpecificTeamLead(userId: string): Observable<getSpecificTeamLead> {
   return this.http.get<getSpecificTeamLead>(`${this.apiUrl}/leads-tracker/api/v1/leads/team-leads/${userId}`,{headers});
 }
 
- 
+
 }
 
