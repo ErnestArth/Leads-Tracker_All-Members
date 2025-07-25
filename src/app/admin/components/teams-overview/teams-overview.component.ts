@@ -7,6 +7,7 @@ import { EditTeamModalComponent } from '../edit-team-modal/edit-team-modal.compo
 import{DeactivateTeamModalComponent} from '../deactivate-team-modal/deactivate-team-modal.component'
 import { ModalService } from '../../../services/modalService';
 import {specificTeamMembers, UserService} from '../../../services/user.service'
+import { Router,ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-teams-overview',
   standalone: false,
@@ -14,14 +15,14 @@ import {specificTeamMembers, UserService} from '../../../services/user.service'
   styleUrl: './teams-overview.component.css',
 })
 export class TeamsOverviewComponent {
-
+  
 
   OverlayRef: any;
   activeModal : any;
   
-  res: specificTeamMembers[] = [];
+  teamMembers: specificTeamMembers[] = [];
 
-  constructor(private modal: ModalService, private userService:UserService ) {}
+  constructor(private modal: ModalService, private userService:UserService, private activatedRoute: ActivatedRoute ) {}
   openModal(type: 'assignMembers'|'editTeam'|'deactivateTeam') {
    
     if(type === 'assignMembers'){
@@ -37,10 +38,17 @@ export class TeamsOverviewComponent {
   }
    
   ngOnInit(): void {
-    this.userService.getTeamMembers().subscribe({
+    let id = this.activatedRoute.snapshot.paramMap.get('teamId');
+    // console.log(this.activatedRoute.snapshot.paramMap);
+
+    if (id){
+      this.userService.getTeamMembers(id).subscribe({
       next: (data) => {
-        this.res = data;  
+        this.teamMembers = data;  
+        // console.log(this.res)
       }
-    });
+      });
+  }
+
   }
 }

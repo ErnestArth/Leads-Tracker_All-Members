@@ -27,12 +27,25 @@ export class TeamsComponent {
       else if(type === 'unassignedMembers'){
         this.activeModal = 'unassignedMembers'
       }
+      else if(type === 'deactivateTeam'){
+        this.activeModal = 'deactivateTeam'
+      }
      this.modal.openModal(this.activeModal);
     }
 
-    toggleOptionsDialog() {
-      this.showOptionsDialog = !this.showOptionsDialog;
+
+    // show Options Dialog
+
+    selectedTeam: string | null = null;
+
+    toggleOptionsDialog(team: string) {
+      this.selectedTeam = this.selectedTeam === team ? null : team;
     }
+
+
+    // toggleOptionsDialog() {
+    //   this.showOptionsDialog = !this.showOptionsDialog;
+    // }
     deactivateOptionsDialog(){
       this.showOptionsDialog = false
     }
