@@ -8,6 +8,7 @@ body { margin: 0;
         font-family: "Instrument Sans", sans-serif; 
 }
 
+
 .cdk-overlay-dark-backdrop {
   background: rgba(0, 0, 0, 0.5);
 }
@@ -50,6 +51,32 @@ border-color: #4B5675 !important;
 .mat-mdc-select-min-line{
   color:#4B5675;
 }
+
+/* Angular Material menu trigger*/
+
+.mat-mdc-menu-trigger{
+  background:unset ;
+  border:unset ;
+}
+.mat-mdc-menu-panel {
+  background:white !important;
+  border:1px solid #F1F1F4 !important;
+  width:150px;
+  border-radius:8px !important;
+  
+}
+.mat-mdc-menu-content{
+  padding:10px !important;
+}
+.mat-mdc-menu-item-text{
+  color:black;
+}
+.mat-mdc-menu-item-text:hover{
+  color:#F46036;
+}
+
+
+
 
 /* modal responsiveness */
 @media(max-width:1000px){

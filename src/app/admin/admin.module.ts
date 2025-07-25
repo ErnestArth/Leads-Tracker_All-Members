@@ -29,7 +29,8 @@ import { TokenInterceptor } from '../interceptor/token.interceptor';
 import { authGuard } from '../interceptor/auth.guard';
 // import { TokenInterceptor } from '../services/token.interceptor';
 import { NotificationComponent } from './components/notification/notification.component';
-
+import { MatButtonModule } from '@angular/material/button';
+import {MatMenuModule} from '@angular/material/menu';
 
 
 const routes: Routes = [
@@ -81,7 +82,8 @@ const routes: Routes = [
     MatSelectModule,
     CommonModule,
     PortalModule,
-    FormsModule, ReactiveFormsModule
+    FormsModule, ReactiveFormsModule,
+    [MatButtonModule, MatMenuModule]
   ],
   providers: [
     importProvidersFrom(HttpClientModule),
