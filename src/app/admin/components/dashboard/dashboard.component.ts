@@ -26,8 +26,18 @@ Chart.register(...registerables);
 export class DashboardComponent  implements OnInit, AfterViewInit {
   activeModal: any;
 
-  clients : getAllClients[] = [];
-  overdueClients : getAllClientsOverdue[] = []
+  clientsObject: getAllClients ={
+    data: [],
+    currentPage: '',
+    totalPage: '',
+    totalItems: '',
+    pageSize: '',
+    hasNext: false,
+    hasPrevious: false
+  }
+
+  clients  =this.clientsObject;
+  overdueClients = this.clientsObject
 
 
 
@@ -106,6 +116,7 @@ constructor(private fb: FormBuilder, private dialog: MatDialog,
     this.userService.getAllCients().subscribe({
       next: (data) => {
         this.clients = data;
+        console.log(this.clients)
        
 
       },

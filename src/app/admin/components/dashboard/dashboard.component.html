@@ -299,13 +299,13 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let client of overdueClients">
-                  <td class="client-na table-data">{{client.firstName}} {{client.lastName}}</td>
-                  <td class="member-na table-data">{{client.assignedTo}}</td>
-                  <td class="date-allo table-data">{{client.createdAt | date :"dd/MM/yyyy"}}</td>
-                  <td class="time-overdue-values table-data">{{client.lastAction}}</td>
+                <tr *ngFor="let clients of overdueClients.data">
+                  <td class="client-na table-data">{{clients.firstName}} {{clients.lastName}}</td>
+                  <td class="member-na table-data">{{clients.assignedTo}}</td>
+                  <td class="date-allo table-data">{{clients.createdAt | date :"dd/MM/yyyy"}}</td>
+                  <td class="time-overdue-values table-data">{{clients.lastAction}}</td>
                   <td class=" table-data  ">
-                    <span class=" badge {{client.clientStatus}}"> {{client.clientStatus}}</span>
+                    <span class=" badge {{clients.clientStatus}}"> {{clients.clientStatus}}</span>
                   </td>
                   <td class="team-na table-data">Team A</td>
                 </tr>
@@ -371,7 +371,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let client of clients">
+              <tr *ngFor="let client of clients.data">
                 <td class="client-con table-data">
                   {{ client.firstName }} {{ client.lastName }}
                 </td>
