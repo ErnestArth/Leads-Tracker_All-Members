@@ -56,7 +56,8 @@ export interface getAllTeamLeads{
   memberPerformance: string
 }
 
-export interface getAllClients{
+
+export interface data{
   clientId: string
   firstName: string
   lastName: string
@@ -66,19 +67,50 @@ export interface getAllClients{
   clientStatus: string
   lastAction: string
   createdBy:string
+  assignedTo: string
+  gpslocation:string
+}
+
+export interface getAllClients{
+  data:data[]
+  currentPage:number
+  totalPages:number
+  totalItems:number
+  pageSize:number
+  hasNext:boolean
+  hasPrevious:boolean
+
+  // clientId: string
+  // firstName: string
+  // lastName: string
+  // phoneNumber: string
+  // lastUpdated: string
+  // createdAt:string
+  // clientStatus: string
+  // lastAction: string
+  // createdBy:string
 }
 export interface getAllClientsOverdue{
-  clientId: string
-  firstName: string
-  lastName: string
-  phoneNumber: string
-  lastUpdated: string
-  createdAt:string
-  clientStatus: string
-  lastAction: string
-  createdBy:string
-  assignedTo: string,
-  gpslocation: null
+    data:data[]
+    currentPage:number
+    totalPages:number
+    totalItems:number
+    pageSize:number
+    hasNext:boolean
+    hasPrevious:boolean
+
+
+  // clientId: string
+  // firstName: string
+  // lastName: string
+  // phoneNumber: string
+  // lastUpdated: string
+  // createdAt:string
+  // clientStatus: string
+  // lastAction: string
+  // createdBy:string
+  // assignedTo: string,
+  // gpslocation: null
 }
 // interface for endpoint to get a specific team lead
 // first define interface for teamMembers which is an array
@@ -180,7 +212,7 @@ export class UserService {
 
 
 
-  private apiUrl = 'http://13.60.10.108:8080'; //
+  private apiUrl = 'http://13.53.173.158:8080'; //
 
 
   private teamMembers:createTeamMember[]=[];
@@ -228,10 +260,10 @@ export class UserService {
     return this.http.get<getAllTeamLeads[]>(`${this.apiUrl}/leads-tracker/api/v1/leads/team-leads`,{headers} );
   }
 
-  getAllCients():Observable<getAllClients[]> {
+  getAllCients( page: number , limit:number):Observable<getAllClients> {
     const token =localStorage.getItem('token')
     const headers = new HttpHeaders({'Authorization' : `Bearer ${token}`})
-    return this.http.get<getAllClients[]>(`${this.apiUrl}/leads-tracker/api/v1/clients/all-clients`,{headers});
+    return this.http.get<getAllClients>(`${this.apiUrl}/leads-tracker/api/v1/clients/all-clients?page=${page}&limit=${limit}`,{headers});
   }
 
   // get all team members
@@ -252,10 +284,10 @@ getSpecificTeamMember( teamLeadId: string, memberId: string): Observable<getSpec
   return this.http.get<getSpecificTeamMember>(`${this.apiUrl}/leads-tracker/api/v1/leads/team-leads/${teamLeadId}/members/${memberId}?duration=week`,{headers});
 }
 
-getAllClientsOverdue(): Observable<getAllClientsOverdue[]>{
+getAllClientsOverdue(): Observable<getAllClientsOverdue>{
   const token = localStorage.getItem('token')
   const headers = new HttpHeaders({'Authorization' : `Bearer ${token}`})
-  return this.http.get<getAllClientsOverdue[]>(`${this.apiUrl}/leads-tracker/api/v1/clients/admin/notifications`,{headers});  
+  return this.http.get<getAllClientsOverdue>(`${this.apiUrl}/leads-tracker/api/v1/clients/admin/notifications?page=0&limit=2`,{headers});  
 }
 
 // Get a user by id 

@@ -39,8 +39,9 @@ import { TeamLeadComponent } from './components/team-lead/team-lead.component';
 import { TeamLeadDetailsComponent } from './components/team-lead-details/team-lead-details.component';
 import { TeamLeadFormComponent } from './components/team-lead-form/team-lead-form.component';
 import { AddTeamLeadPopupComponent } from './components/add-team-lead-popup/add-team-lead-popup.component';
-
-
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
 const routes: Routes = [
   {
     path: '',
@@ -102,7 +103,8 @@ const routes: Routes = [
     CommonModule,
     PortalModule,
     FormsModule, ReactiveFormsModule,
-    [MatButtonModule, MatMenuModule]
+    [MatButtonModule, MatMenuModule],
+    MatTableModule,MatSortModule,MatPaginatorModule
   ],
   providers: [
     importProvidersFrom(HttpClientModule),
