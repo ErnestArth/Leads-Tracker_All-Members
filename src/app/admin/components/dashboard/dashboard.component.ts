@@ -28,10 +28,10 @@ export class DashboardComponent  implements OnInit, AfterViewInit {
 
   clientsObject: getAllClients ={
     data: [],
-    currentPage: '',
-    totalPage: '',
-    totalItems: '',
-    pageSize: '',
+    currentPage: 0,
+    totalPages: 0,
+    totalItems: 0,
+    pageSize: 0,
     hasNext: false,
     hasPrevious: false
   }
@@ -39,6 +39,46 @@ export class DashboardComponent  implements OnInit, AfterViewInit {
   clients  =this.clientsObject;
   overdueClients = this.clientsObject
 
+
+
+  currentPage = 1;
+  totalPages=0;
+  totalItems =0
+  limit =6;
+  pages: number[] = [];
+  // get pages(): number[] {
+  //   return Array.from({ length: this.totalPages }, (_, i) => i + 1);
+  // }
+
+  goToPage(page: number) {
+    if (page >= 1 && page <= this.totalPages) {
+      this.currentPage = page;
+      console.log(page)
+      console.log(this.currentPage)
+      // Fetch data for the new page
+    }
+  }
+
+  fetchAllClients(page:number){
+    // get all clients for client activity tracker
+   
+    this.userService.getAllCients(this.currentPage, this.limit).subscribe({
+      next: (data) => {
+        this.clients = data;
+        this.totalPages = data.totalPages
+        this.currentPage = page
+        this.pages = Array.from({ length: this.totalPages }, (_, i) => i + 1);
+        console.log(data.totalPages,)
+        console.log(this.clients)
+       
+
+      },
+      error: (err) => {
+        console.log(err)
+        // this.router.navigate(['/authentication/login'])
+      }
+    })
+  }
 
 
   // users = new BehaviorSubject<User[]>([]);
@@ -77,6 +117,8 @@ constructor(private fb: FormBuilder, private dialog: MatDialog,
   private router: Router
 ) {}
 
+
+
   ngOnInit(): void {
     this.modalForm = this.fb.group({
       firstName: ['', Validators.required],
@@ -98,6 +140,8 @@ constructor(private fb: FormBuilder, private dialog: MatDialog,
     //   readableStatus: formatField(client.clientStatus)
     // }));
     
+    this.fetchAllClients(this.currentPage)
+    this.goToPage(this.currentPage)
 
 
     // get all overdue clients
@@ -112,19 +156,9 @@ constructor(private fb: FormBuilder, private dialog: MatDialog,
     })
     
 
-    // get all clients for client activity tracker
-    this.userService.getAllCients().subscribe({
-      next: (data) => {
-        this.clients = data;
-        console.log(this.clients)
-       
+    
 
-      },
-      error: (err) => {
-        console.log(err)
-        // this.router.navigate(['/authentication/login'])
-      }
-    })
+    
 
     // combineLatest([this.currentPage$, this.pageSize$])
     //   .pipe(

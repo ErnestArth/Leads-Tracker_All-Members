@@ -388,52 +388,7 @@
                 <td class="name table-data">Name</td>
                 <td class="team table-data">Team A</td>
               </tr>
-              <!-- <tr>
-              <td class="client-con table-data">Client Name</td>
-              <td class="badge-con table-data">
-                <span class="badge not-interested">Not Interested</span>
-              </td>
-              <td class="date table-data">10/04/2025</td>
-              <td class="days table-data">12 Days</td>
-              <td class="mem-name table-data">Member Name</td>
-              <td class="name table-data">Name</td>
-              <td class="team table-data">Team B</td>
-            </tr>
-            <tr>
-              <td class="client-con table-data">Client Name</td>
-              <td class="badge-con table-data">
-                <span class="badge interested">Interested</span>
-              </td>
-              <td class="date table-data">10/04/2025</td>
-              <td class="days table-data">12 Days</td>
-              <td class="mem-name table-data">Member Name</td>
-              <td class="name table-data">Name</td>
-              <td class="team table-data">Team C</td>
-            </tr>
-            <tr>
-              <td class="client-con table-data">Client Name</td>
-              <td class="badge-con table-data">
-                <span class="badge pending">Pending</span>
-              </td>
-              <td class="date table-data">10/04/2025</td>
-              <td class="days table-data">12 Days</td>
-              <td class="mem-name table-data">Member Name</td>
-              <td class="name table-data">Name</td>
-              <td class="team table-data">Team D</td>
-            </tr>
-            <tr>
-              <td class="client-con table-data">Client Name</td>
-              <td class="badge-con table-data">
-                <span class="badge awaiting-documentation"
-                  >Awaiting Documentation</span
-                >
-              </td>
-              <td class="date table-data">10/04/2025</td>
-              <td class="days table-data">12 Days</td>
-              <td class="mem-name table-data">Member Name</td>
-              <td class="name table-data">Name</td>
-              <td class="team table-data">Team E</td>
-            </tr> -->
+              
             </tbody>
           </table>
           <div class="pagination">
@@ -443,12 +398,12 @@
               </select>
               per page
             </label>
-            <div class="pages">
-              <button type="button" class="active pagination-button">1</button>
-              <button type="button" class="pagination-button">2</button>
+            <div  class="pages">
+              <button *ngFor="let page of pages" (click)="goToPage(page)" type="button" class="active pagination-button">{{page}}</button>
+              <!-- <button type="button" class="pagination-button">2</button>
               <button type="button" class="pagination-button">3</button>
               <button type="button" class="pagination-button">4</button>
-              <button type="button" class="pagination-button">5</button>
+              <button type="button" class="pagination-button">5</button> -->
             </div>
           </div>
 
@@ -468,6 +423,20 @@
           <!-- </tbody> -->
           <!-- </table> -->
         </div>
+
+
+        <!-- test table -->
+
+
+        
+
+
+
+
+
+
+
+
       </div>
     </div>
 
