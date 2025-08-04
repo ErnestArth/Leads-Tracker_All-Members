@@ -8,7 +8,7 @@ import {MatInputModule} from '@angular/material/input';
 import {MatNativeDateModule} from '@angular/material/core';
 import { DialogTeamLeadComponent } from './crete-team-lead/dialog-team-lead/dialog-team-lead.component';
 import { DialogTeamMemberComponent } from './crete-team-lead/dialog-team-member/dialog-team-member.component';
-import { Dash2Component } from './components/dash2/dash2.component';
+import { TeamMemberComponent } from './components/team-member/team-member.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CreateTeamLeadComponent  } from './crete-team-lead/create-team-lead.component';
 import { PortalModule } from '@angular/cdk/portal';
@@ -31,6 +31,14 @@ import { authGuard } from '../interceptor/auth.guard';
 import { NotificationComponent } from './components/notification/notification.component';
 import { MatButtonModule } from '@angular/material/button';
 import {MatMenuModule} from '@angular/material/menu';
+import { TeamMemberDetailsComponent } from './components/team-member-details/team-member-details.component';
+import { AddTeamMemberPopupComponent } from './components/add-team-member-popup/add-team-member-popup.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { FormComponentComponent } from './components/form-component/form-component.component';
+import { TeamLeadComponent } from './components/team-lead/team-lead.component';
+import { TeamLeadDetailsComponent } from './components/team-lead-details/team-lead-details.component';
+import { TeamLeadFormComponent } from './components/team-lead-form/team-lead-form.component';
+import { AddTeamLeadPopupComponent } from './components/add-team-lead-popup/add-team-lead-popup.component';
 
 
 const routes: Routes = [
@@ -40,13 +48,16 @@ const routes: Routes = [
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: 'dashboard', component: DashboardComponent, canActivate: [authGuard] },
-      { path: 'dash2', component: Dash2Component,canActivate: [authGuard] },
+      { path: 'team-member', component: TeamMemberComponent,canActivate: [authGuard] },
       { path: 'teams', component:TeamsComponent,canActivate: [authGuard]},
       { path: 'teams/:teamId', component:TeamsOverviewComponent, canActivate: [authGuard]},
       {path: 'edit-team', component:EditTeamModalComponent},
       {path: 'add-team', component:AddTeamModalComponent},
       {path: 'assign-members', component:AssignMembersModalComponent},
       {path: 'notification', component:NotificationComponent},
+      {path: 'team-member/:memberId', component:TeamMemberDetailsComponent},
+      {path: 'team-leads', component:TeamLeadComponent},
+      {path: 'team-leads/:teamLeadId', component:TeamLeadDetailsComponent},
 
       // { path: 'otpAuthComponent', component:OtpAuthComponent} ,
 
@@ -59,7 +70,7 @@ const routes: Routes = [
     DialogTeamLeadComponent,
     DialogTeamMemberComponent,
     CreateTeamMemberComponent,
-    Dash2Component,
+    TeamMemberComponent,
     CreateTeamLeadComponent ,
     adminComponent,
     TeamsComponent,
@@ -70,7 +81,14 @@ const routes: Routes = [
     TeamsOverviewComponent,
     DeactivateTeamModalComponent,
     AddTeamModalComponent,
-    NotificationComponent
+    NotificationComponent,
+    TeamMemberDetailsComponent,
+    AddTeamMemberPopupComponent,
+    FormComponentComponent,
+    TeamLeadComponent,
+    TeamLeadDetailsComponent,
+    TeamLeadFormComponent,
+    AddTeamLeadPopupComponent
   ],
   imports: [
     CommonModule,
@@ -80,6 +98,7 @@ const routes: Routes = [
     MatNativeDateModule,
     MatDatepickerModule,
     MatSelectModule,
+    MatDialogModule,
     CommonModule,
     PortalModule,
     FormsModule, ReactiveFormsModule,

@@ -1,0 +1,178 @@
+*{
+    font-family: "Instrument Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+  font-variation-settings:
+    "wdth" 100;
+}
+
+
+
+:host {
+  /* display: block; */
+  max-width: 450px;
+  width: 100%;
+  /* padding: 30px; */
+  background-color: #ffffff;
+  border-radius: 8px;
+  /* box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15); */
+  font-family: 'Segoe UI', sans-serif;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  
+  border-top-width: 30px;
+ 
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+label {
+  font-weight: 600;
+  margin-bottom: 6px;
+  display: inline-block;
+}
+
+input {
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  transition: border-color 0.2s ease;
+}
+
+input:focus {
+  border-color: #3f51b5;
+  outline: none;
+}
+
+.error {
+  color: #d32f2f;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+button[type="submit"] {
+  background-color: #F46036;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+
+}
+
+button[type="submit"]:hover {
+  background-color: #753001;
+}
+
+button[type="button"] {
+  background-color: #e3e3e3;
+  color:  rgb(0, 0, 0);
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+button[type="button"]:hover {
+  background-color: #b0b0b0;
+}
+
+button [type="submit"]:disabled {
+  background-color: #cccc;
+  cursor: not-allowed;
+}
+
+.modal-buttons {
+  display: flex;
+  gap: 10px;
+  margin-left: 180px;
+}
+
+.team-management {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 1px;
+  gap: 10px;
+  height: 100%;
+
+}
+
+/* save chages */
+.succesfully-added{
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: center;
+  padding: 20px;
+}
+.succesfully-added p{
+  font-size: 24px;
+  font-weight: 400;
+  text-align: center;
+}
+.succesfully-added button{
+  width: 100%;
+  padding: 10px;
+  font-size: 20px;
+  border-radius: 5px;
+}
+.assign-button{
+  background: rgba(244, 96, 54, 0.2);
+  color: #F46036;
+  border: 1px solid #F46036;
+}
+.back-button{
+  background: #EDEDED;
+  border: none;
+
+}
+
+.success-content{
+  padding: 44px;
+    /* border: 1px solid #F1F1F4; */
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    justify-content: center;
+    align-items: center;
+}
+
+
+/* .success-container {
+    margin: 0;
+    margin-top: 20px;
+    align-content: center;
+    justify-self: center;
+    text-align: center;
+} */
+
+button[class="success-btn"] {
+    background: #EDEDED;
+    padding: 10px;
+    border: none;
+    color:white;
+    border-radius: 6px;
+    width: 41vh;
+    color: #1E1E1E;
+}
+
+button[class="success-btn"]:hover {
+    background-color: transparent;
+    color: #F46036;
+    border: 1px solid #F46036;
+    border-radius: 5px;
+    cursor: pointer;
+}

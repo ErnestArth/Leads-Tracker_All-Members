@@ -59,26 +59,23 @@ li {
   gap: 15px;
 } */
 
-.add-user-btn {
-  background-color: #f46036;
-  color: #ffffff;
-  border-radius: 5px;
-  width: 153px;
-  height: 36px;
-  align-items: center;
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  border: none;
-}
 
-.profile-image {
-  height: 36px;
-  width: 36px;
-  border-radius: 50%;
-  object-fit: fill;
-  cursor: pointer;
-}
+
+.edit-deactivate-buttons{
+    display: flex;
+    gap: 10px;
+    padding: 10px;
+    height: 70px;
+
+  }
+  .button-text{
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+  .button-text:hover{
+    cursor: pointer;
+  }
 
 .header {
   display: flex;
@@ -97,6 +94,29 @@ li {
   font-weight: 200;
   color: #071437;
 }
+.team-member-info{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+  }
+  .team-member-name{
+    font-size: 12px;
+    font-weight: 500;
+  }
+  .team-member-email{
+    font-size: 12px;
+    color: #624C46;
+    font-weight: 100;
+  }
+  .team-member-info-name-and-email{
+    display: flex;
+    gap: 5px;
+    flex-direction: column;
+  }
+  .user-image{
+    border-radius: 50%;
+    width: 2rem;
+  }
 
 .add-user-profile {
   position: relative;
@@ -118,22 +138,12 @@ li {
 
 .dashboard-text-options {
   display: flex;
-  justify-content: space-between;
+  justify-content: end;
   gap: 20px;
 
 }
 
-.card-text h3{
-  color: #071437;
-  font-weight: 300;
-  font-size: 20px;
 
-}
-.access-text{
-  color: #4B5675;
-  font-weight: 300;
-  font-size: 14px;
-}
 
 .dashboard-data {
   display: flex;
@@ -144,30 +154,14 @@ li {
   /* margin-left: 50px; */
   max-width: 100%;
 }
-.data-cards-container {
-  display: flex;
-  gap: 20px;
-}
-.data-cards{
-  border:1px solid #F1F1F4;
-  border-radius: 10px;
-  padding: 30px 25px;
-  font-size: 13.2px;
-  width: 40%;
-  font-weight: medium;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 
+
+.page-title{
+    padding:20px;
+    border-bottom:3px solid #f46036;
+    margin-bottom: 20px;
 }
-.card-responsive-layout{
-  display: flex;
-  flex-direction: row;
-  gap: 20px;
-  width: 50%;
-}
-.data-cards p{
-  font-size: 24px;
-  font-weight: 800;
-}
+
 .icon-and-status-name{
   display: flex;
   align-items: center;
@@ -227,7 +221,58 @@ li {
   width: 19.8px;
   height: 19.8px;
 }
+.team-members-and-progress-bar{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding:20px
+  }
 
+  .Team-members{
+    display: flex;
+    justify-content: space-between;
+  }
+  .team-members-text{
+    font-size: 15px;
+    font-weight: 700;
+  }
+  .team-leaders-name{
+    font-size: 15px;
+    color: #2B2B2B;
+    font-weight: 800;
+  }
+  .progress-percentage{
+    right: 14px;
+    position: absolute;
+    font-size: 10px;
+    top: 4px;
+    color:#1B998B;
+  }
+  .progress-bar{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .progress-bar p{
+    font-size: 13px;
+    font-weight: 200;
+    font-family: "Wix Madefor Display", sans-serif;
+    color:#2C2C2C;
+  }
+  .green-outline{
+    width: 100%;
+    background: #D8FFFB;
+    height: 18px;
+    border-radius: 4px;
+    text-align: right;
+    position: relative;
+  }
+  .green-progress{
+    width: 60%;
+    background: #1B998B;
+    height: 18px;
+    border-radius: 4px;
+  }
 
 .completed-onboarding {
 
@@ -261,7 +306,7 @@ li {
 .chart-top-info {
   margin-left: 24px;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   margin-top: 24px;
   margin-right: 24px;
 }
@@ -407,9 +452,7 @@ table{
   gap: 20px;
   align-items: center;
 }
-.time-overdue-values{
-  color: #FF3B30 !important;
-}
+
 input::placeholder {
   color: #78829d;
   font-size: 14px;
@@ -611,30 +654,6 @@ list-style-type: none;
   background-color: #e3f3fd;
   transform: scale(1.05);
 }
- ::ng-deep .mat-mdc-menu-panel{
- 
-  min-width: 220px !important;
-  margin-left: -190px;
-}
-::ng-deep .mat-mdc-menu-item{
-  border-radius:8px;
-}
-::ng-deep .mat-mdc-menu-item-text:hover{
-  color:black;
-}
-::ng-deep .mat-mdc-menu-item-text{
-  display: flex;
-  align-items: anchor-center;
-  gap: 10px;
-  border-radius:8px;
-}
-::ng-deep .add-lead:hover{
-  background-color: #F5F4FF!important;
-  color:black
-}
-::ng-deep .add-member:hover{
-  background-color: #F4FFFE!important;
-}
 
 li .icon {
   margin-right: 10px;
@@ -751,10 +770,10 @@ input[type='tel'] {
 
   .card-responsive-layout{
     flex-direction: column;
-    width: 41%;
+    width: 40%;
   }
   .bar-chart-container{
-    width: 45.5%;
+    width: 35%;
   }
   .overdue-actions-container,.client-activity-tracker-container{
     width: 84%;

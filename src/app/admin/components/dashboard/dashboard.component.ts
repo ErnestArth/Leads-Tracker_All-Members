@@ -4,13 +4,15 @@ import {Overlay, OverlayRef} from '@angular/cdk/overlay';
 import { CreateTeamLeadComponent } from '../../crete-team-lead/create-team-lead.component';
 
 import { BehaviorSubject } from 'rxjs';
-import { UserService,getAllClients } from '../../../services/user.service';
+import { UserService,getAllClients,getAllClientsOverdue} from '../../../services/user.service';
 
 import {Chart, Colors, registerables, scales} from 'chart.js';
 import { ComponentPortal } from '@angular/cdk/portal';
 import { MatDialog,} from '@angular/material/dialog';
 import { ModalService } from '../../../services/modalService';
 import { Router } from '@angular/router';
+import {AddTeamMemberPopupComponent} from '../add-team-member-popup/add-team-member-popup.component'
+import { AddTeamLeadPopupComponent } from '../add-team-lead-popup/add-team-lead-popup.component';
 Chart.register(...registerables);
 
 @Component({
@@ -25,6 +27,7 @@ export class DashboardComponent  implements OnInit, AfterViewInit {
   activeModal: any;
 
   clients : getAllClients[] = [];
+  overdueClients : getAllClientsOverdue[] = []
 
 
 
@@ -73,11 +76,37 @@ constructor(private fb: FormBuilder, private dialog: MatDialog,
       staffId: ['', Validators.required],
     });
 
+    // function formatField(str: string): string {
+    //   return str
+    //     .toLowerCase()
+    //     .replace(/_/g, ' ')
+    //     .replace(/\b\w/g, char => char.toUpperCase());
+    // }
+  
+    // const formattedClients = this.clients.map(client => ({
+    
+    //   readableStatus: formatField(client.clientStatus)
+    // }));
+    
+
+
+    // get all overdue clients
+    this.userService.getAllClientsOverdue().subscribe({
+      next: (data) => {
+        this.overdueClients = data;
+        
+      },
+      error:(err)=>{
+        console.log(err)
+      }
+    })
+    
 
     // get all clients for client activity tracker
     this.userService.getAllCients().subscribe({
       next: (data) => {
         this.clients = data;
+       
 
       },
       error: (err) => {
@@ -199,21 +228,53 @@ toggleMenu() {
   }
 
   private overlayRef: OverlayRef | null = null;
-
-
-
-
-  openDialog(type: 'team-lead' | 'team-member') {
-    const entityType = type.includes('lead') ? "Team Lead" : "Team Member"
-    const dialogRef = this.dialog.open(CreateTeamLeadComponent , {
-      width: "500px", maxHeight : "100vh",
-      data: {
-      title: "Create" + entityType,
-      buttonLabel: "Add" + entityType,
-      }
-  });
-  dialogRef.afterClosed().subscribe(data => {})
+  
+  editTeamMember( id:any) {
+    this.openAddTeamMemberDialog(id, "Edit Team Members");
   }
+
+  addTeamMember() {
+    this.openAddTeamMemberDialog(0, "Create Team Member");
+  }
+
+  openAddTeamMemberDialog(id:any , title:any){
+   const popup= this.dialog.open(AddTeamMemberPopupComponent,{
+      width: "500px",
+      data:{
+        title:title,
+        id:id
+      }
+    });
+  }
+
+  addTeamLead() {
+    this.openAddTeamLeadDialog(0, "Create Team Lead");
+  }
+
+  openAddTeamLeadDialog(id:any , title:any){
+    const addLeadPopup= this.dialog.open(AddTeamLeadPopupComponent,{
+       width: "500px",
+       data:{
+         title:title,
+         id:id
+       }
+     });
+   }
+
+ 
+
+
+  // openDialog(type: 'team-lead' | 'team-member') {
+  //   const entityType = type.includes('lead') ? "Team Lead" : "Team Member"
+  //   const dialogRef = this.dialog.open(CreateTeamLeadComponent , {
+  //     width: "500px", maxHeight : "100vh",
+  //     data: {
+  //     title: "Create" + entityType,
+  //     buttonLabel: "Add" + entityType,
+  //     }
+  // });
+  // dialogRef.afterClosed().subscribe(data => {})
+  // }
 
 
   closeModal(): void {
