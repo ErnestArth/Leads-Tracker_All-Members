@@ -39,6 +39,30 @@
     width: 100%;
     overflow-y: auto;
   }
+  ::ng-deep .mat-mdc-menu-panel{
+ 
+    min-width: 220px !important;
+    margin-left: -190px;
+  }
+  ::ng-deep .mat-mdc-menu-item{
+    border-radius:8px;
+  }
+  ::ng-deep .mat-mdc-menu-item-text:hover{
+    color:black;
+  }
+  ::ng-deep .mat-mdc-menu-item-text{
+    display: flex;
+    align-items: anchor-center;
+    gap: 10px;
+    border-radius:8px;
+  }
+  ::ng-deep .add-lead:hover{
+    background-color: #F5F4FF!important;
+    color:black
+  }
+  ::ng-deep .add-member:hover{
+    background-color: #F4FFFE!important;
+  }
   
   li {
     list-style: none;
@@ -76,10 +100,16 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 20px;
+    /* margin-top: 20px;
     margin-right: 140px;
-    margin-left: 30px;
+    margin-left: 30px; */
     font-family: "Wix Madefor Display", sans-serif;
+    padding:30px;
+    border-bottom:1px solid #EAECF0;
+    position:sticky;
+    top:0;
+    background:#f9f9f9;
+    z-index: 99;
   }
   .header h4{
     font-size: 20px;
@@ -104,18 +134,35 @@
   }
   
   .dashboard-content {
-    margin-top: 30px;
-    margin-left: 30px;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 20px;
   }
-  
+  .search-container{
+    display:flex;
+    justify-content:space-between;
+  }
+  .search{
+    width:80%
+  }
   input{
-    width: 90%;
+    width: 99%;
     padding: 10px;
     border-radius: 6px;
     background: #FCFCFC;
     border: 1px solid #DBDFE9;
 
     
+  }
+  .team-select {
+    width: 151.33px;
+    height: 38px;
+    border-radius: 5px;
+    border: solid 1px #dadada;
+    margin-left: 15px;
+    font-size: 14px;
+    background-color: #F5F5F5;
+    padding: 10px;
   }
   input::placeholder{
       color: #78829D;
@@ -124,12 +171,16 @@
     display: flex;
     gap:25px;
     margin-top: 30px;
+    width: 100%;
+    box-sizing: border-box;
+    flex-wrap: wrap;
   }
 
   .team-lead-dash-cards{
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    width: 40%;
+    width: 47%;
     padding: 30px;
     border: 1px solid #a4a4a447;
     border-radius: 7px;
@@ -159,7 +210,11 @@
   .view-details{
     color: #2C2368;
     font-size: 12.21px;
+    
+  }
+  .view-details:hover{
     text-decoration: underline;
+    cursor: pointer;
   }
   .user-image{
     border-radius: 50%;
@@ -181,26 +236,70 @@
     font-size: 15px;
     font-weight: 700;
   }
-  .team-members-count{
+  .team-leaders-name{
     font-size: 15px;
     color: #2B2B2B;
     font-weight: 800;
   }
-  .progress-outline{
+  /* .progress-outline{
     width: 100%;
     background: #E0DBFF;
     height: 18px;
     border-radius: 4px;
     text-align: right;
     position: relative;
+  } */
+  .green-outline{
+    width: 100%;
+    background: #D8FFFB;
+    height: 18px;
+    border-radius: 4px;
+    text-align: right;
+    position: relative;
   }
-  .progress{
+  .red-outline{
+    width: 100%;
+    background: #FFEFEE;
+    height: 18px;
+    border-radius: 4px;
+    text-align: right;
+    position: relative;
+  }
+  .yellow-outline{
+    width: 100%;
+    background: #FFFBEA;
+    height: 18px;
+    border-radius: 4px;
+    text-align: right;
+    position: relative;
+  }
+  .green-progress{
+    width: 60%;
+    background: #1B998B;
+    height: 18px;
+    border-radius: 4px;
+  }
+  .red-progress{
+    width: 60%;
+    background:  #E20408;
+    height: 18px;
+    border-radius: 4px;
+  }
+
+  .yellow-progress{
+    width: 60%;
+    background:  #F6B100;
+    height: 18px;
+    border-radius: 4px;
+  }
+
+  /* .progress{
     width: 60%;
     background: #2C2368;
     height: 18px;
     border-radius: 4px;
    
-  }
+  } */
   .progress-percentage{
     right: 14px;
     position: absolute;
@@ -221,28 +320,31 @@
 
   @media (max-width:1389px) {
     .team-lead-dash-cards{
-      width: 35%;
       
     }
-    .team-lead-dash-cards-container{
+    /* .team-lead-dash-cards-container{
       flex-wrap: wrap;
-    }
+    } */
   }
 
   @media (max-width:1175px) {
     .team-lead-dash-cards{
-      width: 72%;
+      width: 43%;
       
     }
     .team-lead-dash-cards-container{
-      flex-direction: column;
+      /* flex-direction: column; */
+      /* flex-wrap: wrap; */
     }
   }
 
   @media (max-width:820px) {
     .team-lead-dash-cards{
-      width: 60%;
+      width: 100%;
       
+    }
+    .team-lead-dash-cards-container{
+      flex-wrap: wrap;
     }
    
   }

@@ -1,30 +1,41 @@
-
-import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
-import {Chart, registerables} from 'chart.js';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { Component } from '@angular/core';
+import {Chart, Colors, registerables, scales} from 'chart.js';
+import {Location} from '@angular/common';
 
 @Component({
-  selector: 'app-dash2',
+  selector: 'app-team-lead-details',
   standalone: false,
-  templateUrl: './dash2.component.html',
-  styleUrl: './dash2.component.css'
+  templateUrl: './team-lead-details.component.html',
+  styleUrl: './team-lead-details.component.css'
 })
-export class Dash2Component implements AfterViewInit {
-  constructor() {}
+export class TeamLeadDetailsComponent {
 
-  ngAfterViewInit(): void {
+  isEditTeamMemberActive = false;
+  isTitleNavActive=true;
+  showEditForm= false
+  constructor(private location: Location) {}
+
+  ngAfterViewInit() {
+    this.initChart();
+    
+    
+  
+  }
+
+
+  initChart(){
+    console.log('init chart')
     Chart.register(...registerables);
-
     const doughnutData = {
       labels: ['Completed', 'Interested', 'Awaiting Docs', 'Pending', 'Not Interested'],
       datasets: [{
         label: 'Onboarding Status',
         data: [800, 260, 105, 85, 310],
         backgroundColor: [
-          '#1B998B',  
-          '#F6B100',  
-          '#F46036',  
-          '#2C2368',  
+          '#1B998B',
+          '#F6B100',
+          '#F46036',
+          '#2C2368',
           '#FF3B30',
         ],
         borderWidth: 4
@@ -32,16 +43,18 @@ export class Dash2Component implements AfterViewInit {
     };
 
     const barData = {
-      labels: ['Team A', 'Team B', 'Team C', 'Team D', 'Team E'],
+      labels: ['Bright', 'Benedicta', 'Koofi', 'Yawtey', 'Team E'],
       datasets: [{
-        label: 'Team Recommendations',
+        label: 'Members Recommendations',
         data: [480, 510, 800, 285, 700],
-        backgroundColor: '#F46036',  
+        backgroundColor: '#2C2368',
         borderWidth: 1,
+        barThickness: 28,
+        borderRadius: 5,
         yAxisId: 'leftAxis'
-      }]
-    };
+      }],
 
+    }
     const doughnutCanvas = document.getElementById('doughnutChart') as HTMLCanvasElement;
     const barCanvas = document.getElementById('barChart') as HTMLCanvasElement;
 
@@ -74,6 +87,7 @@ export class Dash2Component implements AfterViewInit {
         data: barData,
         options: {
           responsive: true,
+          maintainAspectRatio: false,
           plugins: {
             legend: {
               position: 'bottom'
@@ -88,4 +102,23 @@ export class Dash2Component implements AfterViewInit {
       });
     }
   }
+
+
+
+
+  editTeamMember(){
+    this.isEditTeamMemberActive = !this.isEditTeamMemberActive
+  }
+  goBack(){
+    this.location.back()
+  }
+
+  toggleTitleNav() {
+    this.isTitleNavActive = !this.isTitleNavActive;
+  }
+
+  toggleEditForm() {
+    this.showEditForm = !this.showEditForm;
+  }
+
 }

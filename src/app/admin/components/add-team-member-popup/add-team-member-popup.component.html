@@ -1,0 +1,11 @@
+@if(showPopupTitle){
+  
+
+<h1 mat-dialog-title>{{ inputData.title }}</h1>
+}
+<mat-dialog-content> 
+<app-form-component (sucessPage)="handleSuccess()"  (cancelClicked)="handleCancel()"/>
+    
+
+</mat-dialog-content>
+

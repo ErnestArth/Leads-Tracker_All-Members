@@ -7,11 +7,13 @@ html, body { height: 100%; }
 body { margin: 0; 
         font-family: "Instrument Sans", sans-serif; 
 }
-
-
-.cdk-overlay-dark-backdrop {
-  background: rgba(0, 0, 0, 0.5);
+.mat-mdc-dialog-surface{
+  background: white !important;
 }
+
+/* .cdk-overlay-dark-backdrop {
+  background: rgba(0, 0, 0, 0.5);
+} */
 
 /* Angular Material select Modal styling */
 .mat-mdc-text-field-wrapper {

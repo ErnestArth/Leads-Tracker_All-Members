@@ -6,7 +6,7 @@ import { LoginComponent } from './auth/components/login/login.component';
 import { ResetForgotPasswordComponent } from './auth/components/reset-forgot-password/reset-forgot-password.component';
 import { AuthComponent } from './auth/auth.component';
 import { ResettingPasswordComponent } from './auth/components/resetting-password/resetting-password.component';
-import { Dash2Component } from './admin/components/dash2/dash2.component';
+import { TeamMemberComponent } from './admin/components/team-member/team-member.component';
 import { CreateTeamLeadComponent } from './admin/crete-team-lead/create-team-lead.component';
 import { DialogTeamLeadComponent } from './admin/crete-team-lead/dialog-team-lead/dialog-team-lead.component';
 import { DashboardComponent } from './admin/components/dashboard/dashboard.component';
@@ -29,7 +29,7 @@ const routes: Routes = [
   {path: 'dialog', component:CreateTeamLeadComponent },
   {path: 'dialog-team-lead', component:DialogTeamLeadComponent},
   {path: 'dialog-team-member', component:DialogTeamMemberComponent},
-  {path: 'dash2', component:Dash2Component},
+  {path: 'team-member', component:TeamMemberComponent},
   {path: 'admin', component:DashboardComponent},
   {path: 'notification', component:NotificationComponent},
 

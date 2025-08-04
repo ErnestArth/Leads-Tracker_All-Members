@@ -15,7 +15,7 @@
 
   <div class="controls">
     <input type="text" class="search-input" placeholder="Search by Team" />
-    <select title="search" [(ngModel)]="selectedFrequency" class="select-input">
+    <select title="search" (ngModel)="selectedFrequency" class="select-input">
       <option value="Quarterly">Monthly</option>
       <option value="Monthly">Quarterly</option>
       <option value="Yearly">Yearly</option>

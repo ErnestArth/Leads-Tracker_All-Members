@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { Dash2Component } from './dash2.component';
+import { Dash2Component } from './team-member.component';
 
 describe('Dash2Component', () => {
   let component: Dash2Component;

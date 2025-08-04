@@ -1,0 +1,9 @@
+@if(showPopupTitle){
+<h1  mat-dialog-title  >{{ inputData.title }}</h1>
+}
+<mat-dialog-content> 
+<app-team-lead-form (removePopupTitle)="remove()"/>
+    
+
+</mat-dialog-content>
+

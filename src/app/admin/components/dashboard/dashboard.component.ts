@@ -4,12 +4,15 @@ import {Overlay, OverlayRef} from '@angular/cdk/overlay';
 import { CreateTeamLeadComponent } from '../../crete-team-lead/create-team-lead.component';
 
 import { BehaviorSubject } from 'rxjs';
-import { UserService,getAllClients } from '../../../services/user.service';
+import { UserService,getAllClients,getAllClientsOverdue} from '../../../services/user.service';
 
 import {Chart, Colors, registerables, scales} from 'chart.js';
 import { ComponentPortal } from '@angular/cdk/portal';
 import { MatDialog,} from '@angular/material/dialog';
 import { ModalService } from '../../../services/modalService';
+import { Router } from '@angular/router';
+import {AddTeamMemberPopupComponent} from '../add-team-member-popup/add-team-member-popup.component'
+import { AddTeamLeadPopupComponent } from '../add-team-lead-popup/add-team-lead-popup.component';
 Chart.register(...registerables);
 
 @Component({
@@ -23,8 +26,59 @@ Chart.register(...registerables);
 export class DashboardComponent  implements OnInit, AfterViewInit {
   activeModal: any;
 
-  clients : getAllClients[] = [];
+  clientsObject: getAllClients ={
+    data: [],
+    currentPage: 0,
+    totalPages: 0,
+    totalItems: 0,
+    pageSize: 0,
+    hasNext: false,
+    hasPrevious: false
+  }
 
+  clients  =this.clientsObject;
+  overdueClients = this.clientsObject
+
+
+
+  currentPage = 1;
+  totalPages=0;
+  totalItems =0
+  limit =6;
+  pages: number[] = [];
+  // get pages(): number[] {
+  //   return Array.from({ length: this.totalPages }, (_, i) => i + 1);
+  // }
+
+  goToPage(page: number) {
+    if (page >= 1 && page <= this.totalPages) {
+      this.currentPage = page;
+      console.log(page)
+      console.log(this.currentPage)
+      // Fetch data for the new page
+    }
+  }
+
+  fetchAllClients(page:number){
+    // get all clients for client activity tracker
+
+    this.userService.getAllCients(this.currentPage, this.limit).subscribe({
+      next: (data) => {
+        this.clients = data;
+        this.totalPages = data.totalPages
+        this.currentPage = page
+        this.pages = Array.from({ length: this.totalPages }, (_, i) => i + 1);
+        console.log(data.totalPages,)
+        console.log(this.clients)
+
+
+      },
+      error: (err) => {
+        console.log(err)
+        // this.router.navigate(['/authentication/login'])
+      }
+    })
+  }
 
 
   // users = new BehaviorSubject<User[]>([]);
@@ -58,8 +112,12 @@ modalType: 'team-lead' | 'team-member' = 'team-lead';
   isModalOpen = false;
   teamMembers: { id: number, name: string }[] = [];
 
-constructor(private fb: FormBuilder, private dialog: MatDialog, 
-  private userService: UserService, private modal: ModalService) {}
+constructor(private fb: FormBuilder, private dialog: MatDialog,
+  private userService: UserService, private modal: ModalService,
+  private router: Router
+) {}
+
+
 
   ngOnInit(): void {
     this.modalForm = this.fb.group({
@@ -70,16 +128,37 @@ constructor(private fb: FormBuilder, private dialog: MatDialog,
       staffId: ['', Validators.required],
     });
 
+    // function formatField(str: string): string {
+    //   return str
+    //     .toLowerCase()
+    //     .replace(/_/g, ' ')
+    //     .replace(/\b\w/g, char => char.toUpperCase());
+    // }
 
-    // get all clients for client activity tracker
-    this.userService.getAllCients().subscribe({
+    // const formattedClients = this.clients.map(client => ({
+
+    //   readableStatus: formatField(client.clientStatus)
+    // }));
+
+    this.fetchAllClients(this.currentPage)
+    this.goToPage(this.currentPage)
+
+
+    // get all overdue clients
+    this.userService.getAllClientsOverdue().subscribe({
       next: (data) => {
-        this.clients = data;
+        this.overdueClients = data;
+
       },
-      error: (err) => {
+      error:(err)=>{
         console.log(err)
       }
     })
+
+
+
+
+
 
     // combineLatest([this.currentPage$, this.pageSize$])
     //   .pipe(
@@ -195,20 +274,52 @@ toggleMenu() {
 
   private overlayRef: OverlayRef | null = null;
 
-
-
-
-  openDialog(type: 'team-lead' | 'team-member') {
-    const entityType = type.includes('lead') ? "Team Lead" : "Team Member"
-    const dialogRef = this.dialog.open(CreateTeamLeadComponent , {
-      width: "500px", maxHeight : "100vh",
-      data: {
-      title: "Create" + entityType,
-      buttonLabel: "Add" + entityType,
-      }
-  });
-  dialogRef.afterClosed().subscribe(data => {})
+  editTeamMember( id:any) {
+    this.openAddTeamMemberDialog(id, "Edit Team Members");
   }
+
+  addTeamMember() {
+    this.openAddTeamMemberDialog(0, "Create Team Member");
+  }
+
+  openAddTeamMemberDialog(id:any , title:any){
+   const popup= this.dialog.open(AddTeamMemberPopupComponent,{
+      width: "500px",
+      data:{
+        title:title,
+        id:id
+      }
+    });
+  }
+
+  addTeamLead() {
+    this.openAddTeamLeadDialog(0, "Create Team Lead");
+  }
+
+  openAddTeamLeadDialog(id:any , title:any){
+    const addLeadPopup= this.dialog.open(AddTeamLeadPopupComponent,{
+       width: "500px",
+       data:{
+         title:title,
+         id:id
+       }
+     });
+   }
+
+
+
+
+  // openDialog(type: 'team-lead' | 'team-member') {
+  //   const entityType = type.includes('lead') ? "Team Lead" : "Team Member"
+  //   const dialogRef = this.dialog.open(CreateTeamLeadComponent , {
+  //     width: "500px", maxHeight : "100vh",
+  //     data: {
+  //     title: "Create" + entityType,
+  //     buttonLabel: "Add" + entityType,
+  //     }
+  // });
+  // dialogRef.afterClosed().subscribe(data => {})
+  // }
 
 
   closeModal(): void {
