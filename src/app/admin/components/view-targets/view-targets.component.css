@@ -1,0 +1,142 @@
+* {
+    margin: 0;
+    font-family: "Instrument Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+    font-variation-settings: "wdth" 100;
+  }
+
+  .dashboard-container {
+    display: flex;
+    height: 100vh;
+    /* overflow: hidden; */;
+  }
+    main{
+    width: 100%;
+    box-sizing: border-box;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+  }
+
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+
+  .back-btn {
+    font-size: 20px;
+    border: none;
+    background: none;
+    cursor: pointer;
+  }
+
+  h2 {
+    margin: 0;
+    font-size: 20px;
+  }
+
+  .export-btn {
+    padding: 6px 12px;
+    background-color: #f2f2f2;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  margin: 20px 0;
+  gap: 20px;
+
+  .search-input {
+    padding: 8px;
+    width: 94%;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+
+  .select-input {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+}
+
+.team-card {
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 20px;
+
+  .card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+
+    .avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background-color: black;
+      margin-right: 12px;
+    }
+
+    .info {
+      flex: 1;
+      margin-left: 12px;
+
+      .team-name {
+        font-weight: bold;
+        font-size: 16px;
+      }
+
+      .lead {
+        font-size: 14px;
+        color: #555;
+      }
+    }
+
+    .dates {
+      text-align: right;
+      font-size: 13px;
+      color: #555;
+    }
+  }
+
+  .target-info {
+    font-size: 14px;
+    margin-top: 16px;
+  }
+
+  .progress-bar-wrapper {
+    background-color: #d0e8e2;
+    height: 8px;
+    border-radius: 4px;
+    margin-top: 10px;
+    position: relative;
+    overflow: hidden;
+
+    .progress-bar-fill {
+      background-color: #159c9f;
+      height: 100%;
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+  }
+
+  .view-details {
+    text-align: right;
+    margin-top: 12px;
+
+    a {
+      font-size: 13px;
+      text-decoration: none;
+      color: #2f6cd1;
+    }
+  }
+}

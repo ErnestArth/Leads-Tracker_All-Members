@@ -11,7 +11,7 @@ export class AddTeamModalComponent {
   areChangesSaved = false;
 
   cancel() {
-    this.onCancel.emit(); 
+    this.onCancel.emit();
   }
   onSaveChanges() {
     this.areChangesSaved = !this.areChangesSaved;

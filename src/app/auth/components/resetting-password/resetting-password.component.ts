@@ -23,7 +23,7 @@ export class ResettingPasswordComponent implements OnInit{
   showGuide = false
   fieldTextType2= false
   fieldTextType= false
-  
+
   hasUpperCase = false
   hasLowerCase = false
   hasNumber = false
@@ -42,7 +42,7 @@ export class ResettingPasswordComponent implements OnInit{
       confirmPassword: ['',Validators.required]
     },
     {validators: this.passwordsMatchValidator}
-   
+
   );
   }
 
@@ -54,8 +54,6 @@ export class ResettingPasswordComponent implements OnInit{
     this.hasNumber = /\d/.test(password);
     this.hasSpecialChar = /[^A-Za-z0-9]/.test(password);
     this.hasMinLength = password.length >= 8;
-
-    console.log(this.hasUpperCase);
   }
 
 
@@ -104,7 +102,7 @@ export class ResettingPasswordComponent implements OnInit{
     const  newPassword = this.ResettingPasswordForm.get('password')?.value
     const confirmNewPassword = this.ResettingPasswordForm.get('confirmPassword')?.value
 
-    let payload : ResetPasswordRequest; 
+    let payload : ResetPasswordRequest;
     if(token){
       payload = {token,newPassword,confirmNewPassword}
     }else{

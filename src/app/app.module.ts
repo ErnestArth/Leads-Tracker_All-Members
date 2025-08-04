@@ -11,17 +11,19 @@ import { AdminModule } from './admin/admin.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 import {HTTP_INTERCEPTORS} from '@angular/common/http';
+import { MatFormField } from '@angular/material/form-field';
 
 
 
 // import { ResettingPasswordComponent } from './auth/components/resetting-password/resetting-password.component';
 import { HttpClientModule } from '@angular/common/http';
-import { UserService } from './services/user.service';
+
 
 @NgModule({
   declarations: [
     AppComponent,
-   
+
+
 
 
 
@@ -40,12 +42,13 @@ import { UserService } from './services/user.service';
     RouterModule,
     CommonModule,
     FontAwesomeModule,
-    HttpClientModule
+    HttpClientModule,
+
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA ],
   providers: [
     // {provide: HTTP_INTERCEPTORS, useClass: UserService, multi: true},
-     
+
   ],
   bootstrap: [AppComponent],
 })

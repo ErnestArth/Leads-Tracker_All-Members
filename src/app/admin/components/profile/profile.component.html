@@ -1,0 +1,132 @@
+<div class="dashboard-container">
+  <app-sidebar />
+  <main>
+    <aside class="profile-header">
+      <span class="back-arrow">&larr;</span>
+      <h2>Profile</h2>
+    </aside>
+<div class="form-container">
+ <form [formGroup]="profileForm">
+    <section class="section">
+      <h3>Personal Info</h3>
+      <div class="form-group">
+        <label>First Name</label>
+        <input title="form" formControlName="firstName" type="text" />
+      </div>
+
+      <div class="form-group">
+        <label>Other Name(s)</label>
+        <input title="form" formControlName="otherNames" type="text" />
+      </div>
+
+      <div class="form-group">
+        <label>Business Email</label>
+        <input title="form" formControlName="businessEmail" type="email" />
+      </div>
+
+      <div class="form-group">
+        <label>Phone Number</label>
+        <input title="form" formControlName="phoneNumber" type="number" />
+      </div>
+
+      <div class="form-group">
+        <label>Role</label>
+        <select title="admin" formControlName="role">
+          <option value="Admin">Admin</option>
+          <option value="User">User</option>
+        </select>
+      </div>
+    </section>
+
+    <section class="security-screen">
+      <h3>Security</h3>
+      <h4>Change Password</h4>
+
+      <div class="password-container">
+                <label class="password" for="currentPassword">Current Password</label>
+
+
+              <input
+                id="currentPassword"
+                [type]="showCurrentPassword ? 'text' : 'password'"
+                formControlName="password"
+                (input)="checkPasswordRules()"
+                placeholder="Current Password"
+                [ngClass]="{
+                'invalid-input': profileForm.get('password')?.invalid && profileForm.get('password')?.touched,
+
+              }"
+              />
+
+              <span
+                toggle="#password-field"
+                class="fa fa-fw fa-eye-slash field-icon eye1 toggle-password"
+                [ngClass]="{
+                  'fa-eye-slash': !fieldTextType,
+                  'fa-eye': fieldTextType
+                }"
+                (click)="toggleFieldTextType('current')"
+              ></span></div>
+
+      <div class="password-container">
+        <label>New Password</label>
+
+      <input
+
+                id="newPassword"
+                [type]="showNewPassword ? 'text' : 'password'"
+                formControlName="password"
+                (input)="checkPasswordRules()"
+                placeholder="New Password"
+                [ngClass]="{
+                'invalid-input': profileForm.get('password')?.invalid && profileForm.get('password')?.touched,
+
+              }"
+              />
+
+              <span
+                toggle="#password-field"
+                class="fa fa-fw fa-eye-slash field-icon eye2 toggle-password"
+                [ngClass]="{
+                  'fa-eye-slash': !fieldTextType,
+                  'fa-eye': fieldTextType
+                }"
+                (click)="toggleFieldTextType('new')"
+              ></span></div>
+
+      <div class="password-container">
+        <label>Confirm New Password</label>
+
+      <input
+                id="confirmNewPassword"
+                [type]="showConfirmPassword ? 'text' : 'password'"
+                formControlName="password"
+                (input)="checkPasswordRules()"
+                placeholder="Confirm New Password"
+                [ngClass]="{
+                'invalid-input': profileForm.get('password')?.invalid && profileForm.get('password')?.touched,
+
+              }"
+              />
+
+              <span
+                toggle="#password-field"
+                class="fa fa-fw fa-eye-slash field-icon eye1 toggle-password"
+                [ngClass]="{
+                  'fa-eye-slash': !fieldTextType,
+                  'fa-eye': fieldTextType
+                }"
+                (click)="toggleFieldTextType('confirm')"
+              ></span></div>
+
+      <button type="button" class="change-btn" (click)="onChangePassword()">Change Password</button>
+    </section>
+  </form>
+ <div class="cancel-save-buttons">
+            <button  (click)="cancel()" class="cancel-button">Cancel</button>
+            <button (click)="onSaveChanges()" class="save-button">Save Changes</button>
+          </div>
+</div>
+  </main>
+</div>
+
