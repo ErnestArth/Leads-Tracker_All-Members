@@ -26,16 +26,25 @@ jobs:
       run: npm run build --prod
       
     - name: Deploy to EC2
-      env:
-        PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-        HOST: ${{ secrets.EC2_HOST }}
-        USER: ${{ secrets.EC2_USER }}
-      run: |
-        echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
-        scp -o StrictHostKeyChecking=no -i private_key -r dist/*/* ${USER}@${HOST}:/tmp/
-        ssh -o StrictHostKeyChecking=no -i private_key ${USER}@${HOST} '
-          sudo cp -r /tmp/* /var/www/html/
-          sudo systemctl restart nginx
-          sudo rm -rf /tmp/*
-        '
-        rm -f private_key
+  env:
+    PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+    HOST: ${{ secrets.EC2_HOST }}
+    USER: ${{ secrets.EC2_USER }}
+  run: |
+    # Safely write the SSH private key
+    echo "$PRIVATE_KEY" | tr -d '\r' > private_key
+    chmod 600 private_key
+
+    # Copy files to EC2
+    scp -i private_key -o StrictHostKeyChecking=no -r dist/*/* ${USER}@${HOST}:/tmp/
+
+    # SSH into EC2 and deploy
+    ssh -i private_key -o StrictHostKeyChecking=no ${USER}@${HOST} << 'EOF'
+      sudo cp -r /tmp/* /var/www/html/
+      sudo systemctl restart nginx
+      sudo rm -rf /tmp/*
+    EOF
+
+    # Cleanup
+    rm -f private_key
+
