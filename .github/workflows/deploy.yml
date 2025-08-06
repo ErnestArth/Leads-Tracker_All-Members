@@ -27,26 +27,25 @@ jobs:
 
     - name: Deploy to EC2
       run: |
-        # Exit on any error
         set -e
 
-        # Write SSH private key safely
-        echo "$PRIVATE_KEY" | tr -d '\r' > private_key
+        # Decode the base64-encoded SSH key
+        echo "$PRIVATE_KEY_BASE64" | base64 -d > private_key
         chmod 600 private_key
 
-        # Copy built files to EC2 instance
+        # Copy built files to EC2
         scp -i private_key -o StrictHostKeyChecking=no -r dist/*/* ${USER}@${HOST}:/tmp/
 
-        # SSH into EC2 and move files into production
-        ssh -i private_key -o StrictHostKeyChecking=no ${USER}@${HOST} << 'EOF'
+        # SSH and deploy
+        ssh -i private_key -o StrictHostKeyChecking=no ${USER}@${HOST} bash <<EOF
           sudo cp -r /tmp/* /var/www/html/
           sudo systemctl restart nginx
           sudo rm -rf /tmp/*
-          EOF
+EOF
 
         # Clean up
         rm -f private_key
       env:
-        PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        PRIVATE_KEY_BASE64: ${{ secrets.SSH_PRIVATE_KEY_BASE64 }}
         HOST: ${{ secrets.EC2_HOST }}
         USER: ${{ secrets.EC2_USER }}
