@@ -8,34 +8,45 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
-      
+
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
         node-version: '18'
         cache: 'npm'
-        
+
     - name: Install dependencies
       run: npm ci
-      
+
     - name: Build Angular application
       run: npm run build --prod
-      
+
     - name: Deploy to EC2
       env:
         PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
         HOST: ${{ secrets.EC2_HOST }}
         USER: ${{ secrets.EC2_USER }}
       run: |
-        echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
-        scp -o StrictHostKeyChecking=no -i private_key -r dist/*/* ${USER}@${HOST}:/tmp/
-        ssh -o StrictHostKeyChecking=no -i private_key ${USER}@${HOST} '
+        # Exit on any error
+        set -e
+
+        # Write SSH private key safely
+        echo "$PRIVATE_KEY" | tr -d '\r' > private_key
+        chmod 600 private_key
+
+        # Copy built files to EC2 instance
+        scp -i private_key -o StrictHostKeyChecking=no -r dist/*/* ${USER}@${HOST}:/tmp/
+
+        # SSH into EC2 and move files into production
+        ssh -i private_key -o StrictHostKeyChecking=no ${USER}@${HOST} << 'EOF'
           sudo cp -r /tmp/* /var/www/html/
           sudo systemctl restart nginx
           sudo rm -rf /tmp/*
-        '
+EOF
+
+        # Clean up
         rm -f private_key
