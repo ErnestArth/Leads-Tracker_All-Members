@@ -22,8 +22,8 @@ jobs:
     - name: Install dependencies
       run: npm ci
       
-    - name: Build application
-      run: npm run build
+    - name: Build Angular application
+      run: npm run build --prod
       
     - name: Deploy to EC2
       env:
@@ -32,7 +32,7 @@ jobs:
         USER: ${{ secrets.EC2_USER }}
       run: |
         echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
-        scp -o StrictHostKeyChecking=no -i private_key -r build/* ${USER}@${HOST}:/tmp/
+        scp -o StrictHostKeyChecking=no -i private_key -r dist/*/* ${USER}@${HOST}:/tmp/
         ssh -o StrictHostKeyChecking=no -i private_key ${USER}@${HOST} '
           sudo cp -r /tmp/* /var/www/html/
           sudo systemctl restart nginx
