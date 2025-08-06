@@ -33,5 +33,15 @@
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
     "typescript": "~5.7.2"
+  },
+  "scripts": {
+    "start": "ng serve",
+    "build": "ng build",
+    "test": "ng test",
+    "test:ci": "ng test --watch=false --browsers=ChromeHeadless --code-coverage",
+    "e2e": "ng e2e",
+    "e2e:ci": "ng e2e --configuration=ci",
+    "lint": "ng lint"
   }
 }
+
