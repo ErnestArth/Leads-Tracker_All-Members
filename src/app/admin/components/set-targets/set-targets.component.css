@@ -45,7 +45,7 @@ main {
   h2 {
     margin: 0;
     font-size: 20px;
-    font-weight: 600;
+    font-weight: 600px;
   }
 }
 
@@ -139,12 +139,6 @@ button[class="back-button"]:hover {
   cursor: pointer;
 }
 
-h3 {
-  margin: 0 0 20px 0;
-  font-size: 18px;
-  font-weight: 600;
-}
-
 .form-group {
   display: flex;
   flex-direction: column;
@@ -161,7 +155,7 @@ h3 {
     font-size: 14px;
     border: 1px solid #ccc;
     border-radius: 6px;
-    outline: none;
+    outline-color: #f46036;
 
     &:focus {
       border-color: #007acc;
@@ -175,67 +169,160 @@ h3 {
   gap: 10px;
 }
 
-  button {
-    padding: 10px 16px;
-    border-radius: 6px;
-    font-size: 14px;
-    font-weight: 500;
-    border: none;
-    cursor: pointer;
+button {
+  padding: 10px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
 
-    &.cancel {
-      background-color: #eee;
-      color: #333;
-    }
-
-    &.save {
-      background-color: #ff5722;
-      color: white;
-    }
-  }
-  .assign-target-modal {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    text-align: center;
-
+  &.cancel {
+    background-color: #eee;
+    color: #333;
   }
 
-  .target-assign-icon-and-title {
-    color: #1e1e1e;
-    font-size: 24px;
-    font-weight: 600;
-  }
-  .cancel-and-assign-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-  }
-  .cancel-and-assign-buttons button {
-    padding: 10px;
-    border-radius: 8px;
-    border: none;
-    font-size: 16px;
-  }
-    .cancel-button{
-    font-weight: 500;
-  }
-  .yes-assign-button{
-    background: #F46036;
+  &.save {
+    background-color: #ff5722;
     color: white;
   }
+}
+.assign-target-modal {
+  flex-direction: column;
+  gap: 15px;
+  text-align: center;
+}
 
-  .alert.img {
-    width: 30px;
-    height: 30px;
-  }
+.target-assign-icon-and-title {
+  color: #1e1e1e;
+  font-size: 24px;
+  font-weight: 600;
+}
+.cancel-and-assign-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+.cancel-and-assign-buttons button {
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  font-size: 16px;
+}
+.cancel-button {
+  font-weight: 500;
+}
+.yes-assign-button {
+  background: #f46036;
+  color: white;
+}
+
+.alert.img {
+  width: 30px;
+  height: 30px;
+}
 
 button[class="yes-assign-button"]:hover {
   background-color: #e64424;
 }
 
 button[class="cancel-button"]:hover {
-background-color: #d3d2d2;
-color: white;
+  background-color: #d3d2d2;
+  color: white;
+}
 
+.assign-target-modal {
+  padding: 30px;
+  background: white;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  font-family: "Roboto", sans-serif;
+}
+
+::ng-deep .yes-assign-button:not(:disabled) {
+  color: white !important;
+}
+
+.target-assign-icon-and-title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .alert-img {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 12px;
+  }
+
+  .assign-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: #222;
+    margin: 0;
+  }
+}
+
+::ng-deep .mat-mdc-dialog-title {
+  color: #000000 !important ;
+  font-family: "Instrument Sans", sans-serif !important ;
+  line-height: 1.5rem !important;
+  margin: 0 !important;
+  font-size: 20px !important;
+  letter-spacing: normal !important;
+  font-weight: 850 !important;
+}
+
+::ng-deep .mat-mdc-raised-button .mdc-button__label {
+  color: white;
+}
+
+.mat-mdc-raised-button:not(:disabled) {
+  color: #ccc;
+  background-color: #f46036;
+}
+
+::ng-deep .mat-mdc-button:first-child {
+  background: #e3e3e3 !important;
+  height: 40px !important;
+  border-radius: 8px;
+}
+::ng-deep .mat-mdc-button:not(:disabled) {
+  color: #000000 !important;
+}
+
+.assign-target-message {
+  /* margin: 16px 0; */
+
+  ::ng-deep p {
+    font-size: 16px !important;
+    color: #000000 !important;
+    margin: 0;
+    font-weight: 100 !important;
+  }
+}
+label {
+  color: #1e1e1e !important;
+}
+.cancel-and-assign-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 24px;
+
+  .cancel-button {
+    background: #eeeeee;
+    color: #333;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-weight: 500;
+  }
+
+  .yes-assign-button {
+    background: #f2663a;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-weight: 500;
+  }
 }

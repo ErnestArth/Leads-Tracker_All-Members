@@ -1,12 +1,9 @@
-*{
-    font-family: "Instrument Sans", sans-serif;
+* {
+  font-family: "Instrument Sans", sans-serif;
   font-optical-sizing: auto;
   font-style: normal;
-  font-variation-settings:
-    "wdth" 100;
+  font-variation-settings: "wdth" 100;
 }
-
-
 
 :host {
   /* display: block; */
@@ -16,13 +13,13 @@
   background-color: #ffffff;
   border-radius: 8px;
   /* box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15); */
-  font-family: 'Segoe UI', sans-serif;
+  font-family: "Segoe UI", sans-serif;
 }
 
 form {
   display: flex;
   flex-direction: column;
-  padding : 0 30px;
+  padding: 0 30px;
   gap: 16px;
   padding-left: 30px;
   padding-right: 60px;
@@ -49,8 +46,8 @@ input {
   border-radius: 6px;
   transition: border-color 0.2s ease;
 }
-select{
-    max-width: 386px;
+select {
+  max-width: 386px;
   width: 386px;
   padding: 10px 12px;
   font-size: 14px;
@@ -60,8 +57,8 @@ select{
 }
 
 input:focus {
-  border-color: #3f51b5;
-  outline: none;
+  border-color: none;
+  outline-color: #f46036;
 }
 
 .error {
@@ -71,7 +68,7 @@ input:focus {
 }
 
 button[type="submit"] {
-  background-color: #F46036;
+  background-color: #f46036;
   color: white;
   border: none;
   padding: 10px 16px;
@@ -79,7 +76,6 @@ button[type="submit"] {
   cursor: pointer;
   font-weight: 600;
   transition: background-color 0.3s ease;
-
 }
 
 button[type="submit"]:hover {
@@ -88,7 +84,7 @@ button[type="submit"]:hover {
 
 button[type="button"] {
   background-color: #e3e3e3;
-  color:  rgb(0, 0, 0);
+  color: rgb(0, 0, 0);
   border: none;
   padding: 10px 16px;
   border-radius: 6px;
@@ -118,50 +114,47 @@ button [type="submit"]:disabled {
   padding: 10px 1px;
   gap: 10px;
   height: 100%;
-
 }
 
 /* save chages */
-.succesfully-added{
+.succesfully-added {
   display: flex;
   flex-direction: column;
   gap: 15px;
   align-items: center;
   padding: 20px;
 }
-.succesfully-added p{
+.succesfully-added p {
   font-size: 24px;
   font-weight: 400;
   text-align: center;
 }
-.succesfully-added button{
+.succesfully-added button {
   width: 100%;
   padding: 10px;
   font-size: 20px;
   border-radius: 5px;
 }
-.assign-button{
+.assign-button {
   background: rgba(244, 96, 54, 0.2);
-  color: #F46036;
-  border: 1px solid #F46036;
+  color: #f46036;
+  border: 1px solid #f46036;
 }
-.back-button{
-  background: #EDEDED;
+.back-button {
+  background: #ededed;
   border: none;
-
 }
 
-.success-content{
+.success-content {
   padding: 44px;
-    /* border: 1px solid #F1F1F4; */
-    border-radius: 12px;
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    justify-content: center;
-    align-items: center;
+  /* border: 1px solid #F1F1F4; */
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  justify-content: center;
+  align-items: center;
 }
-
 
 /* .success-container {
     margin: 0;
@@ -172,25 +165,25 @@ button [type="submit"]:disabled {
 } */
 
 button[class="success-btn"] {
-    background: #EDEDED;
-    padding: 10px;
-    border: none;
-    color:white;
-    border-radius: 6px;
-    width: 41vh;
-    color: #1E1E1E;
+  background: #ededed;
+  padding: 10px;
+  border: none;
+  color: white;
+  border-radius: 6px;
+  width: 41vh;
+  color: #1e1e1e;
 }
 
 button[class="success-btn"]:hover {
-    background-color: transparent;
-    color: #F46036;
-    border: 1px solid #F46036;
-    border-radius: 5px;
-    cursor: pointer;
+  background-color: transparent;
+  color: #f46036;
+  border: 1px solid #f46036;
+  border-radius: 5px;
+  cursor: pointer;
 }
-::ng-deep .mat-mdc-dialog-container .mat-mdc-dialog-title{
-  color:black !important;
+::ng-deep .mat-mdc-dialog-container .mat-mdc-dialog-title {
+  color: black !important;
 }
-::ng-deep .mat-mdc-dialog-content{
-  color:black !important ;
+::ng-deep .mat-mdc-dialog-content {
+  color: black !important ;
 }

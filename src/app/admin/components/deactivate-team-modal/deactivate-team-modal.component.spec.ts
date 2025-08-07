@@ -8,9 +8,8 @@ describe('DeactivateTeamModalComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [DeactivateTeamModalComponent]
-    })
-    .compileComponents();
+      declarations: [DeactivateTeamModalComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(DeactivateTeamModalComponent);
     component = fixture.componentInstance;

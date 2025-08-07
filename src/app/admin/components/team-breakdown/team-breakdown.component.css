@@ -1,23 +1,32 @@
 * {
-    margin: 0;
-    font-family: "Instrument Sans", sans-serif;
-    font-optical-sizing: auto;
-    font-style: normal;
-    font-variation-settings: "wdth" 100;
-  }
+  margin: 0;
+  font-family: "Instrument Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+  font-variation-settings: "wdth" 100;
+}
 
-  .dashboard-container {
-    display: flex;
-    height: 100vh;
-    /* overflow: hidden; */;
-  }
+.dashboard-container {
+  display: flex;
+  height: 100vh;
+  /* overflow: hidden; */
+}
 
-   main{
-    width: 99%;
-    box-sizing: border-box;
-    padding: 20px;
-  }
+.due-text {
+  margin-left: 25px;
+  margin-bottom: 60px;
+}
 
+main {
+  width: 99%;
+  box-sizing: border-box;
+  padding: 20px;
+}
+.header-details {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
 
 .header {
   margin-bottom: 20px;
@@ -46,7 +55,7 @@
     outline: none;
 
     &:focus {
-      border-color: #F46036;
+      border-color: #f46036;
     }
   }
 }
@@ -101,4 +110,3 @@
     text-align: right;
   }
 }
-

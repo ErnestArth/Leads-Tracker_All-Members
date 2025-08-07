@@ -55,10 +55,14 @@ select{
 }
 
 input:focus {
-  border-color: #3f51b5;
-  outline: none;
+  border-color: none;
+  outline-color: #F46036;
 }
 
+#assign-lead {
+  outline-color: #F46036;
+  border-color: none;
+}
 .error {
   color: #d32f2f;
   font-size: 12px;

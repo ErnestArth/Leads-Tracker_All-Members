@@ -4,9 +4,10 @@ import { Component } from '@angular/core';
   selector: 'app-view-targets',
   templateUrl: './view-targets.component.html',
   styleUrls: ['./view-targets.component.css'],
-  standalone : false
+  standalone: false,
 })
 export class ViewTargetsComponent {
+  isOpenOverview = false;
   selectedFrequency = 'Quarterly';
 
   teams = Array(4).fill({
@@ -15,10 +16,13 @@ export class ViewTargetsComponent {
     target: 400,
     submitted: 330,
     setDate: '2025-08-30',
-    dueDate: '2025-09-30'
+    dueDate: '2025-09-30',
   });
 
   getProgress(submitted: number, target: number): number {
     return (submitted / target) * 100;
+  }
+  onBackArrow(type: string): void {
+    this.isOpenOverview = this.isOpenOverview;
   }
 }

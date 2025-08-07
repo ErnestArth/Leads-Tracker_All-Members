@@ -8,9 +8,8 @@ describe('TeamLeadFormComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [TeamLeadFormComponent]
-    })
-    .compileComponents();
+      declarations: [TeamLeadFormComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(TeamLeadFormComponent);
     component = fixture.componentInstance;

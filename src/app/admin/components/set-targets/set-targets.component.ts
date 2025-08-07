@@ -1,4 +1,12 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  Output,
+  EventEmitter,
+  TemplateRef,
+  ViewChild,
+} from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 
 interface Team {
   name: string;
@@ -12,66 +20,119 @@ interface Team {
   selector: 'app-set-targets',
   templateUrl: './set-targets.component.html',
   styleUrls: ['./set-targets.component.css'],
-  standalone : false
+  standalone: false,
 })
 export class SetTargetsComponent {
-    @Output() onCancel = new EventEmitter<void>();
-  isTargetAssign = false;
+  @Output() onCancel = new EventEmitter<void>();
 
-  teamName = 'Alpha Squad';
+  isTargetAssign = false;
+  isOpenOverview = false;
+  teamName: string = 'Alpha Squad';
   targetValue: number | null = null;
   dueDate: string = '';
-  showTargetModal = false;
+
   teams: Team[] = [
     {
       name: 'Alpha Squad',
       lead: 'Paul Wilbur',
       members: 22,
       currentTarget: 100,
-      dueDate: '2025-08-31'
+      dueDate: '2025-08-31',
     },
     {
       name: 'Bravo Team',
       lead: 'Nancy Kyei',
       members: 23,
       currentTarget: 120,
-      dueDate: '2025-08-31'
+      dueDate: '2025-08-31',
     },
     {
       name: 'Charlie Unit',
       lead: 'John Doe',
-      members: 18
-    }
+      members: 18,
+    },
   ];
-  cancel(){
+
+  // Dialog template references
+  @ViewChild('targetDialog') targetDialog!: TemplateRef<any>;
+  @ViewChild('confirmDialog') confirmDialog!: TemplateRef<any>;
+  @ViewChild('successDialog') successDialog!: TemplateRef<any>;
+
+  targetDialogRef: any;
+
+  constructor(private dialog: MatDialog, private router: Router) {}
+
+  cancel() {
     this.onCancel.emit();
   }
+
   openTargetModal() {
-    this.showTargetModal = true;
+    this.targetDialogRef = this.dialog.open(this.targetDialog, {
+      width: '600px',
+      disableClose: true,
+    });
   }
 
   closeTargetModal() {
-    this.showTargetModal = false;
+    if (this.targetDialogRef) {
+      this.targetDialogRef.close();
+      this.targetDialogRef = null;
+    }
+
     this.targetValue = null;
     this.dueDate = '';
   }
 
   saveTarget() {
-    if (this.targetValue && this.dueDate) {
-      console.log(`Saved:`, {
-        team: this.teamName,
-        target: this.targetValue,
-        dueDate: this.dueDate
-      });
-      this.closeTargetModal();
+    if (!this.targetValue || !this.dueDate) {
+      return;
     }
-  }
-   onTargetAssign() {
-    this.isTargetAssign = !this.isTargetAssign;
 
+    // Close the initial target dialog
+    this.closeTargetModal();
+
+    // Open confirm dialog
+    this.dialog
+      .open(this.confirmDialog, {
+        width: '600px',
+        disableClose: true,
+      })
+      .afterClosed()
+      .subscribe((result) => {
+        if (result === 'confirm') {
+          this.assignTarget();
+        }
+      });
+  }
+
+  assignTarget() {
+    // Simulate assignment logic
+    console.log(`Assigned target to ${this.teamName}:`, {
+      target: this.targetValue,
+      dueDate: this.dueDate,
+    });
+
+    // Open success dialog
+    this.dialog
+      .open(this.successDialog, {
+        width: '600px',
+        disableClose: true,
+      })
+      .afterClosed()
+      .subscribe(() => {
+        this.router.navigate(['/dashboard']);
+      });
+
+    // Reset inputs
+    this.targetValue = null;
+    this.dueDate = '';
+  }
+
+  onTargetAssign() {
+    this.isTargetAssign = !this.isTargetAssign;
+  }
+
+  onBackArrow(type: string): void {
+    this.isOpenOverview = this.isOpenOverview;
   }
 }
-
-
-
-

@@ -1,35 +1,38 @@
-
 <div class="dashboard-container">
-    <aside>
-      <app-sidebar/>
-    </aside>
-    @if(!isEditTeamMemberActive){
-    <main>
+  <aside>
+    <app-sidebar />
+  </aside>
+  @if(!isEditTeamMemberActive){
+  <main>
     <aside class="header">
-        <div class="back-arrow" routerLink="/admin/team-member">
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 20 20"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M12.5 15L7.5 10L12.5 5"
-                stroke="#101828"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
-          </div>
+      <div class="back-arrow" routerLink="/admin/team-member">
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 20 20"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M12.5 15L7.5 10L12.5 5"
+            stroke="#101828"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </div>
       <div class="team-member-info">
         <div class="team-member-info-image">
           <img class="user-image" src="user-1.jpg" alt="user" />
         </div>
         <div class="team-member-info-name-and-email">
-          <p class="team-member-name">{{userData.firstName}} {{userData.lastName}}</p>
-          <span class="team-member-email">{{userData.email}} / {{userData.staffId}}</span>
+          <p class="team-member-name">
+            {{ userData.firstName }} {{ userData.lastName }}
+          </p>
+          <span class="team-member-email"
+            >{{ userData.email }} / {{ userData.staffId }}</span
+          >
         </div>
       </div>
       <div class="edit-deactivate-buttons">
@@ -54,7 +57,7 @@
           <p>Edit Member Info</p>
         </div>
 
-        <div  class="button-text">
+        <div class="button-text">
           <svg
             width="25"
             height="24"
@@ -77,12 +80,17 @@
         </div>
       </div>
     </aside>
-  
+
     <div class="main-content">
       <div class="welcome-text-and-filter">
         <div class="dashboard-text-options">
           <div class="team-search">
-            <select id="options" name="options" class="team-select">
+            <select
+              title="team-search"
+              id="options"
+              name="options"
+              class="team-select"
+            >
               <option value="all">This Week</option>
               <option value="team1">Team 1</option>
               <option value="team2">Team 2</option>
@@ -94,21 +102,34 @@
       </div>
       <div class="dashboard-data">
         <div class="page-title">
-            <p>Performance Metrics</p>
+          <p>Performance Metrics</p>
         </div>
-      <div class="doughnut-and-bar-chart-container">
-        <div class="status-breakdown doughnut-chart-container">
-          <div class="chart-top-info">
-            <div class="chart-top-info-img-and-title">
-              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M10.6407 7.40899V2.71956C10.6391 2.59421 10.6649 2.47004 10.7164 2.35574C10.7679 2.24145 10.8438 2.13981 10.9387 2.05796C11.0337 1.97611 11.1454 1.91604 11.266 1.88196C11.3867 1.84788 11.5133 1.84062 11.637 1.86069C13.336 2.06584 14.9188 2.82899 16.1374 4.03047C17.356 5.23196 18.1414 6.80387 18.3706 8.49975C18.3906 8.62349 18.3834 8.75012 18.3493 8.87075C18.3152 8.99138 18.2551 9.10309 18.1733 9.19803C18.0914 9.29298 17.9898 9.36885 17.8755 9.42034C17.7612 9.47182 17.637 9.49766 17.5117 9.49604H12.7535C12.4773 9.49945 12.2031 9.44799 11.947 9.34463C11.6908 9.24128 11.4576 9.08808 11.2611 8.89394C11.0646 8.6998 10.9085 8.46857 10.802 8.21367C10.6955 7.95876 10.6407 7.68525 10.6407 7.40899Z" fill="#F46036"/>
-                <path opacity="0.3" d="M7.37692 3.63954C7.56393 3.60141 7.75703 3.60464 7.94235 3.65029C8.1278 3.69601 8.30123 3.78242 8.44919 3.90322C8.59717 4.02407 8.71594 4.17688 8.79782 4.3495C8.87964 4.52201 8.9228 4.71034 8.92282 4.90126V10.1747C8.93806 10.8032 9.0852 11.422 9.35446 11.9901C9.62372 12.5582 10.0085 13.0639 10.4853 13.4735L12.9931 15.9638C13.1335 16.1005 13.2407 16.2681 13.3056 16.453C13.3705 16.6379 13.3922 16.8357 13.3681 17.0302C13.344 17.2247 13.275 17.4115 13.167 17.5751C13.0588 17.7387 12.9137 17.8751 12.7441 17.9735C11.6591 18.5934 10.4376 18.9356 9.18845 18.9696C7.13014 19.0182 5.13577 18.2531 3.63864 16.8397C2.14147 15.4262 1.26199 13.4786 1.19235 11.4208C1.14364 9.6037 1.73721 7.82729 2.86813 6.40419C3.99907 4.98109 5.59576 4.00244 7.37692 3.63954ZM17.2451 11.2421C17.3949 11.2413 17.5436 11.2716 17.6806 11.3319C17.8176 11.3923 17.9405 11.4817 18.041 11.5927C18.1413 11.7036 18.2173 11.8343 18.2636 11.9765C18.3101 12.1188 18.3262 12.2699 18.3105 12.4188C18.1238 13.5905 17.6708 14.7039 16.9873 15.6737C16.8981 15.804 16.7813 15.9136 16.6455 15.994C16.5098 16.0743 16.3581 16.124 16.2011 16.1395C16.0441 16.1551 15.8853 16.1361 15.7363 16.0839C15.5874 16.0316 15.4518 15.947 15.3388 15.8368L12.0234 12.5556C11.9214 12.4462 11.853 12.3101 11.8261 12.163C11.7994 12.0158 11.8151 11.8638 11.872 11.7255C11.929 11.5871 12.0247 11.4674 12.1474 11.3817C12.2701 11.2962 12.415 11.2479 12.5644 11.2421H17.2451Z" fill="#F46036"/>
+        <div class="doughnut-and-bar-chart-container">
+          <div class="status-breakdown doughnut-chart-container">
+            <div class="chart-top-info">
+              <div class="chart-top-info-img-and-title">
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 20 20"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M10.6407 7.40899V2.71956C10.6391 2.59421 10.6649 2.47004 10.7164 2.35574C10.7679 2.24145 10.8438 2.13981 10.9387 2.05796C11.0337 1.97611 11.1454 1.91604 11.266 1.88196C11.3867 1.84788 11.5133 1.84062 11.637 1.86069C13.336 2.06584 14.9188 2.82899 16.1374 4.03047C17.356 5.23196 18.1414 6.80387 18.3706 8.49975C18.3906 8.62349 18.3834 8.75012 18.3493 8.87075C18.3152 8.99138 18.2551 9.10309 18.1733 9.19803C18.0914 9.29298 17.9898 9.36885 17.8755 9.42034C17.7612 9.47182 17.637 9.49766 17.5117 9.49604H12.7535C12.4773 9.49945 12.2031 9.44799 11.947 9.34463C11.6908 9.24128 11.4576 9.08808 11.2611 8.89394C11.0646 8.6998 10.9085 8.46857 10.802 8.21367C10.6955 7.95876 10.6407 7.68525 10.6407 7.40899Z"
+                    fill="#F46036"
+                  />
+                  <path
+                    opacity="0.3"
+                    d="M7.37692 3.63954C7.56393 3.60141 7.75703 3.60464 7.94235 3.65029C8.1278 3.69601 8.30123 3.78242 8.44919 3.90322C8.59717 4.02407 8.71594 4.17688 8.79782 4.3495C8.87964 4.52201 8.9228 4.71034 8.92282 4.90126V10.1747C8.93806 10.8032 9.0852 11.422 9.35446 11.9901C9.62372 12.5582 10.0085 13.0639 10.4853 13.4735L12.9931 15.9638C13.1335 16.1005 13.2407 16.2681 13.3056 16.453C13.3705 16.6379 13.3922 16.8357 13.3681 17.0302C13.344 17.2247 13.275 17.4115 13.167 17.5751C13.0588 17.7387 12.9137 17.8751 12.7441 17.9735C11.6591 18.5934 10.4376 18.9356 9.18845 18.9696C7.13014 19.0182 5.13577 18.2531 3.63864 16.8397C2.14147 15.4262 1.26199 13.4786 1.19235 11.4208C1.14364 9.6037 1.73721 7.82729 2.86813 6.40419C3.99907 4.98109 5.59576 4.00244 7.37692 3.63954ZM17.2451 11.2421C17.3949 11.2413 17.5436 11.2716 17.6806 11.3319C17.8176 11.3923 17.9405 11.4817 18.041 11.5927C18.1413 11.7036 18.2173 11.8343 18.2636 11.9765C18.3101 12.1188 18.3262 12.2699 18.3105 12.4188C18.1238 13.5905 17.6708 14.7039 16.9873 15.6737C16.8981 15.804 16.7813 15.9136 16.6455 15.994C16.5098 16.0743 16.3581 16.124 16.2011 16.1395C16.0441 16.1551 15.8853 16.1361 15.7363 16.0839C15.5874 16.0316 15.4518 15.947 15.3388 15.8368L12.0234 12.5556C11.9214 12.4462 11.853 12.3101 11.8261 12.163C11.7994 12.0158 11.8151 11.8638 11.872 11.7255C11.929 11.5871 12.0247 11.4674 12.1474 11.3817C12.2701 11.2962 12.415 11.2479 12.5644 11.2421H17.2451Z"
+                    fill="#F46036"
+                  />
                 </svg>
-  
-            <span>Status Breakdown</span>
-            </div>
-  
-            <!-- <div class="this-week-filter">
+
+                <span>Status Breakdown</span>
+              </div>
+
+              <!-- <div class="this-week-filter">
               <div class="doughnut-filter">
                 <select id="options" name="options" class="chart-filter-select">
                   <option value="all">All Teams</option>
@@ -119,45 +140,48 @@
                 </select>
               </div>
             </div> -->
+            </div>
+            <div class="doughnut-chart">
+              <div class="doughnut">
+                <canvas #myChart id="doughnutChart"></canvas>
+                <p class="total-doughnut">155</p>
+                <p class="doughnut-interested-number">31 <span>20.00%</span></p>
+                <p class="doughnut-onboarded-number">80 <span>51.61%</span></p>
+                <p class="doughnut-pending-number">80 <span>51.61%</span></p>
+                <p class="doughnut-awaiting-documentation-number">
+                  80 <span>51.61%</span>
+                </p>
+                <p class="doughnut-not-interested-number">
+                  80 <span>51.61%</span>
+                </p>
+              </div>
+            </div>
           </div>
-          <div class="doughnut-chart">
-            <div class="doughnut">
-              <canvas #myChart id="doughnutChart"></canvas>
-              <p class="total-doughnut">155</p>
-              <p class="doughnut-interested-number">31 <span>20.00%</span></p>
-              <p class="doughnut-onboarded-number">80 <span>51.61%</span></p>
-              <p class="doughnut-pending-number">80 <span>51.61%</span></p>
-              <p class="doughnut-awaiting-documentation-number">80 <span>51.61%</span></p>
-              <p class="doughnut-not-interested-number">80 <span>51.61%</span></p>
+          <div class="status-breakdown bar-chart-container">
+            <div class="team-members-and-progress-bar">
+              <div class="Team-members">
+                <p class="team-members-text">Team Members</p>
+                <p class="team-leaders-name">18</p>
+              </div>
+
+              <div class="progress-bar">
+                <p>Total Recommendations Submitted: <span>50/80</span></p>
+                <div class="progress-outline green-outline">
+                  <div class="progress green-progress"></div>
+                  <span class="progress-percentage">60% </span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-        <div class="status-breakdown bar-chart-container">
-            <div class="team-members-and-progress-bar">
-                <div class="Team-members">
-                  <p class="team-members-text">Team Members</p>
-                  <p class="team-leaders-name">18</p>
-                </div>
-    
-                <div class="progress-bar">
-                  <p>Total Recommendations Submitted: <span>50/80</span></p>
-                  <div class="progress-outline  green-outline">
-                    <div class="progress green-progress"></div>
-                    <span class="progress-percentage">60% </span>
-                  </div>
-                </div>
-              </div>
-          
-        </div>
-      </div>
-  
+
         <div class="client-activity-tracker-container">
           <div class="client-activity-header">
             <div class="icon-and-section-name">
               <img src="dashboard-images/client-alert.png" alt="client-image" />
               <span>Client Activity Tracker</span>
             </div>
-  
+
             <div class="filter-bar filter-sections">
               <input
                 type="search"
@@ -191,8 +215,8 @@
               </tr>
             </thead>
             <tbody>
-              <tr >
-                <td class="client-con table-data"> Name</td>
+              <tr>
+                <td class="client-con table-data">Name</td>
                 <td class="badge-con table-data">
                   <span class="badge PENDING">pending</span>
                 </td>
@@ -250,7 +274,7 @@
               </tr> -->
             </tbody>
           </table>
-         <div class="pagination">
+          <div class="pagination">
             <label class="pag-text"
               >Show
               <select class="pag-select">
@@ -266,68 +290,48 @@
               <button type="button" class="pagination-button">5</button>
             </div>
           </div>
-  
-  
-  
         </div>
       </div>
-    
     </div>
-  
+
     <router-outlet></router-outlet>
-  
-    </main>
-}
-
-    @if(isEditTeamMemberActive){
-    <main>
-        <aside class="header">
-            <div class="back-arrow" (click)="editTeamMember()">
-                <svg
-                  width="20"
-                  height="20"
-                  viewBox="0 0 20 20"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M12.5 15L7.5 10L12.5 5"
-                    stroke="#101828"
-                    stroke-width="1.5"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                </svg>
-              </div>
-          <div class="team-member-info">
-            <div class="team-member-info-image">
-              <img class="user-image" src="user-1.jpg" alt="user" />
-            </div>
-            <div class="team-member-info-name-and-">
-              <p class="team-member-name">Team member Name</p>
-              <span class="team-member-email">name&#64;domain.com</span>
-            </div>
-          </div>
-         
-        </aside>
-      
-        <div class="main-content">
-          <app-form-component/>
-        
+  </main>
+  } @if(isEditTeamMemberActive){
+  <main>
+    <aside class="header">
+      <div class="back-arrow" (click)="editTeamMember()">
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 20 20"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M12.5 15L7.5 10L12.5 5"
+            stroke="#101828"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </div>
+      <div class="team-member-info">
+        <div class="team-member-info-image">
+          <img class="user-image" src="user-1.jpg" alt="user" />
         </div>
-      
-        <router-outlet></router-outlet>
-      
-        </main>
-    }
-  </div>
+        <div class="team-member-info-name-and-">
+          <p class="team-member-name">Team member Name</p>
+          <span class="team-member-email">name&#64;domain.com</span>
+        </div>
+      </div>
+    </aside>
 
-  
-  
-  
-  
-  
-  
-  
-  
-  
+    <div class="main-content">
+      <app-form-component />
+    </div>
+
+    <router-outlet></router-outlet>
+  </main>
+  }
+</div>

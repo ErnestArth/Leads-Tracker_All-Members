@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LoginComponent} from './components/login/login.component';
+import { LoginComponent } from './components/login/login.component';
 import { ResetForgotPasswordComponent } from './components/reset-forgot-password/reset-forgot-password.component';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthComponent } from './auth.component';
@@ -15,8 +15,6 @@ import { provideHttpClient, HttpClientModule } from '@angular/common/http';
 import { ResettingPasswordComponent } from './components/resetting-password/resetting-password.component';
 import { AuthService } from './AuthServices';
 
-
-
 const routes: Routes = [
   { path: 'reset-password', component: ResetForgotPasswordComponent },
   {
@@ -24,11 +22,14 @@ const routes: Routes = [
     component: AuthComponent,
     children: [
       { path: '', redirectTo: 'login', pathMatch: 'full' },
-      { path: 'otpAuthComponent', component:OtpAuthComponent} ,
+      { path: 'otpAuthComponent', component: OtpAuthComponent },
       { path: 'login', component: LoginComponent },
       { path: 'login-reset-password', component: ResetForgotPasswordComponent },
-      { path: 'otpAuthComponent', component:OtpAuthComponent} ,
-      {path: 'ResettingPasswordComponent', component:ResettingPasswordComponent},
+      { path: 'otpAuthComponent', component: OtpAuthComponent },
+      {
+        path: 'ResettingPasswordComponent',
+        component: ResettingPasswordComponent,
+      },
       // { path: 'otp-auth', component: OtpAuthComponent },
     ],
   },
@@ -40,9 +41,6 @@ const routes: Routes = [
     AuthComponent,
     OtpAuthComponent,
     ResettingPasswordComponent,
-
-
-
   ],
   imports: [
     CommonModule,

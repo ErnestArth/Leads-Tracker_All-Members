@@ -7,7 +7,13 @@
     </aside> -->
     <div class="container">
       <div class="header">
-        <button class="back-btn">←</button>
+        <span
+          class="back-arrow"
+          (click)="onBackArrow('dashboard')"
+          routerLink="/admin/dashboard"
+          routerLinkActive="selected"
+          ><img src="Back arrow.png" alt="back-arrow"
+        /></span>
         <h2>Assign Team Targets</h2>
       </div>
 
@@ -27,79 +33,128 @@
             <span class="no-target">No active target set.</span>
           </ng-template>
         </div>
-        <button class="set-btn" (click)="openTargetModal()">Set New Target</button>
+        <button class="set-btn" (click)="openTargetModal()">
+          Set New Target
+        </button>
       </div>
     </div>
-    <div class="target-assigned-success">
-      <svg
-        width="71"
-        height="70"
-        viewBox="0 0 71 70"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <rect
-          x="0.807129"
-          y="0.296875"
-          width="69.3848"
-          height="69.3848"
-          rx="34.6924"
-          fill="#1B998B"
-        />
-        <path
-          d="M56.2949 33.0755V34.9887C56.2924 39.473 54.8403 43.8364 52.1553 47.428C49.4703 51.0196 45.6962 53.6471 41.3959 54.9186C37.0956 56.19 32.4995 56.0374 28.2931 54.4833C24.0867 52.9292 20.4953 50.0571 18.0546 46.2952C15.6139 42.5333 14.4546 38.0832 14.7497 33.6086C15.0447 29.134 16.7783 24.8746 19.6919 21.4658C22.6054 18.0569 26.5428 15.6812 30.9169 14.6929C35.291 13.7047 39.8673 14.1568 43.9634 15.9819M56.2949 18.3526L35.4998 39.1685L29.2612 32.93"
-          stroke="white"
-          stroke-width="4.15903"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        />
-      </svg>
-      <p>Target Assigned Successfully</p>
-      <button type="button" (click)="cancel()"class="back-button">Back to Dashboard</button>
-    </div>
+    <ng-template #successDialog>
+      <div class="target-assigned-success">
+        <svg
+          width="71"
+          height="70"
+          viewBox="0 0 71 70"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <rect
+            x="0.807129"
+            y="0.296875"
+            width="69.3848"
+            height="69.3848"
+            rx="34.6924"
+            fill="#1B998B"
+          />
+          <path
+            d="M56.2949 33.0755V34.9887C56.2924 39.473 54.8403 43.8364 52.1553 47.428C49.4703 51.0196 45.6962 53.6471 41.3959 54.9186C37.0956 56.19 32.4995 56.0374 28.2931 54.4833C24.0867 52.9292 20.4953 50.0571 18.0546 46.2952C15.6139 42.5333 14.4546 38.0832 14.7497 33.6086C15.0447 29.134 16.7783 24.8746 19.6919 21.4658C22.6054 18.0569 26.5428 15.6812 30.9169 14.6929C35.291 13.7047 39.8673 14.1568 43.9634 15.9819M56.2949 18.3526L35.4998 39.1685L29.2612 32.93"
+            stroke="white"
+            stroke-width="4.15903"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+        <p>Target Assigned Successfully</p>
+        <mat-dialog-actions align="end">
+          <button
+            mat-raised-button
+            color="primary"
+            mat-dialog-close
+            type="button"
+            (click)="cancel()"
+            class="back-button"
+          >
+            Back
+          </button></mat-dialog-actions
+        >
+      </div>
+    </ng-template>
 
-    <div class="modal-backdrop" *ngIf="showTargetModal">
-  <div class="modal-content">
-    <h3>Set Target for {{ teamName }}</h3>
+    <!-- Setting a target for a particular team's dialog -->
+    <ng-template #targetDialog>
+      <h2 mat-dialog-title>Set Target for {{ teamName }}</h2>
 
-    <div class="form-group">
-      <label for="target">Target Value</label>
-      <input
-        type="number"
-        id="target"
-        [(ngModel)]="targetValue"
-        placeholder="Enter target value"
-      />
-    </div>
-
-    <div class="form-group">
-      <label for="dueDate">Due Date</label>
-      <input
-        type="date"
-        id="dueDate"
-        [(ngModel)]="dueDate"
-      />
-    </div>
-
-    <div class="button-row">
-      <button class="cancel" (click)="closeTargetModal()">Cancel</button>
-      <button class="save" (click)="saveTarget()">Save Target</button>
-    </div>
-  </div>
-</div>
-<div class="assign-target-modal">
-    <div class="target-assign-icon-and-title">
-      <img  src="Alert.png" alt="logo" class="alert-img">
-
-         <p> Confirm Target</p>
+      <mat-dialog-content class="modal-content">
+        <div class="form-group">
+          <label for="target">Target Value</label>
+          <input
+            matInput
+            type="number"
+            id="target"
+            name="target"
+            [(ngModel)]="targetValue"
+            placeholder="Enter target value"
+            required
+          />
         </div>
-    <div class="assign-target-message">
-        <p>Assign a target of 120 to this team?</p>
-    </div>
-    <div class="cancel-and-assign-buttons">
-        <button type="button" (click)="cancel()"   class="cancel-button">Cancel</button>
-        <button type="button" (click)="onTargetAssign()" class="yes-assign-button">Yes, Assign </button>
+
+        <div class="form-group">
+          <label for="dueDate">Due Date</label>
+          <input
+            matInput
+            type="date"
+            id="dueDate"
+            name="dueDate"
+            [(ngModel)]="dueDate"
+            required
+          />
+        </div>
+      </mat-dialog-content>
+
+      <!-- The buttons  -->
+      <mat-dialog-actions align="end">
+        <button mat-button (click)="closeTargetModal()">Cancel</button>
+        <button mat-raised-button color="primary" (click)="saveTarget()">
+          Save Target
+        </button>
+      </mat-dialog-actions>
+    </ng-template>
+
+    <!-- Confirming the target dialog -->
+    <ng-template #confirmDialog>
+      <div class="assign-target-modal">
+        <div class="target-assign-icon-and-title">
+          <img src="Alert.png" alt="logo" class="alert-img" />
+
+          <p>Confirm Target</p>
+        </div>
+        <div class="assign-target-message">
+          <p mat-dialog-title>
+            Assign a target of {{ targetValue }} to this {{ teamName }}
+          </p>
+        </div>
+
+        <!-- The buttons -->
+        <div class="cancel-and-assign-buttons">
+          <button
+            mat-button
+            type="button"
+            (click)="cancel()"
+            class="cancel-button"
+          >
+            Cancel
+          </button>
+          <button
+            mat-button
+            color="primary"
+            [mat-dialog-close]="'confirm'"
+            type="button"
+            (click)="onTargetAssign()"
+            class="yes-assign-button"
+          >
+            Yes, Assign
+          </button>
+        </div>
       </div>
-</div>
+    </ng-template>
   </main>
 </div>
