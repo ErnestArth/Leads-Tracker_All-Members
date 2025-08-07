@@ -42,6 +42,7 @@ import { AddTeamLeadPopupComponent } from './components/add-team-lead-popup/add-
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
+import { TablePaginationComponent } from './components/table-pagination/table-pagination.component';
 const routes: Routes = [
   {
     path: '',
@@ -89,7 +90,8 @@ const routes: Routes = [
     TeamLeadComponent,
     TeamLeadDetailsComponent,
     TeamLeadFormComponent,
-    AddTeamLeadPopupComponent
+    AddTeamLeadPopupComponent,
+    TablePaginationComponent
   ],
   imports: [
     CommonModule,

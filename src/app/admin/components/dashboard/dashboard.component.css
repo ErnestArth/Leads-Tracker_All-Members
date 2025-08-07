@@ -520,17 +520,25 @@ input {
 }
 
 .pagination-button {
-  background: #f0f2f5;
+  background: unset;
   border: none;
   padding: 0.4rem 0.7rem;
   border-radius: 4px;
   cursor: pointer;
   font-size: 0.85rem;
 }
+.pagination-button:hover{
+  background:#F1F1F4;
+}
 
 .pagination button.active {
-  background: #007bff;
-  color: #fff;
+  background: #F1F1F4;
+  color: #252F4A;
+  border:none;
+  padding:5px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+
 }
 
 .pag-select {

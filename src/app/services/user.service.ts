@@ -212,7 +212,7 @@ export class UserService {
 
 
 
-  private apiUrl = 'http://13.53.173.158:8080'; //
+  private apiUrl = 'http://51.20.135.243:8080'; //
 
 
   private teamMembers:createTeamMember[]=[];
@@ -284,10 +284,10 @@ getSpecificTeamMember( teamLeadId: string, memberId: string): Observable<getSpec
   return this.http.get<getSpecificTeamMember>(`${this.apiUrl}/leads-tracker/api/v1/leads/team-leads/${teamLeadId}/members/${memberId}?duration=week`,{headers});
 }
 
-getAllClientsOverdue(): Observable<getAllClientsOverdue>{
+getAllClientsOverdue( page:number, limit:number): Observable<getAllClientsOverdue>{
   const token = localStorage.getItem('token')
   const headers = new HttpHeaders({'Authorization' : `Bearer ${token}`})
-  return this.http.get<getAllClientsOverdue>(`${this.apiUrl}/leads-tracker/api/v1/clients/admin/notifications?page=0&limit=2`,{headers});  
+  return this.http.get<getAllClientsOverdue>(`${this.apiUrl}/leads-tracker/api/v1/clients/admin/overdueClients?page=${page}&limit=${limit}`,{headers});  
 }
 
 // Get a user by id 
