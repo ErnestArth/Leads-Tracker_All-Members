@@ -1,186 +1,179 @@
 * {
-    margin: 0;
-    font-family: "Instrument Sans", sans-serif;
-    font-optical-sizing: auto;
-    font-style: normal;
-    font-variation-settings: "wdth" 100;
-  }
-  .dashboard-container {
-    display: flex;
-    height: 100vh;
-    /* overflow: hidden; */
-  }
+  margin: 0;
+  font-family: "Instrument Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+  font-variation-settings: "wdth" 100;
+}
+.dashboard-container {
+  display: flex;
+  height: 100vh;
+  /* overflow: hidden; */
+}
 .sidebar {
-    background-color: #f1f1f4;
-    width: 100%;
-    /* flex: 1 0 10%; */
-    padding: 25px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    border-right: 1px solid #afafaf;
+  background-color: #f1f1f4;
+  width: 100%;
+  /* flex: 1 0 10%; */
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-right: 1px solid #afafaf;
+}
+.top {
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+}
+.logo {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 30px;
+  align-items: center;
+  display: none;
+}
+.logo p {
+  color: #f46036;
+  font-weight: bolder;
+  font-size: 10px;
+  text-transform: uppercase;
+}
+.notification-button:hover {
+  fill: #f46036;
+  color: #f46036;
+}
+.notif-button:hover {
+  fill: #f46036;
+}
+
+.logout-button {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.logout {
+  color: black;
+  cursor: pointer;
+}
+
+.logout:hover {
+  color: #f46036;
+}
+
+li {
+  list-style: none;
+  font-size: 14px;
+  padding: 10px;
+}
+.navigation-links {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+  cursor: pointer;
+}
+.sub-link:hover {
+  /* padding-left: 35px; */
+  background: #fff3ef49;
+  color: #f46036;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.sub-teams-links::before {
+  content: "";
+  background: #e5e5e8;
+  width: 1px;
+  left: 39px;
+  height: 12.5%;
+  position: absolute;
+}
+.settings-teams-links::before {
+  content: "";
+  background: #e5e5e8;
+  width: 1px;
+  left: 39px;
+  height: 8%;
+  position: absolute;
+}
+
+.sub-link {
+  padding-left: 40px;
+}
+.admin-functions {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.overview-link:hover {
+  color: #f46036;
+  background: #fff3ef;
+  fill: #f46036;
+}
+
+.selected {
+  background: #fff3ef;
+  display: block;
+  text-decoration: none;
+  color: #f46036;
+  border-radius: 6px;
+}
+.selected p {
+  color: #f46036;
+}
+.sub-selected {
+  background: #fff3ef;
+  color: #f46036;
+  border-radius: 6px;
+}
+.sub-selected .active-bullet {
+  background-color: #f46036;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  position: absolute;
+  left: 37px;
+  transform: translateY(70%);
+}
+.selected path {
+  fill: #f46036;
+}
+.route-link {
+  text-decoration: none;
+  color: black;
+}
+
+@media (max-width: 1000px) {
+  .sidebar {
+    /* width: 20%; */
+    padding: 15px;
   }
-  .top{
-    display: flex ;
-    flex-direction: column;
-    gap: 50px;
-  }
-  .logo{
-    display: flex;
-    gap: 10px;
-    margin-bottom: 30px;
-    align-items: center;
+  .dash-desktop-logo {
     display: none;
   }
-  .logo p{
-    color: #F46036;
-    font-weight: bolder;
-    font-size: 10px;
-    text-transform: uppercase;
-
-  }
-  .notification-button:hover{
-    fill: #F46036;
-    color:#F46036
-  }
-  .notif-button:hover{
-    fill: #F46036;
-  
-  }
-
-  .logout-button{
-    display: flex;
-    gap: 10px;
-    align-items: center;
-  }
-  .logout {
-    color: black;
-    cursor:pointer;
-  }
-
-  .logout:hover{
-    color:#F46036;
-  }
-
-
-  li {
-    list-style: none;
-    font-size: 14px;
-    padding: 10px;
-  }
-  .navigation-links{
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    text-decoration: none;
-    cursor:pointer;
-  }
-  .sub-link:hover{
-    /* padding-left: 35px; */
-    background: #fff3ef49;
-    color:#F46036;
-    border-radius: 6px;
-    cursor:pointer;
-
-
-  }
-  .sub-teams-links::before{
-    content:"";
-    background:#e5e5e8;
-    width:1px;
-    left:39px;
-    height:12.5%;
-    position:absolute;
-
-  }
-  .settings-teams-links::before{
-    content:"";
-    background:#e5e5e8;
-    width:1px;
-    left:39px;
-    height:8%;
-    position:absolute;
-  }
- 
-  .sub-link{
-    padding-left:40px;
- 
-  }
-  .admin-functions{
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-  }
-  .overview-link:hover{
-    color:#F46036;
-    background: #FFF3EF;
-    fill: #F46036;
-  }
- 
-  .selected{
-    background: #FFF3EF;
+  .logo {
     display: block;
-    text-decoration: none;
-    color:#F46036;
-    border-radius: 6px;
+    align-self: center;
   }
-  .selected p{
-    color:#F46036;
+  .admin-functions p {
+    display: none;
   }
-  .sub-selected{
-    background: #FFF3EF;
-    color:#F46036;
-    border-radius: 6px;
+  .logout-button p {
+    display: none;
   }
- .sub-selected .active-bullet{
-    background-color: #F46036;
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    position:absolute;
-    left:37px;
-    transform: translateY(70%);
-  }
-  .selected path{
-    fill: #F46036;
-  }
-  .route-link{
-    text-decoration: none;
-    color: black;
-  }
+}
 
-  @media (max-width:1000px){
-    .sidebar{
-      /* width: 20%; */
-      padding: 15px;
-    }
-    .dash-desktop-logo{
-      display: none;
-    }
-    .logo{
-      display: block;
-      align-self: center;
-    }
-    .admin-functions p{
-      display: none;
-    }
-    .logout-button p{
-      display: none;
-    }
-  }
+img[src="notification.png"] {
+  width: 24px;
+  height: 24px;
+  position: center;
+}
 
-  img[src="notification.png"] {
-    width: 24px;
-    height: 24px;
-    position: center;
-  }
-
-  .notification-button {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    color: black;
-    font-size: 14px;
-    cursor: pointer;
-    margin-bottom: 35px;
-  }
+.notification-button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: black;
+  font-size: 14px;
+  cursor: pointer;
+  margin-bottom: 35px;
+}

@@ -1,97 +1,103 @@
-    <div *ngIf="!isLocked && !isPermanentlyLocked && !isVerified">
-    <div class="comp-wrapper">
-        <img src="OTPVector.jpg" alt="" class="bg-image">
-        <div class="main-container">
-          <img src="icon.png" alt="email-icon" />
-          <h3>Verify your email</h3>
-          <p class="enter-verification">
-            Enter the verification code we sent to <br />
-            <span class="mail">{{maskedEmail}}</span>
-          </p>
-          <form [formGroup]="otpForm" (ngSubmit)="onSubmit()">
-          <div class="otp-input"><ng-otp-input #ngOtpInput [config]="config" [formControl]=" otpFormControl "></ng-otp-input></div>
-          <div class="down-text">
-              <div *ngIf="errorMessage">{{errorMessage}}</div>
-           <div><p class="otp">OTP expire in {{otpRemainingTime}}mins</p></div> 
-            <p *ngIf="showOtpResendButton" class="code">Didn't recieve a code? <span class="resend" (click)="resendOtp()">Resend</span></p>
+<div *ngIf="!isLocked && !isPermanentlyLocked && !isVerified">
+  <div class="comp-wrapper">
+    <img src="OTPVector.jpg" alt="" class="bg-image" />
+    <div class="main-container">
+      <img src="icon.png" alt="email-icon" />
+      <h3>Verify your email</h3>
+      <p class="enter-verification">
+        Enter the verification code we sent to <br />
+        <span class="mail">{{ maskedEmail }}</span>
+      </p>
+      <form [formGroup]="otpForm" (ngSubmit)="onSubmit()">
+        <div class="otp-input">
+          <ng-otp-input
+            #ngOtpInput
+            [config]="config"
+            [formControl]="otpFormControl"
+          ></ng-otp-input>
+        </div>
+        <div class="down-text">
+          <div *ngIf="errorMessage">{{ errorMessage }}</div>
+          <div>
+            <p class="otp">OTP expire in {{ otpRemainingTime }}mins</p>
           </div>
-          <!-- @if(isLoading){
+          <p *ngIf="showOtpResendButton" class="code">
+            Didn't recieve a code?
+            <span class="resend" (click)="resendOtp()">Resend</span>
+          </p>
+        </div>
+        <!-- @if(isLoading){
             <button class="disabled-button" [ngClass]="{ 'disabled-button': disabledButton }" >Proceed</button>
           } -->
-          @if(!isLoading){
-              <button type="submit" (ngSubmit)="onSubmit()" [ngClass]="{'active-button': activeButton,'disabled-button':disabledButton}" >Proceed</button>
-          }
-        </form>
-        </div>
-      </div>
+        @if(!isLoading){
+        <button
+          type="submit"
+          (ngSubmit)="onSubmit()"
+          [ngClass]="{
+            'active-button': activeButton,
+            'disabled-button': disabledButton
+          }"
+        >
+          Proceed
+        </button>
+        }
+      </form>
     </div>
+  </div>
+</div>
 
 <!-- Temporal -->
-    <div *ngIf="isLocked && !isPermanentlyLocked && !isVerified" >
-        <!-- <p>Temporal Denial</p>
+<div *ngIf="isLocked && !isPermanentlyLocked && !isVerified">
+  <!-- <p>Temporal Denial</p>
         <p>Try again in {{ remainingTime }} seconds.</p> -->
 
-        <div class="temporal-comp-wrapper">
-            <img src="OTPVector.jpg" alt="" class="temporal-bg-image">
-            <div class="temporal-main-container">
-              <img src="temporalDecline.png" alt="danger-icon" />
-              <h3 class="temporal-warning">Access Decline</h3>
-              
-              <div>
-                <p class="temporal-warning-info">
-                    Too many failed attempts (3).
-                  </p>
-                  <p class="temporal-warning-info">
-                    5th Failed attempt will have access <br>locked permanently
-                  </p>
-              </div>
-              
-              <div class="temporal-down-text">
-               <div class="temporal-timer-info">Please wait 15 minutes to sign in.</div> 
-              </div>
-              @if(isLoading){
-                 spin
-              }
-              @if(!isLoading){
-                  <button>{{ remainingTime }}s left</button>
-              }
-              
-            </div>
-          </div>
-    </div>
+  <div class="temporal-comp-wrapper">
+    <img src="OTPVector.jpg" alt="" class="temporal-bg-image" />
+    <div class="temporal-main-container">
+      <img src="temporalDecline.png" alt="danger-icon" />
+      <h3 class="temporal-warning">Access Decline</h3>
 
-
-    <div *ngIf="isVerified">
-        <p>Succesful</p>
-    </div>
-    
-    <!-- permanent -->
-
-    
-    <div *ngIf="isPermanentlyLocked || showAccessDenied && !isVerified" class="access-denied-screen">
-       
-
-    
-
-        <div class="permanent-comp-wrapper">
-            <img src="OTPVector.jpg" alt="" class="permanent-bg-image">
-            <div class="permanent-main-container">
-              <img src="permanentLock.png" alt="danger-icon" />
-              <h3 class="permanent-warning">PERMANENTLY LOCKED</h3>
-              <div class="permanent-box">
-              <div>
-                <p class="permanent-warning-info">
-                    Too many failed attempts.
-                </p>
-              </div>
-              
-                  <button class="permanent-button">Contact us</button>
-              
-            </div>
-        </div>
-          </div>
-    
+      <div>
+        <p class="temporal-warning-info">Too many failed attempts (3).</p>
+        <p class="temporal-warning-info">
+          5th Failed attempt will have access <br />locked permanently
+        </p>
       </div>
-   
 
+      <div class="temporal-down-text">
+        <div class="temporal-timer-info">
+          Please wait 15 minutes to sign in.
+        </div>
+      </div>
+      @if(isLoading){ spin } @if(!isLoading){
+      <button>{{ remainingTime }}s left</button>
+      }
+    </div>
+  </div>
+</div>
 
+<div *ngIf="isVerified">
+  <p>Succesful</p>
+</div>
+
+<!-- permanent -->
+
+<div
+  *ngIf="isPermanentlyLocked || (showAccessDenied && !isVerified)"
+  class="access-denied-screen"
+>
+  <div class="permanent-comp-wrapper">
+    <img src="OTPVector.jpg" alt="" class="permanent-bg-image" />
+    <div class="permanent-main-container">
+      <img src="permanentLock.png" alt="danger-icon" />
+      <h3 class="permanent-warning">PERMANENTLY LOCKED</h3>
+      <div class="permanent-box">
+        <div>
+          <p class="permanent-warning-info">Too many failed attempts.</p>
+        </div>
+
+        <button class="permanent-button">Contact us</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,17 +1,34 @@
-import { Component, OnInit, AfterViewInit, HostListener, ElementRef, NgZone, ViewChild} from '@angular/core';
-import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
-import {Overlay, OverlayRef} from '@angular/cdk/overlay';
+import {
+  Component,
+  OnInit,
+  AfterViewInit,
+  HostListener,
+  ElementRef,
+  NgZone,
+  ViewChild,
+} from '@angular/core';
+import {
+  FormGroup,
+  FormBuilder,
+  Validators,
+  FormControl,
+} from '@angular/forms';
+import { Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { CreateTeamLeadComponent } from '../../crete-team-lead/create-team-lead.component';
 
 import { BehaviorSubject } from 'rxjs';
-import { UserService,getAllClients,getAllClientsOverdue} from '../../../services/user.service';
+import {
+  UserService,
+  getAllClients,
+  getAllClientsOverdue,
+} from '../../../services/user.service';
 
-import {Chart, Colors, registerables, scales} from 'chart.js';
+import { Chart, Colors, registerables, scales } from 'chart.js';
 import { ComponentPortal } from '@angular/cdk/portal';
-import { MatDialog,} from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { ModalService } from '../../../services/modalService';
 import { Router } from '@angular/router';
-import {AddTeamMemberPopupComponent} from '../add-team-member-popup/add-team-member-popup.component'
+import { AddTeamMemberPopupComponent } from '../add-team-member-popup/add-team-member-popup.component';
 import { AddTeamLeadPopupComponent } from '../add-team-lead-popup/add-team-lead-popup.component';
 Chart.register(...registerables);
 
@@ -19,26 +36,24 @@ Chart.register(...registerables);
   selector: 'app-dashboard',
   standalone: false,
   templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.css'
+  styleUrl: './dashboard.component.css',
 })
-
-
-export class DashboardComponent  implements OnInit, AfterViewInit {
+export class DashboardComponent implements OnInit, AfterViewInit {
   activeModal: any;
+  isOpenProfile: string | null = null;
 
-  clientsObject: getAllClients ={
+  clientsObject: getAllClients = {
     data: [],
     currentPage: 0,
     totalPages: 0,
     totalItems: 0,
     pageSize: 0,
     hasNext: false,
-    hasPrevious: false
-  }
+    hasPrevious: false,
+  };
 
-  clients  =this.clientsObject;
-  overdueClients = this.clientsObject
-
+  clients = this.clientsObject
+  overdueClients= this.clientsObject
 
   limitOptions = [6, 10, 20, 50];
   currentPage = 1;
@@ -109,7 +124,7 @@ export class DashboardComponent  implements OnInit, AfterViewInit {
   }
 
 
-  fetchAllClients(page:number){
+  fetchAllClients(page: number) {
     // get all clients for client activity tracker
    
     this.userService.getAllCients(page, this.limit).subscribe({
@@ -125,10 +140,10 @@ export class DashboardComponent  implements OnInit, AfterViewInit {
 
       },
       error: (err) => {
-        console.log(err)
+        console.log(err);
         // this.router.navigate(['/authentication/login'])
-      }
-    })
+      },
+    });
   }
 
   clientFetchAllClients(page:number){
@@ -200,30 +215,29 @@ export class DashboardComponent  implements OnInit, AfterViewInit {
   // currentPage = 3;
   // pageSize = 5;
 
-
-clickOutsideArea = false;
-isMenuOpen = false;
+  clickOutsideArea = false;
+  isMenuOpen = false;
   modalContent = '';
-modalType: 'team-lead' | 'team-member' = 'team-lead';
-@ViewChild('menu', { static: false }) menu!: ElementRef;
-
+  modalType: 'team-lead' | 'team-member' = 'team-lead';
+  @ViewChild('menu', { static: false }) menu!: ElementRef;
 
   modalForm = new FormGroup({
-      firstName: new FormControl('', [Validators.required]),
-      otherNames: new FormControl(''),
-      email: new FormControl('', [Validators.required, Validators.email]),
-      phone: new FormControl('', Validators.required),
-      staffId: new FormControl('', Validators.required),
-    });;
+    firstName: new FormControl('', [Validators.required]),
+    otherNames: new FormControl(''),
+    email: new FormControl('', [Validators.required, Validators.email]),
+    phone: new FormControl('', Validators.required),
+    staffId: new FormControl('', Validators.required),
+  });
   isModalOpen = false;
-  teamMembers: { id: number, name: string }[] = [];
+  teamMembers: { id: number; name: string }[] = [];
 
-constructor(private fb: FormBuilder, private dialog: MatDialog, 
-  private userService: UserService, private modal: ModalService,
-  private router: Router
-) {}
-
-
+  constructor(
+    private fb: FormBuilder,
+    private dialog: MatDialog,
+    private userService: UserService,
+    private modal: ModalService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
    
@@ -241,6 +255,8 @@ constructor(private fb: FormBuilder, private dialog: MatDialog,
     this.fetchOverdueClients(this.overdueClientCurrentPage)
   
 
+    this.fetchAllClients(this.currentPage);
+    this.goToPage(this.currentPage);
 
     // get all overdue clients
     // this.userService.getAllClientsOverdue().subscribe({
@@ -273,48 +289,58 @@ constructor(private fb: FormBuilder, private dialog: MatDialog,
     // this.totalPages.next(totalPages$);
 
     // this.pages = Array.from({length: totalPages$}, (_, i) => i + 1);
-
-
   }
- get modalTitle(): string {
-    return this.modalType === 'team-lead' ? 'Create New Team Lead' : 'Create New Team Member';
- }
+  get modalTitle(): string {
+    return this.modalType === 'team-lead'
+      ? 'Create New Team Lead'
+      : 'Create New Team Member';
+  }
 
   ngAfterViewInit(): void {
     Chart.register(...registerables);
 
     const doughnutData = {
-      labels: ['Completed', 'Interested', 'Awaiting Docs', 'Pending', 'Not Interested'],
-      datasets: [{
-        label: 'Onboarding Status',
-        data: [800, 260, 105, 85, 310],
-        backgroundColor: [
-          '#1B998B',
-          '#F6B100',
-          '#F46036',
-          '#2C2368',
-          '#FF3B30',
-        ],
-        borderWidth: 4
-      }]
+      labels: [
+        'Completed',
+        'Interested',
+        'Awaiting Docs',
+        'Pending',
+        'Not Interested',
+      ],
+      datasets: [
+        {
+          label: 'Onboarding Status',
+          data: [800, 260, 105, 85, 310],
+          backgroundColor: [
+            '#1B998B',
+            '#F6B100',
+            '#F46036',
+            '#2C2368',
+            '#FF3B30',
+          ],
+          borderWidth: 4,
+        },
+      ],
     };
 
     const barData = {
       labels: ['Team A', 'Team B', 'Team C', 'Team D', 'Team E'],
-      datasets: [{
-        label: 'Team Recommendations',
-        data: [480, 510, 800, 285, 700],
-        backgroundColor: '#F46036',
-        borderWidth: 1,
-        barThickness: 28,
-        borderRadius: 5,
-        yAxisId: 'leftAxis'
-      }],
+      datasets: [
+        {
+          label: 'Team Recommendations',
+          data: [480, 510, 800, 285, 700],
+          backgroundColor: '#F46036',
+          borderWidth: 1,
+          barThickness: 28,
+          borderRadius: 5,
+          yAxisId: 'leftAxis',
+        },
+      ],
+    };
 
-    }
-
-
-    const doughnutCanvas = document.getElementById('doughnutChart') as HTMLCanvasElement;
+    const doughnutCanvas = document.getElementById(
+      'doughnutChart'
+    ) as HTMLCanvasElement;
     const barCanvas = document.getElementById('barChart') as HTMLCanvasElement;
 
     if (doughnutCanvas) {
@@ -327,16 +353,16 @@ constructor(private fb: FormBuilder, private dialog: MatDialog,
             legend: {
               position: 'bottom',
               labels: {
-                boxWidth:12,
-                padding:10,
+                boxWidth: 12,
+                padding: 10,
                 color: '#333',
                 font: {
-                  size: 12
-                }
-              }
-            }
-          }
-        }
+                  size: 12,
+                },
+              },
+            },
+          },
+        },
       });
     }
 
@@ -349,19 +375,19 @@ constructor(private fb: FormBuilder, private dialog: MatDialog,
           maintainAspectRatio: false,
           plugins: {
             legend: {
-              position: 'bottom'
-            }
+              position: 'bottom',
+            },
           },
           scales: {
             y: {
-              beginAtZero: true
-            }
-          }
-        }
+              beginAtZero: true,
+            },
+          },
+        },
       });
     }
   }
-toggleMenu() {
+  toggleMenu() {
     this.isMenuOpen = !this.isMenuOpen;
 
     if (this.isMenuOpen) {
@@ -371,41 +397,38 @@ toggleMenu() {
   }
 
   private overlayRef: OverlayRef | null = null;
-  
-  editTeamMember( id:any) {
-    this.openAddTeamMemberDialog(id, "Edit Team Members");
+
+  editTeamMember(id: any) {
+    this.openAddTeamMemberDialog(id, 'Edit Team Members');
   }
 
   addTeamMember() {
-    this.openAddTeamMemberDialog(0, "Create Team Member");
+    this.openAddTeamMemberDialog(0, 'Create Team Member');
   }
 
-  openAddTeamMemberDialog(id:any , title:any){
-   const popup= this.dialog.open(AddTeamMemberPopupComponent,{
-      width: "500px",
-      data:{
-        title:title,
-        id:id
-      }
+  openAddTeamMemberDialog(id: any, title: any) {
+    const popup = this.dialog.open(AddTeamMemberPopupComponent, {
+      width: '500px',
+      data: {
+        title: title,
+        id: id,
+      },
     });
   }
 
   addTeamLead() {
-    this.openAddTeamLeadDialog(0, "Create Team Lead");
+    this.openAddTeamLeadDialog(0, 'Create Team Lead');
   }
 
-  openAddTeamLeadDialog(id:any , title:any){
-    const addLeadPopup= this.dialog.open(AddTeamLeadPopupComponent,{
-       width: "500px",
-       data:{
-         title:title,
-         id:id
-       }
-     });
-   }
-
- 
-
+  openAddTeamLeadDialog(id: any, title: any) {
+    const addLeadPopup = this.dialog.open(AddTeamLeadPopupComponent, {
+      width: '500px',
+      data: {
+        title: title,
+        id: id,
+      },
+    });
+  }
 
   // openDialog(type: 'team-lead' | 'team-member') {
   //   const entityType = type.includes('lead') ? "Team Lead" : "Team Member"
@@ -418,7 +441,6 @@ toggleMenu() {
   // });
   // dialogRef.afterClosed().subscribe(data => {})
   // }
-
 
   closeModal(): void {
     alert('Modal closed');
@@ -436,7 +458,9 @@ toggleMenu() {
   onDocumentClick(event: MouseEvent): void {
     if (!this.clickOutsideArea || !this.menu) return;
 
-    const clickedInside = this.menu.nativeElement.contains(event.target as Node);
+    const clickedInside = this.menu.nativeElement.contains(
+      event.target as Node
+    );
     if (!clickedInside) {
     }
   }
@@ -451,18 +475,18 @@ toggleMenu() {
   // goToPage(page: number) {
   //   this.currentPage$.next(page);
   // }
+  openProfile(type: string): void {
+    this.isOpenProfile = this.isOpenProfile;
+  }
 
-  openModal(type: 'teamLead'|'createTeamMember'|'assignMembers') {
-    if(type === 'teamLead'){
-      this.activeModal = 'teamLead'
-    }
-    else if(type === 'createTeamMember'){
-      this.activeModal = 'createTeamMember'
-    }
-    else if (type === 'assignMembers'){
-      this.activeModal = 'assignMembers'
+  openModal(type: 'teamLead' | 'createTeamMember' | 'assignMembers') {
+    if (type === 'teamLead') {
+      this.activeModal = 'teamLead';
+    } else if (type === 'createTeamMember') {
+      this.activeModal = 'createTeamMember';
+    } else if (type === 'assignMembers') {
+      this.activeModal = 'assignMembers';
     }
     this.modal.openModal(this.activeModal);
   }
-
 }

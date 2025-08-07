@@ -1,6 +1,6 @@
 @if(!showSuccess){
 <form [formGroup]="modalForm" (ngSubmit)="onSubmit()">
-    
+
     <!-- First Name -->
     <div class="form-group">
       <label for="firstName">First Name</label>
@@ -119,8 +119,8 @@
 
     <!-- select team lead -->
     <div class="form-group">
-      <label for="assignTeanLead">Assig Team Lead</label>
-      <select title="team-lead-user-id" formControlName="teamLeadUserId" name="" id="">
+      <label for="assignTeanLead">Assign Team Lead</label>
+      <select title="team-lead-user-id" formControlName="teamLeadUserId" name="" id="assign-lead">
         <option *ngFor="let teamLead of allTeamLeads"  value={{teamLead.userId}}>{{teamLead.firstName}}</option>
         <!-- <option value="kwamina">Kwamina</option>
         <option value="kwaks">Kwaks</option>

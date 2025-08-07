@@ -1,39 +1,37 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from '../../../services/user.service';
-import{ Router,ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-team-lead-form',
   standalone: false,
   templateUrl: './team-lead-form.component.html',
-  styleUrl: './team-lead-form.component.css'
+  styleUrl: './team-lead-form.component.css',
 })
 export class TeamLeadFormComponent {
-
   router: any;
   submitForm: any;
-  @Output() removePopupTitle = new EventEmitter<void>;
- 
-
-
+  @Output() removePopupTitle = new EventEmitter<void>();
 
   isModalOpen = false;
   showSuccess = false;
 
-  constructor(private fb: FormBuilder,private route: Router, private activatedRoute: ActivatedRoute,
-     private userService: UserService) {}
+  constructor(
+    private fb: FormBuilder,
+    private route: Router,
+    private activatedRoute: ActivatedRoute,
+    private userService: UserService
+  ) {}
 
   createTeamLeadForm!: FormGroup;
   ngOnInit(): void {
-
-    console.log(this.activatedRoute.snapshot.paramMap)
+    console.log(this.activatedRoute.snapshot.paramMap);
     const id = this.activatedRoute.snapshot.paramMap.get('teamLeadId');
 
-    if (id ){
-      console.log("populate form fields with data")
+    if (id) {
+      console.log('populate form fields with data');
     }
-
 
     this.createTeamLeadForm = this.fb.group({
       firstName: ['', [Validators.required, Validators.minLength(3)]],
@@ -46,57 +44,39 @@ export class TeamLeadFormComponent {
     });
   }
 
+  onSubmit(): void {
+    const id = this.activatedRoute.snapshot.paramMap.get('teamLeadId');
+    if (id) {
+      console.log('send update request');
+    } else {
+      console.log('send create request');
 
+      if (this.createTeamLeadForm.valid) {
+        console.log(this.createTeamLeadForm.value);
 
-    onSubmit(): void {
-
-      const id = this.activatedRoute.snapshot.paramMap.get('teamLeadId');
-      if(id){
-        console.log("send update request")
-      }else{
-        console.log("send create request")
-
-        if(this.createTeamLeadForm.valid){
-          console.log(this.createTeamLeadForm.value)
-        
         this.userService.addTeamLead(this.createTeamLeadForm.value).subscribe({
           next: (data) => {
-  
-             
             this.removePopupTitle.emit();
-            this.showSuccess = true; 
-            
+            this.showSuccess = true;
           },
-          error:(err)=> {
-            console.log(err)
-          }
-        })
+          error: (err) => {
+            console.log(err);
+          },
+        });
       }
+    }
+  }
 
-      }
-    
-      
+  @Output() onCancel = new EventEmitter<void>();
 
-      
-      
-   
-  
-}
-
-@Output() onCancel = new EventEmitter<void>();
-
-cancel(){
-  this.onCancel.emit();
-}
-
-
-
+  cancel() {
+    this.onCancel.emit();
+  }
 
   onSaveChanges(): void {
     if (this.createTeamLeadForm.valid) {
-      this.createTeamLeadForm.reset()
+      this.createTeamLeadForm.reset();
     }
-    this.showSuccess=false
-    
+    this.showSuccess = false;
   }
 }

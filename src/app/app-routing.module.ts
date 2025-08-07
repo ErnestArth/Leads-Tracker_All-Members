@@ -13,28 +13,26 @@ import { DashboardComponent } from './admin/components/dashboard/dashboard.compo
 import { NotificationComponent } from './admin/components/notification/notification.component';
 
 const routes: Routes = [
-  {path: '', redirectTo: 'authentication', pathMatch: 'full'},
+  { path: '', redirectTo: 'authentication', pathMatch: 'full' },
   {
     path: 'authentication',
     loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),
   },
   {
     path: 'admin',
-    loadChildren: () => import('./admin/admin.module').then((m) => m.AdminModule),
+    loadChildren: () =>
+      import('./admin/admin.module').then((m) => m.AdminModule),
   },
-  { path: 'otp-auth', component:OtpAuthComponent},
-  { path: 'reset-password', component:ResetForgotPasswordComponent},
+  { path: 'otp-auth', component: OtpAuthComponent },
+  { path: 'reset-password', component: ResetForgotPasswordComponent },
   // { path: 'login', component:LoginComponent},
-  {path: 'ResettingPasswordComponent', component:ResettingPasswordComponent},
-  {path: 'dialog', component:CreateTeamLeadComponent },
-  {path: 'dialog-team-lead', component:DialogTeamLeadComponent},
-  {path: 'dialog-team-member', component:DialogTeamMemberComponent},
-  {path: 'team-member', component:TeamMemberComponent},
-  {path: 'admin', component:DashboardComponent},
-  {path: 'notification', component:NotificationComponent},
-
-
-
+  { path: 'ResettingPasswordComponent', component: ResettingPasswordComponent },
+  { path: 'dialog', component: CreateTeamLeadComponent },
+  { path: 'dialog-team-lead', component: DialogTeamLeadComponent },
+  { path: 'dialog-team-member', component: DialogTeamMemberComponent },
+  { path: 'team-member', component: TeamMemberComponent },
+  { path: 'admin', component: DashboardComponent },
+  { path: 'notification', component: NotificationComponent },
 ];
 
 @NgModule({

@@ -8,9 +8,8 @@ describe('UnassignedMembersModalComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [UnassignedMembersModalComponent]
-    })
-    .compileComponents();
+      declarations: [UnassignedMembersModalComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(UnassignedMembersModalComponent);
     component = fixture.componentInstance;

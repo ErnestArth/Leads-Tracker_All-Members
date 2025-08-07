@@ -2,36 +2,40 @@ import { Component, Inject, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { getAllTeamLeads } from '../../../services/user.service';
-import{ UserService } from '../../../services/user.service'
-import {FormComponentComponent} from '../form-component/form-component.component'
+import { UserService } from '../../../services/user.service';
+import { FormComponentComponent } from '../form-component/form-component.component';
 
 @Component({
   selector: 'app-add-team-member-popup',
   standalone: false,
   templateUrl: './add-team-member-popup.component.html',
-  styleUrl: './add-team-member-popup.component.css'
+  styleUrl: './add-team-member-popup.component.css',
 })
 export class AddTeamMemberPopupComponent {
-
   modalForm!: FormGroup;
   showSuccess: any;
-  constructor(@Inject(MAT_DIALOG_DATA) public data:any,private dialogRef:MatDialogRef<AddTeamMemberPopupComponent>, private ref:MatDialogRef<FormComponentComponent>,private fb: FormBuilder,
-  private service:UserService ) { }
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private dialogRef: MatDialogRef<AddTeamMemberPopupComponent>,
+    private ref: MatDialogRef<FormComponentComponent>,
+    private fb: FormBuilder,
+    private service: UserService
+  ) {}
   inputData: any;
-  showPopupTitle = true
+  showPopupTitle = true;
   allTeamLeads: getAllTeamLeads[] = [];
 
-
   ngOnInit() {
-  
-    this.inputData = this.data
-   
-    if (this.inputData.id.length > 0){
-      console.log(this.inputData.id)
-      this.setEditData('zQg79yqBiGVW3p9lUFBYA3ZJ9Ym5XQ','ojjsnv2crXprjvARhohGA30DKhUuSI')
+    this.inputData = this.data;
+
+    if (this.inputData.id.length > 0) {
+      console.log(this.inputData.id);
+      this.setEditData(
+        'zQg79yqBiGVW3p9lUFBYA3ZJ9Ym5XQ',
+        'ojjsnv2crXprjvARhohGA30DKhUuSI'
+      );
     }
-    
-    
+
     // this.modalForm = this.fb.group({
     //   firstName: ['', [Validators.required, Validators.minLength(3)]],
     //   lastName: ['', [Validators.required, Validators.minLength(3)]],
@@ -43,25 +47,23 @@ export class AddTeamMemberPopupComponent {
     //   staffId: ['', Validators.required],
     //   // staffId: ['', Validators.required],
     // });
-
   }
 
-  setEditData(teamLeadId:any,memberID:any){
-    this.service.getSpecificTeamMember(memberID,teamLeadId).subscribe({
+  setEditData(teamLeadId: any, memberID: any) {
+    this.service.getSpecificTeamMember(memberID, teamLeadId).subscribe({
       next: (data) => {
-      this.modalForm.patchValue(data)
-        console.log(this.modalForm.value)
-        console.log('data suppose to go here')
-      }
-      
-    })
+        this.modalForm.patchValue(data);
+        console.log(this.modalForm.value);
+        console.log('data suppose to go here');
+      },
+    });
   }
 
   onSubmit(): void {
     this.showSuccess = true;
-    console.log(this.modalForm.value)
+    console.log(this.modalForm.value);
     // if(this.modalForm.valid){
-      
+
     //   this.UserService.addTeamMember(this.modalForm.value).subscribe({
     //     next: ()=>{
     //       console.log(this.modalForm.value)
@@ -73,25 +75,20 @@ export class AddTeamMemberPopupComponent {
     //   })
 
     // }
-  
-}
+  }
 
-handleSuccess(){
-  this.showPopupTitle = false
-  console.log('helo')
-}
-handleCancel(){
-  this.dialogRef.close();
-}
+  handleSuccess() {
+    this.showPopupTitle = false;
+    console.log('helo');
+  }
+  handleCancel() {
+    this.dialogRef.close();
+  }
 
-
-  
   // closeModal() {
   //   this.ref.close();
   //   this.ref.componentInstance.cancelClicked.subscribe(()=>{
   //     console.log('close')
   //   })
   // }
-
-  
 }

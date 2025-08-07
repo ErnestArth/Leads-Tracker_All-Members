@@ -4,17 +4,17 @@ import { Component, Output, EventEmitter } from '@angular/core';
   selector: 'app-unassigned-members-modal',
   standalone: false,
   templateUrl: './unassigned-members-modal.component.html',
-  styleUrl: './unassigned-members-modal.component.css'
+  styleUrl: './unassigned-members-modal.component.css',
 })
 export class UnassignedMembersModalComponent {
-  areChangesSaved: boolean = false
+  areChangesSaved: boolean = false;
 
-  @Output() onCancel = new  EventEmitter<void>()
+  @Output() onCancel = new EventEmitter<void>();
 
-  cancel(){
-    this.onCancel.emit()
+  cancel() {
+    this.onCancel.emit();
   }
-  onSaveChanges(){
-    this.areChangesSaved = !this.areChangesSaved
+  onSaveChanges() {
+    this.areChangesSaved = !this.areChangesSaved;
   }
 }

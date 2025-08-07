@@ -1,61 +1,67 @@
 import { Component } from '@angular/core';
-import {Chart, Colors, registerables, scales} from 'chart.js';
-import {Location} from '@angular/common';
+import { Chart, Colors, registerables, scales } from 'chart.js';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-team-lead-details',
   standalone: false,
   templateUrl: './team-lead-details.component.html',
-  styleUrl: './team-lead-details.component.css'
+  styleUrl: './team-lead-details.component.css',
 })
 export class TeamLeadDetailsComponent {
-
   isEditTeamMemberActive = false;
-  isTitleNavActive=true;
-  showEditForm= false
+  isTitleNavActive = true;
+  showEditForm = false;
   constructor(private location: Location) {}
 
   ngAfterViewInit() {
     this.initChart();
-    
-    
-  
   }
 
-
-  initChart(){
-    console.log('init chart')
+  initChart() {
+    console.log('init chart');
     Chart.register(...registerables);
     const doughnutData = {
-      labels: ['Completed', 'Interested', 'Awaiting Docs', 'Pending', 'Not Interested'],
-      datasets: [{
-        label: 'Onboarding Status',
-        data: [800, 260, 105, 85, 310],
-        backgroundColor: [
-          '#1B998B',
-          '#F6B100',
-          '#F46036',
-          '#2C2368',
-          '#FF3B30',
-        ],
-        borderWidth: 4
-      }]
+      labels: [
+        'Completed',
+        'Interested',
+        'Awaiting Docs',
+        'Pending',
+        'Not Interested',
+      ],
+      datasets: [
+        {
+          label: 'Onboarding Status',
+          data: [800, 260, 105, 85, 310],
+          backgroundColor: [
+            '#1B998B',
+            '#F6B100',
+            '#F46036',
+            '#2C2368',
+            '#FF3B30',
+          ],
+          borderWidth: 4,
+        },
+      ],
     };
 
     const barData = {
       labels: ['Bright', 'Benedicta', 'Koofi', 'Yawtey', 'Team E'],
-      datasets: [{
-        label: 'Members Recommendations',
-        data: [480, 510, 800, 285, 700],
-        backgroundColor: '#2C2368',
-        borderWidth: 1,
-        barThickness: 28,
-        borderRadius: 5,
-        yAxisId: 'leftAxis'
-      }],
-
-    }
-    const doughnutCanvas = document.getElementById('doughnutChart') as HTMLCanvasElement;
+      datasets: [
+        {
+          label: 'Members Recommendations',
+          data: [480, 510, 800, 285, 700],
+          backgroundColor: '#2C2368',
+          borderWidth: 1,
+          barThickness: 28,
+          borderRadius: 5,
+          yAxisId: 'leftAxis',
+        },
+      ],
+    };
+    const doughnutCanvas = document.getElementById(
+      'doughnutChart'
+    ) as HTMLCanvasElement;
     const barCanvas = document.getElementById('barChart') as HTMLCanvasElement;
 
     if (doughnutCanvas) {
@@ -68,16 +74,16 @@ export class TeamLeadDetailsComponent {
             legend: {
               position: 'bottom',
               labels: {
-                boxWidth:12,
-                padding:10,
+                boxWidth: 12,
+                padding: 10,
                 color: '#333',
                 font: {
-                  size: 12
-                }
-              }
-            }
-          }
-        }
+                  size: 12,
+                },
+              },
+            },
+          },
+        },
       });
     }
 
@@ -90,27 +96,24 @@ export class TeamLeadDetailsComponent {
           maintainAspectRatio: false,
           plugins: {
             legend: {
-              position: 'bottom'
-            }
+              position: 'bottom',
+            },
           },
           scales: {
             y: {
-              beginAtZero: true
-            }
-          }
-        }
+              beginAtZero: true,
+            },
+          },
+        },
       });
     }
   }
 
-
-
-
-  editTeamMember(){
-    this.isEditTeamMemberActive = !this.isEditTeamMemberActive
+  editTeamMember() {
+    this.isEditTeamMemberActive = !this.isEditTeamMemberActive;
   }
-  goBack(){
-    this.location.back()
+  goBack() {
+    this.location.back();
   }
 
   toggleTitleNav() {
@@ -120,5 +123,4 @@ export class TeamLeadDetailsComponent {
   toggleEditForm() {
     this.showEditForm = !this.showEditForm;
   }
-
 }
