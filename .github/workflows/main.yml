@@ -34,12 +34,12 @@ jobs:
       # 5️⃣ Copy build files to EC2
       - name: Copy files to EC2
         run: |
-          scp -i private_key.pem -o StrictHostKeyChecking=no -r dist/*/* ${{ secrets.USER }}@${{ secrets.HOST }}:/tmp/
+          scp -i private_key.pem -o StrictHostKeyChecking=no -r dist/*/* ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}:/tmp/
 
       # 6️⃣ Deploy on EC2
       - name: Deploy on EC2
         run: |
-          ssh -i private_key.pem -o StrictHostKeyChecking=no ${{ secrets.USER }}@${{ secrets.HOST }} << 'EOF'
+          ssh -i private_key.pem -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
             sudo rm -rf /var/www/html/*
             sudo mv /tmp/* /var/www/html/
             sudo chown -R nginx:nginx /var/www/html
