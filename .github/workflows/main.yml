@@ -28,7 +28,7 @@ jobs:
       # 4️⃣ Create private key file
       - name: Create private key file
         run: |
-          echo "${{ secrets.PRIVATE_KEY }}" | tr -d '\r' > private_key.pem
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" | tr -d '\r' > private_key.pem
           chmod 600 private_key.pem
 
       # 5️⃣ Copy build files to EC2
