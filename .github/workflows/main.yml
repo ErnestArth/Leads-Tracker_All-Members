@@ -4,7 +4,7 @@ name: Deploy Angular App to EC2
 on:
   push:
     branches:
-      - main  # Run workflow only when pushing to main branch
+      - main  # Trigger on push to main branch
 
 jobs:
   deploy:
@@ -30,15 +30,16 @@ jobs:
           echo "${{ secrets.EC2_SSH_KEY }}" | tr -d '\r' > private_key
           chmod 600 private_key
 
-      - name: Copy files to EC2
+      - name: Copy built files to EC2
         run: >
           scp -i private_key -o StrictHostKeyChecking=no
           -r dist/*/* ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}:/tmp/
 
-      - name: Deploy on EC2
+      - name: Deploy to nginx directory
         run: |
           ssh -i private_key -o StrictHostKeyChecking=no \
             ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
+              sudo rm -rf /var/www/html/*
               sudo cp -r /tmp/* /var/www/html/
               sudo systemctl restart nginx
               sudo rm -rf /tmp/*
