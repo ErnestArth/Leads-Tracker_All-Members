@@ -1,10 +1,10 @@
-name: Deploy Angular to EC2
+name: Deploy Angular App to EC2
 
 on:
   workflow_dispatch:
     inputs:
-      code_branch:
-        description: 'Branch to deploy code from'
+      branch:
+        description: 'Branch to deploy'
         required: true
         default: 'main'
 
@@ -13,59 +13,55 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # 1️⃣ Checkout the selected branch
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.branch }}
 
+      # 2️⃣ Setup Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: '18'
 
+      # 3️⃣ Install dependencies
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --legacy-peer-deps
 
+      # 4️⃣ Build Angular app
       - name: Build Angular app
-        run: npm run build -- --configuration production
+        run: npm run build --configuration production
 
-      # Temporarily allow GitHub Actions IP to SSH in (Port 22) using AWS CLI
-      - name: Authorize temporary SSH access
+      # 5️⃣ Detect build folder (SSR or normal)
+      - name: Detect build folder
+        id: detect_build
         run: |
-          GITHUB_IP=$(curl -s https://api.ipify.org)
-          aws ec2 authorize-security-group-ingress \
-            --group-id ${{ secrets.AWS_SECURITY_GROUP_ID }} \
-            --protocol tcp \
-            --port 22 \
-            --cidr ${GITHUB_IP}/32
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION }}
+          APP_NAME=$(ls dist)
+          if [ -d "dist/$APP_NAME/browser" ]; then
+            echo "BUILD_PATH=dist/$APP_NAME/browser" >> $GITHUB_ENV
+          else
+            echo "BUILD_PATH=dist/$APP_NAME" >> $GITHUB_ENV
+          fi
 
+      # 6️⃣ Create private key file
       - name: Create private key file
         run: |
-          echo "${{ secrets.EC2_SSH_KEY }}" > private_key.pem
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" | tr -d '\r' > private_key.pem
           chmod 600 private_key.pem
 
-      - name: Deploy build to EC2
+      # 7️⃣ Copy build files to EC2
+      - name: Copy files to EC2
         run: |
-          scp -i private_key.pem -o StrictHostKeyChecking=no -r dist/*/* ec2-user@${{ secrets.EC2_HOST }}:/tmp/
-          ssh -i private_key.pem -o StrictHostKeyChecking=no ec2-user@${{ secrets.EC2_HOST }} << 'EOF'
-            sudo cp -r /tmp/* /var/www/html/
-            sudo systemctl restart nginx
-            sudo rm -rf /tmp/*
-          EOF
+          scp -i private_key.pem -o StrictHostKeyChecking=no -r $BUILD_PATH/* \
+          ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}:/tmp/
 
-      # Revoke SSH access after deployment
-      - name: Revoke SSH access
-        if: always()
+      # 8️⃣ Deploy on EC2
+      - name: Deploy on EC2
         run: |
-          GITHUB_IP=$(curl -s https://api.ipify.org)
-          aws ec2 revoke-security-group-ingress \
-            --group-id ${{ secrets.AWS_SECURITY_GROUP_ID }} \
-            --protocol tcp \
-            --port 22 \
-            --cidr ${GITHUB_IP}/32
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION }}
+          ssh -i private_key.pem -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
+            sudo rm -rf /var/www/html/*
+            sudo mv /tmp/* /var/www/html/
+            sudo chown -R nginx:nginx /var/www/html
+            sudo systemctl restart nginx
+          EOF
