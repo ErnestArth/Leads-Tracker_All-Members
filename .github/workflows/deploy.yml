@@ -1,7 +1,11 @@
 name: Deploy Angular App to EC2
 
 on:
-  workflow_dispatch:  # Manual trigger
+  workflow_dispatch:
+    inputs: {}    # optional, just to make syntax explicit
+  push:
+    branches:
+      - sesse-branch
 
 jobs:
   deploy:
