@@ -13,36 +13,48 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # 1️⃣ Checkout code
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      # 2️⃣ Setup Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '18'
 
+      # 3️⃣ Install dependencies
       - name: Install dependencies
         run: npm ci
 
+      # 3.5️⃣ Install Angular CLI globally
+      - name: Install Angular CLI
+        run: npm install -g @angular/cli
+
+      # 4️⃣ Build Angular app
       - name: Build Angular app
         run: ng build leads-Tracker --configuration production
 
+      # 5️⃣ Get Angular build folder name dynamically
       - name: Get build folder name
         id: build_folder
         run: |
           BUILD_DIR=$(ls dist)
           echo "BUILD_DIR=$BUILD_DIR" >> $GITHUB_ENV
 
+      # 6️⃣ Create private key file
       - name: Create private key file
         run: |
           echo "${{ secrets.SSH_PRIVATE_KEY }}" | tr -d '\r' > private_key.pem
           chmod 600 private_key.pem
 
+      # 7️⃣ Copy build files to EC2
       - name: Copy files to EC2
         run: |
           scp -i private_key.pem -o StrictHostKeyChecking=no -r dist/$BUILD_DIR/* \
           ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}:/tmp/
 
+      # 8️⃣ Deploy on EC2
       - name: Deploy on EC2
         run: |
           ssh -i private_key.pem -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
