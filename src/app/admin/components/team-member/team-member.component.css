@@ -230,15 +230,15 @@ input::placeholder {
   color: #2b2b2b;
   font-weight: 800;
 }
-/* .progress-outline{
+.progress-outline{
     width: 100%;
-    background: #E0DBFF;
+    /* background: #E0DBFF; */
     height: 18px;
     border-radius: 4px;
     text-align: right;
     position: relative;
-  } */
-.green-outline {
+  }
+/* .green-outline {
   width: 100%;
   background: #d8fffb;
   height: 18px;
@@ -280,20 +280,48 @@ input::placeholder {
   background: #f6b100;
   height: 18px;
   border-radius: 4px;
-}
+} */
 
-/* .progress{
-    width: 60%;
-    background: #2C2368;
+.progress{
+    /* width: 60%; */
+    /* background: #2C2368; */
     height: 18px;
     border-radius: 4px;
 
-  } */
+  }
 .progress-percentage {
   right: 14px;
   position: absolute;
   font-size: 10px;
   top: 4px;
+}
+.red-outline{
+  background:#fce4e2
+}
+.progress-red{
+  background:#E20408;
+ 
+}
+.text-red{
+  color:#E20408;
+}
+yellow-outline{
+  background:#FFFBEA;
+}
+.progress-yellow{
+  background:#F6B100;
+}
+.text-yellow{
+  color:#F6B100;
+}
+.green-outline{
+  background:#D8FFFB;
+}
+.progress-green{
+  background:#1B998B;
+}
+.text-green{
+  color:#1B998B;
 }
 .progress-bar p {
   font-size: 13px;
@@ -301,6 +329,7 @@ input::placeholder {
   font-weight: 100;
   margin-bottom: 3px;
   color: #2f2e2d;
+  max-width: 100%;
 }
 .container2 {
   margin-bottom: 40px;

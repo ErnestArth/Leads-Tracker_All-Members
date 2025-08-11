@@ -93,9 +93,8 @@
             src="dashboard-images/Headshot 2.jpg"
             alt="profile-image"
             class="profile-image"
-            (click)="openProfile('profile')"
             routerLink="/admin/profile"
-            routerLinkActive="selected"
+            
           />
         </div>
 
@@ -163,7 +162,7 @@
                 Total Clients
               </div>
 
-              <p>1250</p>
+              <p>{{clientStatusCount.totalClients}}</p>
             </div>
             <div class="completed-onboarding data-cards">
               <div class="icon-and-status-name">
@@ -192,7 +191,7 @@
                 Onboarded
               </div>
 
-              <p>800</p>
+              <p>{{clientStatusCount.overallStatusCounts?.ONBOARDED}}</p>
             </div>
             <div class="interested data-cards">
               <div class="icon-and-status-name">
@@ -211,7 +210,7 @@
                 Interested
               </div>
 
-              <p>260</p>
+              <p>{{clientStatusCount.overallStatusCounts?.INTERESTED}}</p>
             </div>
           </div>
           <div class="card-responsive-layout">
@@ -237,7 +236,7 @@
                 Awaiting Documentation
               </div>
 
-              <p>105</p>
+              <p>{{clientStatusCount.overallStatusCounts?.AWAITING_DOCUMENTATION}}</p>
             </div>
             <div class="pending data-cards">
               <div class="icon-and-status-name">
@@ -261,7 +260,7 @@
                 Pending
               </div>
 
-              <p>85</p>
+              <p>{{clientStatusCount.overallStatusCounts?.PENDING}}</p>
             </div>
             <div class="not-interested data-cards">
               <div class="icon-and-status-name">
@@ -285,7 +284,7 @@
                 Not Interested
               </div>
 
-              <p>310</p>
+              <p>{{clientStatusCount.overallStatusCounts?.NOT_INTERESTED}}</p>
             </div>
           </div>
         </div>

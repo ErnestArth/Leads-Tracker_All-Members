@@ -19,7 +19,7 @@
         <button class="dismiss-btn">Dismiss All Read</button>
       </div>
       <div
-        *ngFor="let note of groupedNotifications.NEW"
+        *ngFor="let note of notification"
         class="notification-card"
       >
         <div class="icon">
@@ -35,53 +35,23 @@
         <div class="content">
           <h3>{{ note.type }}</h3>
           <p *ngIf="note.type === 'New Client Forwarded'">
-            Client <strong>{{ note.clientName }}</strong> was forwarded to you
-            by <strong>{{ note.forwardedBy }}</strong
+             {{note.message}}
+            
             >.
           </p>
-          <p *ngIf="note.type === 'Overdue Follow-Up'">
-            Client <strong>{{ note.clientName }}</strong> is still in ‘Pending’
-            status for {{ note.daysPending }} days.
+          <p>
+            Client <strong>{{note.client.firstName}} {{note.client.lastName}}</strong> is still in ‘Pending’
+            status for 4 days.
           </p>
-          <small>{{ note.timestamp }}</small>
+          <small>{{timeAgo}}</small>
         </div>
         <div class="actions">
           <button type="button" class="alert-btn">Alert Team Lead</button>
           <button type="button" class="view-btn">View Client</button>
         </div>
       </div>
-      <h4 class="earlier">EARLIER</h4>
-      <div
-        *ngFor="let note of groupedNotifications.EARLIER"
-        class="notification-card"
-      >
-        <div class="icon">
-          <img
-            [src]="
-              note.type === 'New Client Forwarded'
-                ? 'paper-plane.png'
-                : 'time-clock.png'
-            "
-            alt="logo"
-          />
-        </div>
-        <div class="content">
-          <h3>{{ note.type }}</h3>
-          <p *ngIf="note.type === 'Overdue Follow-Up'">
-            Client <strong>{{ note.clientName }}</strong> is still in ‘Pending’
-            status for {{ note.daysPending }} days.
-          </p>
-          <small>{{ note.timestamp }}</small>
-        </div>
-        <div class="actions">
-          <button type="button" class="alert-btn disabled-button">
-            Alert Team Lead
-          </button>
-          <button type="button" class="view-btn disabled" disabled>
-            View Client
-          </button>
-        </div>
-      </div>
+      <!-- <h4 class="earlier">EARLIER</h4> -->
+     
     </div>
   </main>
 </div>

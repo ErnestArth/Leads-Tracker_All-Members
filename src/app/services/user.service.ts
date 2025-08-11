@@ -2,6 +2,20 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams,HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
+
+export interface AddTeamRequest{
+  name:string
+  teamLeadUserId:string
+}
+export interface  teamName{
+  name:string
+  teamLeadUserId:string
+  teamLeadName:string
+}
+export interface AddTeamResponse{
+  teamName:teamName
+  message:string
+}
 export interface createTeamMember {
   firstName:string,
   lastName:string,
@@ -43,17 +57,45 @@ export interface  specificTeamMembers{
         phoneNumber: string
         staffId: string
 }
-
+export interface AllTeamsTeamMembers{
+  memberId: string
+  memberName: string
+  totalClientsSubmitted: string,
+  clientStatus: object
+  target: number
+  progressPercentage: number
+  progressFraction: number
+}
 export interface getAllTeamLeads{
-  userId: string
-  firstName: string
-  lastName: string
-  email: string
-  role: string
-  phoneNumber: string
-  staffId: string
-  teamPerformance: string
-  memberPerformance: string
+  // userId: string
+  // firstName: string
+  // lastName: string
+  // email: string
+  // role: string
+  // phoneNumber: string
+  // staffId: string
+  // teamPerformance: string
+  // memberPerformance: string
+
+  clientStatus: object
+  numberOfClients: number
+  numberOfTeamMembers: number
+  progressFraction: string
+  progressPercentage: number 
+  teamId: number
+  teamLeadName: string
+  teamMembers: getAllTeamTeamMembers[]
+  teamLeadUserId:string
+  teamName:string
+  teamTarget:number
+  totalClientsAdded:number
+  email:string
+  color?:string
+  progressColor?:string
+  progressTextColor?:string
+  progressOutlineColor?:string
+
+
 }
 
 
@@ -114,11 +156,26 @@ export interface getAllClientsOverdue{
 }
 // interface for endpoint to get a specific team lead
 // first define interface for teamMembers which is an array
+
+export interface clientStatus{
+  Pending?: number
+  Awaiting_documentation?: number
+  Not_interested?: number
+  Interested?: number
+  Onboarded?: number
+  totalClients?: number
+
+}
 export interface teamMembers{
   memberId: string
   memberName: string
-  totalClientsSubmitted: string,
-  clientStatus: object
+  totalClientsSubmitted: number,
+  clientStatus: clientStatus
+  progressFraction: number
+  email: string
+  teamName: string
+  teamLeadName: string
+  
 }
 
 export interface teamPerformance{
@@ -126,10 +183,13 @@ export interface teamPerformance{
   totalClientsAdded:string
   teamTarget:string
   numberOfClients:string
-  progressPercentage:string
+  progressPercentage:number
   teamMembers:teamMembers[]
-  clientStatus:object
-  numberOfTeamMembers:string
+  clientStatus:clientStatus
+  numberOfTeamMembers:number
+  progressFraction:number
+  email:string
+  color?:string
 }
 
 export interface getSpecificTeamLead{
@@ -141,8 +201,10 @@ export interface getSpecificTeamLead{
   phoneNumber:string
   staffId:string
   teamPerformance:teamPerformance
+  memberPerformance: number
 }
 
+// get specific team member
 export interface memberPerformance{
   memberId:string
   memberName:string
@@ -163,13 +225,20 @@ export interface getSpecificTeamMember{
 }
 
 export interface getAllTeamMembers{
-  userId: string
-  firstName: string
-  lastName: string
+  memberId: string
+  memberName: string
+  totalClientsSubmitted: number
+  target: number
+  progressPercentage: number
+  clientStatus: object
+  progressFraction: string
   email: string
-  role: string
-  phoneNumber: string
-  staffId: string
+  teamLeadName: string
+  teamName: string
+  color?: string
+  progressColor?:string
+  progressTextColor?:string
+  progressOutlineColor?:string
   // teamPerformance: null
   // memberPerformance: null
 }
@@ -182,6 +251,11 @@ export interface getUserDetails{
   role: string
   phoneNumber: string
   staffId: string
+  progressFraction?: number
+  progressPercentage?: number
+  targetValue?: number
+  progress?:number
+  createdDate?: string
 
 }
 
@@ -196,6 +270,102 @@ export interface updateUserProfile{
 }
 
 
+// get all team
+
+export interface getAllTeamsTeamMembersClientStatus{
+  PENDING: number
+}
+
+export interface getAllTeamTeamMembers{
+  memberId:string
+  memberName:string
+  totalClientsSubmitted:number
+  target:number
+  progressPercentage:number
+  clientStatus:getAllTeamsTeamMembersClientStatus
+  progressFraction:number
+ 
+
+}
+
+export interface getAllTeamsClientStatus{
+  PENDING: number
+}
+
+export interface getAllTeams{
+  teamId:string
+  teamName:string
+  teamLeadName:string
+  totalClientsAdded:number
+  teamTarget:number
+  numberOfClients:number
+  progressPercentage:number
+  teamMembers:getAllTeamTeamMembers[]
+  clientStatus:getAllTeamsClientStatus
+  numberOfTeamMembers:number
+  progressFraction:number
+  progressColor?:string
+  progressTextColor?:string
+  progressOutlineColor?:string
+
+
+}  
+// interface for getting unresolved notificatioon
+export interface teamLead{
+  userId: string
+  firstName: string
+  lastName: string
+  email: string
+}
+
+export interface client{
+  clientId: string
+  userId: string
+  firstName:string
+  lastName:string
+  phoneNumber:string
+  clientStatus:string
+  createdDate:string
+}
+
+export interface unResolvedNotification{
+  id: string
+  message: string
+  resolved:string
+  createdAt:string
+  type:string
+  teamLead:teamLead
+  client:client
+  daysOverdue:number
+}
+
+// Get total no of clients by statuses
+
+export interface overallStatusCounts{
+  NOT_INTERESTED?: number
+  INTERESTED?: number
+  AWAITING_DOCUMENTATION?: number
+  ONBOARDED?: number
+        
+}
+export interface statusCounts{
+  not_interested: number
+  interested: number
+  awaiting_documentation: number
+  on_boarded: number
+
+}
+
+export interface teamStats{
+  teamName:string,
+  statusCounts:statusCounts
+}
+export interface clientStatusCounts{
+  totalClients: number
+  overallStatusCounts:overallStatusCounts
+  teamStats:teamStats[]
+        
+}
 
 // const token =localStorage.getItem('token')
 // console.log(token)
@@ -212,7 +382,7 @@ export class UserService {
 
 
 
-  private apiUrl = 'http://51.20.135.243:8080'; //
+  private apiUrl = 'http://13.61.150.158:8080'; //
 
 
   private teamMembers:createTeamMember[]=[];
@@ -226,6 +396,14 @@ export class UserService {
 
 
   constructor(private http: HttpClient) {}
+  // create a team
+
+  addTeam(team: AddTeamRequest): Observable<AddTeamRequest> {
+    const token =localStorage.getItem('token')
+    const headers = new HttpHeaders({'Authorization' : `Bearer ${token}`})
+    return this.http.post<AddTeamRequest>(`${this.apiUrl}/leads-tracker/api/v1/leads/team`, team, {headers});
+    
+  }
 // create a team member
   addTeamMember(teamMember: createTeamMember[]): Observable<void> {
 
@@ -234,6 +412,14 @@ export class UserService {
   })
     return this.http.post<void>(`${this.apiUrl}/leads-tracker/api/v1/leads`, teamMember,{headers} );
 
+  }
+
+  // get total number of clients by status
+
+  getClientStatusCounts():Observable<clientStatusCounts> {
+    const token = localStorage.getItem('token')
+    const headers = new HttpHeaders({'Authorization' : `Bearer ${token}`})
+    return this.http.get<clientStatusCounts>(`${this.apiUrl}/leads-tracker/api/v1/clients/statistics?duration=week`,{headers});
   }
 
   // create a team lead
@@ -253,6 +439,14 @@ export class UserService {
     return this.http.get<specificTeamMembers[]>(`${this.apiUrl}/leads-tracker/api/v1/leads/team-leads/${userId}/members?duration=week`,{headers} );
   }
 
+  // get all teams
+
+  getAllTeams():Observable<getAllTeams[]> {
+    const token = localStorage.getItem('token')
+    const headers = new HttpHeaders({'Authorization' : `Bearer ${token}`})
+    return this.http.get<getAllTeams[]>(`${this.apiUrl}/leads-tracker/api/v1/teams/all-teams?duration=week`,{headers});
+  }
+
   getAllTeamLeads():Observable<getAllTeamLeads[]> {
     const token =localStorage.getItem('token')
     const headers = new HttpHeaders({'Authorization' : `Bearer ${token}`
@@ -260,7 +454,7 @@ export class UserService {
     return this.http.get<getAllTeamLeads[]>(`${this.apiUrl}/leads-tracker/api/v1/leads/team-leads`,{headers} );
   }
 
-  getAllCients( page: number , limit:number):Observable<getAllClients> {
+  getAllClients( page: number , limit:number):Observable<getAllClients> {
     const token =localStorage.getItem('token')
     const headers = new HttpHeaders({'Authorization' : `Bearer ${token}`})
     return this.http.get<getAllClients>(`${this.apiUrl}/leads-tracker/api/v1/clients/all-clients?page=${page}&limit=${limit}`,{headers});
@@ -307,5 +501,11 @@ updateUserProfile(userId:string, updateUserProfile:updateUserProfile):Observable
 
 
 }
+// unresolved notification
+getUnresolvedNotification():Observable<unResolvedNotification[]>{
+  const token = localStorage.getItem('token')
+  const headers = new HttpHeaders({'Authorization' : `Bearer ${token}`})
+  return this.http.get<unResolvedNotification[]>(`${this.apiUrl}/leads-tracker/api/v1/notifications/admin/notifications/unresolved`,{headers});
 
+}
 }

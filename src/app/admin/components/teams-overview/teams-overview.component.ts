@@ -6,11 +6,13 @@ import { AssignMembersModalComponent } from '../assign-members-modal/assign-memb
 import { EditTeamModalComponent } from '../edit-team-modal/edit-team-modal.component';
 import { DeactivateTeamModalComponent } from '../deactivate-team-modal/deactivate-team-modal.component';
 import { ModalService } from '../../../services/modalService';
+import {EditTeamDialogComponent} from '../edit-team-dialog/edit-team-dialog.component'
 import {
   specificTeamMembers,
   UserService,
 } from '../../../services/user.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
 @Component({
   selector: 'app-teams-overview',
   standalone: false,
@@ -26,7 +28,8 @@ export class TeamsOverviewComponent {
   constructor(
     private modal: ModalService,
     private userService: UserService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private dialog: MatDialog
   ) {}
   openModal(type: 'assignMembers' | 'editTeam' | 'deactivateTeam') {
     if (type === 'assignMembers') {
@@ -39,6 +42,15 @@ export class TeamsOverviewComponent {
     this.modal.openModal(this.activeModal);
   }
 
+  openEditTeamDialog() {
+    this.dialog.open(EditTeamDialogComponent,{
+      width: '1200px',
+      data:{
+        title: 'Edit Team',
+
+      }
+    });
+  }
   ngOnInit(): void {
     let id = this.activatedRoute.snapshot.paramMap.get('teamId');
     // console.log(this.activatedRoute.snapshot.paramMap);

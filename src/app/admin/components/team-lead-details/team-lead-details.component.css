@@ -242,7 +242,7 @@ li {
   position: absolute;
   font-size: 10px;
   top: 4px;
-  color: #1b998b;
+  /* color: #1b998b; */
 }
 .progress-bar {
   display: flex;
@@ -255,7 +255,48 @@ li {
   font-family: "Wix Madefor Display", sans-serif;
   color: #2c2c2c;
 }
-.green-outline {
+.red-outline{
+  background:#fce4e2
+}
+.progress-red{
+  background:#E20408;
+ 
+}
+.text-red{
+  color:#E20408;
+}
+yellow-outline{
+  background:#FFFBEA;
+}
+.progress-yellow{
+  background:#F6B100;
+}
+.text-yellow{
+  color:#F6B100;
+}
+.green-outline{
+  background:#D8FFFB;
+}
+.progress-green{
+  background:#1B998B;
+}
+.text-green{
+  color:#1B998B;
+}
+.progress{
+  /* width: 60%;
+  background: #2C2368; */
+  height: 18px;
+  border-radius: 4px;
+
+}
+.progress-outline{
+  position:relative;
+  border-radius:8px;
+  height: 18px;
+  width: 100%;
+}
+/* .green-outline {
   width: 100%;
   background: #d8fffb;
   height: 18px;
@@ -268,7 +309,7 @@ li {
   background: #1b998b;
   height: 18px;
   border-radius: 4px;
-}
+} */
 
 .completed-onboarding {
   color: #1b998b;
@@ -807,7 +848,7 @@ input[type="tel"] {
     width: 86%;
   } */
 
-@media (max-width: 1200px) {
+/* @media (max-width: 1200px) {
   .card-responsive-layout {
     flex-direction: column;
     width: 40%;
@@ -819,7 +860,7 @@ input[type="tel"] {
   .client-activity-tracker-container {
     width: 84%;
   }
-}
+} */
 
 @media (max-width: 1100px) {
   .dashboard-data {

@@ -1,3 +1,4 @@
+
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -7,40 +8,43 @@ export interface LoginCredentials {
   password: string;
 }
 
+
 export interface LoginResponse {
   email: string;
   message: string;
   status: string;
   role: string;
-  token: string;
+  token: string ;
 }
 
 export interface VerifyOtpRequest {
-  email: string | null;
-  otp: string | null;
+  email : string | null;
+    otp: string | null;
 }
 export interface VerifyOtpResponse {
-  status: string;
-  token: string;
+
+    status: string;
+    token: string;
+
 }
 
-export interface resendOtpRequest {
+export interface resendOtpRequest{
   email: string | null;
 }
 
-export interface resendOtpResponse {
+export interface resendOtpResponse{
   message: string;
   timestamp: string;
   details: {
-    resendAttemptsRemaining: string;
-  };
+    resendAttemptsRemaining:string;
+  }
   status: string;
 }
 
 export interface ResetPasswordRequest {
   token: string;
   newPassword: string | null;
-  confirmNewPassword: string | null;
+  confirmNewPassword : string | null;
 }
 
 export interface ResetPasswordResponse {
@@ -48,76 +52,54 @@ export interface ResetPasswordResponse {
   email: string;
   message: string;
   token: string;
+
 }
 export interface forgotPasswordRequest {
   email: string;
 }
 
-export interface forgotPasswordResponse {
+export interface forgotPasswordResponse{
   message: string;
 }
+
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-<<<<<<< HEAD
-  private apiUrl = 'http://144.126.226.189:8080';
+  private apiUrl = 'http://13.61.150.158:8080';
 //  http://127.0.0.1:4010
 //   http://13.48.84.210:8080
 // leads-tracker/leads/login
-=======
-  private apiUrl = 'http://13.53.173.158:8080';
-  //  http://127.0.0.1:4010
-  //   http://13.48.84.210:8080
-  // leads-tracker/leads/login
->>>>>>> 1a926ce3868aa853cb5a28782f2c0ee78da3b6bd
 
   constructor(private http: HttpClient) {}
 
   login(credentials: LoginCredentials): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>(
-      `${this.apiUrl}/leads-tracker/leads/login`,
-      credentials
-    );
+    return this.http.post<LoginResponse>(`${this.apiUrl}/leads-tracker/leads/login`, credentials);
     // /leads-tracker/leads/login
   }
 
   verifyOtp(otpRequest: VerifyOtpRequest): Observable<VerifyOtpResponse> {
-    return this.http.post<VerifyOtpResponse>(
-      `${this.apiUrl}/leads-tracker/api/v1/leads/verify-otp`,
-      otpRequest
-    );
+    return this.http.post<VerifyOtpResponse>(`${this.apiUrl}/leads-tracker/api/v1/leads/verify-otp`, otpRequest);
     // /leads-tracker/api/v1/leads/verify-otp
     // /verify-otp
   }
 
-  verifyforgotPassword(
-    forgotPasswordRequest: forgotPasswordRequest
-  ): Observable<forgotPasswordResponse> {
-    return this.http.post<forgotPasswordResponse>(
-      `${this.apiUrl}/leads-tracker/api/v1/leads/forgot-password-request`,
-      forgotPasswordRequest
-    );
+  verifyforgotPassword(forgotPasswordRequest: forgotPasswordRequest): Observable<forgotPasswordResponse> {
+    return this.http.post<forgotPasswordResponse>(`${this.apiUrl}/leads-tracker/api/v1/leads/forgot-password-request`, forgotPasswordRequest);
     // /leads-tracker/api/v1/leads/forgot-password-request
     // /forgot-password-request
   }
 
-  resetpassword(
-    ResetPasswordRequest: ResetPasswordRequest
-  ): Observable<ResetPasswordResponse> {
-    return this.http.post<ResetPasswordResponse>(
-      `${this.apiUrl}/leads-tracker/api/v1/leads/reset-password`,
-      ResetPasswordRequest
-    );
-    // /leads-tracker/api/v1/leads/reset-password
-    // /reset-password
-  }
+resetpassword(ResetPasswordRequest: ResetPasswordRequest): Observable<ResetPasswordResponse>{
+  return this.http.post<ResetPasswordResponse>(`${this.apiUrl}/leads-tracker/api/v1/leads/reset-password`, ResetPasswordRequest);
+  // /leads-tracker/api/v1/leads/reset-password
+  // /reset-password
+}
 
-  resendOtp(resendOtpRequest: resendOtpRequest): Observable<resendOtpResponse> {
-    return this.http.post<resendOtpResponse>(
-      `${this.apiUrl}/leads-tracker/api/v1/leads/resend-otp`,
-      resendOtpRequest
-    );
-  }
+resendOtp(resendOtpRequest: resendOtpRequest): Observable<resendOtpResponse>{
+  return this.http.post<resendOtpResponse>(`${this.apiUrl}/leads-tracker/api/v1/leads/resend-otp`, resendOtpRequest);
+}
+
+
 }

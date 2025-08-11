@@ -21,6 +21,7 @@ import {
   UserService,
   getAllClients,
   getAllClientsOverdue,
+  clientStatusCounts,
 } from '../../../services/user.service';
 
 import { Chart, Colors, registerables, scales } from 'chart.js';
@@ -41,6 +42,7 @@ Chart.register(...registerables);
 export class DashboardComponent implements OnInit, AfterViewInit {
   activeModal: any;
   isOpenProfile: string | null = null;
+  clientStatusCount: any={};
 
   clientsObject: getAllClients = {
     data: [],
@@ -127,7 +129,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   fetchAllClients(page: number) {
     // get all clients for client activity tracker
    
-    this.userService.getAllCients(page, this.limit).subscribe({
+    this.userService.getAllClients(page, this.limit).subscribe({
       next: (data) => {
         this.clients = data;
         this.totalPages = data.totalPages
@@ -149,7 +151,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   clientFetchAllClients(page:number){
     // get all clients for client activity tracker
    
-    this.userService.getAllCients(page, this.limit).subscribe({
+    this.userService.getAllClients(page, this.limit).subscribe({
       next: (data) => {
         this.clients = data;
         this.clientTotalPages = data.totalPages
@@ -257,6 +259,19 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
     this.fetchAllClients(this.currentPage);
     this.goToPage(this.currentPage);
+
+
+    // get  client status count
+    this.userService.getClientStatusCounts().subscribe({
+      next: (data) => {
+        this.clientStatusCount = data;
+      
+        console.log(this.clientStatusCount);
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
 
     // get all overdue clients
     // this.userService.getAllClientsOverdue().subscribe({

@@ -1,0 +1,25 @@
+
+
+<mat-dialog-content>
+    <div class="edit-team-modal">
+        <div class="title">Edit Team</div>
+        <form action="">
+          <div class="form-group">
+            <label>Team Name</label>
+            <input placeholder="Input team name" type="text" />
+          </div>
+          <div class="form-group">
+            <label>Assign Team Lead</label>
+            <select class="select-team-lead" title="team-lead" id="team-lead">
+              <option value="">Akwasi</option>
+              <option value="">Kwadwo</option>
+              <option value="">Ama</option>
+            </select>
+          </div>
+        </form>
+        <div class="cancel-save-buttons">
+          <button (click)="closeModal()"  class="cancel-button">cancel</button>
+          <button  class="save-button">save Changes</button>
+        </div>
+      </div>
+    </mat-dialog-content>

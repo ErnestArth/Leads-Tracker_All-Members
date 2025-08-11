@@ -57,6 +57,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { TablePaginationComponent } from './components/table-pagination/table-pagination.component';
 import { TeamBreakdownComponent } from './components/team-breakdown/team-breakdown.component';
+import { EditTeamDialogComponent } from './components/edit-team-dialog/edit-team-dialog.component';
+import { AddTeamDialogComponent } from './components/add-team-dialog/add-team-dialog.component';
 
 const routes: Routes = [
   {
@@ -148,6 +150,8 @@ const routes: Routes = [
     SetTargetsComponent,
     ViewTargetsComponent,
     TeamBreakdownComponent,
+    EditTeamDialogComponent,
+    AddTeamDialogComponent,
   ],
   imports: [
     CommonModule,

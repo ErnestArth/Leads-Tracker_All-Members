@@ -66,7 +66,7 @@ export class LoginComponent {
           next: (response: LoginResponse) => {
             console.log('Login response:', response);
 
-            if (response.status === 'OTP_SENT') {
+            if (response.role === 'ROLE_ADMIN') {
               localStorage.setItem('login_email', response.email);
 
               this.router.navigate(['/otp-auth']);
@@ -75,6 +75,10 @@ export class LoginComponent {
               this.router.navigate([
                 '/authentication/ResettingPasswordComponent',
               ]);
+            }
+            else {
+              this.invalidLoginMessage = true;
+              
             }
 
             // else {
