@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       code_branch:
-        description: 'sesse-branch'
+        description: 'main'
         required: true
         default: 'main'
 
