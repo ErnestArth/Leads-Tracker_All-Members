@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       code_branch:
-        description: 'main'
+        description: 'Branch to deploy code from'
         required: true
         default: 'main'
 
