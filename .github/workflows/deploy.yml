@@ -24,7 +24,7 @@ jobs:
 
       # 4️⃣ Build Angular app
       - name: Build Angular app
-        run: npm run build --prod
+        run: npm run build --configuration production
 
       # 5️⃣ Get Angular build folder name dynamically
       - name: Get build folder name
@@ -42,7 +42,7 @@ jobs:
       # 7️⃣ Copy build files to EC2
       - name: Copy files to EC2
         run: |
-          scp -i private_key.pem -o StrictHostKeyChecking=no -r dist/$BUILD_DIR/* \
+          scp -i private_key.pem -o StrictHostKeyChecking=no -r dist/${BUILD_DIR}/* \
           ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}:/tmp/
 
       # 8️⃣ Deploy on EC2
