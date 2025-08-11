@@ -3,8 +3,8 @@ name: Deploy Angular App to EC2
 on:
   workflow_dispatch:
     inputs:
-      code_branch:
-        description: 'Branch to deploy code from'
+      branch:
+        description: 'Branch to deploy'
         required: true
         default: 'main'
 
@@ -13,11 +13,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Checkout the branch you want to deploy from
+      # 1️⃣ Checkout the selected branch
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.inputs.code_branch }}
+          ref: ${{ github.event.inputs.branch }}
 
       # 2️⃣ Setup Node.js
       - name: Setup Node.js
@@ -27,20 +27,24 @@ jobs:
 
       # 3️⃣ Install dependencies
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --legacy-peer-deps
 
       # 4️⃣ Build Angular app
       - name: Build Angular app
-        run: npm run build:prod
+        run: npm run build --configuration production
 
-      # 5️⃣ Get Angular build folder name dynamically
-      - name: Get build folder name
-        id: build_folder
+      # 5️⃣ Detect build folder (SSR or normal)
+      - name: Detect build folder
+        id: detect_build
         run: |
-          BUILD_DIR=$(ls dist)
-          echo "BUILD_DIR=$BUILD_DIR" >> $GITHUB_ENV
+          APP_NAME=$(ls dist)
+          if [ -d "dist/$APP_NAME/browser" ]; then
+            echo "BUILD_PATH=dist/$APP_NAME/browser" >> $GITHUB_ENV
+          else
+            echo "BUILD_PATH=dist/$APP_NAME" >> $GITHUB_ENV
+          fi
 
-      # 6️⃣ Create private key file for SSH
+      # 6️⃣ Create private key file
       - name: Create private key file
         run: |
           echo "${{ secrets.SSH_PRIVATE_KEY }}" | tr -d '\r' > private_key.pem
@@ -49,7 +53,7 @@ jobs:
       # 7️⃣ Copy build files to EC2
       - name: Copy files to EC2
         run: |
-          scp -i private_key.pem -o StrictHostKeyChecking=no -r dist/${BUILD_DIR}/* \
+          scp -i private_key.pem -o StrictHostKeyChecking=no -r $BUILD_PATH/* \
           ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}:/tmp/
 
       # 8️⃣ Deploy on EC2
