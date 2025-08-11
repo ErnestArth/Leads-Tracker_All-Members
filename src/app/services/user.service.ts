@@ -201,7 +201,7 @@ export interface updateUserProfile {
   providedIn: 'root',
 })
 export class UserService {
-  private apiUrl = 'http://13.53.173.158:8080'; //
+  private apiUrl = 'http://51.20.135.243:8080'; //
 
   private teamMembers: createTeamMember[] = [];
 
