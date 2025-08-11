@@ -1,0 +1,63 @@
+name: Deploy Angular App to EC2
+
+on:
+  workflow_dispatch:
+    inputs:
+      code_branch:
+        description: 'Branch to deploy code from'
+        required: true
+        default: 'main'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the selected branch’s code
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.code_branch }}
+
+      # Setup Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      # Install dependencies
+      - name: Install dependencies
+        run: npm ci
+
+      # Build Angular app
+      - name: Build Angular app
+        run: npm run build --configuration production
+
+      # Get Angular build folder name dynamically
+      - name: Get build folder name
+        id: build_folder
+        run: |
+          BUILD_DIR=$(ls dist)
+          echo "BUILD_DIR=$BUILD_DIR" >> $GITHUB_ENV
+
+      # Create private key file
+      - name: Create private key file
+        run: |
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" | tr -d '\r' > private_key.pem
+          chmod 600 private_key.pem
+
+      # Copy build files to EC2
+      - name: Copy files to EC2
+        run: |
+          scp -i private_key.pem -o StrictHostKeyChecking=no -r dist/${BUILD_DIR}/* \
+          ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}:/tmp/
+
+      # Deploy on EC2
+      - name: Deploy on EC2
+        run: |
+          ssh -i private_key.pem -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
+            sudo rm -rf /var/www/html/*
+            sudo mv /tmp/* /var/www/html/
+            sudo chown -R nginx:nginx /var/www/html
+            sudo systemctl restart nginx
+          EOF
