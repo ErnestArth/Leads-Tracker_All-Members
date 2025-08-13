@@ -1,7 +1,7 @@
 name: Deploy Angular App to EC2
 
 on:
-  workflow_dispatch:  # Manual trigger
+  workflow_dispatch:
 
 jobs:
   deploy:
@@ -24,7 +24,7 @@ jobs:
 
       # 4️⃣ Build Angular app
       - name: Build Angular app
-        run: npm run build --configuration production
+        run: npm run build:prod
 
       # 5️⃣ Get Angular build folder name dynamically
       - name: Get build folder name
