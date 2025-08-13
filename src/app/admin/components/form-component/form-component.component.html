@@ -132,7 +132,7 @@
     <!-- Modal Buttons -->
     <div class="modal-buttons">
       <button matButton mat-dialog-close  type="button" (click)="onCancel()">Cancel</button>
-      <button type="submit" (click)="onSubmit()" [disabled]="modalForm.invalid">{{buttonText}}</button>
+      <button type="submit" (click)="onSubmit()" [disabled]="modalForm.invalid">{{buttonText||'Save'}}</button>
     </div>
   </form>
 }

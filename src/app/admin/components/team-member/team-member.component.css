@@ -286,6 +286,7 @@ input::placeholder {
     /* width: 60%; */
     /* background: #2C2368; */
     height: 18px;
+    max-width: 100%;
     border-radius: 4px;
 
   }

@@ -114,7 +114,7 @@
             <p class="team-lead-email">{{teamData.teamLeadEmail}}</p>
             <p class="team-lead-id">ID : {{teamData.leadStaffId}}</p>
             <p class="team-phone-number">{{teamData.leadPhoneNumber}}</p>
-            <p class="date-added">Date Added : {{teamData.createdDate}}</p>
+            <p class="date-added">Date Added : {{teamData.createdDate | date : "dd/MM/yyyy"}}</p>
           </div>
         </div>
       </div>

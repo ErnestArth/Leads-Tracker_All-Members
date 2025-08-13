@@ -35,7 +35,7 @@ export class AddTeamMemberPopupComponent {
     this.teamMemberId = this.data.teamMemberId;
     this.teamLeadUserId = this.data.teamLeadUserId
     this.teamId=this.data.teamId
-    console.log(this.data.teamId);
+    console.log(this.data.teamMemberId);
   
 
     if (this.teamMemberId) {
