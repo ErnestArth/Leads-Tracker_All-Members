@@ -22,18 +22,31 @@ export class AddTeamMemberPopupComponent {
     private service: UserService
   ) {}
   inputData: any;
+  teamMemberId: string = '';
+  teamLeadUserId: string = '';
+  teamId:string=""
   showPopupTitle = true;
   allTeamLeads: getAllTeamLeads[] = [];
 
-  ngOnInit() {
-    this.inputData = this.data;
+  userData: any;
 
-    if (this.inputData.id.length > 0) {
-      console.log(this.inputData.id);
+  ngOnInit() {
+    this.inputData=this.data
+    this.teamMemberId = this.data.teamMemberId;
+    this.teamLeadUserId = this.data.teamLeadUserId
+    this.teamId=this.data.teamId
+    console.log(this.data.teamId);
+  
+
+    if (this.teamMemberId) {
+      console.log(this.teamMemberId);
+      console.log(this.teamLeadUserId);
       this.setEditData(
-        'zQg79yqBiGVW3p9lUFBYA3ZJ9Ym5XQ',
-        'ojjsnv2crXprjvARhohGA30DKhUuSI'
+        this.teamMemberId,
+        this.teamLeadUserId
       );
+    }else{
+      console.log('not edit')
     }
 
     // this.modalForm = this.fb.group({
@@ -52,8 +65,8 @@ export class AddTeamMemberPopupComponent {
   setEditData(teamLeadId: any, memberID: any) {
     this.service.getSpecificTeamMember(memberID, teamLeadId).subscribe({
       next: (data) => {
-        this.modalForm.patchValue(data);
-        console.log(this.modalForm.value);
+        this.userData = data;
+        console.log(this.userData);
         console.log('data suppose to go here');
       },
     });

@@ -12,12 +12,15 @@ export class AddTeamDialogComponent {
   addTeamForm!: FormGroup;
   allTeamLeads: getAllTeamLeads[] = [];
   areChangesSaved = false;
+  isThereError = false;
+  errorMessage = 'oops Something went wrong';
   @Output() teamAdded = new EventEmitter<any>();
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,
   private dialogRef: MatDialogRef<AddTeamDialogComponent>,
    private fb: FormBuilder,
    private service: UserService) {
+    console.log(data.title)
   }
   
 ngOnInit() {
@@ -46,7 +49,8 @@ onSubmit() {
       // this.dialogRef.close(data);
     },
     error: (err) => {
-      console.log(err);
+      console.log(err.message);
+      this.isThereError = true;
     },
   })
 }

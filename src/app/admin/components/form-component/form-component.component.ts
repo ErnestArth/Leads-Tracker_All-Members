@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, output } from '@angular/core';
+import { Component, EventEmitter, Inject, inject, Input, Output, output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
   getAllTeamLeads,
@@ -6,6 +6,7 @@ import {
 } from '../../../services/user.service';
 import { UserService } from '../../../services/user.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-form-component',
@@ -21,29 +22,27 @@ export class FormComponentComponent {
   @Output() sucessPage = new EventEmitter<void>();
   buttonText: string = '';
   showSuccess = false;
-
+  @Input() EditMemberInputData: any;
+  @Input() teamId:any;
   constructor(
+    // @Inject(MAT_DIALOG_DATA) public data: any,
+    // private dialogRef: MatDialogRef<FormComponentComponent>,
     private fb: FormBuilder,
     private service: UserService,
     private activatedRoute: ActivatedRoute,
     private router: Router
   ) {}
 
-  // check if it is an edit or create form
-  ngOnInit(): void {
-    // get all team Leads for select options
-    this.service.getAllTeamLeads().subscribe({
-      next: (data) => {
-        this.allTeamLeads = data;
-      },
-      error: (err) => {
-        console.log(err);
-      },
-    });
-
+  ngOnChanges() {
+    if (this.EditMemberInputData &&this.teamId) {
+      console.log(this.EditMemberInputData);
+    }
+  }
+  handleOninit(editMemberInputData: any) {
     let id = this.activatedRoute.snapshot.paramMap.get('memberId');
+    
     console.log(this.activatedRoute.snapshot);
-
+   
     if (id) {
       console.log('populate Edit data');
       this.buttonText = 'Save Changes';
@@ -60,6 +59,22 @@ export class FormComponentComponent {
     } else {
       this.buttonText = 'Save';
     }
+  }
+
+  // check if it is an edit or create form
+  ngOnInit(): void {
+    
+    // get all team Leads for select options
+    this.service.getAllTeamLeads().subscribe({
+      next: (data) => {
+        this.allTeamLeads = data;
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
+
+    
 
     // this.inputData = this.data
 

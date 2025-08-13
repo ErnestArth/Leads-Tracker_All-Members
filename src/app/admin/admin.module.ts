@@ -59,6 +59,7 @@ import { TablePaginationComponent } from './components/table-pagination/table-pa
 import { TeamBreakdownComponent } from './components/team-breakdown/team-breakdown.component';
 import { EditTeamDialogComponent } from './components/edit-team-dialog/edit-team-dialog.component';
 import { AddTeamDialogComponent } from './components/add-team-dialog/add-team-dialog.component';
+import { DeactivateTeamDialogComponent } from './components/deactivate-team-dialog/deactivate-team-dialog.component';
 
 const routes: Routes = [
   {
@@ -152,6 +153,8 @@ const routes: Routes = [
     TeamBreakdownComponent,
     EditTeamDialogComponent,
     AddTeamDialogComponent,
+    DeactivateTeamDialogComponent,
+   
   ],
   imports: [
     CommonModule,

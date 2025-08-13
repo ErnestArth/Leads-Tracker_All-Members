@@ -16,6 +16,10 @@
               <!-- <option value="">Kwadwo</option>
               <option value="">Ama</option> -->
             </select>
+            @if(isThereError){
+              <p class="error-message">{{errorMessage}}</p>
+
+            }
           </div>
         </form>
         <div class="cancel-save-buttons">
@@ -25,7 +29,7 @@
       </div>
     </mat-dialog-content>
 }
-    <!-- if changes are saved -->
+    <!-- if request is succesful -->
 @if(areChangesSaved){
     <div class="succesfully-updated">
       <svg

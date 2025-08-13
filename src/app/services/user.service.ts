@@ -310,6 +310,21 @@ export interface getAllTeams{
 
 
 }  
+
+// Get A Team
+
+export interface team{
+  name:string
+  teamLeadUserId:string
+  teamLeadName:string
+}
+
+export interface getATeam{
+  team:team
+  message:string
+}
+
+
 // interface for getting unresolved notificatioon
 export interface teamLead{
   userId: string
@@ -353,12 +368,15 @@ export interface statusCounts{
   interested: number
   awaiting_documentation: number
   on_boarded: number
+  pending:number
+
 
 }
 
 export interface teamStats{
   teamName:string,
   statusCounts:statusCounts
+  totalClients:number
 }
 export interface clientStatusCounts{
   totalClients: number
@@ -404,6 +422,21 @@ export class UserService {
     return this.http.post<AddTeamRequest>(`${this.apiUrl}/leads-tracker/api/v1/leads/team`, team, {headers});
     
   }
+
+  // Update a team
+  updateTeam(team: AddTeamRequest): Observable<AddTeamRequest> {
+    const token =localStorage.getItem('token')
+    const headers = new HttpHeaders({'Authorization' : `Bearer ${token}`})
+    return this.http.put<AddTeamRequest>(`${this.apiUrl}/leads-tracker/api/v1/leads/Edit-team/1`, team, {headers});
+  }
+
+  // Deactivate a Team 
+
+  deactivateTeam(teamId: string): Observable<void> {
+    const token =localStorage.getItem('token')
+    const headers = new HttpHeaders({'Authorization' : `Bearer ${token}`})
+    return this.http.patch<void>(`${this.apiUrl}/leads-tracker/api/v1/leads/team/${teamId}/deactivate`, {headers});
+  }
 // create a team member
   addTeamMember(teamMember: createTeamMember[]): Observable<void> {
 
@@ -436,6 +469,7 @@ export class UserService {
     const token =localStorage.getItem('token')
     const headers = new HttpHeaders({'Authorization' : `Bearer ${token}`
   })
+  console.log(headers)
     return this.http.get<specificTeamMembers[]>(`${this.apiUrl}/leads-tracker/api/v1/leads/team-leads/${userId}/members?duration=week`,{headers} );
   }
 
@@ -446,6 +480,13 @@ export class UserService {
     const headers = new HttpHeaders({'Authorization' : `Bearer ${token}`})
     return this.http.get<getAllTeams[]>(`${this.apiUrl}/leads-tracker/api/v1/teams/all-teams?duration=week`,{headers});
   }
+
+  //get a team
+getATeam(teamId:string):Observable<getATeam>{
+  const token = localStorage.getItem('token')
+  const headers = new HttpHeaders({'Authorization' : `Bearer ${token}`})
+  return this.http.get<getATeam>(`${this.apiUrl}/leads-tracker/api/v1/leads/team/${teamId}`,{headers});
+}
 
   getAllTeamLeads():Observable<getAllTeamLeads[]> {
     const token =localStorage.getItem('token')

@@ -132,17 +132,17 @@
           </div>
           <div class="team-search">
             <label for="options">Team:</label>
-            <select id="options" name="options" class="team-select">
-              <option value="all">All Teams</option>
-              <option value="team1">Team 1</option>
-              <option value="team2">Team 2</option>
+            <select [(ngModel)]="selectedTeamName" (change)="onTeamChange()" id="options" name="options" class="team-select">
+              <option >All Teams</option>
+              <option *ngFor="let team of teamStats" value="{{team.teamName}}">{{team.teamName}}</option>
+              <!-- <option value="team2">Team 2</option>
               <option value="team3">Team 3</option>
-              <option value="team4">Team 4</option>
+              <option value="team4">Team 4</option> -->
             </select>
           </div>
         </div>
       </div>
-      <div class="dashboard-data">
+      <div *ngIf="displayedStatusCounts" class="dashboard-data">
         <div class="data-cards-container">
           <div class="card-responsive-layout">
             <div class="total-clients data-cards">
@@ -162,7 +162,7 @@
                 Total Clients
               </div>
 
-              <p>{{clientStatusCount.totalClients}}</p>
+              <p>{{displayedStatusCounts.totalClients}}</p>
             </div>
             <div class="completed-onboarding data-cards">
               <div class="icon-and-status-name">
@@ -191,7 +191,7 @@
                 Onboarded
               </div>
 
-              <p>{{clientStatusCount.overallStatusCounts?.ONBOARDED}}</p>
+              <p>{{displayedStatusCounts.overallStatusCounts?.ONBOARDED||displayedStatusCounts.statusCounts?.ONBOARDED||0}}</p>
             </div>
             <div class="interested data-cards">
               <div class="icon-and-status-name">
@@ -210,7 +210,7 @@
                 Interested
               </div>
 
-              <p>{{clientStatusCount.overallStatusCounts?.INTERESTED}}</p>
+              <p>{{displayedStatusCounts.overallStatusCounts?.INTERESTED||displayedStatusCounts.statusCounts?.INTERESTED||0}}</p>
             </div>
           </div>
           <div class="card-responsive-layout">
@@ -236,7 +236,7 @@
                 Awaiting Documentation
               </div>
 
-              <p>{{clientStatusCount.overallStatusCounts?.AWAITING_DOCUMENTATION}}</p>
+              <p>{{displayedStatusCounts.overallStatusCounts?.AWAITING_DOCUMENTATION||displayedStatusCounts.statusCounts?.AWAITING_DOCUMENTATION||0}}</p>
             </div>
             <div class="pending data-cards">
               <div class="icon-and-status-name">
@@ -260,7 +260,10 @@
                 Pending
               </div>
 
-              <p>{{clientStatusCount.overallStatusCounts?.PENDING}}</p>
+              <p>{{
+                displayedStatusCounts.overallStatusCounts?.PENDING
+                ||displayedStatusCounts.statusCounts?.PENDING
+                || 0 }}</p>
             </div>
             <div class="not-interested data-cards">
               <div class="icon-and-status-name">
@@ -284,7 +287,7 @@
                 Not Interested
               </div>
 
-              <p>{{clientStatusCount.overallStatusCounts?.NOT_INTERESTED}}</p>
+              <p>{{displayedStatusCounts.overallStatusCounts?.NOT_INTERESTED||displayedStatusCounts.statusCounts?.NOT_INTERESTED||0}}</p>
             </div>
           </div>
         </div>
@@ -331,7 +334,7 @@
             </div>
             <div class="doughnut-chart">
               <div class="doughnut">
-                <canvas #myChart id="doughnutChart"></canvas>
+                <canvas  #myChart #doughnutChart id="doughnutChart"></canvas>
                 <p class="total-doughnut">155</p>
                 <p class="doughnut-interested-number">31 <span>20.00%</span></p>
                 <p class="doughnut-onboarded-number">80 <span>51.61%</span></p>
@@ -388,7 +391,7 @@
                     class="chart-filter-select"
                   >
                     <option value="all">All Teams</option>
-                    <option value="team1">Team 1</option>
+                    <option value="team1">Team 2</option>
                     <option value="team2">Team 2</option>
                     <option value="team3">Team 3</option>
                     <option value="team4">Team 4</option>
@@ -398,7 +401,7 @@
             </div>
             <div class="bar-chart">
               <div class="bar-ch">
-                <canvas id="barChart"></canvas>
+                <canvas #barChart id="barChart"></canvas>
               </div>
             </div>
           </div>
