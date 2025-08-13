@@ -56,6 +56,9 @@
     color: #1e1e1e;
     font-weight: 100;
   }
+  .error-message{
+    color:red
+  }
   
   .cancel-save-buttons {
     display: flex;

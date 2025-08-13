@@ -6,5 +6,7 @@
   <app-form-component
     (sucessPage)="handleSuccess()"
     (cancelClicked)="handleCancel()"
+    [EditMemberInputData]="userData"
+    [teamId]="teamId"
   />
 </mat-dialog-content>

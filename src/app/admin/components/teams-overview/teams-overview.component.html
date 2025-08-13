@@ -1,6 +1,6 @@
 <div class="dashboard-container">
   <app-sidebar />
-  <main>
+  <main >
     <aside class="header">
       <div class="header-content">
         <div class="back-arrow" routerLink="/admin/teams">
@@ -22,7 +22,7 @@
         </div>
 
         <div class="team-name">
-          <p>Team A</p>
+          <p>{{teamData.name}}</p>
         </div>
 
         <div class="edit-deactivate-buttons">
@@ -47,7 +47,7 @@
             <p>Edit Team</p>
           </div>
 
-          <div (click)="openModal('deactivateTeam')" class="button-text">
+          <div (click)="openDeactivateTeamDialog(teamData.teamId)" class="button-text">
             <svg
               width="25"
               height="24"
@@ -107,14 +107,14 @@
         </div>
         <div class="team-card">
           <div class="team-lead-name-and-view-details-button">
-            <p class="team-lead-name">Kwadwo Ansah Amoh</p>
-            <p class="view-details">View Details</p>
+            <p class="team-lead-name">{{teamData.teamLeadName}}</p>
+            <p class="view-details" [routerLink]="['/admin/team-member', teamData.teamLeadUserId]">View Details</p>
           </div>
           <div class="team-details">
-            <p class="team-lead-email">Username&#64;gmail.com</p>
-            <p class="team-lead-id">ID : 121711878</p>
-            <p class="team-phone-number">+233 24 889 1222</p>
-            <p class="date-added">Date Added : 17/02/15</p>
+            <p class="team-lead-email">{{teamData.teamLeadEmail}}</p>
+            <p class="team-lead-id">ID : {{teamData.leadStaffId}}</p>
+            <p class="team-phone-number">{{teamData.leadPhoneNumber}}</p>
+            <p class="date-added">Date Added : {{teamData.createdDate}}</p>
           </div>
         </div>
       </div>
@@ -168,6 +168,7 @@
                   viewBox="0 0 24 24"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
+                  (click)="openEditTeamMemberDialog(member.userId,teamData.teamLeadUserId,teamData.teamId)"
                 >
                   <path
                     _ngcontent-ng-c621541999=""

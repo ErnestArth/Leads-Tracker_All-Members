@@ -11,8 +11,11 @@ import {
   specificTeamMembers,
   UserService,
 } from '../../../services/user.service';
+
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
+import { AddTeamMemberPopupComponent } from '../add-team-member-popup/add-team-member-popup.component';
+import { DeactivateTeamDialogComponent } from '../deactivate-team-dialog/deactivate-team-dialog.component';
 @Component({
   selector: 'app-teams-overview',
   standalone: false,
@@ -24,6 +27,9 @@ export class TeamsOverviewComponent {
   activeModal: any;
 
   teamMembers: specificTeamMembers[] = [];
+  teamData: any;
+  teamLeadUserId:string="";
+  
 
   constructor(
     private modal: ModalService,
@@ -31,6 +37,7 @@ export class TeamsOverviewComponent {
     private activatedRoute: ActivatedRoute,
     private dialog: MatDialog
   ) {}
+  
   openModal(type: 'assignMembers' | 'editTeam' | 'deactivateTeam') {
     if (type === 'assignMembers') {
       this.activeModal = 'assignMembers';
@@ -43,22 +50,78 @@ export class TeamsOverviewComponent {
   }
 
   openEditTeamDialog() {
-    this.dialog.open(EditTeamDialogComponent,{
+    const id =this.activatedRoute.snapshot.paramMap.get('teamId')
+    const editTeamDialog = this.dialog.open(EditTeamDialogComponent,{
       width: '1200px',
       data:{
         title: 'Edit Team',
+        id: id
 
       }
     });
+    editTeamDialog.componentInstance.teamEdited.subscribe((data)=>{
+      if(data){
+        this.getATeam()
+      }
+    })
+  }
+  openDeactivateTeamDialog(teamId: string) {
+    this.dialog.open(DeactivateTeamDialogComponent,{
+      width: '1200px',
+      data:{
+        title: 'Deactivate Team',
+        teamId: teamId
+
+      }
+    })
+  }
+
+  openEditTeamMemberDialog(teamMemberId: string,teamLeadUserId:string,teamId:string) {
+   const editTeamMemberDialog = this.dialog.open(AddTeamMemberPopupComponent, { 
+      width: '1200px',
+      data:{
+        title: 'Edit Team Member',
+        teamMemberId: teamMemberId,
+        teamLeadUserId: teamLeadUserId,
+        teamId:teamId
+
+      }
+      
+    })
+  
   }
   ngOnInit(): void {
+
+    this.getATeam()
+    console.log(this.activatedRoute.snapshot);
+   
+
+    
+    
+  }
+
+  getATeam(){
+    const id =this.activatedRoute.snapshot.paramMap.get('teamId')
+    this.userService.getATeam(id!).subscribe({
+      next: (data) => {
+        console.log(data);
+        this.teamData = data.team
+        this.teamLeadUserId = data.team.teamLeadUserId
+        this.getTeamMembers(this.teamLeadUserId)
+        console.log(this.teamLeadUserId);
+      }
+    })
+  }
+  getTeamMembers(teamLeadId: string) {
     let id = this.activatedRoute.snapshot.paramMap.get('teamId');
     // console.log(this.activatedRoute.snapshot.paramMap);
-
+    console.log(teamLeadId)
     if (id) {
-      this.userService.getTeamMembers(id).subscribe({
+      this.userService.getTeamMembers(teamLeadId).subscribe({
         next: (data) => {
           this.teamMembers = data;
+          
+          
           // console.log(this.res)
         },
       });

@@ -1,25 +1,59 @@
 
 
 <mat-dialog-content>
+  @if(!areChangesSaved){
     <div class="edit-team-modal">
         <div class="title">Edit Team</div>
-        <form action="">
+        <form [formGroup]="editTeamForm"  action="">
           <div class="form-group">
             <label>Team Name</label>
-            <input placeholder="Input team name" type="text" />
+            <input formControlName="name" placeholder="Input team name" type="text" />
           </div>
           <div class="form-group">
             <label>Assign Team Lead</label>
-            <select class="select-team-lead" title="team-lead" id="team-lead">
-              <option value="">Akwasi</option>
-              <option value="">Kwadwo</option>
-              <option value="">Ama</option>
+            <select  formControlName="teamLeadUserId" class="select-team-lead" title="team-lead" id="team-lead">
+              <option *ngFor="let teamLead of allTeamLeads" value="{{teamLead.teamLeadUserId}}">{{teamLead.teamLeadName}}</option>
+              <!-- <option value="">Kwadwo</option>
+              <option value="">Ama</option> -->
             </select>
           </div>
         </form>
         <div class="cancel-save-buttons">
           <button (click)="closeModal()"  class="cancel-button">cancel</button>
-          <button  class="save-button">save Changes</button>
+          <button  (click)="onSubmit()" class="save-button">save Changes</button>
         </div>
       </div>
+    }
+
+      <!-- if request is succesful -->
+      @if(areChangesSaved){
+        <div class="succesfully-updated">
+          <svg
+            width="71"
+            height="70"
+            viewBox="0 0 71 70"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <rect
+              x="0.807129"
+              y="0.296875"
+              width="69.3848"
+              height="69.3848"
+              rx="34.6924"
+              fill="#1B998B"
+            />
+            <path
+              d="M56.2949 33.0755V34.9887C56.2924 39.473 54.8403 43.8364 52.1553 47.428C49.4703 51.0196 45.6962 53.6471 41.3959 54.9186C37.0956 56.19 32.4995 56.0374 28.2931 54.4833C24.0867 52.9292 20.4953 50.0571 18.0546 46.2952C15.6139 42.5333 14.4546 38.0832 14.7497 33.6086C15.0447 29.134 16.7783 24.8746 19.6919 21.4658C22.6054 18.0569 26.5428 15.6812 30.9169 14.6929C35.291 13.7047 39.8673 14.1568 43.9634 15.9819M56.2949 18.3526L35.4998 39.1685L29.2612 32.93"
+              stroke="white"
+              stroke-width="4.15903"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+          <p>Team Successfully Added</p>
+          <button type="button" (click)="closeModal()" class="back-button">Back</button>
+        </div>
+        }
+        
     </mat-dialog-content>
