@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+ import { Component } from '@angular/core';
 import { RouterLinkActive, NavigationEnd, Router } from '@angular/router';
 
 @Component({
@@ -11,7 +11,10 @@ export class SidebarComponent {
   // activeSubMenu: boolean =false
   activeSubMenu: string | null = null;
   isOpenNotification = false;
+  isOpenLogout = false;
 
+
+    // Listen for route changes to update the active submen
   toggleSubMenu(menuId: string): void {
     this.activeSubMenu = this.activeSubMenu === menuId ? null : menuId;
     console.log(this.activeSubMenu);
@@ -25,9 +28,22 @@ export class SidebarComponent {
     console.log(this.activeSubMenu);
   }
 
-  constructor(private router: Router) {}
+  constructor(private router: Router) {
+  }
+
 
   onOpenNotification(type: string): void {
     this.isOpenNotification = this.isOpenNotification;
+  }
+
+  onOpenLogout(type: string): void {
+    this.isOpenLogout = this.isOpenLogout
+
+    if(type === 'logout') {
+      localStorage.removeItem('token');
+      localStorage.removeItem('role');
+      localStorage.removeItem('email');
+      this.router.navigate(['/admin/login']);
+    }
   }
 }

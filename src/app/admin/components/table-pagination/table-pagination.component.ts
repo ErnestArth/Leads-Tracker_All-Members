@@ -8,12 +8,12 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 })
 export class TablePaginationComponent {
 
-  
+
   @Input() currentPage = 1;
   @Input()totalPages=2;
   @Input()totalItems =12
-  @Input() limit =6;
-  @Input()  limitOptions = [6, 10, 20, 50];
+  @Input() limit =5;
+  @Input()  limitOptions = [5, 10, 20, 50];
   @Input() hasNext = false;
   @Input() hasPrevious = false;
 
@@ -28,15 +28,15 @@ export class TablePaginationComponent {
     if (page >= 1 && page <= this.totalPages) {
       this.currentPage = page;
       this.pageChange.emit(page);
-      
-     
+
+
     }
   }
   goToPreviousPage(){
     if(this.hasPrevious){
       const prevPage = this.currentPage -1
-      this.goToPage(prevPage)    
-      
+      this.goToPage(prevPage)
+
     }
   }
 
@@ -44,7 +44,7 @@ export class TablePaginationComponent {
     if(this.hasNext){
       const nextPage = this.currentPage +1
       this.goToPage(nextPage)
-      
+
     }
   }
 

@@ -10,6 +10,8 @@ export class ViewTargetsComponent {
   isOpenOverview = false;
   selectedFrequency = 'Quarterly';
 
+  
+
   teams = Array(4).fill({
     name: 'Alpha Squad',
     lead: 'Paul Wilbur',

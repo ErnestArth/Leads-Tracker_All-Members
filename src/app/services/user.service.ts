@@ -1,6 +1,8 @@
+
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams,HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+
 
 
 export interface AddTeamRequest{
@@ -81,7 +83,7 @@ export interface getAllTeamLeads{
   numberOfClients: number
   numberOfTeamMembers: number
   progressFraction: string
-  progressPercentage: number 
+  progressPercentage: number
   teamId: number
   teamLeadName: string
   teamMembers: getAllTeamTeamMembers[]
@@ -175,7 +177,7 @@ export interface teamMembers{
   email: string
   teamName: string
   teamLeadName: string
-  
+
 }
 
 export interface teamPerformance{
@@ -284,7 +286,7 @@ export interface getAllTeamTeamMembers{
   progressPercentage:number
   clientStatus:getAllTeamsTeamMembersClientStatus
   progressFraction:number
- 
+
 
 }
 
@@ -309,7 +311,8 @@ export interface getAllTeams{
   progressOutlineColor?:string
 
 
-}  
+}
+
 
 // Get A Team
 
@@ -361,7 +364,7 @@ export interface overallStatusCounts{
   INTERESTED?: number
   AWAITING_DOCUMENTATION?: number
   ONBOARDED?: number
-        
+
 }
 export interface statusCounts{
   not_interested: number
@@ -382,7 +385,27 @@ export interface clientStatusCounts{
   totalClients: number
   overallStatusCounts:overallStatusCounts
   teamStats:teamStats[]
-        
+
+}
+
+export interface adminProfile {
+  fullName: string,
+  email: string,
+  phoneNumber: number
+  staffId: string,
+  role: string,
+  createdAt: null
+}
+
+export interface updateAdminProfile {
+  firstName: string,
+  otherNames: string,
+  businessEmail: string,
+  phoneNumber: string,
+  role: string,
+  currentPassword: string,
+  newPassword: string,
+  confirmNewPassword: string
 }
 
 // const token =localStorage.getItem('token')
@@ -420,7 +443,7 @@ export class UserService {
     const token =localStorage.getItem('token')
     const headers = new HttpHeaders({'Authorization' : `Bearer ${token}`})
     return this.http.post<AddTeamRequest>(`${this.apiUrl}/leads-tracker/api/v1/leads/team`, team, {headers});
-    
+
   }
 
   // Update a team
@@ -430,7 +453,7 @@ export class UserService {
     return this.http.put<AddTeamRequest>(`${this.apiUrl}/leads-tracker/api/v1/leads/Edit-team/1`, team, {headers});
   }
 
-  // Deactivate a Team 
+  // Deactivate a Team
 
   deactivateTeam(teamId: string): Observable<void> {
     const token =localStorage.getItem('token')
@@ -522,10 +545,10 @@ getSpecificTeamMember( teamLeadId: string, memberId: string): Observable<getSpec
 getAllClientsOverdue( page:number, limit:number): Observable<getAllClientsOverdue>{
   const token = localStorage.getItem('token')
   const headers = new HttpHeaders({'Authorization' : `Bearer ${token}`})
-  return this.http.get<getAllClientsOverdue>(`${this.apiUrl}/leads-tracker/api/v1/clients/admin/overdueClients?page=${page}&limit=${limit}`,{headers});  
+  return this.http.get<getAllClientsOverdue>(`${this.apiUrl}/leads-tracker/api/v1/clients/admin/overdueClients?page=${page}&limit=${limit}`,{headers});
 }
 
-// Get a user by id 
+// Get a user by id
 
 getUser(userId:string):Observable<getUserDetails>{
   const token = localStorage.getItem('token')
@@ -549,4 +572,14 @@ getUnresolvedNotification():Observable<unResolvedNotification[]>{
   return this.http.get<unResolvedNotification[]>(`${this.apiUrl}/leads-tracker/api/v1/notifications/admin/notifications/unresolved`,{headers});
 
 }
+
+
+// Viewing the admin Profile
+getAdminProfile():Observable<adminProfile[]>{
+  const token = localStorage.getItem('token')
+  const headers = new HttpHeaders({'Authorization' :`Bearer ${token}` });
+  return this.http.get<adminProfile[]>(`${this.apiUrl}/leads-tracker/api/v1/leads/profile`, {headers});
 }
+}
+
+

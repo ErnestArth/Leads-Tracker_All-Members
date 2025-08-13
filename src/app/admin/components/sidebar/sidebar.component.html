@@ -240,7 +240,7 @@
         >
         </a>
       </div>
-      <div class="logout-button">
+      <div routerLink="/authentication/login" class="logout-button">
         <svg
           width="24"
           height="24"
@@ -260,6 +260,11 @@
         </svg>
 
         <p class="logout">Logout</p>
+        <a  routerLink="/authentication"
+        routerLinkActive="selected"
+        class="logout-link"
+        (click)="onOpenLogout('logout')"></a>
+
       </div>
     </div>
   </aside>
