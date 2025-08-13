@@ -21,6 +21,7 @@ import {
   UserService,
   getAllClients,
   getAllClientsOverdue,
+  clientStatusCounts,
 } from '../../../services/user.service';
 
 import { Chart, Colors, registerables, scales } from 'chart.js';
@@ -41,6 +42,7 @@ Chart.register(...registerables);
 export class DashboardComponent implements OnInit, AfterViewInit {
   activeModal: any;
   isOpenProfile: string | null = null;
+  clientStatusCount: any={};
 
   clientsObject: getAllClients = {
     data: [],
@@ -52,38 +54,92 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     hasPrevious: false,
   };
 
-  clients = this.clientsObject;
-  overdueClients = this.clientsObject;
+  clients = this.clientsObject
+  overdueClients= this.clientsObject
 
+  limitOptions = [6, 10, 20, 50];
   currentPage = 1;
-  totalPages = 0;
-  totalItems = 0;
-  limit = 6;
-  pages: number[] = [];
-  // get pages(): number[] {
-  //   return Array.from({ length: this.totalPages }, (_, i) => i + 1);
-  // }
+  totalPages=3;
+  totalItems =12
+  limit =6;
+  hasNext = false;
+  hasPrevious = false;
+
+  clientCurrentPage = 1;
+  clientTotalPages=3;
+  clientTotalItems =12
+  clientLimit =6;
+  clientHasNext = false;
+  clientHasPrevious = false;
+
+  overdueClientCurrentPage = 1;
+  overdueClientTotalPages=3;
+  overdueClientTotalItems =12
+  overdueClientLimit =6;
+  overdueClientHasNext = false;
+  overdueClientHasPrevious = false;
+  get pages(): number[] {
+    return Array.from({ length: this.totalPages }, (_, i) => i + 1);
+  }
 
   goToPage(page: number) {
     if (page >= 1 && page <= this.totalPages) {
       this.currentPage = page;
-      console.log(page);
-      console.log(this.currentPage);
-      // Fetch data for the new page
+      this.fetchAllClients(page);
+     
+    }
+  }
+  goToPreviousPage(){
+    if(this.hasPrevious){
+      const prevPage = this.currentPage -1
+      this.fetchAllClients(prevPage)
+      
+      
     }
   }
 
+  goToNextPage(){
+    if(this.hasNext){
+      const nextPage = this.currentPage +1
+      this.fetchAllClients(nextPage)
+      
+    }
+  }
+
+  onLimitChange(event: Event): void {
+    const newLimit = (event.target as HTMLSelectElement).value;
+    this.limit = +newLimit; // convert to number
+    this.currentPage = 1;
+    this.fetchAllClients(this.currentPage);
+  }
+
+  onLimitChangess(newLimit: number): void {
+    this.limit = newLimit;
+    this.clientCurrentPage = 1;
+    this.clientFetchAllClients(this.currentPage);
+  }
+
+  onOverdueLimitChange(newLimit: number): void {
+    this.overdueClientLimit = newLimit;
+    this.overdueClientCurrentPage = 1;
+    this.fetchOverdueClients(this.overdueClientCurrentPage);
+  }
+
+
   fetchAllClients(page: number) {
     // get all clients for client activity tracker
-
-    this.userService.getAllCients(this.currentPage, this.limit).subscribe({
+   
+    this.userService.getAllClients(page, this.limit).subscribe({
       next: (data) => {
         this.clients = data;
-        this.totalPages = data.totalPages;
-        this.currentPage = page;
-        this.pages = Array.from({ length: this.totalPages }, (_, i) => i + 1);
-        console.log(data.totalPages);
-        console.log(this.clients);
+        this.totalPages = data.totalPages
+        this.totalItems=data.totalItems
+        this.currentPage = page
+        this.hasNext = data.hasNext
+        this.hasPrevious = data.hasPrevious
+        console.log(this.clients)
+       
+
       },
       error: (err) => {
         console.log(err);
@@ -91,6 +147,62 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       },
     });
   }
+
+  clientFetchAllClients(page:number){
+    // get all clients for client activity tracker
+   
+    this.userService.getAllClients(page, this.limit).subscribe({
+      next: (data) => {
+        this.clients = data;
+        this.clientTotalPages = data.totalPages
+        this.clientTotalItems=data.totalItems
+        this.clientCurrentPage = page
+        this.clientHasNext = data.hasNext
+        this.clientHasPrevious = data.hasPrevious
+        console.log(this.clients)
+        
+       
+
+      },
+      error: (err) => {
+        console.log(err)
+        // this.router.navigate(['/authentication/login'])
+      }
+    })
+  }
+
+  fetchOverdueClients(page:number){
+    this.userService.getAllClientsOverdue(page, this.overdueClientLimit).subscribe({
+      next: (data) => {
+        this.overdueClients = data;
+        this.overdueClientTotalPages = data.totalPages
+        this.overdueClientTotalItems=data.totalItems
+        this.overdueClientCurrentPage = page
+        this.overdueClientHasNext = data.hasNext
+        this.overdueClientHasPrevious = data.hasPrevious
+        console.log(this.overdueClients)
+        console.log(data.currentPage)
+       
+      },
+      error: (err) => {
+        console.log(err)
+        // this.router.navigate(['/authentication/login'])
+      }
+    })
+  }
+
+  
+
+ 
+
+
+
+
+
+
+
+  
+
 
   // users = new BehaviorSubject<User[]>([]);
   // totalUsers = new BehaviorSubject(0);
@@ -130,6 +242,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   ) {}
 
   ngOnInit(): void {
+   
     this.modalForm = this.fb.group({
       firstName: ['', Validators.required],
       otherNames: [''],
@@ -138,30 +251,43 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       staffId: ['', Validators.required],
     });
 
-    // function formatField(str: string): string {
-    //   return str
-    //     .toLowerCase()
-    //     .replace(/_/g, ' ')
-    //     .replace(/\b\w/g, char => char.toUpperCase());
-    // }
-
-    // const formattedClients = this.clients.map(client => ({
-
-    //   readableStatus: formatField(client.clientStatus)
-    // }));
+   
+    
+    this.fetchAllClients(this.currentPage)
+    this.fetchOverdueClients(this.overdueClientCurrentPage)
+  
 
     this.fetchAllClients(this.currentPage);
     this.goToPage(this.currentPage);
 
-    // get all overdue clients
-    this.userService.getAllClientsOverdue().subscribe({
+
+    // get  client status count
+    this.userService.getClientStatusCounts().subscribe({
       next: (data) => {
-        this.overdueClients = data;
+        this.clientStatusCount = data;
+      
+        console.log(this.clientStatusCount);
       },
       error: (err) => {
         console.log(err);
       },
     });
+
+    // get all overdue clients
+    // this.userService.getAllClientsOverdue().subscribe({
+    //   next: (data) => {
+    //     this.overdueClients = data;
+        
+    //   },
+    //   error:(err)=>{
+    //     console.log(err)
+    //   }
+    // })
+    
+
+    
+
+    
 
     // combineLatest([this.currentPage$, this.pageSize$])
     //   .pipe(

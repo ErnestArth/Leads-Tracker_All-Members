@@ -1,6 +1,6 @@
 import { Component, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-
+import { UserService, adminProfile } from '../../../services/user.service';
 @Component({
   selector: 'app-profile',
   standalone: false,
@@ -31,19 +31,42 @@ export class ProfileComponent {
 
   error: string | null = null;
 
-  constructor(private fb: FormBuilder) {
+
+  constructor(private fb: FormBuilder, private userService: UserService) {
     this.profileForm = this.fb.group({
-      firstName: ['Freda', Validators.required],
-      otherNames: ['Yaa Nketiah', Validators.required],
+      firstName: ['', Validators.required],
+      otherNames: ['', Validators.required],
       businessEmail: [
-        'username@domain.com',
+        '',
         [Validators.required, Validators.email],
       ],
-      phoneNumber: ['024 000 1111', Validators.required],
-      role: ['Admin', Validators.required],
+      phoneNumber: ['', Validators.required],
+      role: ['', Validators.required],
       currentPassword: ['', [Validators.required]],
       newPassword: ['', [Validators.required]],
       confirmNewPassword: ['', [Validators.required]],
+    });
+  }
+
+   ngOnInit(): void {
+    this.userService.getAdminProfile().subscribe({
+      next: (res:any) => {
+        const nameParts = res.fullName.split(' ');
+        const firstName = nameParts[0] || '';
+        const otherNames = nameParts.slice(1).join(' ') || '';
+
+        this.profileForm.patchValue({
+          firstName,
+          otherNames,
+          businessEmail: res.email,
+          phoneNumber: res.phoneNumber,
+          role: res.role.charAt(0).toUpperCase() + res.role.slice(1), // 'admin' -> 'Admin'
+        });
+      },
+      error: (err:any) => {
+        console.error('Failed to load profile:', err);
+        this.error = 'Could not load profile data';
+      }
     });
   }
 

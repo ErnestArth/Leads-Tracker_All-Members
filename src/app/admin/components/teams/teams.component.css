@@ -300,17 +300,47 @@ input::placeholder {
 }
 .progress-outline {
   width: 100%;
-  background: #e0dbff;
+  /* background: #e0dbff; */
   height: 18px;
   border-radius: 4px;
   text-align: right;
   position: relative;
 }
+
+.red-outline{
+  background:#fce4e2
+}
+.progress-red{
+  background:#E20408;
+ 
+}
+.text-red{
+  color:#E20408;
+}
+.yellow-outline{
+  background:#FFFBEA;
+}
+.progress-yellow{
+  background:#F6B100;
+}
+.text-yellow{
+  color:#F6B100;
+}
+.green-outline{
+  background:#D8FFFB;
+}
+.progress-green{
+  background:#1B998B;
+}
+.text-green{
+  color:#1B998B;
+}
 .progress {
-  width: 60%;
-  background: #2c2368;
+  /* width: 1%; */
+  /* background: #2c2368; */
   height: 18px;
   border-radius: 4px;
+  max-width: 100%;
 }
 .progress-percentage {
   right: 14px;

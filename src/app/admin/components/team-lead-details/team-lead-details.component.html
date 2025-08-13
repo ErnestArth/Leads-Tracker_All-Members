@@ -4,7 +4,7 @@
   </aside>
 
   <main>
-    <aside class="header">
+    <aside  class="header">
       <div class="back-arrow" (click)="goBack()">
         <svg
           width="20"
@@ -28,8 +28,8 @@
           <img class="user-image" src="user-1.jpg" alt="user" />
         </div>
         <div class="team-member-info-name-and-">
-          <p class="team-member-name">Team member Name</p>
-          <span class="team-member-email">name&#64;domain.com</span>
+          <p class="team-member-name">{{userData?.firstName}} {{userData?.lastName}}</p>
+          <span class="team-member-email">{{userData?.email}}</span>
         </div>
       </div>
 
@@ -169,14 +169,14 @@
             <div class="team-members-and-progress-bar">
               <div class="Team-members">
                 <p class="team-members-text">Team Members</p>
-                <p class="team-leaders-name">18</p>
+                <p class="team-leaders-name">{{userData?.teamPerformance?.numberOfTeamMembers}}</p>
               </div>
 
               <div class="progress-bar">
-                <p>Total Recommendations Submitted: <span>50/80</span></p>
-                <div class="progress-outline green-outline">
-                  <div class="progress green-progress"></div>
-                  <span class="progress-percentage">60% </span>
+                <p>Total Recommendations Submitted: <span><span>{{userData?.teamPerformance?.totalClientsAdded}}</span> / {{userData?.teamPerformance?.teamTarget}}</span></p>
+                <div class="progress-outline {{progressOutlineColor}}">
+                  <div class="progress {{progressColor}}" [ngStyle]="{ width: (userData?.teamPerformance?.progressPercentage || 0) + '%' ,backgroundColor:userData?.teamPerformance?.color||'red'}" ></div>
+                  <span class="progress-percentage">{{userData?.teamPerformance?.progressPercentage}}%</span>
                 </div>
               </div>
             </div>

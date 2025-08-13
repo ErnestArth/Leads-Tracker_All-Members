@@ -7,6 +7,8 @@ import { Component, EventEmitter, Output } from '@angular/core';
   styleUrl: './edit-team-modal.component.css',
 })
 export class EditTeamModalComponent {
+
+  
   @Output() onCancel = new EventEmitter<void>();
   areChangesSaved = false;
 

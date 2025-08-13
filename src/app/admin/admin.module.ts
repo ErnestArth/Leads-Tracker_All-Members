@@ -55,7 +55,11 @@ import { AddTeamLeadPopupComponent } from './components/add-team-lead-popup/add-
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
+import { TablePaginationComponent } from './components/table-pagination/table-pagination.component';
 import { TeamBreakdownComponent } from './components/team-breakdown/team-breakdown.component';
+import { EditTeamDialogComponent } from './components/edit-team-dialog/edit-team-dialog.component';
+import { AddTeamDialogComponent } from './components/add-team-dialog/add-team-dialog.component';
+import { LoginComponent } from '../auth/components/login/login.component';
 
 const routes: Routes = [
   {
@@ -104,14 +108,21 @@ const routes: Routes = [
       { path: 'add-team', component: AddTeamModalComponent },
       { path: 'assign-members', component: AssignMembersModalComponent },
       { path: 'profile', component: ProfileComponent },
-      { path: 'create-team-lead', component: CreateTeamLeadComponent },
-      { path: 'create-team-member', component: CreateTeamMemberComponent },
+      { path: 'create-team-lead', component: CreateTeamLeadComponent
+        , canActivate: [authGuard]
+       },
+      { path: 'create-team-member', component: CreateTeamMemberComponent
+        , canActivate: [authGuard]
+       },
       { path: 'deactivate-team', component: DeactivateTeamModalComponent },
-      { path: 'set-target', component: SetTargetsComponent },
+      { path: 'set-target', component: SetTargetsComponent,
+        canActivate: [authGuard]
+      },
       { path: 'view-target', component: ViewTargetsComponent },
       { path: 'team-breakdown', component: TeamBreakdownComponent },
     ],
   },
+{path: 'login', component: LoginComponent},
 ];
 
 @NgModule({
@@ -139,12 +150,16 @@ const routes: Routes = [
     TeamLeadComponent,
     TeamLeadDetailsComponent,
     TeamLeadFormComponent,
+
+    TablePaginationComponent,
     AddTeamLeadPopupComponent,
     NotificationComponent,
     ProfileComponent,
     SetTargetsComponent,
     ViewTargetsComponent,
     TeamBreakdownComponent,
+    EditTeamDialogComponent,
+    AddTeamDialogComponent,
   ],
   imports: [
     CommonModule,

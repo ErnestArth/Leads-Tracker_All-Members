@@ -11,6 +11,7 @@ import { UserService, getUserDetails } from '../../../services/user.service';
   styleUrl: './team-member-details.component.css',
 })
 export class TeamMemberDetailsComponent {
+
   isEditTeamMemberActive = false;
   userData: getUserDetails = {
     userId: '',
@@ -20,6 +21,8 @@ export class TeamMemberDetailsComponent {
     role: '',
     phoneNumber: '',
     staffId: '',
+    
+
   };
   constructor(
     private location: Location,
@@ -27,6 +30,10 @@ export class TeamMemberDetailsComponent {
     private activatedRoute: ActivatedRoute,
     private userService: UserService
   ) {}
+
+  progressColorCoe(){
+    
+  }
 
   ngOnInit(): void {
     let id = this.activatedRoute.snapshot.paramMap.get('memberId');

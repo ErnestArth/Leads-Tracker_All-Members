@@ -121,7 +121,7 @@
     <div class="form-group">
       <label for="assignTeanLead">Assign Team Lead</label>
       <select title="team-lead-user-id" formControlName="teamLeadUserId" name="" id="assign-lead">
-        <option *ngFor="let teamLead of allTeamLeads"  value={{teamLead.userId}}>{{teamLead.firstName}}</option>
+        <option *ngFor="let teamLead of allTeamLeads"  value={{teamLead.teamLeadUserId}}>{{teamLead.teamLeadName}}</option>
         <!-- <option value="kwamina">Kwamina</option>
         <option value="kwaks">Kwaks</option>
          -->

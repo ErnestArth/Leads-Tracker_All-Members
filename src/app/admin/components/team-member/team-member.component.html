@@ -259,14 +259,14 @@
               </div>
               <div class="team-lead-info-name-and-">
                 <p class="team-lead-name">
-                  {{ member.firstName }} {{ member.lastName }}
+                  {{ member.memberName }} 
                 </p>
                 <span class="team-lead-email">{{ member.email }}</span>
               </div>
             </div>
             <div
               class="view-details"
-              [routerLink]="['/admin/team-member', member.userId]"
+              [routerLink]="['/admin/team-member', member.memberId]"
             >
               View Details
             </div>
@@ -274,15 +274,15 @@
 
           <div class="team-members-and-progress-bar">
             <div class="Team-members">
-              <p class="team-members-text">Team Members</p>
-              <p class="team-leaders-name">Team Lead Name</p>
+              <p class="team-members-text">{{member.teamName}}</p>
+              <p class="team-leaders-name">{{member.teamLeadName}}</p>
             </div>
 
             <div class="progress-bar">
-              <p>Total Recommendations Submitted: <span>50/80</span></p>
-              <div class="progress-outline green-outline">
-                <div class="progress green-progress"></div>
-                <span class="progress-percentage">60% </span>
+              <p>Total Recommendations Submitted: <span> <span>{{member.totalClientsSubmitted}}</span> / <span>{{member.target}}</span></span></p>
+              <div class="progress-outline " [ngClass]="member.progressOutlineColor">
+                <div class="progress " [ngClass]="member.progressColor" [ngStyle]="{width: member.progressPercentage+'%', backgroundColor: member.progressColor}" ></div>
+                <span class="progress-percentage" [ngClass]="member.progressTextColor">{{member.progressPercentage}}%</span>
               </div>
             </div>
           </div>

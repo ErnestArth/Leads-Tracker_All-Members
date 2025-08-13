@@ -18,15 +18,48 @@ import { getAllTeamMembers, UserService } from '../../../services/user.service';
   styleUrl: './team-member.component.css',
 })
 export class TeamMemberComponent {
+  progressColor: string = '';
+  progressTextColor:string='';
+  progressOutlineColor:string='';
+
   allTeamMembers: getAllTeamMembers[] = [];
 
   constructor(private dialog: MatDialog, private userService: UserService) {}
 
+  progressColorCode(){
+    this.allTeamMembers.forEach((member) => {
+      if (member.progressPercentage >= 80) {
+
+        member.progressColor = 'progress-green';
+        member.progressTextColor='text-green';
+        member.progressOutlineColor='green-outline';
+
+      
+
+      } else if (member.progressPercentage >=50 ) {
+
+        member.progressColor = 'progress-yellow';
+        member.progressTextColor='text-yellow';
+        member.progressOutlineColor='yellow-outline';
+        console.log(member.teamName)
+
+      }else if(member.progressPercentage < 50){
+        member.progressColor ='progress-red';
+        member.progressTextColor='text-red';
+        member.progressOutlineColor='red-outline';
+        // console.log(team.teamName)
+        
+      }
+      
+    })
+  
+  }
   ngOnInit(): void {
     this.userService.getAllTeamMembers().subscribe({
       next: (data) => {
         console.log(data);
         this.allTeamMembers = data;
+        this.progressColorCode();
       },
       error: (err) => {
         console.log(err);

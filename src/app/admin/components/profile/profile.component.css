@@ -16,7 +16,7 @@ main {
   width: 100%;
   box-sizing: border-box;
   padding: 20px;
-  overflow-y: auto;
+  overflow-y:auto;
 }
 
 .form-container {

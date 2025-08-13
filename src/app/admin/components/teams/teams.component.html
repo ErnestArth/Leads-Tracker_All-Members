@@ -31,7 +31,7 @@
             <p>Unassign Members</p>
           </button>
 
-          <button (click)="openModal('addTeam')" class="add-team-button">
+          <button (click)="openAddTeam()" class="add-team-button">
             <svg
               width="14"
               height="13"
@@ -86,7 +86,7 @@
 
         <div class="team-lead-dash-cards-container">
           <div
-            *ngFor="let teamLead of allTeamLeads"
+            *ngFor="let team of allTeams"
             class="team-lead-dash-cards"
           >
             <div class="dash-cards-top-info">
@@ -98,11 +98,11 @@
                   <div class="team-lead-info-name-and-">
                     <p
                       class="team-lead-name"
-                      [routerLink]="['/admin/teams', teamLead.userId]"
+                      [routerLink]="['/admin/teams', team.teamId]"
                     >
-                      {{ teamLead.firstName }}
+                      {{ team.teamName }}
                     </p>
-                    <span class="team-lead-email">{{ teamLead.email }}</span>
+                    <span class="team-lead-email">{{ team.teamLeadName }}</span>
                   </div>
                 </div>
 
@@ -134,7 +134,7 @@
                   <mat-menu #beforeMenu="matMenu" xPosition="before">
                     <button
                       mat-menu-item
-                      (click)="openModal('editTeam')"
+                      (click)="openEditTeam(team.teamId)"
                       class="card-link"
                     >
                       Edit
@@ -149,7 +149,7 @@
                     </button>
                   </mat-menu>
 
-                  @if (selectedTeam === teamLead.userId){
+                  <!-- @if (selectedTeam === team.teamId){
                   <div class="card-menu">
                     <ul>
                       <li (click)="openModal('editTeam')" class="card-link">
@@ -163,16 +163,16 @@
                       </li>
                     </ul>
                   </div>
-                  }
+                  } -->
                 </div>
               </div>
 
               <div class="team-members-and-progress-bar">
                 <div class="progress-bar">
-                  <p>Total Recommendations Submitted: <span>50/80</span></p>
-                  <div class="progress-outline">
-                    <div class="progress"></div>
-                    <span class="progress-percentage">60% </span>
+                  <p>Total Recommendations Submitted: <span><span class="team-target-achieved {{progressTextColor}}">{{team.totalClientsAdded}}</span> / <span class="team-target">{{team.teamTarget}}</span></span></p>
+                  <div class="progress-outline " [ngClass]="team.progressOutlineColor">
+                    <div class="progress {{progressColor}}" [ngClass]="team.progressColor" [ngStyle]="{ width: team.progressPercentage+'%', backgroundColor: team.progressColor}" ></div>
+                    <span class="progress-percentage" [ngClass]="team.progressTextColor">{{team.progressPercentage}}% </span>
                   </div>
                 </div>
               </div>
@@ -180,7 +180,7 @@
 
             <div class="dash-cards-down-info">
               <div class="no-of-members-and-pics">
-                <p>13Members</p>
+                <p>{{team.numberOfTeamMembers}} Members</p>
                 <div class="members-images">
                   <img src="user-1.jpg" alt="members-img" />
                   <img src="user-1.jpg" alt="members-img" />
@@ -191,7 +191,7 @@
               </div>
               <div
                 class="view-details"
-                [routerLink]="['/admin/teams', teamLead.userId]"
+                [routerLink]="['/admin/teams', team.teamId]"
               >
                 <p>View Details</p>
               </div>

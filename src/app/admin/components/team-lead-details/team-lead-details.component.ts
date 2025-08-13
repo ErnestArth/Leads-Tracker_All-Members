@@ -1,6 +1,12 @@
 import { Component } from '@angular/core';
 import { Chart, Colors, registerables, scales } from 'chart.js';
 import { Location } from '@angular/common';
+import { ActivatedRoute, Router } from '@angular/router';
+import {
+  getSpecificTeamLead,
+  getUserDetails,
+  UserService,
+} from '../../../services/user.service';
 
 @Component({
   selector: 'app-team-lead-details',
@@ -12,8 +18,62 @@ export class TeamLeadDetailsComponent {
   isEditTeamMemberActive = false;
   isTitleNavActive = true;
   showEditForm = false;
-  constructor(private location: Location) {}
 
+  progressColor: string = '';
+  progressTextColor: string = '';
+  progressOutlineColor: string = '';
+
+  userData: getSpecificTeamLead | null = null;
+
+  constructor(
+    private location: Location,
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private userService: UserService
+  ) {}
+
+  progressColorCode() {
+    if (
+      this.userData &&
+      this.userData.teamPerformance &&
+      this.userData.teamPerformance.progressPercentage >= 80
+    ) {
+      this.progressColor = 'progress-green';
+      this.progressTextColor = 'text-green';
+      this.progressOutlineColor = 'green-outline';
+    } else if (
+      this.userData &&
+      this.userData.teamPerformance &&
+      this.userData.teamPerformance.progressPercentage >= 50
+    ) {
+      this.progressColor = 'progress-yellow';
+      this.progressTextColor='text-yellow';
+      this.progressOutlineColor='yellow-outline';
+    }else{
+      this.progressColor ='progress-red';
+      this.progressTextColor='text-red';
+      this.progressOutlineColor='red-outline';
+    }
+  }
+  ngOnInit(): void {
+    let id = this.activatedRoute.snapshot.paramMap.get('teamLeadId');
+    console.log(this.activatedRoute.snapshot.paramMap);
+    if (id) {
+      this.userService.getSpecificTeamLead(id).subscribe({
+        next: (data) => {
+          console.log(data);
+          this.userData = data;
+          console.log(this.userData);
+          this.progressColorCode();
+        },
+        error: (err) => {
+          console.log(err);
+        },
+      });
+    } else {
+      console.log('nothing');
+    }
+  }
   ngAfterViewInit() {
     this.initChart();
   }

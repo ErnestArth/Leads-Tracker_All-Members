@@ -93,9 +93,8 @@
             src="dashboard-images/Headshot 2.jpg"
             alt="profile-image"
             class="profile-image"
-            (click)="openProfile('profile')"
             routerLink="/admin/profile"
-            routerLinkActive="selected"
+            
           />
         </div>
 
@@ -163,7 +162,7 @@
                 Total Clients
               </div>
 
-              <p>1250</p>
+              <p>{{clientStatusCount.totalClients}}</p>
             </div>
             <div class="completed-onboarding data-cards">
               <div class="icon-and-status-name">
@@ -192,7 +191,7 @@
                 Onboarded
               </div>
 
-              <p>800</p>
+              <p>{{clientStatusCount.overallStatusCounts?.ONBOARDED}}</p>
             </div>
             <div class="interested data-cards">
               <div class="icon-and-status-name">
@@ -211,7 +210,7 @@
                 Interested
               </div>
 
-              <p>260</p>
+              <p>{{clientStatusCount.overallStatusCounts?.INTERESTED}}</p>
             </div>
           </div>
           <div class="card-responsive-layout">
@@ -237,7 +236,7 @@
                 Awaiting Documentation
               </div>
 
-              <p>105</p>
+              <p>{{clientStatusCount.overallStatusCounts?.AWAITING_DOCUMENTATION}}</p>
             </div>
             <div class="pending data-cards">
               <div class="icon-and-status-name">
@@ -261,7 +260,7 @@
                 Pending
               </div>
 
-              <p>85</p>
+              <p>{{clientStatusCount.overallStatusCounts?.PENDING}}</p>
             </div>
             <div class="not-interested data-cards">
               <div class="icon-and-status-name">
@@ -285,7 +284,7 @@
                 Not Interested
               </div>
 
-              <p>310</p>
+              <p>{{clientStatusCount.overallStatusCounts?.NOT_INTERESTED}}</p>
             </div>
           </div>
         </div>
@@ -459,32 +458,33 @@
                   </td>
                   <td class="team-na table-data">Team A</td>
                 </tr>
-                <!-- <tr>
-                  <td class="client-na table-data">Client Name</td>
-                  <td class="member-na table-data">Member Name</td>
-                  <td class="date-allo table-data">10/05/2025</td>
-                  <td class="overdue table-data">4 Days</td>
-                  <td class="team-na table-data">Team B</td>
-                </tr> -->
+                
               </tbody>
             </table>
           </div>
-          <div class="pagination">
-            <label class="pag-text"
-              >Show
+          <!-- <div class="pagination">
+            <label class="pag-text">Show
               <select class="pag-select">
                 <option>2</option>
               </select>
               per page
             </label>
-            <div class="pages">
-              <button type="button" class="pagination-button">1</button>
-              <button type="button" class="pagination-button">2</button>
-              <button type="button" class="pagination-button">3</button>
-              <button type="button" class="pagination-button">4</button>
-              <button type="button" class="pagination-button">5</button>
-            </div>
-          </div>
+            
+
+          
+          </div> -->
+          <app-table-pagination
+          [totalItems]="overdueClientTotalItems"
+          [currentPage]="overdueClientCurrentPage"
+          [limit]="overdueClientLimit"
+          [totalPages]="overdueClientTotalPages"
+          [hasNext]="overdueClientHasNext"
+          [hasPrevious]="overdueClientHasPrevious"
+          (pageChange)="fetchOverdueClients($event)"
+          (limitChange)="onOverdueLimitChange($event)"
+          >
+        </app-table-pagination>
+          
         </div>
         <div class="client-activity-tracker-container">
           <div class="client-activity-header">
@@ -552,29 +552,47 @@
               </tr>
             </tbody>
           </table>
-          <div class="pagination">
-            <label class="pag-text"
-              >Show
-              <select class="pag-select">
-                <option>6</option>
+          <!-- <div class="pagination">
+            <label class="pag-text">Show
+              <select (change)="onLimitChange($event)" class="pag-select">
+                <option *ngFor="let opt of limitOptions" 
+                [value]="opt" 
+                [selected]="opt === limit">{{opt}}</option>
               </select>
               per page
             </label>
-            <div class="pages">
-              <button
-                *ngFor="let page of pages"
-                (click)="goToPage(page)"
-                type="button"
-                class="active pagination-button"
-              >
-                {{ page }}
-              </button>
-              <!-- <button type="button" class="pagination-button">2</button>
-              <button type="button" class="pagination-button">3</button>
-              <button type="button" class="pagination-button">4</button>
-              <button type="button" class="pagination-button">5</button> -->
+            <div  class="pages">
+              <button class="pagination-button" (click)="goToPreviousPage()" >
+                <svg width="14" height="8" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M4.91005 7.33943V4.71268H13.0973C13.2483 4.71268 13.3932 4.65269 13.4999 4.54591C13.6067 4.43913 13.6667 4.29431 13.6667 4.1433C13.6667 3.99229 13.6067 3.84747 13.4999 3.74069C13.3932 3.63391 13.2483 3.57392 13.0973 3.57392H4.91005V0.954764C4.91089 0.883128 4.89015 0.812897 4.85053 0.753212C4.81091 0.693527 4.75423 0.647151 4.68789 0.620121C4.62154 0.593091 4.54859 0.586659 4.47854 0.601662C4.40849 0.616664 4.34457 0.652406 4.29512 0.704236L0.439916 3.89277C0.406174 3.92598 0.379378 3.96556 0.361087 4.00923C0.342795 4.05289 0.333374 4.09976 0.333374 4.1471C0.333374 4.19443 0.342795 4.2413 0.361087 4.28496C0.379378 4.32863 0.406174 4.36821 0.439916 4.40142L4.29512 7.58995C4.34457 7.64178 4.40849 7.67753 4.47854 7.69253C4.54859 7.70753 4.62154 7.7011 4.68789 7.67407C4.75423 7.64704 4.81091 7.60066 4.85053 7.54098C4.89015 7.48129 4.91089 7.41106 4.91005 7.33943Z" fill="#C4CADA"/>
+                  </svg>
+                  
+                </button>
+              <button 
+              *ngFor="let page of pages" (click)="goToPage(page)" type="button" 
+              [ngClass]="{'active pagination-button': currentPage === page, 'pagination-button': currentPage !== page }"  >
+              {{page}}</button>
+
+              <button class="pagination-button" (click)="goToNextPage()" >
+              <svg width="14" height="8" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9.09003 0.954763V3.58151H0.902756C0.751746 3.58151 0.606922 3.6415 0.500142 3.74828C0.393363 3.85506 0.333374 3.99988 0.333374 4.15089C0.333374 4.3019 0.393363 4.44672 0.500142 4.5535C0.606922 4.66028 0.751746 4.72027 0.902756 4.72027H9.09003V7.33942C9.08919 7.41106 9.10993 7.48129 9.14955 7.54098C9.18918 7.60066 9.24585 7.64704 9.31219 7.67407C9.37854 7.7011 9.45149 7.70753 9.52154 7.69253C9.59159 7.67752 9.65551 7.64178 9.70496 7.58995L13.5602 4.40142C13.5939 4.36821 13.6207 4.32863 13.639 4.28496C13.6573 4.2413 13.6667 4.19443 13.6667 4.14709C13.6667 4.09975 13.6573 4.05289 13.639 4.00922C13.6207 3.96556 13.5939 3.92597 13.5602 3.89277L9.70496 0.704236C9.65551 0.652405 9.59159 0.616664 9.52154 0.601662C9.45149 0.586659 9.37854 0.593091 9.31219 0.620121C9.24585 0.647151 9.18918 0.693527 9.14955 0.753212C9.10993 0.812897 9.08919 0.883128 9.09003 0.954763Z" fill="#4B5675"/>
+                </svg>
+                
+                </button>
+              
             </div>
-          </div>
+          </div> -->
+          <app-table-pagination
+            [totalItems]="clientTotalItems"
+            [currentPage]="clientCurrentPage"
+            [totalPages]="clientTotalPages"
+            [limit]="clientLimit"
+            [hasNext]="clientHasNext"
+            [hasPrevious]="clientHasPrevious"
+            (pageChange)="clientFetchAllClients($event)"
+            (limitChange)="onLimitChangess($event)"
+            >
+          </app-table-pagination>
 
           <!-- Table of users -->
           <!-- <table>
@@ -593,7 +611,18 @@
           <!-- </table> -->
         </div>
 
-        <!-- test table -->
+
+        <!-- test MATERIAL table -->
+
+
+
+
+
+
+
+
+
+
       </div>
     </div>
 
