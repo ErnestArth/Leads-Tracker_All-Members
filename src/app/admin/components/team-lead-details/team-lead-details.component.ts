@@ -12,6 +12,7 @@ import {
 import {ChangeDetectionStrategy} from '@angular/core';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {provideNativeDateAdapter} from '@angular/material/core';
+
 @Component({
   selector: 'app-team-lead-details',
   standalone: false,
@@ -21,6 +22,7 @@ import {provideNativeDateAdapter} from '@angular/material/core';
 export class TeamLeadDetailsComponent {
   isEditTeamMemberActive = false;
   isTitleNavActive = true;
+  showTeamPerformance = true;
   showEditForm = false;
 
 
@@ -311,16 +313,23 @@ export class TeamLeadDetailsComponent {
     this.isEditTeamMemberActive = !this.isEditTeamMemberActive;
   }
   goBack() {
-    this.location.back();
+   this.showEditForm = false
+   this.isTitleNavActive= true
+   this.showTeamPerformance = true
   }
 
   toggleTitleNav() {
     this.isTitleNavActive = !this.isTitleNavActive;
+    this.showTeamPerformance = !this.showTeamPerformance;
     console.log(this.isTitleNavActive);
   }
 
   toggleEditForm() {
-    this.showEditForm = !this.showEditForm;
+    this.showTeamPerformance =false
+    this.isTitleNavActive = false;
+    this.showEditForm =true
+    console.log(this.showTeamPerformance);
+    console.log(this.isTitleNavActive)
     
     
   }
@@ -391,4 +400,12 @@ onLimitChange(newLimit: number): void {
   this.clientCurrentPage = 1;
   this.fetchClients(this.clientCurrentPage)
 }
+
+
+
+
+
+
+
+
 }

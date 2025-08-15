@@ -27,7 +27,7 @@
       </div>
       
         
-      <div class="team-member-info">
+      <div *ngIf="!showEditForm" class="team-member-info">
         <div class="team-member-info-inner">
         <div class="team-member-info-image">
           <img class="user-image" src="user-1.jpg" alt="user" />
@@ -42,8 +42,8 @@
 
       </div>
 
-      <div class="edit-deactivate-buttons">
-        <div (click)="toggleEditForm()" class="button-text">
+      <div *ngIf="!showEditForm" class="edit-deactivate-buttons">
+        <div  (click)="toggleEditForm()" class="button-text">
           <svg
             width="24"
             height="24"
@@ -96,7 +96,7 @@
     </aside>
   <!-- } -->
     <!-- @if(isTitleNavActive && !showEditForm){ -->
-     <div [hidden]="!isTitleNavActive">
+     <!-- <div [hidden]="!isTitleNavActive "> -->
     <div class="main-content">
       <div class="welcome-text-and-filter">
         <div class="dashboard-text-options">
@@ -154,17 +154,6 @@
                 <span>Status Breakdown</span>
               </div>
 
-              <!-- <div class="this-week-filter">
-              <div class="doughnut-filter">
-                <select id="options" name="options" class="chart-filter-select">
-                  <option value="all">All Teams</option>
-                  <option value="team1">Team 1</option>
-                  <option value="team2">Team 2</option>
-                  <option value="team3">Team 3</option>
-                  <option value="team4">Team 4</option>
-                </select>
-              </div>
-            </div> -->
             </div>
            
             <div  class="doughnut-chart">
@@ -244,13 +233,7 @@
                   <td class="overdue table-data">{{client.lastAction}}</td>
                   <td class="team-na table-data">{{client.teamName}}</td>
                 </tr>
-                <!-- <tr>
-                  <td class="client-na table-data">Client Name</td>
-                  <td class="member-na table-data">Member Name</td>
-                  <td class="date-allo table-data">10/05/2025</td>
-                  <td class="overdue table-data">4 Days</td>
-                  <td class="team-na table-data">Team B</td>
-                </tr> -->
+                
               </tbody>
             </table>
           </div>
@@ -290,8 +273,7 @@
               <select (change)="onStatusChange($event)" class="dropdown" aria-label="Filter by team">
                 <option  value="All Statuses">All Statuses</option>
                 <option *ngFor="let status of allStatuses" value="{{status}}">{{status}}</option>
-                <!-- <option value="team_b">Team B</option>
-                <option value="team_c">Team C</option> -->
+                
               </select>
               <mat-form-field>
                 <mat-label>Enter a date range</mat-label>
@@ -299,7 +281,7 @@
                   <input matStartDate formControlName="start" placeholder="Start date">
                   <input matEndDate formControlName="end" placeholder="End date">
                 </mat-date-range-input>
-                <!-- <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint> -->
+               
                 <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-date-range-picker #picker></mat-date-range-picker>
               
@@ -336,52 +318,7 @@
                 <td class="name table-data">{{client.createdBy}}</td>
                 <td class="team table-data">{{client.teamName}}</td>
               </tr>
-              <!-- <tr>
-                <td class="client-con table-data">Client Name</td>
-                <td class="badge-con table-data">
-                  <span class="badge not-interested">Not Interested</span>
-                </td>
-                <td class="date table-data">10/04/2025</td>
-                <td class="days table-data">12 Days</td>
-                <td class="mem-name table-data">Member Name</td>
-                <td class="name table-data">Name</td>
-                <td class="team table-data">Team B</td>
-              </tr>
-              <tr>
-                <td class="client-con table-data">Client Name</td>
-                <td class="badge-con table-data">
-                  <span class="badge interested">Interested</span>
-                </td>
-                <td class="date table-data">10/04/2025</td>
-                <td class="days table-data">12 Days</td>
-                <td class="mem-name table-data">Member Name</td>
-                <td class="name table-data">Name</td>
-                <td class="team table-data">Team C</td>
-              </tr>
-              <tr>
-                <td class="client-con table-data">Client Name</td>
-                <td class="badge-con table-data">
-                  <span class="badge pending">Pending</span>
-                </td>
-                <td class="date table-data">10/04/2025</td>
-                <td class="days table-data">12 Days</td>
-                <td class="mem-name table-data">Member Name</td>
-                <td class="name table-data">Name</td>
-                <td class="team table-data">Team D</td>
-              </tr>
-              <tr>
-                <td class="client-con table-data">Client Name</td>
-                <td class="badge-con table-data">
-                  <span class="badge awaiting-documentation"
-                    >Awaiting Documentation</span
-                  >
-                </td>
-                <td class="date table-data">10/04/2025</td>
-                <td class="days table-data">12 Days</td>
-                <td class="mem-name table-data">Member Name</td>
-                <td class="name table-data">Name</td>
-                <td class="team table-data">Team E</td>
-              </tr> -->
+              
             </tbody>
           </table>
           <app-table-pagination
@@ -399,10 +336,11 @@
       </div>
     </div>
     <!-- }  -->
-  </div>
-    @if(!isTitleNavActive && !showEditForm){
+  <!-- </div> -->
+
+    <!-- @if(!isTitleNavActive && !showEditForm){ -->
     
-      
+      <!-- <div [hidden]="!showTeamPerformance "> -->
       
 
     <div class="main-content">
@@ -430,7 +368,7 @@
             Performance Metrics
           </button>
           <button
-            (click)="isTitleNavActive = false"
+            (click)="toggleTitleNav()"
             [class.title-nav-focus]="!isTitleNavActive"
             class="title-nav"
           >
@@ -579,7 +517,11 @@
         </div>
       </div>
     </div>
-    } @if(showEditForm){
+    <!-- }  -->
+  <!-- </div> -->
+    
+    
+    @if(showEditForm ){
     <div class="main-content">
       <app-team-lead-form />
     </div>
