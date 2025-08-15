@@ -22,7 +22,7 @@
         </div>
 
         <div class="team-name">
-          <p>{{teamData.name}}</p>
+          <p>{{teamData?.name}}</p>
         </div>
 
         <div class="edit-deactivate-buttons">
@@ -47,7 +47,7 @@
             <p>Edit Team</p>
           </div>
 
-          <div (click)="openDeactivateTeamDialog(teamData.teamId)" class="button-text">
+          <div (click)="openDeactivateTeamAndMembersDialog(teamData.teamId,'')" class="button-text">
             <svg
               width="25"
               height="24"
@@ -74,6 +74,7 @@
     <div class="dashboard-content">
       <div class="team-overview-and-button">
         <p class="team-overview-text">Team Overview</p>
+        <!-- this buttooon has been set to display none -->
         <button (click)="openModal('assignMembers')" class="add-member-button">
           Add Member
           <svg
@@ -111,10 +112,10 @@
             <p class="view-details" [routerLink]="['/admin/team-leads', teamData.teamLeadUserId]">View Details</p>
           </div>
           <div class="team-details">
-            <p class="team-lead-email">{{teamData.teamLeadEmail}}</p>
-            <p class="team-lead-id">ID : {{teamData.leadStaffId}}</p>
-            <p class="team-phone-number">{{teamData.leadPhoneNumber}}</p>
-            <p class="date-added">Date Added : {{teamData.createdDate}}</p>
+            <p class="team-lead-email">{{teamData?.teamLeadEmail}}</p>
+            <p class="team-lead-id">ID : {{teamData?.leadStaffId}}</p>
+            <p class="team-phone-number">{{teamData?.leadPhoneNumber}}</p>
+            <p class="date-added">Date Added : {{teamData?.createdDate | date : "dd/MM/yyyy"}}</p>
           </div>
         </div>
       </div>
@@ -122,7 +123,7 @@
       <div class="member-details-container">
         <div class="member-table-header">
           <div class="table-name">
-            <span>Client Activity Tracker</span>
+            <span>Member Details</span>
           </div>
 
           <div class="filter-bar filter-sections">
@@ -153,7 +154,7 @@
           </thead>
           <tbody>
             <tr *ngFor="let member of teamMembers">
-              <td class="table-data">{{ member.firstName }}</td>
+              <td class="table-data">{{ member.firstName }} {{member.lastName}}</td>
               <td class="table-data">
                 <span>{{ member.staffId }}</span>
               </td>
@@ -168,7 +169,7 @@
                   viewBox="0 0 24 24"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
-                  (click)="openEditTeamMemberDialog(member.userId,teamData.teamLeadUserId,teamData.teamId)"
+                  (click)="openEditTeamMemberDialog(member.userId,teamData?.teamLeadUserId,teamData?.teamId)"
                 >
                   <path
                     _ngcontent-ng-c621541999=""
@@ -189,6 +190,7 @@
                   viewBox="0 0 25 24"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
+                  (click)="openDeactivateTeamAndMembersDialog('',member.userId)"
                 >
                   <path
                     _ngcontent-ng-c1885622569=""

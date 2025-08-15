@@ -91,17 +91,28 @@ li {
   font-weight: 200;
   color: #071437;
 }
+.team-member-info-name-and-email{
+  align-content: center;
+}
 .team-member-info {
-  display: flex;
+  /* display: flex; */
   flex-direction: row;
-  gap: 10px;
+  gap: 10px;  
+  justify-items:center;
+}
+.team-member-info-inner{
+  display: flex;
+  gap:10px;
+ 
 }
 .team-member-name {
   font-size: 12px;
   font-weight: 500;
 }
-.team-member-email {
+.team-member-details {
   font-size: 11px;
+  margin-top:10px;
+  display:block;
   color: #47445d;
   font-weight: 100;
 }
@@ -288,6 +299,7 @@ yellow-outline{
   background: #2C2368; */
   height: 18px;
   border-radius: 4px;
+  max-width:100%
 
 }
 .progress-outline{
@@ -564,6 +576,7 @@ input {
   height: 32px;
   border: #f1f1f4 1px solid;
   border-radius: 6.65px;
+  padding:10px;
 }
 
 .dropdown {
@@ -809,7 +822,7 @@ li:nth-child(2) {
 }
 
 .form-group {
-  margin-bottom: 15px;
+  /* margin-bottom: 15px; */
 }
 
 input[type="text"],

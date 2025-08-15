@@ -65,15 +65,21 @@ export class TeamsOverviewComponent {
       }
     })
   }
-  openDeactivateTeamDialog(teamId: string) {
+  openDeactivateTeamAndMembersDialog(teamId: string,memberId: string) {
     this.dialog.open(DeactivateTeamDialogComponent,{
       width: '1200px',
       data:{
         title: 'Deactivate Team',
-        teamId: teamId
+        teamId: teamId,
+        memberId: memberId
+        
+
 
       }
+      
     })
+   
+    
   }
 
   openEditTeamMemberDialog(teamMemberId: string,teamLeadUserId:string,teamId:string) {
@@ -87,6 +93,9 @@ export class TeamsOverviewComponent {
 
       }
       
+    })
+    editTeamMemberDialog.componentInstance.effectTeamMemberChanges.subscribe((data)=>{
+      this.getTeamMembers(teamLeadUserId)
     })
   
   }

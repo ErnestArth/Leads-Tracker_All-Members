@@ -20,12 +20,22 @@ export class DeactivateTeamDialogComponent {
 ){
   
 }
+deletingTeam = false;
+deletingTeamMember = false;
+
 
 ngOnInit() {
-  
+  if(this.data.teamId){
+    this.deletingTeam = true;
+  }else if(this.data.memberId){
+    this.deletingTeamMember = true;
+  }
 }
   
   onTeamDeactivation() {
+    if(this.data.teamId){
+  
+    console.log(this.data.teamId.length);
     this.userService.deactivateTeam(this.data.teamId).subscribe({
       next: (data) => {
         console.log(data);
@@ -36,7 +46,19 @@ ngOnInit() {
       }
     });
     
+  }else if(this.data.memberId){
+    
+    this.userService.deleteUser(this.data.memberId).subscribe({
+      next:(data)=>{
+        console.log(data);
+        
+      },error: (err) => {
+        console.log(err.message);
+        this.isThereError = true;
+      }
+    })
   }
+}
 
   closeModal(){
     this.dialogRef.close();

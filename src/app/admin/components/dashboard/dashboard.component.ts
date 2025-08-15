@@ -81,6 +81,20 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   overdueClientHasNext = false;
   overdueClientHasPrevious = false;
 
+  // table search and filter
+  searchTerm="";
+  statusFilter="";
+  durationFilter="";
+
+  onSearchClients(){
+    console.log(this.searchTerm);
+    if(this.searchTerm.length >= 3){
+      this.fetchAllClients(this.currentPage,this.searchTerm,this.statusFilter,this.durationFilter)
+          
+      
+    }
+  }
+
   // pagination
   get pages(): number[] {
     return Array.from({ length: this.totalPages }, (_, i) => i + 1);
@@ -125,10 +139,10 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     this.fetchOverdueClients(this.overdueClientCurrentPage);
   }
 
-  fetchAllClients(page: number) {
+  fetchAllClients(page: number, searchTerm?: string, statusFilter?: string, durationFilter?: string) {
     // get all clients for client activity tracker
 
-    this.userService.getAllClients(page, this.limit).subscribe({
+    this.userService.getAllClients(page, this.limit,this.searchTerm,this.statusFilter,this.durationFilter).subscribe({
       next: (data) => {
         this.clients = data;
         this.totalPages = data.totalPages;
@@ -145,11 +159,12 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     });
   }
 
-  clientFetchAllClients(page: number) {
+  clientFetchAllClients(page: number, searchTerm?: string, statusFilter?: string, durationFilter?: string) {
     // get all clients for client activity tracker
 
-    this.userService.getAllClients(page, this.limit).subscribe({
+    this.userService.getAllClients(page, this.limit,this.searchTerm,this.statusFilter,this.durationFilter).subscribe({
       next: (data) => {
+       
         this.clients = data;
         this.clientTotalPages = data.totalPages;
         this.clientTotalItems = data.totalItems;
@@ -158,7 +173,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         this.clientHasPrevious = data.hasPrevious;
         console.log(this.clients);
 
-        this.loadDoughnutChart();
+        // this.loadDoughnutChart();
       },
       error: (err) => {
         console.log(err);
@@ -245,7 +260,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       this.displayedStatusCounts = team ? team : {};
       console.log(this.displayedStatusCounts);
       this.doughnutTotalClients= team.totalClients
-      this.loadDoughnutChart(this.doughnutTotalClients)
+      // this.loadDoughnutChart(this.doughnutTotalClients)
       console.log(this.doughnutTotalClients)
       
     }

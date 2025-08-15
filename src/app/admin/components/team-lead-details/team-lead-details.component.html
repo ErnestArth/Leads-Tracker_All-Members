@@ -4,7 +4,10 @@
   </aside>
 
   <main>
+    <!-- @if(isTitleNavActive && !showEditForm){ -->
+     
     <aside  class="header">
+      
       <div class="back-arrow" (click)="goBack()">
         <svg
           width="20"
@@ -22,15 +25,21 @@
           />
         </svg>
       </div>
-      @if(isTitleNavActive && !showEditForm){
+      
+        
       <div class="team-member-info">
+        <div class="team-member-info-inner">
         <div class="team-member-info-image">
           <img class="user-image" src="user-1.jpg" alt="user" />
         </div>
-        <div class="team-member-info-name-and-">
+        <div class="team-member-info-name-and-email">
           <p class="team-member-name">{{userData?.firstName}} {{userData?.lastName}}</p>
-          <span class="team-member-email">{{userData?.email}}</span>
+
         </div>
+        
+      </div>
+      <span class="team-member-details">{{userData?.teamPerformance?.teamName}}&nbsp;&nbsp; {{userData?.email}}&nbsp;&nbsp; {{userData?.staffId}}</span> 
+
       </div>
 
       <div class="edit-deactivate-buttons">
@@ -77,9 +86,17 @@
           <p>Deactivate</p>
         </div>
       </div>
-      }
+
+      
+
+
+    
+
+   
     </aside>
-    @if(isTitleNavActive && !showEditForm){
+  <!-- } -->
+    <!-- @if(isTitleNavActive && !showEditForm){ -->
+     <div [hidden]="!isTitleNavActive">
     <div class="main-content">
       <div class="welcome-text-and-filter">
         <div class="dashboard-text-options">
@@ -112,7 +129,7 @@
             Team Performance Overview
           </button>
         </div>
-        <div class="doughnut-and-bar-chart-container">
+        <div  class="doughnut-and-bar-chart-container">
           <div class="status-breakdown doughnut-chart-container">
             <div class="chart-top-info">
               <div class="chart-top-info-img-and-title">
@@ -149,9 +166,10 @@
               </div>
             </div> -->
             </div>
-            <div class="doughnut-chart">
+           
+            <div  class="doughnut-chart">
               <div class="doughnut">
-                <canvas #myChart id="doughnutChart"></canvas>
+                <canvas  #doughnutChart id="doughnutChart"></canvas>
                 <p class="total-doughnut">155</p>
                 <p class="doughnut-interested-number">31 <span>20.00%</span></p>
                 <p class="doughnut-onboarded-number">80 <span>51.61%</span></p>
@@ -183,7 +201,7 @@
           </div>
         </div>
 
-        <div class="overdue-actions-container">
+        <div  class="overdue-actions-container">
           <div class="overdue-actions-header">
             <span>Overdue Actions</span>
             <div class="overdue-actions-filter-section filter-sections">
@@ -191,6 +209,7 @@
                 type="search"
                 placeholder="Search Client"
                 class="search-input"
+                
               />
               <select class="dropdown filter-date" aria-label="Filter by team">
                 <option value="">Date</option>
@@ -218,20 +237,20 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td class="client-na table-data">Client Name</td>
-                  <td class="member-na table-data">Member Name</td>
-                  <td class="date-allo table-data">10/05/2025</td>
-                  <td class="overdue table-data">12 Days</td>
-                  <td class="team-na table-data">Team A</td>
+                <tr *ngFor="let client of overdueClientsData.data">
+                  <td class="client-na table-data">{{client.firstName}} {{client.lastName}}</td>
+                  <td class="member-na table-data">{{client.assignedTo}}</td>
+                  <td class="date-allo table-data">{{client.createdAt| date:'dd/MM/yyyy'}}</td>
+                  <td class="overdue table-data">{{client.lastAction}}</td>
+                  <td class="team-na table-data">{{client.teamName}}</td>
                 </tr>
-                <tr>
+                <!-- <tr>
                   <td class="client-na table-data">Client Name</td>
                   <td class="member-na table-data">Member Name</td>
                   <td class="date-allo table-data">10/05/2025</td>
                   <td class="overdue table-data">4 Days</td>
                   <td class="team-na table-data">Team B</td>
-                </tr>
+                </tr> -->
               </tbody>
             </table>
           </div>
@@ -265,19 +284,32 @@
                 type="search"
                 placeholder="Search Client"
                 class="search-input"
+                [(ngModel)]="searchTerm"
+                (ngModelChange)="onSearchClients(userData?.userId!)"
               />
-              <select class="dropdown" aria-label="Filter by team">
-                <option value="">All Statuses</option>
-                <option value="team_a">Team A</option>
-                <option value="team_b">Team B</option>
-                <option value="team_c">Team C</option>
+              <select (change)="onStatusChange($event)" class="dropdown" aria-label="Filter by team">
+                <option  value="All Statuses">All Statuses</option>
+                <option *ngFor="let status of allStatuses" value="{{status}}">{{status}}</option>
+                <!-- <option value="team_b">Team B</option>
+                <option value="team_c">Team C</option> -->
               </select>
-              <select class="dropdown" aria-label="Filter by team">
-                <option value="">All Teams</option>
-                <option value="team_a">Team A</option>
-                <option value="team_b">Team B</option>
-                <option value="team_c">Team C</option>
-              </select>
+              <mat-form-field>
+                <mat-label>Enter a date range</mat-label>
+                <mat-date-range-input [formGroup]="dateRange" [rangePicker]="picker">
+                  <input matStartDate formControlName="start" placeholder="Start date">
+                  <input matEndDate formControlName="end" placeholder="End date">
+                </mat-date-range-input>
+                <!-- <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint> -->
+                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-date-range-picker #picker></mat-date-range-picker>
+              
+                @if (dateRange.controls.start.hasError('matStartDateInvalid')) {
+                  <mat-error>Invalid start date</mat-error>
+                }
+                @if (dateRange.controls.end.hasError('matEndDateInvalid')) {
+                  <mat-error>Invalid end date</mat-error>
+                }
+              </mat-form-field>
             </div>
           </div>
           <table>
@@ -293,16 +325,16 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td class="client-con table-data">Name</td>
+              <tr *ngFor="let client of clientsUnderUserData.data" >
+                <td class="client-con table-data">{{client.firstName}} {{client.lastName}}</td>
                 <td class="badge-con table-data">
-                  <span class="badge PENDING">pending</span>
+                  <span class="badge PENDING">{{client.clientStatus}}</span>
                 </td>
-                <td class="date table-data">9/04/2025</td>
-                <td class="days table-data">9 Days</td>
-                <td class="mem-name table-data">Member Name</td>
-                <td class="name table-data">Name</td>
-                <td class="team table-data">Team A</td>
+                <td class="date table-data">{{client.createdAt| date:'dd/MM/yyyy'}}</td>
+                <td class="days table-data">{{client.lastAction}}</td>
+                <td class="mem-name table-data">{{client.assignedTo}}</td>
+                <td class="name table-data">{{client.createdBy}}</td>
+                <td class="team table-data">{{client.teamName}}</td>
               </tr>
               <!-- <tr>
                 <td class="client-con table-data">Client Name</td>
@@ -352,26 +384,27 @@
               </tr> -->
             </tbody>
           </table>
-          <div class="pagination">
-            <label class="pag-text"
-              >Show
-              <select class="pag-select">
-                <option>6</option>
-              </select>
-              per page
-            </label>
-            <div class="pages">
-              <button type="button" class="active pagination-button">1</button>
-              <button type="button" class="pagination-button">2</button>
-              <button type="button" class="pagination-button">3</button>
-              <button type="button" class="pagination-button">4</button>
-              <button type="button" class="pagination-button">5</button>
-            </div>
-          </div>
+          <app-table-pagination
+            [totalItems]="clientTotalItems"
+            [currentPage]="clientCurrentPage"
+            [totalPages]="clientTotalPages"
+            [limit]="clientLimit"
+            [hasNext]="clientHasNext"
+            [hasPrevious]="clientHasPrevious"
+            (pageChange)="fetchClients($event)"
+            (limitChange)="onLimitChange($event)"
+            >
+          </app-table-pagination>
         </div>
       </div>
     </div>
-    } @if(!isTitleNavActive && !showEditForm){
+    <!-- }  -->
+  </div>
+    @if(!isTitleNavActive && !showEditForm){
+    
+      
+      
+
     <div class="main-content">
       <div class="welcome-text-and-filter">
         <div class="dashboard-text-options">

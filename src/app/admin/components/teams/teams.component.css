@@ -57,8 +57,9 @@ li {
   gap: 20px;
   align-items: center;
 }
-
+/*  */
 .unassigned-members-button {
+  display:none !important;
   border-radius: 5px;
   padding: 8px 16px;
   align-items: center;

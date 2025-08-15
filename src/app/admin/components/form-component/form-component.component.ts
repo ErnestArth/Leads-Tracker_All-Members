@@ -22,8 +22,9 @@ export class FormComponentComponent {
   @Output() sucessPage = new EventEmitter<void>();
   buttonText: string = '';
   showSuccess = false;
-  @Input() EditMemberInputData: any;
+  @Input() EditMemberInputData:any;
   @Input() teamId:any;
+  @Input() teamMemberId:any
   constructor(
     // @Inject(MAT_DIALOG_DATA) public data: any,
     // private dialogRef: MatDialogRef<FormComponentComponent>,
@@ -35,13 +36,18 @@ export class FormComponentComponent {
 
   ngOnChanges() {
     if (this.EditMemberInputData &&this.teamId) {
-      console.log(this.EditMemberInputData);
+      console.log(this.teamMemberId);
+      console.log(this.teamId);
+      this.handleOninit()
     }
   }
-  handleOninit(editMemberInputData: any) {
+  // add this.EditMemberInputData as parameter for handleOninit 
+  handleOninit( ) {
     let id = this.activatedRoute.snapshot.paramMap.get('memberId');
     
     console.log(this.activatedRoute.snapshot);
+    console.log(this.EditMemberInputData)
+  
    
     if (id) {
       console.log('populate Edit data');
@@ -56,14 +62,33 @@ export class FormComponentComponent {
           console.log(err);
         },
       });
-    } else {
+    } else if(this.EditMemberInputData){
+     
+      this.buttonText = 'Save Changes';
+      this.modalForm.patchValue(this.EditMemberInputData)
+      // this.service.getUser(this.teamMemberId).subscribe({
+      //   next: (data) => {
+      //     console.log(data);
+      //     this.modalForm.patchValue(data);
+      //   },
+      //   error: (err) => {
+      //     console.log(err);
+      //   },
+      // });
+
+    }
+    
+    else {
       this.buttonText = 'Save';
     }
   }
 
   // check if it is an edit or create form
   ngOnInit(): void {
-    
+
+
+    this.handleOninit()
+     
     // get all team Leads for select options
     this.service.getAllTeamLeads().subscribe({
       next: (data) => {
@@ -74,7 +99,7 @@ export class FormComponentComponent {
       },
     });
 
-    
+   
 
     // this.inputData = this.data
 
@@ -118,7 +143,23 @@ export class FormComponentComponent {
           console.log(err);
         },
       });
-    } else {
+    } else if(this.EditMemberInputData){
+      if(this.modalForm.valid){
+        this.service.updateUserProfile(this.teamMemberId, this.modalForm.value).subscribe({
+          next: (data) => {
+            console.log(data);
+            this.sucessPage.emit();
+            this.showSuccess = true;
+            this.modalForm.reset();
+          },
+          error: (err) => {
+            console.log(err);
+          },
+        });
+      }
+    }
+    
+    else {
       console.log('Send Create Request here');
       if (this.modalForm.valid) {
         this.service.addTeamMember(this.modalForm.value).subscribe({

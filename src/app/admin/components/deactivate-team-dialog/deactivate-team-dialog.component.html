@@ -21,12 +21,22 @@
         <p>Deactivate Team ?</p>
       </div>
       <div class="deactivate-message">
+        @if(deletingTeam && !deletingTeamMember){
+            
+        
         <p>
           Do you want to permanently <br />
           deactivate this team? This action <br />
           cannot be undone.
         </p>
-        
+    }
+        @if(deletingTeamMember && !deletingTeam){
+        <p>
+            Do you want to permanently <br />
+            deactivate this team member? This action <br />
+            cannot be undone.
+          </p>
+        }
       </div>
       @if(isThereError){
         <span class="error-message">{{errorMessage}}</span>
