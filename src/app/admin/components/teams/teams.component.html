@@ -69,7 +69,7 @@
             type="search"
             name="searchTeamLeads"
             id=""
-            placeholder="Search by Name , Staff ID or Email..."
+            placeholder="Search by Name ..."
           />
 
           <div class="team-search">
@@ -169,7 +169,7 @@
 
               <div class="team-members-and-progress-bar">
                 <div class="progress-bar">
-                  <p>Total Recommendations Submitted: <span><span class="team-target-achieved {{progressTextColor}}">{{team.totalClientsAdded}}</span> / <span class="team-target">{{team.teamTarget}}</span></span></p>
+                  <p>Total Clients Onboarded: <span><span class="team-target-achieved {{progressTextColor}}">{{team.totalClientsAdded}}</span> / <span class="team-target">{{team.teamTarget}}</span></span></p>
                   <div class="progress-outline " [ngClass]="team.progressOutlineColor">
                     <div class="progress {{progressColor}}" [ngClass]="team.progressColor" [ngStyle]="{ width: team.progressPercentage+'%', backgroundColor: team.progressColor}" ></div>
                     <span class="progress-percentage" [ngClass]="team.progressTextColor">{{team.progressPercentage}}% </span>

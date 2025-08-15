@@ -139,8 +139,10 @@
         </section>
       </form>
       <div class="cancel-save-buttons">
-        <button (click)="cancel()" class="cancel-button">Cancel</button>
-        <button (click)="onSaveChanges()" class="save-button">
+        <button type="button" (click)="cancel()" class="cancel-button">
+          Cancel
+        </button>
+        <button type="submit" (click)="onSaveChanges()" class="save-button">
           Save Changes
         </button>
       </div>

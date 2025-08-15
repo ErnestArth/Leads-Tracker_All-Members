@@ -1,7 +1,5 @@
-import { Component } from '@angular/core';
-import {
-  UserService,unResolvedNotification
-} from '../../../services/user.service';
+import { Component, OnInit } from '@angular/core';
+import { unResolvedNotification, UserService } from '../../../services/user.service';
 
 @Component({
   selector: 'app-notification',
@@ -9,20 +7,37 @@ import {
   styleUrls: ['./notification.component.css'],
   standalone: false,
 })
-export class NotificationComponent {
+export class NotificationComponent implements OnInit {
 
-  notification : unResolvedNotification[]=[];
-  timeAgo: string = '';
-  createdAt: string = '';
-  message: string = '';
-  type : string = '';
+  unResolvedNotifications: unResolvedNotification[] = [];
+  loading = false;
+  isOpenOverview = false;
 
+  constructor(private userService: UserService) {}
 
+  ngOnInit(): void {
+    this.fetchUnResolvedNotifications();
+  }
 
-  constructor(private service: UserService) {}
+  fetchUnResolvedNotifications(): void {
+    this.loading = true;
+    this.userService.getUnResolvedNotification().subscribe({
+      next: (data: unResolvedNotification[]) => {
+        console.log('✅ Fetched notifications:', data);
+        this.unResolvedNotifications = data;
+        this.loading = false;
+      },
+      error: (error: any) => {
+        console.error('❌ Error fetching notifications:', error);
+        this.loading = false;
+      }
+    });
+  }
 
-  // function to calculate time ago
-
+  onBackArrow(type: string): void {
+    this.isOpenOverview = !this.isOpenOverview; // toggle open/close
+  }
+  // The method to calculate time ago from a date string
   timeAgoFn(dateString:string):string{
 
     const now = new Date();
@@ -42,26 +57,5 @@ export class NotificationComponent {
     return `${minutes} minutes ago`;
     return `${seconds} seconds ago`;
 
-  }
-
-  ngOnInit() {
-    this.service.getUnresolvedNotification().subscribe({
-      next: (data) => {
-        this.notification = data
-        this.notification.forEach((n) => {
-          this.timeAgoFn(n.createdAt)
-           this.timeAgo = this.timeAgoFn(n.createdAt);
-           console.log(this.timeAgo);
-
-        })
-
-      }
-    })
-  }
-  isOpenOverview = false;
-
-
-  onBackArrow(type: string): void {
-    this.isOpenOverview = this.isOpenOverview;
   }
 }

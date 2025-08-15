@@ -1,6 +1,10 @@
 import { Component, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { UserService, adminProfile } from '../../../services/user.service';
+import {
+  UserService,
+  adminProfile,
+  changeAdminPassword,
+} from '../../../services/user.service';
 @Component({
   selector: 'app-profile',
   standalone: false,
@@ -31,15 +35,11 @@ export class ProfileComponent {
 
   error: string | null = null;
 
-
   constructor(private fb: FormBuilder, private userService: UserService) {
     this.profileForm = this.fb.group({
       firstName: ['', Validators.required],
       otherNames: ['', Validators.required],
-      businessEmail: [
-        '',
-        [Validators.required, Validators.email],
-      ],
+      businessEmail: ['', [Validators.required, Validators.email]],
       phoneNumber: ['', Validators.required],
       role: ['', Validators.required],
       currentPassword: ['', [Validators.required]],
@@ -48,9 +48,9 @@ export class ProfileComponent {
     });
   }
 
-   ngOnInit(): void {
+  ngOnInit(): void {
     this.userService.getAdminProfile().subscribe({
-      next: (res:any) => {
+      next: (res: any) => {
         const nameParts = res.fullName.split(' ');
         const firstName = nameParts[0] || '';
         const otherNames = nameParts.slice(1).join(' ') || '';
@@ -63,21 +63,34 @@ export class ProfileComponent {
           role: res.role.charAt(0).toUpperCase() + res.role.slice(1), // 'admin' -> 'Admin'
         });
       },
-      error: (err:any) => {
+      error: (err: any) => {
         console.error('Failed to load profile:', err);
         this.error = 'Could not load profile data';
-      }
+      },
     });
   }
 
   onChangePassword(): void {
+    const form = this.profileForm.value;
     if (
       this.profileForm.value.newPassword &&
       this.profileForm.value.newPassword ===
         this.profileForm.value.confirmNewPassword
     ) {
-      console.log('Password changed successfully');
-      // Add your password change logic here
+      const payload = {
+        currentPassword: form.currentPassword,
+        newPassword: form.newPassword,
+        confirmPassword: form.confirmNewPassword,
+      };
+      this.userService.changeAdminPassword(payload).subscribe({
+        next: () => {
+          alert('Password changed successfully');
+        },
+        error: (err) => {
+          console.error('Password change failed:', err);
+          alert('Failed to change password');
+        },
+      });
     } else {
       alert('Passwords do not match');
     }
