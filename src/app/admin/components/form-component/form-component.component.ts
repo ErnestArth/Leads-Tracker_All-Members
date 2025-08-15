@@ -85,6 +85,9 @@ export class FormComponentComponent {
 
   // check if it is an edit or create form
   ngOnInit(): void {
+
+
+    this.handleOninit()
      
     // get all team Leads for select options
     this.service.getAllTeamLeads().subscribe({

@@ -113,6 +113,7 @@ export interface data{
   createdBy:string
   assignedTo: string
   gpslocation:string
+  teamName:string
 }
 
 export interface getAllClients{
@@ -134,6 +135,16 @@ export interface getAllClients{
   // lastAction: string
   // createdBy:string
 }
+
+// export interface getOverdueClientsUnderUser{
+//   data:data[]
+//   currentPage:number
+//   totalPages:number
+//   totalItems:number
+//   pageSize:number
+//   hasNext:boolean
+//   hasPrevious:boolean
+// }
 export interface getAllClientsOverdue{
     data:data[]
     currentPage:number
@@ -160,11 +171,11 @@ export interface getAllClientsOverdue{
 // first define interface for teamMembers which is an array
 
 export interface clientStatus{
-  Pending?: number
-  Awaiting_documentation?: number
-  Not_interested?: number
-  Interested?: number
-  Onboarded?: number
+  PENDING?: number
+  AWAITING_DOCUMENTATION?: number
+  NOT_INTERESTED?: number
+  INTERESTED?: number
+  ONBOARDED?: number
   totalClients?: number
 
 }
@@ -182,6 +193,7 @@ export interface teamMembers{
 
 export interface teamPerformance{
   teamLeadName:string
+  teamName:string
   totalClientsAdded:string
   teamTarget:string
   numberOfClients:string
@@ -408,6 +420,10 @@ export interface updateAdminProfile {
   confirmNewPassword: string
 }
 
+export interface deactivateTeam{
+  message:string
+}
+
 // const token =localStorage.getItem('token')
 // console.log(token)
 // const headers = new HttpHeaders({
@@ -458,8 +474,18 @@ export class UserService {
   deactivateTeam(teamId: string): Observable<void> {
     const token =localStorage.getItem('token')
     const headers = new HttpHeaders({'Authorization' : `Bearer ${token}`})
-    return this.http.patch<void>(`${this.apiUrl}/leads-tracker/api/v1/leads/team/${teamId}/deactivate`, {headers});
+    console.log(headers)
+    return this.http.patch<void>(`${this.apiUrl}/leads-tracker/api/v1/leads/team/${teamId}/deactivate`, {}, {headers});
   }
+
+  // deleting a user
+  deleteUser(userId:string):Observable<void> {
+    const token =localStorage.getItem('token')
+    const headers = new HttpHeaders({'Authorization' : `Bearer ${token}`})
+    return this.http.delete<void>(`${this.apiUrl}/leads-tracker/api/v1/leads/delete/${userId}`,{headers});
+
+  }
+ 
 // create a team member
   addTeamMember(teamMember: createTeamMember[]): Observable<void> {
 
@@ -518,10 +544,10 @@ getATeam(teamId:string):Observable<getATeam>{
     return this.http.get<getAllTeamLeads[]>(`${this.apiUrl}/leads-tracker/api/v1/leads/team-leads`,{headers} );
   }
 
-  getAllClients( page: number , limit:number):Observable<getAllClients> {
+  getAllClients( page: number , limit:number,searchTerm: string, status: string,duration: string):Observable<getAllClients> {
     const token =localStorage.getItem('token')
     const headers = new HttpHeaders({'Authorization' : `Bearer ${token}`})
-    return this.http.get<getAllClients>(`${this.apiUrl}/leads-tracker/api/v1/clients/all-clients?page=${page}&limit=${limit}`,{headers});
+    return this.http.get<getAllClients>(`${this.apiUrl}/leads-tracker/api/v1/clients/all-clients?page=${page}&limit=${limit}`,{headers,params:{name: searchTerm,status: status, duration: duration}});
   }
 
   // get all team members
@@ -547,7 +573,20 @@ getAllClientsOverdue( page:number, limit:number): Observable<getAllClientsOverdu
   const headers = new HttpHeaders({'Authorization' : `Bearer ${token}`})
   return this.http.get<getAllClientsOverdue>(`${this.apiUrl}/leads-tracker/api/v1/clients/admin/overdueClients?page=${page}&limit=${limit}`,{headers});
 }
+// Get overdue clients under a user
+getOverdueClientsUnderUser(userId: string): Observable<getAllClients> {
+  const token = localStorage.getItem('token')
+  const headers = new HttpHeaders({'Authorization' : `Bearer ${token}`})
+  return this.http.get<getAllClients>(`${this.apiUrl}/leads-tracker/api/v1/clients/user/${userId}/overdueClients`,{headers});
+}
 
+// get clients under a user 
+getClientsUnderUser(userId: string, searchTerm: string, status: string,duration: string,page: number , limit:number): Observable<getAllClients> {
+  const token = localStorage.getItem('token')
+  const headers = new HttpHeaders({'Authorization' : `Bearer ${token}`})
+  
+  return this.http.get<getAllClients>(`${this.apiUrl}/leads-tracker/api/v1/clients/all-clients/${userId}?page=${page}&limit=${limit}`,{headers,params:{name: searchTerm,status: status, duration: duration}},);
+}
 // Get a user by id
 
 getUser(userId:string):Observable<getUserDetails>{

@@ -508,6 +508,8 @@
                 type="search"
                 placeholder="Search Client"
                 class="search-input"
+                [(ngModel)]="searchTerm"
+                (ngModelChange)="onSearchClients()"
               />
               <select class="dropdown" aria-label="Filter by team">
                 <option value="">All Statuses</option>

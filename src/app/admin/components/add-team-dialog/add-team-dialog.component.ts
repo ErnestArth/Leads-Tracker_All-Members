@@ -20,7 +20,7 @@ export class AddTeamDialogComponent {
   private dialogRef: MatDialogRef<AddTeamDialogComponent>,
    private fb: FormBuilder,
    private service: UserService) {
-    console.log(data.title)
+    
   }
   
 ngOnInit() {
