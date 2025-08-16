@@ -108,8 +108,8 @@
         </div>
         <div class="team-card">
           <div class="team-lead-name-and-view-details-button">
-            <p class="team-lead-name">{{teamData?.teamLeadName}}</p>
-            <p class="view-details" [routerLink]="['/admin/team-member', teamData?.teamLeadUserId]">View Details</p>
+            <p class="team-lead-name">{{teamData.teamLeadName}}</p>
+            <p class="view-details" [routerLink]="['/admin/team-leads', teamData.teamLeadUserId]">View Details</p>
           </div>
           <div class="team-details">
             <p class="team-lead-email">{{teamData?.teamLeadEmail}}</p>

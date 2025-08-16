@@ -182,3 +182,12 @@ h4 {
   color: #ccc;
   cursor: not-allowed;
 }
+
+.note-text {
+ color: #8e8e8e;
+}
+
+.important-text {
+  color: #000000;
+  font-weight: bold;
+}

@@ -452,7 +452,7 @@ input {
 .badge::first-letter {
   text-transform: capitalize;
 }
-.badge.completed-onboarding {
+.onboarded {
   background: #eafff1;
   color: #04b440;
   border: 1px solid rgba(23, 198, 83, 0.2);
