@@ -10,6 +10,19 @@
     font-size: 0.85rem;
   }
   
+  .pag-select {
+    border: 1px solid #dbdfe9;
+    background-color: #fcfcfc;
+    padding: 0.3rem 0.5rem;
+    border-radius: 6px;
+    color: #78829d;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+  
+  .pag-text {
+    color: #78829d;
+  }
   
   .pagination .pages {
     display: flex;

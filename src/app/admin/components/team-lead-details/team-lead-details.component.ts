@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import {
   
   getAllClients,
+  getAllTeams,
   getSpecificTeamLead,
   getUserDetails,
   UserService,
@@ -12,7 +13,9 @@ import {
 import {ChangeDetectionStrategy} from '@angular/core';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {provideNativeDateAdapter} from '@angular/material/core';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 
+Chart.register(...registerables, ChartDataLabels);
 @Component({
   selector: 'app-team-lead-details',
   standalone: false,
@@ -53,20 +56,29 @@ export class TeamLeadDetailsComponent {
   clientCurrentPage = 0;
   clientTotalPages = 3;
   clientTotalItems = 12;
-  clientLimit = 6;
+  clientLimit = 5;
   clientHasNext = false;
   clientHasPrevious = false;
 
+  // overdue clients pagination 
+  overdueClientCurrentPage = 1;
+  overdueClientTotalPages = 3;
+  overdueClientTotalItems = 12;
+  overdueClientLimit = 5;
+  overdueClientHasNext = false;
+  overdueClientHasPrevious = false;
   page=0
 
   overdueClientsData =this.clientsObject
   clientsUnderUserData =this.clientsObject
 
+  overdueSearchTerm="";
   searchTerm="";
   statusFilter=""
+  teamFilter=""
   durationFilter="week"
 
-  
+  allTeam:getAllTeams[]=[]
 
   allStatuses=[
     "Awaiting Documentation",
@@ -76,8 +88,10 @@ export class TeamLeadDetailsComponent {
     "Pending"
   ]
 
-    
-  
+  clientStatus:any={}
+
+    durationParam:string=""
+   
 
   userData: getSpecificTeamLead | null = null;
 
@@ -117,16 +131,24 @@ export class TeamLeadDetailsComponent {
   }
   ngOnInit(): void {
 
-    console.log("hello")
+    this.fetchTeams()
+    this.fetchTeamLeadData()
 
+    
+  }
+ 
+
+  fetchTeamLeadData(){
     let id = this.activatedRoute.snapshot.paramMap.get('teamLeadId');
     console.log(this.activatedRoute.snapshot.paramMap);
     if (id) {
-      this.userService.getSpecificTeamLead(id).subscribe({
+      this.userService.getSpecificTeamLead(id,this.durationParam).subscribe({
         next: (data) => {
           console.log(data);
           this.userData = data;
           this.teamLeadUserId = data.userId
+          this.clientStatus= data.teamPerformance.clientStatus
+          console.log(this.clientStatus)
           
 
           console.log(this.userData);
@@ -144,11 +166,10 @@ export class TeamLeadDetailsComponent {
           this.loadDoughnutChart(this.doughnutStatusData)
           
           // call overdue clients
-          this.getOverdueClients(this.teamLeadUserId)
+          this.getOverdueClients(this.clientCurrentPage)
           // call clients under user
           console.log("hey")
-          this.getClientsUnderUser(this.teamLeadUserId, this.searchTerm,this.statusFilter,this.durationFilter,this.page, this.clientLimit)
-        },
+          this.fetchClients(this.clientCurrentPage)        },
         error: (err) => {
           console.log(err);
         },
@@ -157,18 +178,23 @@ export class TeamLeadDetailsComponent {
       console.log('nothing');
     }
   }
-  ngAfterViewInit() {
-   
 
-    // this.loadDoughnutChart()
+  onMainDateChange(event: Event) {
+    this.durationParam = (event.target as HTMLSelectElement).value
     
-  }
+    console.log(this.durationParam)
+    this.fetchTeamLeadData()
 
+    this.doughnutChartInstance.data.datasets[0].data=this.doughnutStatusData
+    this.doughnutChartInstance.update()
+
+  }
   
   
 
   loadDoughnutChart(data?: any) {
    if(this.doughnutChartInstance){
+   
     this.doughnutChartInstance.destroy();
    }
       const doughnutData = {
@@ -198,7 +224,7 @@ export class TeamLeadDetailsComponent {
         ],
       };
 
-   const doughnutChartInstance =   new Chart(this.doughnutChart.nativeElement, {
+  this.doughnutChartInstance =   new Chart(this.doughnutChart.nativeElement, {
         type: 'doughnut',
         data: doughnutData,
         options: {
@@ -213,6 +239,9 @@ export class TeamLeadDetailsComponent {
                 font: { size: 12 },
               },
             },
+            datalabels: {
+                color:'white',
+            }
           },
         },
       });
@@ -314,9 +343,13 @@ export class TeamLeadDetailsComponent {
     this.isEditTeamMemberActive = !this.isEditTeamMemberActive;
   }
   goBack() {
+    if(!this.showEditForm){
+      this.location.back();
+    }else{
    this.showEditForm = false
    this.isTitleNavActive= true
    this.showTeamPerformance = true
+    } 
   }
 
   toggleTitleNav() {
@@ -326,7 +359,7 @@ export class TeamLeadDetailsComponent {
   }
 
   toggleEditForm() {
-    this.showTeamPerformance =false
+    this.showTeamPerformance =true
     this.isTitleNavActive = false;
     this.showEditForm =true
     console.log(this.showTeamPerformance);
@@ -335,33 +368,80 @@ export class TeamLeadDetailsComponent {
     
   }
 
+ 
+
+
+
   // being called in getSpecific team Lead request
-  getOverdueClients(teamLeadId: string) {
-  this.userService.getOverdueClientsUnderUser(teamLeadId).subscribe({
+
+ 
+  getOverdueClients(pages: number) {
+  
+  this.userService.getOverdueClientsUnderUser(this.teamLeadUserId, this.overdueSearchTerm,this.teamFilter,this.durationFilter,pages, this.overdueClientLimit).subscribe({
     next: (data) => {
       this.overdueClientsData = data;
-      console.log(this.overdueClientsData)
+      this.overdueClientTotalPages=data.totalPages ;
+      this.overdueClientTotalItems=data.totalItems;
+      this.overdueClientCurrentPage=this.page;
+      this.overdueClientHasNext=data.hasNext;
+      this.overdueClientHasPrevious=data.hasPrevious;
+      
+      
+    },
+    error:(err) => {
+      console.log(err);
     }
   }
   );
  }
 
- getClientsUnderUser(teamLeadId: string, searchTerm: string, status: string,duration: string,page: number , limit: number ) {
-  this.userService.getClientsUnderUser(teamLeadId, searchTerm, status,duration,this.page, this.clientLimit).subscribe({
+
+//  parameter "page" from paginated table component
+ fetchClients(page:number){
+  this.userService.getClientsUnderUser(this.teamLeadUserId, this.searchTerm,this.statusFilter,this.durationFilter,page, this.clientLimit).subscribe({
     next: (data) => {
       this.clientsUnderUserData = data;
-      console.log(this.clientsUnderUserData)
+      this.clientTotalPages=data.totalPages -1;
+      this.clientTotalItems=data.totalItems;
+      this.clientCurrentPage=page;
+      this.clientHasNext=data.hasNext;
+      this.clientHasPrevious=data.hasPrevious;
+      
+      // console.log(this.clientsUnderUserData)
+      // console.log(this.clientTotalPages)
+    },error: (err) => {
+      console.log(err);
+     
     }
+  })
   }
-  );
+
+  fetchTeams(){
+    this.userService.getAllTeams().subscribe({
+      next: (data) => {
+        this.allTeam = data;
+        console.log(data)
+      }
+    })
+  }
+
+
+ onTeamsChange(event:Event){
+  this.teamFilter = (event.target as HTMLSelectElement).value;
+  console.log(this.teamFilter);
+  
+    this.getOverdueClients(this.overdueClientCurrentPage)
+  
  }
- onSearchClients(teamLeadId: string) {
+
+
+ onSearchClients() {
   console.log(this.searchTerm);
-  console.log(teamLeadId);
+  
   if (this.searchTerm.length >= 3) {
-    this.getClientsUnderUser(teamLeadId, this.searchTerm,this.statusFilter,this.durationFilter,this.page, this.clientLimit)  
-  }else if(this.searchTerm.length == 0){
-    this.getClientsUnderUser(teamLeadId, this.searchTerm,this.statusFilter,this.durationFilter,this.page, this.clientLimit)
+    this.fetchClients(this.clientCurrentPage) 
+   }else if(this.searchTerm.length == 0){
+    this.fetchClients(this.clientCurrentPage)
   }
   
 }
@@ -370,40 +450,39 @@ onStatusChange(event: Event) {
   this.statusFilter = (event.target as HTMLSelectElement).value;
   console.log(this.statusFilter);
   if(this.statusFilter === "All Statuses"){
-    this.getClientsUnderUser(this.teamLeadUserId, this.searchTerm," ",this.durationFilter,this.page, this.clientLimit)
+    this.fetchClients(this.clientCurrentPage)
   }else{
-    this.getClientsUnderUser(this.teamLeadUserId, this.searchTerm,this.statusFilter,this.durationFilter,this.page, this.clientLimit)
+    this.fetchClients(this.clientCurrentPage)
 
   }
 }
+
+onOverdueSearch(){
+  console.log(this.overdueSearchTerm);
+  if (this.searchTerm.length >= 3) {
+    this.getOverdueClients(this.overdueClientCurrentPage) 
+   }else if(this.searchTerm.length == 0){
+    this.getOverdueClients(this.overdueClientCurrentPage)
+  }
+}
+
+
+
 
 // table pagination
-fetchClients(page:number){
-this.userService.getClientsUnderUser(this.teamLeadUserId, this.searchTerm,this.statusFilter,this.durationFilter,this.page, this.clientLimit).subscribe({
-  next: (data) => {
-    this.clientsUnderUserData = data;
-    this.clientTotalPages=data.totalPages;
-    this.clientTotalItems=data.totalItems;
-    this.clientCurrentPage=page;
-    this.clientHasNext=data.hasNext;
-    this.clientHasPrevious=data.hasPrevious;
-
-    console.log(this.clientsUnderUserData)
-  },error: (err) => {
-    console.log(err);
-   
-  }
-})
-}
-
 onLimitChange(newLimit: number): void {
   this.clientLimit = newLimit;
   this.clientCurrentPage = 1;
-  this.fetchClients(this.clientCurrentPage)
+  this.fetchClients(this.clientCurrentPage)}
+
+
+onOverdueLimitChange(newLimit: number): void {
+  this.overdueClientLimit = newLimit;
+  this.overdueClientCurrentPage = 1;
+  this.getOverdueClients(this.overdueClientCurrentPage);
+  console.log(this.teamLeadUserId)
+  console.log(this.overdueClientLimit)
 }
-
-
-
 
 
 

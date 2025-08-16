@@ -28,6 +28,8 @@ export class TablePaginationComponent {
     if (page >= 1 && page <= this.totalPages) {
       this.currentPage = page;
       this.pageChange.emit(page);
+      console.log(page)
+      
 
 
     }

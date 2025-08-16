@@ -96,16 +96,17 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   }
 
   // pagination
-  get pages(): number[] {
-    return Array.from({ length: this.totalPages }, (_, i) => i + 1);
-  }
+  // get pages(): number[] {
+  //   return Array.from({ length: this.totalPages }, (_, i) => i + 1);
+  // }
 
-  goToPage(page: number) {
-    if (page >= 1 && page <= this.totalPages) {
-      this.currentPage = page;
-      this.fetchAllClients(page);
-    }
-  }
+  // goToPage(page: number) {
+  //   if (page >= 1 && page <= this.totalPages) {
+  //     this.currentPage = page;
+  //     this.fetchAllClients(page);
+  //     console.log(page);
+  //   }
+  // }
   goToPreviousPage() {
     if (this.hasPrevious) {
       const prevPage = this.currentPage - 1;
@@ -303,7 +304,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     this.fetchOverdueClients(this.overdueClientCurrentPage);
 
     this.fetchAllClients(this.currentPage);
-    this.goToPage(this.currentPage);
+    // this.goToPage(this.currentPage);
 
     // get  client status count
     this.getStatusCounts();
@@ -469,6 +470,9 @@ export class DashboardComponent implements OnInit, AfterViewInit {
                 font: { size: 12 },
               },
             },
+            datalabels: {
+              color:'white',
+          }
           },
         },
       });

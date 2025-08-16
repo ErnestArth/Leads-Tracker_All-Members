@@ -96,9 +96,9 @@
     </aside>
   <!-- } -->
     <!-- @if(isTitleNavActive && !showEditForm){ -->
-     <!-- <div [hidden]="!isTitleNavActive "> -->
+    
     <div class="main-content">
-      <div class="welcome-text-and-filter">
+      <div *ngIf="!showEditForm" class="welcome-text-and-filter">
         <div class="dashboard-text-options">
           <div class="team-search">
             <select
@@ -106,29 +106,33 @@
               id=""
               name="options"
               class="team-select"
+              (change)="onMainDateChange($event)"
             >
               <option value="all">This Week</option>
-              <option value="team1">Team 1</option>
-              <option value="team2">Team 2</option>
-              <option value="team3">Team 3</option>
+              <option value="week">week</option>
+              <option value="month">month</option>
+              <option value="16-08-2025">Today</option>
               <option value="team4">Team 4</option>
             </select>
           </div>
         </div>
       </div>
       <div class="dashboard-data">
-        <div class="page-title-navigation">
+        <div *ngIf="!showEditForm" class="page-title-navigation">
           <button
-            (click)="isTitleNavActive = true"
+            (click)="isTitleNavActive = true && showTeamPerformance = true"
             [class.title-nav-focus]="isTitleNavActive"
             class="title-nav"
           >
             Performance Metrics
           </button>
-          <button (click)="isTitleNavActive = false" class="title-nav">
+          <button (click)="showTeamPerformance = true && isTitleNavActive = false" class="title-nav">
             Team Performance Overview
           </button>
         </div>
+
+         <div [hidden]="!isTitleNavActive "> 
+
         <div  class="doughnut-and-bar-chart-container">
           <div class="status-breakdown doughnut-chart-container">
             <div class="chart-top-info">
@@ -159,16 +163,16 @@
             <div  class="doughnut-chart">
               <div class="doughnut">
                 <canvas  #doughnutChart id="doughnutChart"></canvas>
-                <p class="total-doughnut">155</p>
-                <p class="doughnut-interested-number">31 <span>20.00%</span></p>
-                <p class="doughnut-onboarded-number">80 <span>51.61%</span></p>
-                <p class="doughnut-pending-number">80 <span>51.61%</span></p>
+                <!-- <p class="total-doughnut">155</p>
+                <p class="doughnut-interested-number">{{clientStatus.INTERESTED}} <span></span></p>
+                <p class="doughnut-onboarded-number">{{clientStatus.ONBOARDED}} <span></span></p>
+                <p class="doughnut-pending-number">{{clientStatus.PENDING}}<span></span></p>
                 <p class="doughnut-awaiting-documentation-number">
-                  80 <span>51.61%</span>
+                  {{clientStatus.AWAITING_DOCUMENTATION}} <span></span>
                 </p>
                 <p class="doughnut-not-interested-number">
-                  80 <span>51.61%</span>
-                </p>
+                  {{clientStatus.NOT_INTERESTED}}<span></span>
+                </p> -->
               </div>
             </div>
           </div>
@@ -182,7 +186,7 @@
               <div class="progress-bar">
                 <p>Total Recommendations Submitted: <span><span>{{userData?.teamPerformance?.totalClientsAdded}}</span> / {{userData?.teamPerformance?.teamTarget}}</span></p>
                 <div class="progress-outline {{progressOutlineColor}}">
-                  <div class="progress {{progressColor}}" [ngStyle]="{ width: (userData?.teamPerformance?.progressPercentage || 0) + '%' ,backgroundColor:userData?.teamPerformance?.color||'red'}" ></div>
+                  <div class="progress {{progressColor}}" [ngStyle]="{ width: (userData?.teamPerformance?.progressPercentage || 0) + '%' ,backgroundColor:userData?.teamPerformance?.color}" ></div>
                   <span class="progress-percentage">{{userData?.teamPerformance?.progressPercentage}}%</span>
                 </div>
               </div>
@@ -198,16 +202,19 @@
                 type="search"
                 placeholder="Search Client"
                 class="search-input"
+                [(ngModel)]="overdueSearchTerm"
+                (ngModelChange)="onOverdueSearch()"
                 
               />
-              <select class="dropdown filter-date" aria-label="Filter by team">
-                <option value="">Date</option>
-                <option value="team_a">Team A</option>
+              <select (change)="onTeamsChange($event)" class="dropdown filter-date" aria-label="Filter by team">
+                <option value="">All Teams</option>
+                <option *ngFor="let team of allTeam" value="{{team.teamName}}">{{team.teamName}}</option>
+                <!-- <option value="team_a">Team A</option>
                 <option value="team_b">Team B</option>
-                <option value="team_c">Team C</option>
+                <option value="team_c">Team C</option> -->
               </select>
               <select class="dropdown filter-team" aria-label="Filter by team">
-                <option value="">Team</option>
+                <option value="">Date</option>
                 <option value="team_a">Team A</option>
                 <option value="team_b">Team B</option>
                 <option value="team_c">Team C</option>
@@ -230,14 +237,34 @@
                   <td class="client-na table-data">{{client.firstName}} {{client.lastName}}</td>
                   <td class="member-na table-data">{{client.assignedTo}}</td>
                   <td class="date-allo table-data">{{client.createdAt| date:'dd/MM/yyyy'}}</td>
-                  <td class="overdue table-data">{{client.lastAction}}</td>
+                  <td class="overdue table-data" >{{client.lastAction}}</td>
                   <td class="team-na table-data">{{client.teamName}}</td>
                 </tr>
                 
               </tbody>
             </table>
           </div>
-          <div class="pagination">
+
+
+          <app-table-pagination
+            [totalItems]="overdueClientTotalItems"
+            [currentPage]="overdueClientCurrentPage"
+            [totalPages]="overdueClientTotalPages"
+            [limit]="overdueClientLimit"
+            [hasNext]="overdueClientHasNext"
+            [hasPrevious]="overdueClientHasPrevious"
+            (pageChange)="getOverdueClients($event)"
+            (limitChange)="onOverdueLimitChange($event)"
+            >
+          </app-table-pagination>
+
+
+
+
+
+
+
+          <!-- <div class="pagination">
             <label class="pag-text"
               >Show
               <select class="pag-select">
@@ -252,7 +279,7 @@
               <button type="button" class="pagination-button">4</button>
               <button type="button" class="pagination-button">5</button>
             </div>
-          </div>
+          </div> -->
         </div>
 
         <div class="client-activity-tracker-container">
@@ -268,10 +295,10 @@
                 placeholder="Search Client"
                 class="search-input"
                 [(ngModel)]="searchTerm"
-                (ngModelChange)="onSearchClients(userData?.userId!)"
+                (ngModelChange)="onSearchClients()"
               />
               <select (change)="onStatusChange($event)" class="dropdown" aria-label="Filter by team">
-                <option  value="All Statuses">All Statuses</option>
+                <option  value="">All Statuses</option>
                 <option *ngFor="let status of allStatuses" value="{{status}}">{{status}}</option>
                 
               </select>
@@ -333,18 +360,19 @@
             >
           </app-table-pagination>
         </div>
+        </div>
       </div>
     </div>
     <!-- }  -->
-  <!-- </div> -->
+  
 
     <!-- @if(!isTitleNavActive && !showEditForm){ -->
     
-      <!-- <div [hidden]="!showTeamPerformance "> -->
+      
       
 
     <div class="main-content">
-      <div class="welcome-text-and-filter">
+      <!-- <div class="welcome-text-and-filter">
         <div class="dashboard-text-options">
           <div class="team-search">
             <select
@@ -361,9 +389,9 @@
             </select>
           </div>
         </div>
-      </div>
+      </div> -->
       <div class="dashboard-data">
-        <div class="page-title-navigation">
+        <!-- <div class="page-title-navigation">
           <button (click)="isTitleNavActive = true" class="title-nav">
             Performance Metrics
           </button>
@@ -374,7 +402,11 @@
           >
             Team Performance Overview
           </button>
-        </div>
+        </div> -->
+
+
+         <div [hidden]="showTeamPerformance "> 
+
         <div class="doughnut-and-bar-chart-container">
           <div class="status-breakdown bar-chart-container">
             <div class="chart-top-info-img-and-title">
@@ -446,13 +478,13 @@
                 <canvas #myChart id="doughnutChart"></canvas>
                 <p class="total-doughnut">155</p>
                 <p class="doughnut-interested-number">31 <span>20.00%</span></p>
-                <p class="doughnut-onboarded-number">80 <span>51.61%</span></p>
-                <p class="doughnut-pending-number">80 <span>51.61%</span></p>
+                <p class="doughnut-onboarded-number">80 <span></span></p>
+                <p class="doughnut-pending-number">80 <span></span></p>
                 <p class="doughnut-awaiting-documentation-number">
-                  80 <span>51.61%</span>
+                  80 <span></span>
                 </p>
                 <p class="doughnut-not-interested-number">
-                  80 <span>51.61%</span>
+                  80 <span></span>
                 </p>
               </div>
             </div>
@@ -514,6 +546,7 @@
               <p>View Detailss</p>
             </div>
           </div>
+        </div>
         </div>
       </div>
     </div>
