@@ -117,7 +117,7 @@ export class TeamLeadDetailsComponent {
   }
   ngOnInit(): void {
 
-    
+    console.log("hello")
 
     let id = this.activatedRoute.snapshot.paramMap.get('teamLeadId');
     console.log(this.activatedRoute.snapshot.paramMap);
@@ -146,6 +146,7 @@ export class TeamLeadDetailsComponent {
           // call overdue clients
           this.getOverdueClients(this.teamLeadUserId)
           // call clients under user
+          console.log("hey")
           this.getClientsUnderUser(this.teamLeadUserId, this.searchTerm,this.statusFilter,this.durationFilter,this.page, this.clientLimit)
         },
         error: (err) => {

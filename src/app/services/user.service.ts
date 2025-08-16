@@ -503,6 +503,24 @@ export class UserService {
     );
   }
 
+  getClientsUnderUser(userId: string, searchTerm: string, status: string,duration: string,page: number , limit: number ) :Observable<getAllClients> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
+    return this.http.get<getAllClients>(
+      `${this.apiUrl}/leads-tracker/leads-tracker/api/v1/clients/all-clients/${userId}?page=0&limit=5`,
+      { headers, params:{searchTerm, status,duration,page,limit} }
+    );
+  }
+
+  getOverdueClientsUnderUser(userId: string): Observable<getAllClients> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
+    return this.http.get<getAllClients>(
+      `${this.apiUrl}/leads-tracker/api/v1/clients/user/${userId}/overdueClients`,
+      { headers }
+    );
+  }
+
   // get team members under a specific team lead
 
   getTeamMembers(userId: string): Observable<specificTeamMembers[]> {
