@@ -134,9 +134,10 @@ li {
 .search-container {
   display: flex;
   justify-content: space-between;
+  width:96%;
 }
 .search {
-  width: 80%;
+  width: 90%;
 }
 input {
   width: 99%;

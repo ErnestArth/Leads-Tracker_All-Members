@@ -252,6 +252,7 @@ li {
   justify-content: space-between;
   margin-top: 24px;
   margin-right: 24px;
+  justify-content:center;
 }
 .chart-top-info-img-and-title {
   display: flex;
@@ -381,6 +382,10 @@ table {
   align-items: center;
   background: #f46036;
   color: white;
+}
+.filters{
+  display:flex;
+
 }
 .overdue-actions-filter-section,
 .filter-sections {

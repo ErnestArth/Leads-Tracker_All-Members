@@ -130,15 +130,29 @@
               >Access, view, and manage relevant administrative activities</span
             >
           </div>
+          <div class="filters">
           <div class="team-search">
-            <label for="options">Team:</label>
-            <select [(ngModel)]="selectedTeamName" (change)="onTeamChange()" id="options" name="options" class="team-select">
-              <option >All Teams</option>
+           
+            <select [(ngModel)]="selectedTeamName" (change)="onTeamChange()" id="options" name="options" class="team-select" >
+              <option value="All Teams" disabled selected hidden>All Teams</option>
+              <option value="">All Teams</option>
               <option *ngFor="let team of teamStats" value="{{team.teamName}}">{{team.teamName}}</option>
               <!-- <option value="team2">Team 2</option>
               <option value="team3">Team 3</option>
               <option value="team4">Team 4</option> -->
             </select>
+          </div>
+
+          <!-- change to datepicker -->
+          <div class="team-search">
+            <select [(ngModel)]="selectedTeamName" (change)="onTeamChange()" id="options" name="options" class="team-select">
+              <option >This month/option>
+              <option *ngFor="let team of teamStats" value="{{team.teamName}}">{{team.teamName}}</option>
+              <!-- <option value="team2">Team 2</option>
+              <option value="team3">Team 3</option>
+              <option value="team4">Team 4</option> -->
+            </select>
+          </div>
           </div>
         </div>
       </div>
@@ -316,7 +330,7 @@
                 <span>Status Breakdown</span>
               </div>
 
-              <div class="this-week-filter">
+              <!-- <div class="this-week-filter">
                 <div class="doughnut-filter">
                   <select
                     id="options"
@@ -330,7 +344,7 @@
                     <option value="team4">Team 4</option>
                   </select>
                 </div>
-              </div>
+              </div> -->
             </div>
             <div class="doughnut-chart">
               <div class="doughnut">
@@ -384,7 +398,7 @@
               </div>
 
               <div class="this-week-filter">
-                <div class="bar-chart-filter">
+                <!-- <div class="bar-chart-filter">
                   <select
                     id="options"
                     name="options"
@@ -396,7 +410,7 @@
                     <option value="team3">Team 3</option>
                     <option value="team4">Team 4</option>
                   </select>
-                </div>
+                </div> -->
               </div>
             </div>
             <div class="bar-chart">

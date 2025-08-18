@@ -141,7 +141,7 @@ input {
 }
 input::placeholder {
   color: #78829d;
-  padding:10px;
+  
 }
 .team-lead-dash-cards-container {
   display: flex;

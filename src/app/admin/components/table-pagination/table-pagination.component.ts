@@ -21,7 +21,7 @@ export class TablePaginationComponent {
   @Output() limitChange = new EventEmitter<number>();
 
   get pages(): number[] {
-    return Array.from({ length: this.totalPages }, (_, i) => i + 1);
+    return Array.from({ length: this.totalPages }, (_, i) => i +1);
   }
 
   goToPage(page: number) {

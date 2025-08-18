@@ -170,13 +170,37 @@ table {
 input {
   width: 180px;
   height: 32px;
-  border: #f1f1f4 1px solid;
+  border: #f1f1f4 5px solid;
   border-radius: 6.65px;
 }
 input::placeholder {
   color: #78829d;
   font-size: 14px;
   padding-left: 20px;
+}
+
+::ng-deep .date-input {
+  width: 93px;
+  padding: 8px;
+  box-sizing: border-box;
+  border-radius:8px;
+  border: #f1f1f4 1px solid
+}
+
+::ng-deep .flatpickr-calendar{
+  padding:5px;
+  border-radius:10px;
+}
+
+::ng-deep .flatpickr-day.selected{
+  background-color: #f46036 !important;
+  border:none;
+}
+::ng-deep .day.endRange:hover{
+  background-color: #f46036 !important;
+}
+::ng-deep .flatpickr-day.endRange{
+  background-color: #f46036 !important;
 }
 .dropdown {
   width: 93px;

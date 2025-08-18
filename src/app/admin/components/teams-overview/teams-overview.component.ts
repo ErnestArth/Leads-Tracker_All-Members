@@ -16,6 +16,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { AddTeamMemberPopupComponent } from '../add-team-member-popup/add-team-member-popup.component';
 import { DeactivateTeamDialogComponent } from '../deactivate-team-dialog/deactivate-team-dialog.component';
+import { FlatpickrModule } from 'angularx-flatpickr';
 @Component({
   selector: 'app-teams-overview',
   standalone: false,

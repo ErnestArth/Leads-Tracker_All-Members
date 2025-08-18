@@ -22,6 +22,7 @@ export class DeactivateTeamDialogComponent {
 }
 deletingTeam = false;
 deletingTeamMember = false;
+deletingTeamLead = false;
 
 
 ngOnInit() {
@@ -29,6 +30,8 @@ ngOnInit() {
     this.deletingTeam = true;
   }else if(this.data.memberId){
     this.deletingTeamMember = true;
+  }else if(this.data.teamLeadId){
+    this.deletingTeamLead = true;
   }
 }
   
@@ -51,6 +54,17 @@ ngOnInit() {
     this.userService.deleteUser(this.data.memberId).subscribe({
       next:(data)=>{
         console.log(data);
+        
+      },error: (err) => {
+        console.log(err.message);
+        this.isThereError = true;
+      }
+    })
+  }else if(this.data.teamLeadId){
+    this.userService.deleteUser(this.data.teamLeadId).subscribe({
+      next:(data)=>{
+        console.log(data);
+        this.router.navigate(['/admin/teams']);
         
       },error: (err) => {
         console.log(err.message);

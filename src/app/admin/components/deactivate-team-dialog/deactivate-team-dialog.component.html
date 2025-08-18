@@ -37,6 +37,14 @@
             cannot be undone.
           </p>
         }
+
+        @if(deletingTeamLead){
+        <p>
+            Do you want to permanently <br />
+            deactivate this team lead? This action <br />
+            cannot be undone.
+          </p>
+        }
       </div>
       @if(isThereError){
         <span class="error-message">{{errorMessage}}</span>

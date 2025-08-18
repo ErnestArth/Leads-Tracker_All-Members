@@ -63,9 +63,13 @@ import { DeactivateTeamDialogComponent } from './components/deactivate-team-dial
 import { LoginComponent } from '../auth/components/login/login.component';
 import { NoTargetComponent } from './components/no-target/no-target.component';
 import { ViewClientComponent } from './components/view-client/view-client.component';
+import { FlatpickrModule } from 'angularx-flatpickr';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+
 
 const routes: Routes = [
   {
+
     path: '',
     component: adminComponent,
     children: [
@@ -166,6 +170,7 @@ const routes: Routes = [
     TeamLeadDetailsComponent,
     TeamLeadFormComponent,
 
+
     TablePaginationComponent,
     AddTeamLeadPopupComponent,
     NotificationComponent,
@@ -177,6 +182,7 @@ const routes: Routes = [
     AddTeamDialogComponent,
     NoTargetComponent,
     ViewClientComponent,
+
   ],
   imports: [
     CommonModule,
@@ -195,6 +201,7 @@ const routes: Routes = [
     MatTableModule,
     MatSortModule,
     MatPaginatorModule,
+    FlatpickrModule.forRoot(),  
   ],
   providers: [
     importProvidersFrom(HttpClientModule),

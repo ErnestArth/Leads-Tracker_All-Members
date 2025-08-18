@@ -127,18 +127,17 @@
           </div>
 
           <div class="filter-bar filter-sections">
-            <select class="dropdown" aria-label="Filter by team">
-              <option value=""></option>
-              <option value="team_a">Team A</option>
-              <option value="team_b">Team B</option>
-              <option value="team_c">Team C</option>
-            </select>
-            <select class="dropdown" aria-label="Filter by team">
-              <option value="">Team</option>
-              <option value="team_a">Team A</option>
-              <option value="team_b">Team B</option>
-              <option value="team_c">Team C</option>
-            </select>
+            <input
+            class="date-input"
+            placeholder="Select Date"
+            type="text"
+            mwlFlatpickr
+            [mode]="'range'"
+            [altInput]="true"
+            [altFormat]="'F j, Y'"
+            [dateFormat]="'Y-m-d'"
+            >
+           
           </div>
         </div>
         <table>

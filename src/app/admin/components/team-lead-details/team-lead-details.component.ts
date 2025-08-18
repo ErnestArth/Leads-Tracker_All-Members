@@ -1,5 +1,6 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { Chart, Colors, registerables, scales } from 'chart.js';
+import { FormBuilder } from '@angular/forms';
 import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
@@ -14,6 +15,9 @@ import {ChangeDetectionStrategy} from '@angular/core';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {provideNativeDateAdapter} from '@angular/material/core';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
+import { FlatpickrModule } from 'angularx-flatpickr';
+import { DeactivateTeamDialogComponent } from '../deactivate-team-dialog/deactivate-team-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 Chart.register(...registerables, ChartDataLabels);
 @Component({
@@ -31,16 +35,24 @@ export class TeamLeadDetailsComponent {
 
 
 
-  readonly dateRange = new FormGroup({
-    start: new FormControl<Date | null>(null),
-    end: new FormControl<Date | null>(null),
-  });
+ 
 
   progressColor: string = '';
   progressTextColor: string = '';
   progressOutlineColor: string = '';
+
+
   doughnutChartInstance!: Chart ;
   doughnutStatusData: any[] = [];
+
+  barChartInstance!: Chart ;
+  teamMembers:any[]=[]
+  teamMemberNames: any[] = [];
+  teamMembersData: any[] = [];
+
+  teamDoughnutChartInstance!: Chart ;
+  teamDoughnutStatusData: any[] = [];
+
   teamLeadUserId:any;
   
   clientsObject: getAllClients = {
@@ -78,6 +90,9 @@ export class TeamLeadDetailsComponent {
   teamFilter=""
   durationFilter="week"
 
+  fromDate="";
+  toDate="";
+
   allTeam:getAllTeams[]=[]
 
   allStatuses=[
@@ -94,16 +109,22 @@ export class TeamLeadDetailsComponent {
    
 
   userData: getSpecificTeamLead | null = null;
+  selectedDates: string = '';
+
+  clientDataForm!: FormGroup;
 
 
   @ViewChild('doughnutChart') doughnutChart!: ElementRef<HTMLCanvasElement>;
   @ViewChild('barChart') barChart!: ElementRef<HTMLCanvasElement>;
+  @ViewChild('teamDoughnutChart') teamDoughnutChart!: ElementRef<HTMLCanvasElement>;
 
   constructor(
     private location: Location,
+    private dialog: MatDialog,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private userService: UserService
+    private userService: UserService,
+    private fb: FormBuilder
   ) {}
 
   progressColorCode() {
@@ -131,6 +152,18 @@ export class TeamLeadDetailsComponent {
   }
   ngOnInit(): void {
 
+    this.clientDataForm = this.fb.group({
+      dateRange:['']
+    });
+
+    // this.clientDataForm.get('dateRange')?.valueChanges.subscribe((value) => {
+    //  if(value){
+    //   const [startDate, endDate] = value.split(' to ');
+    //   console.log(startDate)
+    //   console.log(endDate)
+    //  }
+    // });
+
     this.fetchTeams()
     this.fetchTeamLeadData()
 
@@ -138,7 +171,11 @@ export class TeamLeadDetailsComponent {
   }
  
 
-  fetchTeamLeadData(){
+  fetchTeamLeadData() {
+   
+
+
+
     let id = this.activatedRoute.snapshot.paramMap.get('teamLeadId');
     console.log(this.activatedRoute.snapshot.paramMap);
     if (id) {
@@ -146,11 +183,16 @@ export class TeamLeadDetailsComponent {
         next: (data) => {
           console.log(data);
           this.userData = data;
+          this.teamMembers=data.teamPerformance.teamMembers
           this.teamLeadUserId = data.userId
           this.clientStatus= data.teamPerformance.clientStatus
           console.log(this.clientStatus)
           
-
+          data.teamPerformance.teamMembers.forEach((member) => {
+            this.teamMemberNames.push(member.memberName);
+            this.teamMembersData.push(member.totalClientsSubmitted);
+            console.log(this.teamMemberNames, this.teamMembersData);
+          })
           console.log(this.userData);
           console.log(this.userData.teamPerformance.clientStatus)
           this.progressColorCode();
@@ -162,8 +204,15 @@ export class TeamLeadDetailsComponent {
             this.userData.teamPerformance.clientStatus.ONBOARDED,
             this.userData.teamPerformance.clientStatus.PENDING
           ]
+
+         // call  charts
          console.log(this.doughnutStatusData)
           this.loadDoughnutChart(this.doughnutStatusData)
+          this.loadTeamDoughnutChart(this.doughnutStatusData)
+
+          this.loadBarChart(this.teamMemberNames,this.teamMembersData)
+
+
           
           // call overdue clients
           this.getOverdueClients(this.clientCurrentPage)
@@ -181,12 +230,22 @@ export class TeamLeadDetailsComponent {
 
   onMainDateChange(event: Event) {
     this.durationParam = (event.target as HTMLSelectElement).value
-    
+
+    //reset data
+    this.teamMembersData=[]
+    this.teamMemberNames=[]
+
+
     console.log(this.durationParam)
     this.fetchTeamLeadData()
 
+    // update dougnut chart
     this.doughnutChartInstance.data.datasets[0].data=this.doughnutStatusData
     this.doughnutChartInstance.update()
+
+    // update barChart
+    this.barChartInstance.data.datasets[0].data=this.teamMembersData
+    this.barChartInstance.update()
 
   }
   
@@ -246,6 +305,100 @@ export class TeamLeadDetailsComponent {
         },
       });
     
+  }
+
+
+  loadTeamDoughnutChart(data?: any) {
+    if(this.teamDoughnutChartInstance){
+    
+     this.teamDoughnutChartInstance.destroy();
+    }
+       const doughnutData = {
+         labels: [
+           'Awaiting Documentation',
+           'Interested',
+           'Not Interested',
+           'Onboarded',
+           'Pending',
+         ],
+         datasets: [
+           {
+             label: 'Status',
+             data: data  ,
+             backgroundColor: [
+               
+              
+               '#F46036', //orange
+               '#F6B100',  // yellow
+               '#FF3B30', //red
+               '#1B998B',   // green
+               '#2C2368',   //purple
+              
+             ],
+             borderWidth: 4,
+           },
+         ],
+       };
+ 
+   this.teamDoughnutChartInstance =   new Chart(this.teamDoughnutChart.nativeElement, {
+         type: 'doughnut',
+         data: doughnutData,
+         options: {
+           responsive: true,
+           plugins: {
+             legend: {
+               position: 'bottom',
+               labels: {
+                 boxWidth: 12,
+                 padding: 10,
+                 color: '#333',
+                 font: { size: 12 },
+               },
+             },
+             datalabels: {
+                 color:'white',
+             }
+           },
+         },
+       });
+     
+   }
+
+  loadBarChart(memberNames: any, data: any) {
+    if(this.barChartInstance){
+    
+      this.barChartInstance.destroy();
+     }
+    const barData = {
+      labels: memberNames,
+      datasets: [
+        {
+          label: 'Clients Onboarded By Members',
+          data: data,
+          backgroundColor: '#2C2368',
+          borderWidth: 1,
+          barThickness: 28,
+          borderRadius: 5,
+          yAxisId: 'leftAxis',
+        },
+      ],
+    };
+
+  this.barChartInstance =  new Chart(this.barChart.nativeElement, {
+      type: 'bar',
+      data: barData,
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { position: 'bottom' },
+        },
+        scales: {
+          y: { beginAtZero: true },
+          
+        },
+      },
+    });
   }
 
   // initChart() {
@@ -398,7 +551,7 @@ export class TeamLeadDetailsComponent {
 
 //  parameter "page" from paginated table component
  fetchClients(page:number){
-  this.userService.getClientsUnderUser(this.teamLeadUserId, this.searchTerm,this.statusFilter,this.durationFilter,page, this.clientLimit).subscribe({
+  this.userService.getClientsUnderUser(this.teamLeadUserId, this.searchTerm,this.statusFilter,this.fromDate,this.toDate,page, this.clientLimit).subscribe({
     next: (data) => {
       this.clientsUnderUserData = data;
       this.clientTotalPages=data.totalPages -1;
@@ -473,7 +626,8 @@ onOverdueSearch(){
 onLimitChange(newLimit: number): void {
   this.clientLimit = newLimit;
   this.clientCurrentPage = 1;
-  this.fetchClients(this.clientCurrentPage)}
+  this.fetchClients(this.clientCurrentPage)
+}
 
 
 onOverdueLimitChange(newLimit: number): void {
@@ -482,10 +636,45 @@ onOverdueLimitChange(newLimit: number): void {
   this.getOverdueClients(this.overdueClientCurrentPage);
   console.log(this.teamLeadUserId)
   console.log(this.overdueClientLimit)
+  
+}
+
+onDateChange(event: Event) {
+  this.selectedDates = (event.target as HTMLInputElement).value
+
+  console.log(this.selectedDates);
+   [this.fromDate, this.toDate] = this.selectedDates.split(' to ');
+  this.fetchClients(this.clientCurrentPage)
+  // fromDate=this.fromDate
+  // toDate=this.toDate
+      console.log(this.fromDate)
+      console.log(this.toDate)
+
+
+
 }
 
 
 
+updateEditChanges(){
+  this.fetchTeamLeadData()
+}
 
+openDeactivateTeamLeadDialog() {
+  this.dialog.open(DeactivateTeamDialogComponent,{
+    width: '1200px',
+    data:{
+      title: 'Deactivate Team',
+      teamLeadId: this.teamLeadUserId
+      
+      
+
+
+    }
+    
+  })
+ 
+  
+}
 
 }

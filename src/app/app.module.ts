@@ -12,6 +12,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MatFormField } from '@angular/material/form-field';
+import { FlatpickrModule } from 'angularx-flatpickr';
 
 // import { ResettingPasswordComponent } from './auth/components/resetting-password/resetting-password.component';
 import { HttpClientModule } from '@angular/common/http';
@@ -26,6 +27,8 @@ import { HttpClientModule } from '@angular/common/http';
     CommonModule,
     FontAwesomeModule,
     HttpClientModule,
+    FlatpickrModule.forRoot(),
+    
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [
