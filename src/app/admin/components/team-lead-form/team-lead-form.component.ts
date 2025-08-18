@@ -21,6 +21,9 @@ export class TeamLeadFormComponent {
 
   openSuccessDialog!: MatDialogRef<any>;
 
+  startDate=""
+  endDate=""
+
   isEditMode=false;
 
   filterDuration=""
@@ -43,7 +46,7 @@ export class TeamLeadFormComponent {
     if (id) {
       this.isEditMode=true
       console.log('populate form fields with data');
-      this.userService.getSpecificTeamLead(id, this.filterDuration).subscribe({
+      this.userService.getSpecificTeamLead(id, this.startDate, this.endDate).subscribe({
         next: (data) => {
           console.log(data);
           this.createTeamLeadForm.patchValue(data);

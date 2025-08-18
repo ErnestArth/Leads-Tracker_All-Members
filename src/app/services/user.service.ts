@@ -165,11 +165,11 @@ export interface getAllClientsOverdue{
 // first define interface for teamMembers which is an array
 
 export interface clientStatus{
-  PENDING?: number
-  AWAITING_DOCUMENTATION?: number
-  NOT_INTERESTED?: number
-  INTERESTED?: number
-  ONBOARDED?: number
+  Pending?: number
+  Awaiting_Documentation?: number
+  Not_Interested?: number
+  Interested?: number
+  Onboarded?: number
   totalClients?: number
 
 }
@@ -582,12 +582,12 @@ export class UserService {
       { headers }
     );
   }
-  getSpecificTeamLead(userId: string,duration: string): Observable<getSpecificTeamLead> {
+  getSpecificTeamLead(userId: string,startDate: string,endDate:string): Observable<getSpecificTeamLead> {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
     return this.http.get<getSpecificTeamLead>(
       `${this.apiUrl}/leads-tracker/api/v1/leads/team-leads/${userId}`,
-      { headers, params: { duration } }
+      { headers, params: { startDate,endDate } }
     );
   }
   getSpecificTeamMember(

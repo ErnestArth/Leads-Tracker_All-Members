@@ -31,6 +31,7 @@ import { ModalService } from '../../../services/modalService';
 import { Router } from '@angular/router';
 import { AddTeamMemberPopupComponent } from '../add-team-member-popup/add-team-member-popup.component';
 import { AddTeamLeadPopupComponent } from '../add-team-lead-popup/add-team-lead-popup.component';
+import { FlatpickrModule } from 'angularx-flatpickr';
 Chart.register(...registerables);
 
 @Component({
@@ -231,6 +232,10 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     });
   }
 
+  onMainDateChange(event:Event){
+
+  }
+
   onTeamChange() {
     if (this.selectedTeamName === 'All Teams') {
       this.displayedStatusCounts = this.overallStatusCounts;
@@ -241,7 +246,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       this.displayedStatusCounts = team ? team : {};
       console.log(this.displayedStatusCounts);
 
-    //  this.getStatusCounts()
+     
 
     //  this.doughnutChartInstance.data.datasets[0].data = this.doughnutTeamsTotalClients
     //  this.doughnutChartInstance.update()
@@ -250,6 +255,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       
     }
   }
+
 
   clickOutsideArea = false;
   isMenuOpen = false;

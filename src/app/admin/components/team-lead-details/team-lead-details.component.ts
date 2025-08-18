@@ -93,6 +93,12 @@ export class TeamLeadDetailsComponent {
   fromDate="";
   toDate="";
 
+  startDate="";
+  endDate="";
+
+  sdate:string[]=[]
+  edate:string[]=[]
+
   allTeam:getAllTeams[]=[]
 
   allStatuses=[
@@ -110,6 +116,7 @@ export class TeamLeadDetailsComponent {
 
   userData: getSpecificTeamLead | null = null;
   selectedDates: string = '';
+  mainSelectedDates: string = '';
 
   clientDataForm!: FormGroup;
 
@@ -179,7 +186,7 @@ export class TeamLeadDetailsComponent {
     let id = this.activatedRoute.snapshot.paramMap.get('teamLeadId');
     console.log(this.activatedRoute.snapshot.paramMap);
     if (id) {
-      this.userService.getSpecificTeamLead(id,this.durationParam).subscribe({
+      this.userService.getSpecificTeamLead(id,this.startDate,this.endDate).subscribe({
         next: (data) => {
           console.log(data);
           this.userData = data;
@@ -198,17 +205,18 @@ export class TeamLeadDetailsComponent {
           this.progressColorCode();
 
           this.doughnutStatusData =[
-            this.userData.teamPerformance.clientStatus.AWAITING_DOCUMENTATION,
-            this.userData.teamPerformance.clientStatus.INTERESTED,
-            this.userData.teamPerformance.clientStatus.NOT_INTERESTED,
-            this.userData.teamPerformance.clientStatus.ONBOARDED,
-            this.userData.teamPerformance.clientStatus.PENDING
+            this.userData.teamPerformance.clientStatus.Awaiting_Documentation,
+            this.userData.teamPerformance.clientStatus.Interested,
+            this.userData.teamPerformance.clientStatus.Not_Interested,
+            this.userData.teamPerformance.clientStatus.Onboarded,
+            this.userData.teamPerformance.clientStatus.Pending
           ]
 
          // call  charts
          console.log(this.doughnutStatusData)
           this.loadDoughnutChart(this.doughnutStatusData)
           this.loadTeamDoughnutChart(this.doughnutStatusData)
+          console.log(this.userData.teamPerformance.clientStatus.Interested,)
 
           this.loadBarChart(this.teamMemberNames,this.teamMembersData)
 
@@ -229,7 +237,21 @@ export class TeamLeadDetailsComponent {
   }
 
   onMainDateChange(event: Event) {
-    this.durationParam = (event.target as HTMLSelectElement).value
+    // this.durationParam = (event.target as HTMLSelectElement).value
+    
+  
+
+      this.mainSelectedDates = (event.target as HTMLInputElement).value
+
+    if (this.mainSelectedDates){
+      [this.startDate,this.endDate]=this.mainSelectedDates.split(" to ")
+      console.log(this.startDate)
+      console.log(this.endDate)
+    }
+
+
+   
+
 
     //reset data
     this.teamMembersData=[]

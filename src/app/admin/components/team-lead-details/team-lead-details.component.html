@@ -101,19 +101,17 @@
       <div *ngIf="!showEditForm" class="welcome-text-and-filter">
         <div class="dashboard-text-options">
           <div class="team-search">
-            <select
-              title="team-search"
-              id=""
-              name="options"
-              class="team-select"
+            <input
+              class="filter-by-date-input"
+              placeholder="Select Date"
+              type="text"
+              mwlFlatpickr
+              [mode]="'range'"
+              [altInput]="true"
+              [altFormat]="'F j, Y'"
+              [dateFormat]="'Y-m-d'"
               (change)="onMainDateChange($event)"
-            >
-              <option value="all">This Week</option>
-              <option value="week">week</option>
-              <option value="month">month</option>
-              <option value="16-08-2025">Today</option>
-              <option value="team4">Team 4</option>
-            </select>
+              >
           </div>
         </div>
       </div>
