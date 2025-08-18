@@ -457,7 +457,7 @@ input {
   color: #04b440;
   border: 1px solid rgba(23, 198, 83, 0.2);
 }
-.badge.not-interested {
+.badge.interested.Not {
   background: #ffeef3;
   color: #d81a48;
   border: rgba(248, 40, 90, 0.2) solid 1px;
@@ -472,7 +472,7 @@ input {
   color: #2c2368;
   border: rgba(44, 35, 104, 0.2) solid 1px;
 }
-.badge.awaiting-documentation {
+.badge.Awaiting.Documentation {
   background: #ffede8;
   color: #f46036;
   border: 1px solid rgba(244, 96, 54, 0.2);

@@ -1,0 +1,64 @@
+<div class="dashboard-container">
+  <app-sidebar></app-sidebar>
+
+  <main>
+
+    <aside class="notification-header">
+      <div class="header">
+        <span
+          class="back-btn"
+          (click)="onBackArrow('dashboard')"
+          routerLink="/admin/dashboard"
+          routerLinkActive="selected"
+        >
+          <img src="Back arrow.png" alt="back-arrow" />
+        </span>
+        <h2>Client Overview</h2>
+      </div>
+    </aside>
+    <div class="container">
+  <div class="card">
+    <div class="header">
+      <div>
+        <h3 class="client-name">Ama Serwaa</h3>
+        <p class="assigned">Assigned to: Nancy Kyei</p>
+      </div>
+      <span class="status pending">Pending</span>
+    </div>
+    <hr>
+
+    <div class="details">
+      <div class="detail-item">
+        <span class="icon">📞</span>
+        <span>024 000 0000</span>
+      </div>
+      <div class="detail-item">
+        <span class="icon">📍</span>
+        <span>GA-123-129</span>
+      </div>
+      <div class="detail-item">
+        <span class="icon">📅</span>
+        <span>Added: 1/02/2025</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="notification-box">
+    <div class="notification-bar"></div>
+    <div class="notification-text">
+      <p><strong>Notification Details</strong></p>
+      <p>
+        Client Ama Serwaa (Team Lead: Nancy Kyei) is still in ‘Pending’ status for 4 days.
+      </p>
+      <small>Notification generated 1 day ago</small>
+    </div>
+  </div>
+
+  <div class="admin-actions">
+    <button class="alert-button">Alert Team Lead</button>
+  </div>
+</div>
+
+
+    </main>
+    </div>

@@ -1,0 +1,43 @@
+<div class="dashboard-container">
+  <app-sidebar></app-sidebar>
+
+  <main>
+    <!-- Notification Header -->
+    <aside class="target-overview-header">
+      <div class="header">
+        <span
+          class="back-btn"
+          (click)="onBackArrow('team-breakdown')"
+          routerLink="/admin/team-breakdown"
+          routerLinkActive="selected"
+        >
+          <img src="Back arrow.png" alt="back-arrow" />
+        </span>
+        <h2>Team Target Overview</h2>
+      </div>
+    </aside>
+
+    <div class="no-target-wrapper">
+  <div class="header">
+    <span class="back-icon">←</span>
+    <h1>Team Targets Overview</h1>
+    <button class="export-btn">Export Data</button>
+  </div>
+
+  <div class="controls">
+    <input type="text" class="search-input" placeholder="Search by Team" />
+    <input type="text" class="date-picker" placeholder="dd/mm/yyyy" />
+    <select title="control-select" class="period-select">
+      <option>Quarterly</option>
+    </select>
+  </div>
+
+  <div class="no-target-message">
+    No targets have been set. Use the Set Targets page to begin
+  </div>
+</div>
+
+
+
+</main>
+</div>

@@ -32,16 +32,17 @@ export class ProfileComponent {
   hasSpecialChar = false;
   hasMinLength = false;
   isOpenOverview = false;
+  showSecurity = false;
 
   error: string | null = null;
 
   constructor(private fb: FormBuilder, private userService: UserService) {
     this.profileForm = this.fb.group({
-      firstName: ['', Validators.required],
-      otherNames: ['', Validators.required],
-      businessEmail: ['', [Validators.required, Validators.email]],
+      firstName: [{value:'', disabled:true}, Validators.required],
+      otherNames: [{value:'', disabled:true}, Validators.required,],
+      businessEmail: [{value:'', disabled:true}, [Validators.required, Validators.email]],
       phoneNumber: ['', Validators.required],
-      role: ['', Validators.required],
+      role: [{value:'', disabled:true}, Validators.required],
       currentPassword: ['', [Validators.required]],
       newPassword: ['', [Validators.required]],
       confirmNewPassword: ['', [Validators.required]],
@@ -127,4 +128,7 @@ export class ProfileComponent {
   onBackArrow(type: string): void {
     this.isOpenOverview = this.isOpenOverview;
   }
+  toggleSecurity(): void {
+  this.showSecurity = !this.showSecurity;
+}
 }

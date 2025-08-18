@@ -17,39 +17,60 @@
           <h3>Personal Info</h3>
           <div class="form-group">
             <label>First Name</label>
-            <input title="form" formControlName="firstName" type="text" />
+            <input
+              title="form"
+              formControlName="firstName"
+              type="text"
+              value="Read-only text"
+            />
           </div>
 
           <div class="form-group">
             <label>Other Name(s)</label>
-            <input title="form" formControlName="otherNames" type="text" />
+            <input
+              title="form"
+              formControlName="otherNames"
+              type="text"
+              value="Read-only text"
+            />
           </div>
 
           <div class="form-group">
             <label>Business Email</label>
-            <input title="form" formControlName="businessEmail" type="email" />
+            <input
+              title="form"
+              formControlName="businessEmail"
+              type="email"
+              value="Read-only text"
+            />
           </div>
 
           <div class="form-group">
             <label>Phone Number</label>
-            <input title="form" formControlName="phoneNumber" type="number" />
+            <input title="form" formControlName="phoneNumber" type="text" />
           </div>
 
           <div class="form-group">
             <label>Role</label>
-            <select title="admin" formControlName="role">
-              <option value="Admin">Admin</option>
-              <option value="User">User</option>
-            </select>
+            <input
+              title="admin"
+              formControlName="role"
+              type="role"
+              value="Read-only text"
+            />
           </div>
         </section>
 
         <section class="security-screen">
           <div class="security-details">
-            <h3>Security</h3>
-            <h4>Change Password</h4>
+            <h3 (click)="toggleSecurity()" class="dropdown-toggle">
+              Security
+              <img src="down-arrow.png" alt="arrow" class="down-arrow.png" />
+              <span [class.rotate]="showSecurity"></span>
+            </h3>
+            <h4 *ngIf="showSecurity">Change Password</h4>
 
-            <div class="password-container">
+            <div *ngIf="showSecurity" class="password-container">
               <label class="password" for="currentPassword"
                 >Current Password</label
               >
@@ -58,7 +79,7 @@
                 class="security-input"
                 id="currentPassword"
                 [type]="showCurrentPassword ? 'text' : 'password'"
-                formControlName="password"
+                formControlName="currentPassword"
                 (input)="checkPasswordRules()"
                 placeholder="Current Password"
                 [ngClass]="{
@@ -78,14 +99,14 @@
               ></span>
             </div>
 
-            <div class="password-container">
+            <div *ngIf="showSecurity" class="password-container">
               <label>New Password</label>
 
               <input
                 class="security-input"
                 id="newPassword"
                 [type]="showNewPassword ? 'text' : 'password'"
-                formControlName="password"
+                formControlName="newPassword"
                 (input)="checkPasswordRules()"
                 placeholder="New Password"
                 [ngClass]="{
@@ -105,7 +126,7 @@
               ></span>
             </div>
 
-            <div class="password-container">
+            <div *ngIf="showSecurity" class="password-container">
               <label>Confirm New Password</label>
 
               <input
@@ -133,7 +154,12 @@
             </div>
           </div>
 
-          <button type="button" class="change-btn" (click)="onChangePassword()">
+          <button
+            *ngIf="showSecurity"
+            type="button"
+            class="change-btn"
+            (click)="onChangePassword()"
+          >
             Change Password
           </button>
         </section>

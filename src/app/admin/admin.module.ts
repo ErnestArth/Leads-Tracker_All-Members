@@ -61,6 +61,8 @@ import { EditTeamDialogComponent } from './components/edit-team-dialog/edit-team
 import { AddTeamDialogComponent } from './components/add-team-dialog/add-team-dialog.component';
 import { DeactivateTeamDialogComponent } from './components/deactivate-team-dialog/deactivate-team-dialog.component';
 import { LoginComponent } from '../auth/components/login/login.component';
+import { NoTargetComponent } from './components/no-target/no-target.component';
+import { ViewClientComponent } from './components/view-client/view-client.component';
 
 const routes: Routes = [
   {
@@ -109,21 +111,33 @@ const routes: Routes = [
       { path: 'add-team', component: AddTeamModalComponent },
       { path: 'assign-members', component: AssignMembersModalComponent },
       { path: 'profile', component: ProfileComponent },
-      { path: 'create-team-lead', component: CreateTeamLeadComponent
-        , canActivate: [authGuard]
-       },
-      { path: 'create-team-member', component: CreateTeamMemberComponent
-        , canActivate: [authGuard]
-       },
+      {
+        path: 'create-team-lead',
+        component: CreateTeamLeadComponent,
+        canActivate: [authGuard],
+      },
+      {
+        path: 'create-team-member',
+        component: CreateTeamMemberComponent,
+        canActivate: [authGuard],
+      },
       { path: 'deactivate-team', component: DeactivateTeamModalComponent },
-      { path: 'set-target', component: SetTargetsComponent,
-        canActivate: [authGuard]
+      {
+        path: 'set-target',
+        component: SetTargetsComponent,
+        canActivate: [authGuard],
       },
       { path: 'view-target', component: ViewTargetsComponent },
       { path: 'team-breakdown', component: TeamBreakdownComponent },
     ],
   },
-{path: 'login', component: LoginComponent},
+  { path: 'login', component: LoginComponent },
+  { path: 'no-target', component: NoTargetComponent },
+  {
+    path: 'view-client',
+    component: ViewClientComponent,
+    canActivate: [authGuard],
+  },
 ];
 
 @NgModule({
@@ -161,6 +175,8 @@ const routes: Routes = [
     TeamBreakdownComponent,
     EditTeamDialogComponent,
     AddTeamDialogComponent,
+    NoTargetComponent,
+    ViewClientComponent,
   ],
   imports: [
     CommonModule,

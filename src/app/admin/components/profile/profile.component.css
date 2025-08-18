@@ -16,7 +16,7 @@ main {
   width: 100%;
   box-sizing: border-box;
   padding: 20px;
-  overflow-y:auto;
+  overflow-y: auto;
 }
 
 .form-container {
@@ -178,6 +178,7 @@ button[class="back-button"]:hover {
   border-radius: 8px;
   border: none;
   font-size: 16px;
+  margin-top: 150px;
 }
 .cancel-button {
   font-weight: 500;
@@ -217,4 +218,44 @@ input::placeholder {
 
 .security-details h3 {
   top: 30px;
+}
+
+input:disabled {
+  cursor: not-allowed;
+  background-color: #f4f4f6;
+  color: #a1a1b5;
+}
+
+.dropdown-toggle {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.security-container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+img.down-arrow {
+  width: 16px;
+  height: 16px;
+  margin-left: 200px;
+}
+
+button[class="cancel-button"]:hover {
+  background-color: #e3e3e3;
+  color: #000000;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button[class="save-button"]:hover {
+  background-color: #d74c21;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
 }

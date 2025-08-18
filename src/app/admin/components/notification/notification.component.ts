@@ -12,6 +12,7 @@ export class NotificationComponent implements OnInit {
   unResolvedNotifications: unResolvedNotification[] = [];
   loading = false;
   isOpenOverview = false;
+  isOpenViewClient = false;
 
   constructor(private userService: UserService) {}
 
@@ -57,5 +58,8 @@ export class NotificationComponent implements OnInit {
     return `${minutes} minutes ago`;
     return `${seconds} seconds ago`;
 
+  }
+  onViewClient(type: string): void {
+    this.isOpenViewClient = !this.isOpenViewClient; // toggle open/close
   }
 }
