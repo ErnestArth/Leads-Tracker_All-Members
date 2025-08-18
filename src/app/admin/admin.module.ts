@@ -61,9 +61,12 @@ import { EditTeamDialogComponent } from './components/edit-team-dialog/edit-team
 import { AddTeamDialogComponent } from './components/add-team-dialog/add-team-dialog.component';
 import { DeactivateTeamDialogComponent } from './components/deactivate-team-dialog/deactivate-team-dialog.component';
 import { LoginComponent } from '../auth/components/login/login.component';
+import { FlatpickrModule } from 'angularx-flatpickr';
+
 
 const routes: Routes = [
   {
+
     path: '',
     component: adminComponent,
     children: [
@@ -179,6 +182,9 @@ const routes: Routes = [
     MatTableModule,
     MatSortModule,
     MatPaginatorModule,
+    FlatpickrModule
+    
+ 
   ],
   providers: [
     importProvidersFrom(HttpClientModule),

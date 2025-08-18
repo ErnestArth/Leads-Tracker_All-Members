@@ -101,12 +101,17 @@ export class TeamsComponent {
   }
 
   openEditTeam(teamId: any){
-    this.dialog.open(EditTeamDialogComponent,{
+   const editTeamDialog= this.dialog.open(EditTeamDialogComponent,{
       width: '1200px',
       data:{
         title: 'Edit Team',
         id:teamId
         
+      }
+    })
+    editTeamDialog.componentInstance.teamEdited.subscribe((data)=>{
+      if(data){
+        this.getAllteams();
       }
     })
     

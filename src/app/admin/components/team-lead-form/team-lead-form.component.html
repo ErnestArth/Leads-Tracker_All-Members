@@ -127,7 +127,7 @@
   </div>
 
   <!-- Modal Buttons -->
-  <div class="modal-buttons">
+  <div *ngIf="!isEditMode" class="modal-buttons">
     <button matButton mat-dialog-close type="button" (click)="cancel()">
       Cancel
     </button>
@@ -139,8 +139,24 @@
       Submit
     </button>
   </div>
+
+
+
+  <div *ngIf="isEditMode" class="modal-buttons">
+    <!-- <button matButton mat-dialog-close type="button" (click)="cancel()">
+      Cancel
+    </button> -->
+    <button
+      type="submit"
+      (click)="onSubmit()"
+      (click)="openSuccessChangeDialog()"
+      [disabled]="createTeamLeadForm.invalid"
+    >
+      Save Changes
+    </button>
+  </div>
 </form>
-} @if(showSuccess){
+} @if(showSuccess && !isEditMode){
 
 <!-- success -->
 
@@ -174,6 +190,48 @@
       Create Another User
     </button>
     <button (click)="cancel()" class="back-button">Back</button>
+
+    
   </div>
 </div>
+
+
 }
+
+@if(isEditMode){
+  <ng-template #successChangeDialog>
+  <div class="success-container">
+    <div class="succesfully-added">
+      <svg
+        width="71"
+        height="70"
+        viewBox="0 0 71 70"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <rect
+          x="0.807129"
+          y="0.296875"
+          width="69.3848"
+          height="69.3848"
+          rx="34.6924"
+          fill="#1B998B"
+        />
+        <path
+          d="M56.2949 33.0755V34.9887C56.2924 39.473 54.8403 43.8364 52.1553 47.428C49.4703 51.0196 45.6962 53.6471 41.3959 54.9186C37.0956 56.19 32.4995 56.0374 28.2931 54.4833C24.0867 52.9292 20.4953 50.0571 18.0546 46.2952C15.6139 42.5333 14.4546 38.0832 14.7497 33.6086C15.0447 29.134 16.7783 24.8746 19.6919 21.4658C22.6054 18.0569 26.5428 15.6812 30.9169 14.6929C35.291 13.7047 39.8673 14.1568 43.9634 15.9819M56.2949 18.3526L35.4998 39.1685L29.2612 32.93"
+          stroke="white"
+          stroke-width="4.15903"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+      <p>Changes successfully saved</p>
+     
+      <button (click)="closeModal()" class="back-button">Back</button>
+  
+      
+    </div>
+  </div>
+  </ng-template>
+}
+

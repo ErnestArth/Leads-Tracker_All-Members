@@ -43,6 +43,10 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   @ViewChild('doughnutChart') doughnutChart!: ElementRef<HTMLCanvasElement>;
   @ViewChild('barChart') barChart!: ElementRef<HTMLCanvasElement>;
 
+  doughnutChartInstance!: Chart;
+  barChartInstance!: Chart;
+  
+
   activeModal: any;
   isOpenProfile: string | null = null;
 
@@ -95,31 +99,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     }
   }
 
-  // pagination
-  // get pages(): number[] {
-  //   return Array.from({ length: this.totalPages }, (_, i) => i + 1);
-  // }
-
-  // goToPage(page: number) {
-  //   if (page >= 1 && page <= this.totalPages) {
-  //     this.currentPage = page;
-  //     this.fetchAllClients(page);
-  //     console.log(page);
-  //   }
-  // }
-  goToPreviousPage() {
-    if (this.hasPrevious) {
-      const prevPage = this.currentPage - 1;
-      this.fetchAllClients(prevPage);
-    }
-  }
-
-  goToNextPage() {
-    if (this.hasNext) {
-      const nextPage = this.currentPage + 1;
-      this.fetchAllClients(nextPage);
-    }
-  }
+  
 
   onLimitChange(event: Event): void {
     const newLimit = (event.target as HTMLSelectElement).value;
@@ -260,9 +240,13 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       );
       this.displayedStatusCounts = team ? team : {};
       console.log(this.displayedStatusCounts);
-      this.doughnutTotalClients= team.totalClients
-      // this.loadDoughnutChart(this.doughnutTotalClients)
-      console.log(this.doughnutTotalClients)
+
+    //  this.getStatusCounts()
+
+    //  this.doughnutChartInstance.data.datasets[0].data = this.doughnutTeamsTotalClients
+    //  this.doughnutChartInstance.update()
+
+    
       
     }
   }
@@ -326,95 +310,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       : 'Create New Team Member';
   }
 
-  // renderChart(){
-  //   const doughnutData = {
-  //     labels: [
-  //       'onboarded',
-  //       'Interested',
-  //       'Awaiting Docs',
-  //       'Pending',
-  //       'Not Interested',
-  //     ],
-  //     datasets: [
-  //       {
-  //         label: 'Status',
-  //         data: [2, 20, 15,   5, 10],
-  //         backgroundColor: [
-  //           '#1B998B',
-  //           '#F6B100',
-  //           '#F46036',
-  //           '#2C2368',
-  //           '#FF3B30',
-  //         ],
-  //         borderWidth: 4,
-  //       },
-  //     ],
-  //   };
-
-  //   const barData = {
-  //     labels: ['Team A', 'Team B', 'Team C', 'Team D', 'Team E'],
-  //     datasets: [
-  //       {
-  //         label: 'Team Recommendations',
-  //         data: [480, 510, 800, 285, 700],
-  //         backgroundColor: '#F46036',
-  //         borderWidth: 1,
-  //         barThickness: 28,
-  //         borderRadius: 5,
-  //         yAxisId: 'leftAxis',
-  //       },
-  //     ],
-  //   };
-
-  //   const doughnutCanvas = document.getElementById(
-  //     'doughnutChart'
-  //   ) as HTMLCanvasElement;
-  //   const barCanvas = document.getElementById('barChart') as HTMLCanvasElement;
-
-  //   if (doughnutCanvas) {
-  //     new Chart(doughnutCanvas.getContext('2d')!, {
-  //       type: 'doughnut',
-  //       data: doughnutData,
-  //       options: {
-  //         responsive: true,
-  //         plugins: {
-  //           legend: {
-  //             position: 'bottom',
-  //             labels: {
-  //               boxWidth: 12,
-  //               padding: 10,
-  //               color: '#333',
-  //               font: {
-  //                 size: 12,
-  //               },
-  //             },
-  //           },
-  //         },
-  //       },
-  //     });
-  //   }
-
-  //   if (barCanvas) {
-  //     new Chart(barCanvas.getContext('2d')!, {
-  //       type: 'bar',
-  //       data: barData,
-  //       options: {
-  //         responsive: true,
-  //         maintainAspectRatio: false,
-  //         plugins: {
-  //           legend: {
-  //             position: 'bottom',
-  //           },
-  //         },
-  //         scales: {
-  //           y: {
-  //             beginAtZero: true,
-  //           },
-  //         },
-  //       },
-  //     });
-  //   }
-  // }
+  
   apiReady: boolean = false;
   ngAfterViewInit(): void {
     this.apiReady = true;
@@ -426,8 +322,12 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
     this.loadBarChart();
   }
+  
   loadDoughnutChart(data?: any) {
-    if (this.apiReady) {
+   if(this.doughnutChartInstance){
+    this.doughnutChartInstance.destroy();
+   }
+
       const doughnutData = {
         labels: [
           'Awaiting Documentation',
@@ -455,7 +355,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         ],
       };
 
-      new Chart(this.doughnutChart.nativeElement, {
+    this.doughnutChartInstance =  new Chart(this.doughnutChart.nativeElement, {
         type: 'doughnut',
         data: doughnutData,
         options: {
@@ -476,7 +376,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
           },
         },
       });
-    }
+    
   }
   loadBarChart() {
     const barData = {
@@ -553,17 +453,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     });
   }
 
-  // openDialog(type: 'team-lead' | 'team-member') {
-  //   const entityType = type.includes('lead') ? "Team Lead" : "Team Member"
-  //   const dialogRef = this.dialog.open(CreateTeamLeadComponent , {
-  //     width: "500px", maxHeight : "100vh",
-  //     data: {
-  //     title: "Create" + entityType,
-  //     buttonLabel: "Add" + entityType,
-  //     }
-  // });
-  // dialogRef.afterClosed().subscribe(data => {})
-  // }
+
 
   closeModal(): void {
     alert('Modal closed');

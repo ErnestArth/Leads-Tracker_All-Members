@@ -64,7 +64,7 @@
           <p>Edit</p>
         </div>
 
-        <div class="button-text">
+        <div (click)="openDeactivateTeamLeadDialog()" class="button-text">
           <svg
             width="25"
             height="24"
@@ -126,7 +126,7 @@
           >
             Performance Metrics
           </button>
-          <button (click)="showTeamPerformance = true && isTitleNavActive = false" class="title-nav">
+          <button [class.title-nav-focus]="!isTitleNavActive" (click)="showTeamPerformance = true && isTitleNavActive = false" class="title-nav">
             Team Performance Overview
           </button>
         </div>
@@ -184,7 +184,7 @@
               </div>
 
               <div class="progress-bar">
-                <p>Total Recommendations Submitted: <span><span>{{userData?.teamPerformance?.totalClientsAdded}}</span> / {{userData?.teamPerformance?.teamTarget}}</span></p>
+                <p>Total Clients Onboarded <span><span>{{userData?.teamPerformance?.totalClientsAdded}}</span> / {{userData?.teamPerformance?.teamTarget}}</span></p>
                 <div class="progress-outline {{progressOutlineColor}}">
                   <div class="progress {{progressColor}}" [ngStyle]="{ width: (userData?.teamPerformance?.progressPercentage || 0) + '%' ,backgroundColor:userData?.teamPerformance?.color}" ></div>
                   <span class="progress-percentage">{{userData?.teamPerformance?.progressPercentage}}%</span>
@@ -213,12 +213,22 @@
                 <option value="team_b">Team B</option>
                 <option value="team_c">Team C</option> -->
               </select>
-              <select class="dropdown filter-team" aria-label="Filter by team">
+              <!-- <select class="dropdown filter-team" aria-label="Filter by team">
                 <option value="">Date</option>
                 <option value="team_a">Team A</option>
                 <option value="team_b">Team B</option>
                 <option value="team_c">Team C</option>
-              </select>
+              </select> -->
+              <input
+              class="date-input"
+              placeholder="Select Date"
+              type="text"
+              mwlFlatpickr
+              [mode]="'range'"
+              [altInput]="true"
+              [altFormat]="'F j, Y'"
+              [dateFormat]="'Y-m-d'"
+              >
             </div>
           </div>
           <div class="table-responsive" type="table">
@@ -302,23 +312,19 @@
                 <option *ngFor="let status of allStatuses" value="{{status}}">{{status}}</option>
                 
               </select>
-              <mat-form-field>
-                <mat-label>Enter a date range</mat-label>
-                <mat-date-range-input [formGroup]="dateRange" [rangePicker]="picker">
-                  <input matStartDate formControlName="start" placeholder="Start date">
-                  <input matEndDate formControlName="end" placeholder="End date">
-                </mat-date-range-input>
-               
-                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                <mat-date-range-picker #picker></mat-date-range-picker>
               
-                @if (dateRange.controls.start.hasError('matStartDateInvalid')) {
-                  <mat-error>Invalid start date</mat-error>
-                }
-                @if (dateRange.controls.end.hasError('matEndDateInvalid')) {
-                  <mat-error>Invalid end date</mat-error>
-                }
-              </mat-form-field>
+              <input
+              class="date-input"
+              placeholder="Select Date"
+              type="text"
+              mwlFlatpickr
+              [mode]="'range'"
+              [altInput]="true"
+              [altFormat]="'F j, Y'"
+              [dateFormat]="'Y-m-d'"
+              (change)="onDateChange($event)"
+              >
+            
             </div>
           </div>
           <table>
@@ -444,7 +450,7 @@
 
             <div class="bar-chart">
               <div class="bar-ch">
-                <canvas id="barChart"></canvas>
+                <canvas #barChart id="barChart"></canvas>
               </div>
             </div>
           </div>
@@ -475,8 +481,8 @@
             </div>
             <div class="doughnut-chart">
               <div class="doughnut">
-                <canvas #myChart id="doughnutChart"></canvas>
-                <p class="total-doughnut">155</p>
+                <canvas #teamDoughnutChart id="doughnutChart"></canvas>
+                <!-- <p class="total-doughnut">155</p>
                 <p class="doughnut-interested-number">31 <span>20.00%</span></p>
                 <p class="doughnut-onboarded-number">80 <span></span></p>
                 <p class="doughnut-pending-number">80 <span></span></p>
@@ -485,7 +491,7 @@
                 </p>
                 <p class="doughnut-not-interested-number">
                   80 <span></span>
-                </p>
+                </p> -->
               </div>
             </div>
           </div>
@@ -494,10 +500,10 @@
         <div class="team-target-tracker">
           <div class="progress-bar">
             <h2 class="Team-target-text">Team Target Tracker</h2>
-            <p>Total Recommendations Submitted: <span>50/80</span></p>
-            <div class="progress-outline green-outline">
-              <div class="progress green-progress"></div>
-              <span class="progress-percentage">60% </span>
+            <p>Total Clients Onboarded: <span><span class="team-target-number">{{userData?.teamPerformance?.totalClientsAdded}}</span>/<span>{{userData?.teamPerformance?.teamTarget}}</span></span></p>
+            <div class="progress-outline {{progressOutlineColor}}">
+              <div class="progress {{progressColor}}" [ngStyle]="{ width: (userData?.teamPerformance?.progressPercentage || 0) + '%' ,backgroundColor:userData?.teamPerformance?.color}"></div>
+              <span class="progress-percentage">{{userData?.teamPerformance?.progressPercentage}}%</span>
             </div>
           </div>
         </div>
@@ -506,29 +512,29 @@
           <div class="member-details-title-and-search">
             <h2 class="member-details-text">Member Details</h2>
             <form>
-              <input title="members-details" type="text" />
+              <input class="cards-input" placeholder="Find Members" title="members-details" type="text" />
             </form>
           </div>
 
-          <div class="member-cards">
+          <div *ngFor="let member of teamMembers" class="member-cards">
             <div class="member-progress-details">
-              <h2>Yaa Asantewaa</h2>
+              <h2>{{member.memberName}}</h2>
               <div class="progress-details">
-                <p>Submitted: <span class="submitted-value">30</span></p>
-                <p>Onboarded: <span class="onboarded-value">15</span></p>
-                <p>Interested: <span class="interested-value">10</span></p>
+                <p>Submitted: <span class="submitted-value">{{member.totalClientsSubmitted||0}}</span></p>
+                <p>Onboarded: <span class="onboarded-value">{{member.clientStatus?.ONBOARDED||0}}</span></p>
+                <p>Interested: <span class="interested-value">{{member.clientStatus?.INTERESTED||0}}</span></p>
                 <p>
-                  Not Interested: <span class="not-interested-value">3</span>
+                  Not Interested: <span class="not-interested-value">{{member.clientStatus?.NOT_INTERESTED||0}}</span>
                 </p>
-                <p>Awaiting Docs: <span class="awaiting-docs-value">2</span></p>
-                <p class="Overall-percentage">82%</p>
+                <p>Awaiting Docs: <span class="awaiting-docs-value">{{member.clientStatus?.AWAITING_DOCUMENTATION||0}}</span></p>
+                <p class="Overall-percentage">{{member.progressPercentage}}%</p>
               </div>
             </div>
             <div class="view-details-button">
-              <p>View Details</p>
+              <!-- <p>View Details</p> -->
             </div>
           </div>
-          <div class="member-cards">
+          <!-- <div class="member-cards">
             <div class="member-progress-details">
               <h2>Yaa Asantewaa</h2>
               <div class="progress-details">
@@ -545,7 +551,7 @@
             <div class="view-details-button">
               <p>View Detailss</p>
             </div>
-          </div>
+          </div> -->
         </div>
         </div>
       </div>
@@ -556,50 +562,21 @@
     
     @if(showEditForm ){
     <div class="main-content">
-      <app-team-lead-form />
+      <app-team-lead-form  (updateChanges)="updateEditChanges()"/>
     </div>
     }
+
+   
+      
+
+
+
+
+
     <router-outlet></router-outlet>
   </main>
 
-  <!-- EDIT GOES HERER -->
-  <!-- <main>
-        <aside class="header">
-            <div class="back-arrow" >
-                <svg
-                  width="20"
-                  height="20"
-                  viewBox="0 0 20 20"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M12.5 15L7.5 10L12.5 5"
-                    stroke="#101828"
-                    stroke-width="1.5"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                </svg>
-              </div>
-          <div class="team-member-info">
-            <div class="team-member-info-image">
-              <img class="user-image" src="user-1.jpg" alt="user" />
-            </div>
-            <div class="team-member-info-name-and-">
-              <p class="team-member-name">Team member Name</p>
-              <span class="team-member-email">name&#64;domain.com</span>
-            </div>
-          </div>
 
-        </aside>
 
-        <div class="main-content">
-          <app-form-component/>
-
-        </div>
-
-        <router-outlet></router-outlet>
-
-        </main> -->
+  
 </div>

@@ -85,18 +85,17 @@
       <div class="welcome-text-and-filter">
         <div class="dashboard-text-options">
           <div class="team-search">
-            <select
-              title="team-search"
-              id="options"
-              name="options"
-              class="team-select"
-            >
-              <option value="all">This Week</option>
-              <option value="team1">Team 1</option>
-              <option value="team2">Team 2</option>
-              <option value="team3">Team 3</option>
-              <option value="team4">Team 4</option>
-            </select>
+            <input
+              class="filter-by-date-input"
+              placeholder="Select Date"
+              type="text"
+              mwlFlatpickr
+              [mode]="'range'"
+              [altInput]="true"
+              [altFormat]="'F j, Y'"
+              [dateFormat]="'Y-m-d'"
+              (change)="onDateChange($event)"
+              >
           </div>
         </div>
       </div>
@@ -144,16 +143,7 @@
             <div class="doughnut-chart">
               <div class="doughnut">
                 <canvas #myChart id="doughnutChart"></canvas>
-                <p class="total-doughnut">155</p>
-                <p class="doughnut-interested-number">31 <span>20.00%</span></p>
-                <p class="doughnut-onboarded-number">80 <span>51.61%</span></p>
-                <p class="doughnut-pending-number">80 <span>51.61%</span></p>
-                <p class="doughnut-awaiting-documentation-number">
-                  80 <span>51.61%</span>
-                </p>
-                <p class="doughnut-not-interested-number">
-                  80 <span>51.61%</span>
-                </p>
+                
               </div>
             </div>
           </div>
@@ -187,19 +177,26 @@
                 type="search"
                 placeholder="Search Client"
                 class="search-input"
+                [(ngModel)]="searchTerm"
+                (change)="onSearchClients()"
               />
-              <select class="dropdown" aria-label="Filter by team">
+              <select (change)="onStatusChange($event)" class="dropdown" aria-label="Filter by team">
                 <option value="">All Statuses</option>
-                <option value="team_a">Team A</option>
-                <option value="team_b">Team B</option>
-                <option value="team_c">Team C</option>
+                <option *ngFor="let status of allStatuses" value={{status}}>{{status}}</option>
+
+               
               </select>
-              <select class="dropdown" aria-label="Filter by team">
-                <option value="">All Teams</option>
-                <option value="team_a">Team A</option>
-                <option value="team_b">Team B</option>
-                <option value="team_c">Team C</option>
-              </select>
+              <input
+              class="date-input"
+              placeholder="Select Date"
+              type="text"
+              mwlFlatpickr
+              [mode]="'range'"
+              [altInput]="true"
+              [altFormat]="'F j, Y'"
+              [dateFormat]="'Y-m-d'"
+              (change)="onDateChange($event)"
+              >
             </div>
           </div>
           <table>
@@ -215,16 +212,16 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td class="client-con table-data">Name</td>
+              <tr *ngFor="let client of clientsUnderUserData.data ">
+                <td class="client-con table-data">{{client.firstName}} {{client.lastName}}</td>
                 <td class="badge-con table-data">
-                  <span class="badge PENDING">pending</span>
+                  <span class="badge PENDING">{{client.clientStatus}}</span>
                 </td>
-                <td class="date table-data">9/04/2025</td>
-                <td class="days table-data">9 Days</td>
-                <td class="mem-name table-data">Member Name</td>
-                <td class="name table-data">Name</td>
-                <td class="team table-data">Team A</td>
+                <td class="date table-data">{{client.createdAt| date:'dd/MM/yyyy'}}</td>
+                <td class="days table-data">{{client.lastAction}}</td>
+                <td class="mem-name table-data">{{client.assignedTo}}</td>
+                <td class="name table-data">{{client.createdBy}}</td>
+                <td class="team table-data">{{client.teamName}}</td>
               </tr>
               <!-- <tr>
                 <td class="client-con table-data">Client Name</td>
@@ -274,22 +271,17 @@
               </tr> -->
             </tbody>
           </table>
-          <div class="pagination">
-            <label class="pag-text"
-              >Show
-              <select class="pag-select">
-                <option>6</option>
-              </select>
-              per page
-            </label>
-            <div class="pages">
-              <button type="button" class="active pagination-button">1</button>
-              <button type="button" class="pagination-button">2</button>
-              <button type="button" class="pagination-button">3</button>
-              <button type="button" class="pagination-button">4</button>
-              <button type="button" class="pagination-button">5</button>
-            </div>
-          </div>
+          <app-table-pagination
+          [totalItems]="clientTotalItems"
+          [currentPage]="clientCurrentPage"
+          [totalPages]="clientTotalPages"
+          [limit]="clientLimit"
+          [hasNext]="clientHasNext"
+          [hasPrevious]="clientHasPrevious"
+          (pageChange)="fetchClients($event)"
+          (limitChange)="onLimitChange($event)"
+          >
+        </app-table-pagination>
         </div>
       </div>
     </div>
@@ -328,7 +320,7 @@
     </aside>
 
     <div class="main-content">
-      <app-form-component />
+      <app-form-component (sucessPage)="updateEditChanges()" />
     </div>
 
     <router-outlet></router-outlet>

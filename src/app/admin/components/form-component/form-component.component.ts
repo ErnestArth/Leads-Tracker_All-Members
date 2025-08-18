@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Inject, inject, Input, Output, output } from '@angular/core';
+import { Component, EventEmitter, Inject, inject, Input, Output, output, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
   getAllTeamLeads,
@@ -6,7 +6,7 @@ import {
 } from '../../../services/user.service';
 import { UserService } from '../../../services/user.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-form-component',
@@ -25,9 +25,18 @@ export class FormComponentComponent {
   @Input() EditMemberInputData:any;
   @Input() teamId:any;
   @Input() teamMemberId:any
+
+  openSuccessDialog!: MatDialogRef<any>;
+
+  @ViewChild('successChangeDialog') successChangeDialog!: TemplateRef<any>;
+
+
+
+  isEditMember=false
   constructor(
     // @Inject(MAT_DIALOG_DATA) public data: any,
     // private dialogRef: MatDialogRef<FormComponentComponent>,
+    private dialog: MatDialog,
     private fb: FormBuilder,
     private service: UserService,
     private activatedRoute: ActivatedRoute,
@@ -52,6 +61,7 @@ export class FormComponentComponent {
     if (id) {
       console.log('populate Edit data');
       this.buttonText = 'Save Changes';
+      this.isEditMember=true
 
       this.service.getUser(id).subscribe({
         next: (data) => {
@@ -138,6 +148,10 @@ export class FormComponentComponent {
       this.service.updateUserProfile(id, this.modalForm.value).subscribe({
         next: (data) => {
           console.log(data);
+          this.sucessPage.emit();
+            // this.showSuccess = true;
+            console.log(this.showSuccess)
+            this.isEditMember=true
         },
         error: (err) => {
           console.log(err);
@@ -150,6 +164,8 @@ export class FormComponentComponent {
             console.log(data);
             this.sucessPage.emit();
             this.showSuccess = true;
+            console.log(this.showSuccess)
+            this.isEditMember=true
             this.modalForm.reset();
           },
           error: (err) => {
@@ -176,6 +192,17 @@ export class FormComponentComponent {
       }
     }
   }
+
+  closeModal(){
+    this.openSuccessDialog.close()
+  }
+
+  openSuccessChangeDialog() {
+    this.openSuccessDialog = this.dialog.open(this.successChangeDialog,{
+       width: '600px',
+       
+     });
+   }
 
   onCancel() {
     // console.log('helo')

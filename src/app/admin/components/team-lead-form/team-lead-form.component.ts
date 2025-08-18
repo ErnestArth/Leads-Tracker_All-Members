@@ -1,7 +1,8 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, output, Output, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from '../../../services/user.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import{MatDialogRef,MatDialog} from '@angular/material/dialog'
 
 @Component({
   selector: 'app-team-lead-form',
@@ -13,11 +14,21 @@ export class TeamLeadFormComponent {
   router: any;
   submitForm: any;
   @Output() removePopupTitle = new EventEmitter<void>();
+  @Output() updateChanges = new EventEmitter<void>();
 
   isModalOpen = false;
   showSuccess = false;
 
+  openSuccessDialog!: MatDialogRef<any>;
+
+  isEditMode=false;
+
+  filterDuration=""
+
+  @ViewChild('successChangeDialog') successChangeDialog!: TemplateRef<any>;
+
   constructor(
+    private dialog: MatDialog,
     private fb: FormBuilder,
     private route: Router,
     private activatedRoute: ActivatedRoute,
@@ -30,7 +41,17 @@ export class TeamLeadFormComponent {
     const id = this.activatedRoute.snapshot.paramMap.get('teamLeadId');
 
     if (id) {
+      this.isEditMode=true
       console.log('populate form fields with data');
+      this.userService.getSpecificTeamLead(id, this.filterDuration).subscribe({
+        next: (data) => {
+          console.log(data);
+          this.createTeamLeadForm.patchValue(data);
+        },
+        error: (err) => {
+          console.log(err);
+        },
+      })
     }
 
     this.createTeamLeadForm = this.fb.group({
@@ -48,6 +69,15 @@ export class TeamLeadFormComponent {
     const id = this.activatedRoute.snapshot.paramMap.get('teamLeadId');
     if (id) {
       console.log('send update request');
+      this.userService.updateUserProfile(id, this.createTeamLeadForm.value).subscribe({
+        next: (data) => {
+          this.updateChanges.emit();
+          console.log(data);
+        },
+        error: (err) => {
+          console.log(err);
+        },
+      })
     } else {
       console.log('send create request');
 
@@ -73,10 +103,20 @@ export class TeamLeadFormComponent {
     this.onCancel.emit();
   }
 
+  closeModal(){
+    this.openSuccessDialog.close()
+  }
   onSaveChanges(): void {
     if (this.createTeamLeadForm.valid) {
       this.createTeamLeadForm.reset();
     }
     this.showSuccess = false;
+  }
+
+  openSuccessChangeDialog() {
+   this.openSuccessDialog = this.dialog.open(this.successChangeDialog,{
+      width: '600px',
+      
+    });
   }
 }
