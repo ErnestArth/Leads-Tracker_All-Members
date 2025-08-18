@@ -135,7 +135,7 @@
            
             <select [(ngModel)]="selectedTeamName" (change)="onTeamChange()" id="options" name="options" class="team-select" >
               <option value="All Teams" disabled selected hidden>All Teams</option>
-              <option value="">All Teams</option>
+              <option value="All Teams">All Teams</option>
               <option *ngFor="let team of teamStats" value="{{team.teamName}}">{{team.teamName}}</option>
               <!-- <option value="team2">Team 2</option>
               <option value="team3">Team 3</option>
@@ -144,15 +144,18 @@
           </div>
 
           <!-- change to datepicker -->
-          <div class="team-search">
-            <select [(ngModel)]="selectedTeamName" (change)="onTeamChange()" id="options" name="options" class="team-select">
-              <option >This month/option>
-              <option *ngFor="let team of teamStats" value="{{team.teamName}}">{{team.teamName}}</option>
-              <!-- <option value="team2">Team 2</option>
-              <option value="team3">Team 3</option>
-              <option value="team4">Team 4</option> -->
-            </select>
-          </div>
+          <input
+          class="filter-by-date-input"
+          placeholder="Select Date"
+          type="text"
+          mwlFlatpickr
+          [mode]="'range'"
+          [altInput]="true"
+          [altFormat]="'F j, Y'"
+          [dateFormat]="'Y-m-d'"
+          (change)="onMainDateChange($event)"
+          
+          >
           </div>
         </div>
       </div>
@@ -479,17 +482,7 @@
               </tbody>
             </table>
           </div>
-          <!-- <div class="pagination">
-            <label class="pag-text">Show
-              <select class="pag-select">
-                <option>2</option>
-              </select>
-              per page
-            </label>
-            
-
           
-          </div> -->
           <app-table-pagination
           [totalItems]="overdueClientTotalItems"
           [currentPage]="overdueClientCurrentPage"
