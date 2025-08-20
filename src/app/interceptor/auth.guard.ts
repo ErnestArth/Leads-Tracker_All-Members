@@ -1,14 +1,28 @@
+// authGuard.ts
 import { inject } from '@angular/core';
-import { CanActivateFn, Router } from '@angular/router';
+import { CanActivateFn, Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { AuthService } from '../auth/AuthServices';
 
-export const authGuard: CanActivateFn = (route, state) => {
-  const routes = inject(Router);
+export const authGuard: CanActivateFn = (
+  route: ActivatedRouteSnapshot,
+  state: RouterStateSnapshot
+) => {
+  const router = inject(Router);
+  const authService = inject(AuthService);
+  const path  = route.routeConfig?.path;
+  const authPaths = ['otp-auth', 'reset-password','ResettingPasswordComponent'];
 
-  const token = localStorage.getItem('token');
-  if (token === token) {
-    return true;
+  // Route-specific guards
+  if (path && authPaths.includes(path) ) {
+    const loggedEmail = sessionStorage.getItem('login_email');
+    if (loggedEmail)
+      return true;
+    alert('You are not authenticated. Please log in first.');
   } else {
-    routes.navigateByUrl('/authentication/login');
-    return false;
+    if (authService.isAuthenticated())
+      return true;
+    alert('You are not authorised. Please log in first.');
   }
+    router.navigate(['/authentication/login']);
+    return false;
 };

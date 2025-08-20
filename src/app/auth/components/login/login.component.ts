@@ -67,19 +67,21 @@ export class LoginComponent {
             console.log('Login response:', response);
 
             if (response.role === 'ROLE_ADMIN') {
-              localStorage.setItem('login_email', response.email);
+              sessionStorage.setItem('login_email', response.email);
 
-              this.router.navigate(['/otp-auth']);
+              this.router.navigate(['/authentication/otp-auth']);
             } else if (response.status === 'PASSWORD_RESET_REQUIRED') {
-              localStorage.setItem('resetPaswordToken', response.token);
+              sessionStorage.setItem('resetPaswordToken', response.token);
               this.router.navigate([
                 '/authentication/ResettingPasswordComponent',
               ]);
             }
             else {
               this.invalidLoginMessage = true;
-              
+
             }
+
+            sessionStorage.setItem('token', response.token);
 
             // else {
             //   // alert('Unexpected response status: ' + response.status);

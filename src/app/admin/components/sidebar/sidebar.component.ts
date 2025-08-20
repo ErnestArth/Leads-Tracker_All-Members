@@ -18,12 +18,12 @@ export class SidebarComponent {
   toggleSubMenu(menuId: string): void {
     this.activeSubMenu = this.activeSubMenu === menuId ? null : menuId;
     console.log(this.activeSubMenu);
-    localStorage.setItem('activeSubmenu', this.activeSubMenu || '');
+    sessionStorage.setItem('activeSubmenu', this.activeSubMenu || '');
   }
 
   ngOnInit() {
-    // this.activeSubMenu = localStorage.getItem('activeSubMenu') === 'true';
-    this.activeSubMenu = localStorage.getItem('activeSubmenu');
+    // this.activeSubMenu = sessionStorage.getItem('activeSubMenu') === 'true';
+    this.activeSubMenu = sessionStorage.getItem('activeSubmenu');
 
     console.log(this.activeSubMenu);
   }
@@ -40,9 +40,9 @@ export class SidebarComponent {
     this.isOpenLogout = this.isOpenLogout
 
     if(type === 'logout') {
-      localStorage.removeItem('token');
-      localStorage.removeItem('role');
-      localStorage.removeItem('email');
+      sessionStorage.removeItem('token');
+      sessionStorage.removeItem('role');
+      sessionStorage.removeItem('email');
       this.router.navigate(['/admin/login']);
     }
   }

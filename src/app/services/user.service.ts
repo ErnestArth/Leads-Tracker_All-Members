@@ -413,7 +413,7 @@ export interface deactivateTeam{
   message:string
 }
 
-// const token =localStorage.getItem('token')
+// const token =sessionStorage.getItem('token')
 // console.log(token)
 // const headers = new HttpHeaders({
 //     'Authorization' : `Bearer ${token}`
@@ -433,7 +433,7 @@ export class UserService {
   // create a team
 
   addTeam(team: AddTeamRequest): Observable<AddTeamRequest> {
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
     return this.http.post<AddTeamRequest>(
       `${this.apiUrl}/leads-tracker/api/v1/leads/team`,
@@ -444,7 +444,7 @@ export class UserService {
 
   // Update a team
   updateTeam(team: AddTeamRequest): Observable<AddTeamRequest> {
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
     return this.http.put<AddTeamRequest>(
       `${this.apiUrl}/leads-tracker/api/v1/leads/Edit-team/1`,
@@ -456,7 +456,7 @@ export class UserService {
   // Deactivate a Team
 
   deactivateTeam(teamId: string): Observable<void> {
-    const token =localStorage.getItem('token')
+    const token =sessionStorage.getItem('token')
     const headers = new HttpHeaders({'Authorization' : `Bearer ${token}`})
     console.log(headers)
     return this.http.patch<void>(`${this.apiUrl}/leads-tracker/api/v1/leads/team/${teamId}/deactivate`, {}, {headers});
@@ -464,7 +464,7 @@ export class UserService {
 
   // deleting a user
   deleteUser(userId:string):Observable<void> {
-    const token =localStorage.getItem('token')
+    const token =sessionStorage.getItem('token')
     const headers = new HttpHeaders({'Authorization' : `Bearer ${token}`})
     return this.http.delete<void>(`${this.apiUrl}/leads-tracker/api/v1/leads/delete/${userId}`,{headers});
 
@@ -472,7 +472,7 @@ export class UserService {
 
 // create a team member
   addTeamMember(teamMember: createTeamMember[]): Observable<void> {
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
     return this.http.post<void>(
       `${this.apiUrl}/leads-tracker/api/v1/leads`,
@@ -484,7 +484,7 @@ export class UserService {
   // get total number of clients by status
 
   getClientStatusCounts(): Observable<clientStatusCounts> {
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
     return this.http.get<clientStatusCounts>(
       `${this.apiUrl}/leads-tracker/api/v1/clients/statistics?duration=week`,
@@ -494,7 +494,7 @@ export class UserService {
 
   // create a team lead
   addTeamLead(request: createTeamLead): Observable<void> {
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
     return this.http.post<void>(
       `${this.apiUrl}/leads-tracker/api/v1/leads`,
@@ -504,7 +504,7 @@ export class UserService {
   }
 
   getClientsUnderUser(userId: string, name: string, status: string,fromDate: string,toDate:string,page: number , limit: number ) :Observable<getAllClients> {
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
     return this.http.get<getAllClients>(
       `${this.apiUrl}/leads-tracker/api/v1/clients/all-clients/${userId}`,
@@ -513,7 +513,7 @@ export class UserService {
   }
 
   getOverdueClientsUnderUser(userId: string, name: string, team: string, duration: string,page: number , limit: number): Observable<getAllClients> {
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
     return this.http.get<getAllClients>(
       `${this.apiUrl}/leads-tracker/api/v1/clients/user/${userId}/overdueClients`,
@@ -524,7 +524,7 @@ export class UserService {
   // get team members under a specific team lead
 
   getTeamMembers(userId: string): Observable<specificTeamMembers[]> {
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
     console.log(headers);
     return this.http.get<specificTeamMembers[]>(
@@ -536,7 +536,7 @@ export class UserService {
   // get all teams
 
   getAllTeams(): Observable<getAllTeams[]> {
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
     return this.http.get<getAllTeams[]>(
       `${this.apiUrl}/leads-tracker/api/v1/teams/all-teams?duration=week`,
@@ -546,7 +546,7 @@ export class UserService {
 
   //get a team
   getATeam(teamId: string): Observable<getATeam> {
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
     return this.http.get<getATeam>(
       `${this.apiUrl}/leads-tracker/api/v1/leads/team/${teamId}`,
@@ -555,7 +555,7 @@ export class UserService {
   }
 
   getAllTeamLeads(): Observable<getAllTeamLeads[]> {
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
     return this.http.get<getAllTeamLeads[]>(
       `${this.apiUrl}/leads-tracker/api/v1/leads/team-leads`,
@@ -564,7 +564,7 @@ export class UserService {
   }
 
   getAllClients(page: number, limit: number, searchTerm: string, statusFilter: string, durationFilter: string): Observable<getAllClients> {
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
     return this.http.get<getAllClients>(
       `${this.apiUrl}/leads-tracker/api/v1/clients/all-clients?page=${page}&limit=${limit}`,
@@ -575,7 +575,7 @@ export class UserService {
   // get all team members
 
   getAllTeamMembers(): Observable<getAllTeamMembers[]> {
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
     return this.http.get<getAllTeamMembers[]>(
       `${this.apiUrl}/leads-tracker/api/v1/leads/team-members`,
@@ -583,7 +583,7 @@ export class UserService {
     );
   }
   getSpecificTeamLead(userId: string,startDate: string,endDate:string): Observable<getSpecificTeamLead> {
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
     return this.http.get<getSpecificTeamLead>(
       `${this.apiUrl}/leads-tracker/api/v1/leads/team-leads/${userId}`,
@@ -594,7 +594,7 @@ export class UserService {
     teamLeadId: string,
     memberId: string
   ): Observable<getSpecificTeamMember> {
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
     return this.http.get<getSpecificTeamMember>(
       `${this.apiUrl}/leads-tracker/api/v1/leads/team-leads/${teamLeadId}/members/${memberId}?duration=week`,
@@ -606,7 +606,7 @@ export class UserService {
     page: number,
     limit: number
   ): Observable<getAllClientsOverdue> {
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
     return this.http.get<getAllClientsOverdue>(
       `${this.apiUrl}/leads-tracker/api/v1/clients/admin/overdueClients?page=${page}&limit=${limit}`,
@@ -617,7 +617,7 @@ export class UserService {
   // Get a user by id
 
   getUser(userId: string): Observable<getUserDetails> {
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
     return this.http.get<getUserDetails>(
       `${this.apiUrl}/leads-tracker/api/v1/leads/${userId}`,
@@ -630,7 +630,7 @@ export class UserService {
     userId: string,
     updateUserProfile: updateUserProfile
   ): Observable<updateUserProfile> {
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
     return this.http.put<updateUserProfile>(
       `${this.apiUrl}/leads-tracker/api/v1/leads/${userId}`,
@@ -640,7 +640,7 @@ export class UserService {
   }
   // unresolved notification
   getUnResolvedNotification(): Observable<unResolvedNotification[]> {
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
     return this.http.get<unResolvedNotification[]>(
       `${this.apiUrl}/leads-tracker/api/v1/notifications/admin/notifications/unresolved`,
@@ -650,7 +650,7 @@ export class UserService {
 
   // Viewing the admin Profile
   getAdminProfile(): Observable<adminProfile[]> {
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
     return this.http.get<adminProfile[]>(
       `${this.apiUrl}/leads-tracker/api/v1/leads/profile`,
@@ -664,7 +664,7 @@ export class UserService {
     newPassword: string;
     confirmPassword: string;
   }): Observable<changeAdminPassword> {
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
     return this.http.put<changeAdminPassword>(
       `${this.apiUrl}/leads-tracker/api/v1/leads/admin/profile/change-password`,

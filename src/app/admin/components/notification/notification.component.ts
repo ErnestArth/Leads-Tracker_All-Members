@@ -60,6 +60,6 @@ export class NotificationComponent implements OnInit {
 
   }
   onViewClient(type: string): void {
-    this.isOpenViewClient = !this.isOpenViewClient; // toggle open/close
+    this.isOpenViewClient = !this.isOpenViewClient; 
   }
 }

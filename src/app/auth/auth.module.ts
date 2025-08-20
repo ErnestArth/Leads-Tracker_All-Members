@@ -14,6 +14,7 @@ import { AppComponent } from '../app.component';
 import { provideHttpClient, HttpClientModule } from '@angular/common/http';
 import { ResettingPasswordComponent } from './components/resetting-password/resetting-password.component';
 import { AuthService } from './AuthServices';
+import { authGuard } from '../interceptor/auth.guard';
 
 const routes: Routes = [
   { path: 'reset-password', component: ResetForgotPasswordComponent },
@@ -22,13 +23,13 @@ const routes: Routes = [
     component: AuthComponent,
     children: [
       { path: '', redirectTo: 'login', pathMatch: 'full' },
-      { path: 'otpAuthComponent', component: OtpAuthComponent },
+      { path: 'otp-auth', component: OtpAuthComponent, canActivate: [authGuard] },
       { path: 'login', component: LoginComponent },
-      { path: 'login-reset-password', component: ResetForgotPasswordComponent },
-      { path: 'otpAuthComponent', component: OtpAuthComponent },
+      { path: 'reset-password', component: ResetForgotPasswordComponent, canActivate: [authGuard] },
+      // { path: 'otp-auth', component: OtpAuthComponent, canActivate: [authGuard] },
       {
         path: 'ResettingPasswordComponent',
-        component: ResettingPasswordComponent,
+        component: ResettingPasswordComponent, canActivate: [authGuard],
       },
       // { path: 'otp-auth', component: OtpAuthComponent },
     ],

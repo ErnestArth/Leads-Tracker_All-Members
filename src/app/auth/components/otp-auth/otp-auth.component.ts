@@ -78,7 +78,7 @@ export class OtpAuthComponent implements OnInit {
 
   ngOnInit(): void {
     // masked email
-    const displayemail = localStorage.getItem('login_email');
+    const displayemail = sessionStorage.getItem('login_email');
     const atIndex = displayemail?.indexOf('@');
     const firstTwoChars = displayemail?.substring(0, 2);
     const maskChars = '*'.repeat(atIndex! - 2);
@@ -115,7 +115,7 @@ export class OtpAuthComponent implements OnInit {
   }
 
   onSubmit(): void {
-    const email = localStorage.getItem('login_email');
+    const email = sessionStorage.getItem('login_email');
     const otp = this.otpFormControl.value;
     console.log(this.otpFormControl.value);
     // this.ngOtpInput?.setValue('');
@@ -136,7 +136,7 @@ export class OtpAuthComponent implements OnInit {
           this.isOtpFailed = false;
           this.otpFailCount = 0;
           console.log(response);
-          localStorage.setItem('token', response.token);
+          sessionStorage.setItem('token', response.token);
           console.log(response.token);
         }
 
@@ -239,7 +239,7 @@ export class OtpAuthComponent implements OnInit {
 
   resendOtp() {
     console.log('clicked');
-    const email = localStorage.getItem('login_email');
+    const email = sessionStorage.getItem('login_email');
     const payload: resendOtpRequest = { email };
     this.authService.resendOtp(payload).subscribe({
       next: (resendOtpResponse: resendOtpResponse) => {

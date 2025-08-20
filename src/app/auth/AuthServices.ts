@@ -67,6 +67,8 @@ export interface forgotPasswordResponse{
   providedIn: 'root',
 })
 export class AuthService {
+  private email: string | null = null;
+  private password: string | null = null;
   private apiUrl = 'http://13.61.150.158:8080';
 //  http://127.0.0.1:4010
 //   http://13.48.84.210:8080
@@ -100,6 +102,60 @@ resetpassword(ResetPasswordRequest: ResetPasswordRequest): Observable<ResetPassw
 resendOtp(resendOtpRequest: resendOtpRequest): Observable<resendOtpResponse>{
   return this.http.post<resendOtpResponse>(`${this.apiUrl}/leads-tracker/api/v1/leads/resend-otp`, resendOtpRequest);
 }
+
+  setEmail(email: string) {
+    this.email = email;
+    sessionStorage.setItem('email', email);
+  }
+
+  setPassword(password: string) {
+    this.password = password;
+    sessionStorage.setItem('password', password);
+  }
+
+  saveToken (token: string) : void{
+    sessionStorage.setItem('token', token);
+  }
+  hasEmail(): boolean {
+    return !!this.email;
+  }
+
+  hasEmailAndPassword(): boolean {
+    return !!this.email && !!this.password;
+  }
+
+  saveResetPasswordToken(token: string): void {
+    sessionStorage.setItem('resetPasswordToken', token);
+  }
+
+  getEmail(): string | null {
+    return this.email || sessionStorage.getItem('email');
+  }
+
+  getPassword(): string | null {
+    return this.password || sessionStorage.getItem('password');
+  }
+
+  getToken(): string | null {
+    return sessionStorage.getItem('token');
+  }
+
+  getResetToken(): string | null {
+    return sessionStorage.getItem('resetPasswordToken');
+  }
+
+  isAuthenticated(): boolean {
+    return !!this.getToken();
+  }
+
+logout(): void {
+    this.email = null;
+    this.password = null;
+    sessionStorage.removeItem('email');
+    sessionStorage.removeItem('password');
+    sessionStorage.removeItem('token');
+}
+
 
 
 }

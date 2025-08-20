@@ -109,7 +109,7 @@ export class ResettingPasswordComponent implements OnInit {
   }
 
   onSubmit(): void {
-    const token = localStorage.getItem('resetPaswordToken');
+    const token = sessionStorage.getItem('resetPaswordToken');
     const newPassword = this.ResettingPasswordForm.get('password')?.value;
     const confirmNewPassword =
       this.ResettingPasswordForm.get('confirmPassword')?.value;
