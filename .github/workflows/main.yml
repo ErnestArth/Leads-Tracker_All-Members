@@ -22,11 +22,6 @@ jobs:
       - name: Build Angular app
         run: npm run build -- --configuration production
         
-      - name: Show build output files (debug)
-        run: |
-            echo "Checking contents of ./dist/leads-tracker:"
-            ls -lh ./dist/leads-tracker
-
       - name: Deploy to S3
         uses: jakejarvis/s3-sync-action@v0.5.1
         with:
@@ -36,4 +31,4 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: ${{ secrets.AWS_REGION }}
-          SOURCE_DIR: ./dist//leads-tracker
+          SOURCE_DIR: ./dist//leads-tracker/browser
