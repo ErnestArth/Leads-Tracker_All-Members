@@ -21,6 +21,11 @@ jobs:
 
       - name: Build Angular app
         run: npm run build -- --configuration production
+        
+      - name: Show build output files (debug)
+        run: |
+            echo "Checking contents of ./dist/leads-tracker:"
+            ls -lh ./dist/leads-tracker
 
       - name: Deploy to S3
         uses: jakejarvis/s3-sync-action@v0.5.1
