@@ -3,6 +3,7 @@ name: Deploy Angular App to S3
 on:
   push:
     branches:
+      - sesse-branch
       - main 
   workflow_dispatch:
 
