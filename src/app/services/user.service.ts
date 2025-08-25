@@ -92,6 +92,8 @@ export interface getAllTeamLeads {
   progressColor?: string;
   progressTextColor?: string;
   progressOutlineColor?: string;
+  progressPercentageColor?:string
+
 }
 
 
@@ -310,6 +312,7 @@ export interface getAllTeams {
   progressColor?: string;
   progressTextColor?: string;
   progressOutlineColor?: string;
+  progressPercentageColor?:string
 }
 
 // Get A Team

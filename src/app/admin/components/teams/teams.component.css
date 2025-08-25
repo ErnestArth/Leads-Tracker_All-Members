@@ -170,7 +170,7 @@ input::placeholder {
   padding: 30px;
   border: 1px solid #a4a4a447;
   border-radius: 7px;
-  height: 300px;
+  height: 250px;
   /* gap:20px; */
   justify-content: space-between;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
@@ -235,6 +235,17 @@ input::placeholder {
   border-radius: 50%;
   width: 1.7rem;
   margin-left: -10px;
+}
+.pop{
+  background: #17C653;
+  height:30px;
+  width:30px;
+  border-radius: 100%;
+  text-align:center;
+  color:white;
+  align-content:center;
+  margin-left: -10px;
+  border: 2px solid white;
 }
 
 .dash-cards-down-info {
@@ -336,18 +347,27 @@ input::placeholder {
 .text-green{
   color:#1B998B;
 }
+.text-white{
+  color: white;
+}
 .progress {
   /* width: 1%; */
   /* background: #2c2368; */
   height: 18px;
   border-radius: 4px;
   max-width: 100%;
+  margin-top:4px;
 }
 .progress-percentage {
   right: 14px;
   position: absolute;
   font-size: 10px;
   top: 4px;
+}
+.target-and-clients-onboarded{
+  display: flex;
+  flex-direction:column;
+  gap: 10px;
 }
 .progress-bar p {
   font-size: 13px;

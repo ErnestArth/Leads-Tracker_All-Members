@@ -170,10 +170,14 @@
 
               <div class="team-members-and-progress-bar">
                 <div class="progress-bar">
-                  <p>Total Clients Onboarded: <span><span class="team-target-achieved {{progressTextColor}}">{{team.totalClientsAdded}}</span> / <span class="team-target">{{team.teamTarget}}</span></span></p>
+                <div class="target-and-clients-onboarded">
+                  <p class="team-target-achieved "> Assigned Team Target = <span>{{team.teamTarget}}</span></p>
+                  <p>Total Clients Onboarded : <span class="{{team.progressTextColor}}">{{team.totalClientsAdded}}</span> </p>
+                </div>
                   <div class="progress-outline " [ngClass]="team.progressOutlineColor">
-                    <div class="progress {{progressColor}}" [ngClass]="team.progressColor" [ngStyle]="{ width: team.progressPercentage+'%', backgroundColor: team.progressColor}" ></div>
-                    <span class="progress-percentage" [ngClass]="team.progressTextColor">{{team.progressPercentage}}% </span>
+                    <div class="progress " [ngClass]="team.progressColor" [ngStyle]="{ width: team.progressPercentage+'%', backgroundColor: team.progressColor}" ></div>
+                    <span class="progress-percentage {{team.progressTextColor}}" [ngClass]="team.progressPercentageColor">{{team.progressPercentage}}% </span>
+                    
                   </div>
                 </div>
               </div>
@@ -182,12 +186,15 @@
             <div class="dash-cards-down-info">
               <div class="no-of-members-and-pics">
                 <p>{{team.numberOfTeamMembers}} Members</p>
-                <div class="members-images">
+                <div  class="members-images">
+                  <div *ngFor="let member of visibleMembers(team.teamMembers)" class="pop"> {{member.memberName.charAt(0)}}</div>
+                  <!-- <img *ngFor="let member of visibleMembers(team.teamMembers)" src="noun-account-4986845.png" alt="members-img" /> -->
+
+                  <p  class="pop">+ {{remainingMembers(team.teamMembers)}}</p>
+                  <!-- <img src="user-1.jpg" alt="members-img" />
                   <img src="user-1.jpg" alt="members-img" />
                   <img src="user-1.jpg" alt="members-img" />
-                  <img src="user-1.jpg" alt="members-img" />
-                  <img src="user-1.jpg" alt="members-img" />
-                  <img src="user-1.jpg" alt="members-img" />
+                  <img src="user-1.jpg" alt="members-img" /> -->
                 </div>
               </div>
               <div
@@ -199,65 +206,7 @@
             </div>
           </div>
 
-          <!-- <div class="team-lead-dash-cards">
-          <div class="dash-cards-top-info">
-            <div class="team-lead-info-and-view-details">
-              <div class="team-lead-info">
-                <div class="team-lead-info-image">
-                  <img class="user-image" src="user-1.jpg" alt="user" />
-                </div>
-                <div class="team-lead-info-name-and-">
-                  <p class="team-lead-name">Team Lead Name</p>
-                  <span class="team-lead-email">name&#64;domain.com</span>
-                </div>
-              </div>
-              <div class="horizontal-dots">
-                <svg
-                  width="25"
-                  height="25"
-                  viewBox="0 0 25 25"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M12.1927 14.1656C11.2538 14.1656 10.4927 13.4045 10.4927 12.4656C10.4927 11.5267 11.2538 10.7656 12.1927 10.7656C13.1316 10.7656 13.8927 11.5267 13.8927 12.4656C13.8927 13.4045 13.1316 14.1656 12.1927 14.1656Z"
-                    fill="black"
-                  />
-                  <path
-                    d="M13.8927 5.76465C13.8926 6.70344 13.1313 7.46484 12.1925 7.46484C11.2538 7.46474 10.4924 6.70338 10.4923 5.76465C10.4923 4.82583 11.2537 4.06456 12.1925 4.06445C13.1314 4.06445 13.8927 4.82576 13.8927 5.76465ZM13.8927 19.1641C13.8927 20.1029 13.1314 20.8643 12.1925 20.8643C11.2537 20.8642 10.4923 20.1029 10.4923 19.1641C10.4925 18.2254 11.2538 17.4649 12.1925 17.4648C13.1313 17.4648 13.8925 18.2253 13.8927 19.1641Z"
-                    fill="black"
-                  />
-                </svg>
-              </div>
-            </div>
-
-            <div class="team-members-and-progress-bar">
-              <div class="progress-bar">
-                <p>Total Recommendations Submitted: <span>50/80</span></p>
-                <div class="progress-outline">
-                  <div class="progress"></div>
-                  <span class="progress-percentage">60% </span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="dash-cards-down-info">
-            <div class="no-of-members-and-pics">
-              <p>13Members</p>
-              <div class="members-images">
-                <img src="user-1.jpg" alt="members-img" />
-                <img src="user-1.jpg" alt="members-img" />
-                <img src="user-1.jpg" alt="members-img" />
-                <img src="user-1.jpg" alt="members-img" />
-                <img src="user-1.jpg" alt="members-img" />
-              </div>
-            </div>
-            <div class="view-details">
-              <p>View Details</p>
-            </div>
-          </div>
-        </div> -->
+         
         </div>
 
         <!-- <div class="team-lead-dash-cards-container">
