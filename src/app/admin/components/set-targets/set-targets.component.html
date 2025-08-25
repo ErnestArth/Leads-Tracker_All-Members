@@ -1,10 +1,6 @@
 <div class="dashboard-container">
   <app-sidebar />
   <main>
-    <!-- <aside class="set-target-header">
-      <span class="back-arrow">&larr;</span>
-      <h2>Assign Team Target</h2>
-    </aside> -->
     <div class="container">
       <div class="header">
         <span
@@ -12,11 +8,13 @@
           (click)="onBackArrow('dashboard')"
           routerLink="/admin/dashboard"
           routerLinkActive="selected"
-          ><img src="Back arrow.png" alt="back-arrow"
-        /></span>
+        >
+          <img src="Back arrow.png" alt="back-arrow" />
+        </span>
         <h2>Assign Team Targets</h2>
       </div>
 
+      <!-- Teams List -->
       <div class="team-card" *ngFor="let team of teams">
         <div class="team-info">
           <div class="team-name">{{ team.name }}</div>
@@ -33,36 +31,16 @@
             <span class="no-target">No active target set.</span>
           </ng-template>
         </div>
-        <button class="set-btn" (click)="openTargetModal()">
+        <button class="set-btn" (click)="openTargetModal(team)">
           Set New Target
         </button>
       </div>
     </div>
+
+    <!-- Success Dialog -->
     <ng-template #successDialog>
       <div class="target-assigned-success">
-        <svg
-          width="71"
-          height="70"
-          viewBox="0 0 71 70"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <rect
-            x="0.807129"
-            y="0.296875"
-            width="69.3848"
-            height="69.3848"
-            rx="34.6924"
-            fill="#1B998B"
-          />
-          <path
-            d="M56.2949 33.0755V34.9887C56.2924 39.473 54.8403 43.8364 52.1553 47.428C49.4703 51.0196 45.6962 53.6471 41.3959 54.9186C37.0956 56.19 32.4995 56.0374 28.2931 54.4833C24.0867 52.9292 20.4953 50.0571 18.0546 46.2952C15.6139 42.5333 14.4546 38.0832 14.7497 33.6086C15.0447 29.134 16.7783 24.8746 19.6919 21.4658C22.6054 18.0569 26.5428 15.6812 30.9169 14.6929C35.291 13.7047 39.8673 14.1568 43.9634 15.9819M56.2949 18.3526L35.4998 39.1685L29.2612 32.93"
-            stroke="white"
-            stroke-width="4.15903"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-        </svg>
+        <svg width="71" height="70" ...>  </svg>
         <p>Target Assigned Successfully</p>
         <mat-dialog-actions align="end">
           <button
@@ -74,12 +52,12 @@
             class="back-button"
           >
             Back
-          </button></mat-dialog-actions
-        >
+          </button>
+        </mat-dialog-actions>
       </div>
     </ng-template>
 
-    <!-- Setting a target for a particular team's dialog -->
+    <!-- Set Target Dialog -->
     <ng-template #targetDialog>
       <h2 mat-dialog-title>Set Target for {{ teamName }}</h2>
 
@@ -110,7 +88,6 @@
         </div>
       </mat-dialog-content>
 
-      <!-- The buttons  -->
       <mat-dialog-actions align="end">
         <button mat-button (click)="closeTargetModal()">Cancel</button>
         <button mat-raised-button color="primary" (click)="saveTarget()">
@@ -119,21 +96,19 @@
       </mat-dialog-actions>
     </ng-template>
 
-    <!-- Confirming the target dialog -->
+    <!-- Confirm Dialog -->
     <ng-template #confirmDialog>
       <div class="assign-target-modal">
         <div class="target-assign-icon-and-title">
           <img src="Alert.png" alt="logo" class="alert-img" />
-
           <p>Confirm Target</p>
         </div>
         <div class="assign-target-message">
           <p mat-dialog-title>
-            Assign a target of {{ targetValue }} to this {{ teamName }}
+            Assign a target of {{ targetValue }} to {{ teamName }}?
           </p>
         </div>
 
-        <!-- The buttons -->
         <div class="cancel-and-assign-buttons">
           <button
             mat-button
@@ -148,7 +123,6 @@
             color="primary"
             [mat-dialog-close]="'confirm'"
             type="button"
-            (click)="onTargetAssign()"
             class="yes-assign-button"
           >
             Yes, Assign

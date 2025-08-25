@@ -7,6 +7,7 @@ import {
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { UserService } from '../../../services/user.service';
 
 interface Team {
   name: string;
@@ -31,6 +32,8 @@ export class SetTargetsComponent {
   targetValue: number | null = null;
   dueDate: string = '';
 
+  isLoading = false; // <-- Optional: Show spinner or disable button
+
   teams: Team[] = [
     {
       name: 'Alpha Squad',
@@ -53,25 +56,30 @@ export class SetTargetsComponent {
     },
   ];
 
-  // Dialog template references
   @ViewChild('targetDialog') targetDialog!: TemplateRef<any>;
   @ViewChild('confirmDialog') confirmDialog!: TemplateRef<any>;
   @ViewChild('successDialog') successDialog!: TemplateRef<any>;
 
   targetDialogRef: any;
 
-  constructor(private dialog: MatDialog, private router: Router) {}
+  constructor(
+    private dialog: MatDialog,
+    private router: Router,
+    private UserService: UserService
+  ) {}
 
   cancel() {
     this.onCancel.emit();
   }
 
-  openTargetModal() {
-    this.targetDialogRef = this.dialog.open(this.targetDialog, {
-      width: '600px',
-      disableClose: true,
-    });
-  }
+ openTargetModal(team: Team) {
+  this.teamName = team.name;
+  this.targetDialogRef = this.dialog.open(this.targetDialog, {
+    width: '600px',
+    disableClose: true,
+  });
+}
+
 
   closeTargetModal() {
     if (this.targetDialogRef) {
@@ -88,10 +96,8 @@ export class SetTargetsComponent {
       return;
     }
 
-    // Close the initial target dialog
     this.closeTargetModal();
 
-    // Open confirm dialog
     this.dialog
       .open(this.confirmDialog, {
         width: '600px',
@@ -106,26 +112,43 @@ export class SetTargetsComponent {
   }
 
   assignTarget() {
-    // Simulate assignment logic
-    console.log(`Assigned target to ${this.teamName}:`, {
-      target: this.targetValue,
+    const selectedTeam = this.teams.find((t) => t.name === this.teamName);
+    if (!selectedTeam) {
+      console.error('Team not found');
+      return;
+    }
+
+    const payload = {
+      teamId: selectedTeam.name,
+      targetValue: this.targetValue!,
       dueDate: this.dueDate,
+    };
+
+    this.isLoading = true;
+
+    this.UserService.assignTeamTarget(payload.teamId, payload.targetValue, payload.dueDate).subscribe({
+      next: () => {
+        this.isLoading = false;
+
+        this.dialog
+          .open(this.successDialog, {
+            width: '600px',
+            disableClose: true,
+          })
+          .afterClosed()
+          .subscribe(() => {
+            this.router.navigate(['/dashboard']);
+          });
+
+        this.targetValue = null;
+        this.dueDate = '';
+      },
+      error: (err:any) => {
+        this.isLoading = false;
+        console.error('Failed to assign target:', err);
+        alert(err?.error?.message || 'Failed to assign target. Please try again.');
+      },
     });
-
-    // Open success dialog
-    this.dialog
-      .open(this.successDialog, {
-        width: '600px',
-        disableClose: true,
-      })
-      .afterClosed()
-      .subscribe(() => {
-        this.router.navigate(['/dashboard']);
-      });
-
-    // Reset inputs
-    this.targetValue = null;
-    this.dueDate = '';
   }
 
   onTargetAssign() {

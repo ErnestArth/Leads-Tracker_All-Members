@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { TeamTarget, UserService } from '../../../services/user.service';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-view-targets',
@@ -6,24 +8,39 @@ import { Component } from '@angular/core';
   styleUrls: ['./view-targets.component.css'],
   standalone: false,
 })
-export class ViewTargetsComponent {
+export class ViewTargetsComponent implements OnInit {
   isOpenOverview = false;
   selectedFrequency = 'Quarterly';
 
-  
+  teams: TeamTarget[] = [];
+  isLoading = false;
+  errorMessage = '';
 
-  teams = Array(4).fill({
-    name: 'Alpha Squad',
-    lead: 'Paul Wilbur',
-    target: 400,
-    submitted: 330,
-    setDate: '2025-08-30',
-    dueDate: '2025-09-30',
-  });
+  constructor(private userService: UserService) {}
+
+  ngOnInit(): void {
+    this.fetchTeamTarget();
+  }
+
+  fetchTeamTarget(): void {
+    this.isLoading = true;
+    this.userService
+      .getTeamTargets()
+      .pipe(finalize(() => (this.isLoading = false)))
+      .subscribe({
+        next: (data:any) => {
+          this.teams = data;
+        },
+        error: (err:any) => {
+          this.errorMessage = err?.error?.message || 'Failed to load targets.';
+        },
+      });
+  }
 
   getProgress(submitted: number, target: number): number {
     return (submitted / target) * 100;
   }
+
   onBackArrow(type: string): void {
     this.isOpenOverview = this.isOpenOverview;
   }

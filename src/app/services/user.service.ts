@@ -413,6 +413,14 @@ export interface deactivateTeam{
   message:string
 }
 
+export interface TeamTarget {
+  id: string;
+  teamName: string;
+  teamLeadFullName: string;
+  targetValue: number;
+  dueDate: string;
+}
+
 // const token =sessionStorage.getItem('token')
 // console.log(token)
 // const headers = new HttpHeaders({
@@ -423,7 +431,7 @@ export interface deactivateTeam{
   providedIn: 'root',
 })
 export class UserService {
-  private apiUrl = 'http://13.61.150.158:8080'; //
+  private apiUrl = 'http://13.60.76.198:8080'; //
 
   private teamMembers: createTeamMember[] = [];
 
@@ -672,4 +680,30 @@ export class UserService {
       { headers }
     );
   }
+
+  assignTeamTarget(
+    teamId: string,
+    targetValue: number,
+  dueDate: string
+  ): Observable<void> {
+    const token = sessionStorage.getItem('token');
+    const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
+    const body = {teamId, targetValue, dueDate};
+    return this.http.post<void>(
+      `${this.apiUrl}/leads-tracker/api/v1/leads/assign/team-target`,
+      {body},
+      { headers }
+    );
+  }
+
+  getTeamTargets():Observable<TeamTarget[]> {
+    const token = sessionStorage.getItem('token');
+    const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
+    return this.http.get<TeamTarget[]>(
+      `${this.apiUrl}/leads-tracker/api/v1/leads/team-targets`,
+      { headers }
+    );
+  }
+
 }
+
