@@ -92,6 +92,8 @@ export interface getAllTeamLeads {
   progressColor?: string;
   progressTextColor?: string;
   progressOutlineColor?: string;
+  progressPercentageColor?:string
+
 }
 
 
@@ -310,6 +312,7 @@ export interface getAllTeams {
   progressColor?: string;
   progressTextColor?: string;
   progressOutlineColor?: string;
+  progressPercentageColor?:string
 }
 
 // Get A Team
@@ -423,7 +426,7 @@ export interface deactivateTeam{
   providedIn: 'root',
 })
 export class UserService {
-  private apiUrl = 'http://13.61.150.158:8080'; //
+  private apiUrl = 'http://13.60.76.198:8080'; //
 
   private teamMembers: createTeamMember[] = [];
 

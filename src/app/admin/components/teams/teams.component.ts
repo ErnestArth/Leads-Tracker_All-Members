@@ -3,11 +3,12 @@ import { Component } from '@angular/core';
 import { CreateTeamLeadComponent } from '../../crete-team-lead/create-team-lead.component';
 import { ComponentPortal } from '@angular/cdk/portal';
 import { ModalService } from '../../../services/modalService';
-import { UserService, getAllTeamLeads, getAllTeams } from '../../../services/user.service';
+import { UserService, getAllTeamLeads, getAllTeamTeamMembers, getAllTeams } from '../../../services/user.service';
 import { MatDialog } from '@angular/material/dialog';
 import { EditTeamModalComponent } from '../edit-team-modal/edit-team-modal.component';
 import { EditTeamDialogComponent } from '../edit-team-dialog/edit-team-dialog.component';
 import { AddTeamDialogComponent } from '../add-team-dialog/add-team-dialog.component';
+import { ChangeDetectorRef } from '@angular/core';
 @Component({
   selector: 'app-teams',
   standalone: false,
@@ -20,12 +21,16 @@ export class TeamsComponent {
   progressColor: string = '';
   progressTextColor:string='';
   progressOutlineColor:string='';
+  
 
   allTeams: getAllTeams[] = [];
+  teamMembers:getAllTeamTeamMembers[]=[]
+  showAdditionalMembers= false;
 
   constructor(private modal: ModalService, 
     private userService: UserService,
-    private dialog: MatDialog) {}
+    private dialog: MatDialog,
+    private cdr: ChangeDetectorRef) {}
   openModal(
     type: 'addTeam' | 'editTeam' | 'deactivateTeam' | 'unassignedMembers'
   ) {
@@ -56,9 +61,17 @@ export class TeamsComponent {
   //   this.showOptionsDialog = false;
   // }
 
+
+
+
   progressColorCode(){
     this.allTeams.forEach((team) => {
       if (team.progressPercentage >= 80) {
+        if(team.progressPercentage >= 100){
+          team.progressPercentageColor='text-white';
+        }else{
+          team.progressPercentageColor='text-green';
+        }
 
         team.progressColor = 'progress-green';
         team.progressTextColor='text-green';
@@ -73,7 +86,7 @@ export class TeamsComponent {
         team.progressOutlineColor='yellow-outline';
         console.log(team.teamName)
 
-      }else if(team.progressPercentage < 50){
+      }else if(team.progressPercentage <= 50){
         team.progressColor ='progress-red';
         team.progressTextColor='text-red';
         team.progressOutlineColor='red-outline';
@@ -89,6 +102,11 @@ export class TeamsComponent {
     this.userService.getAllTeams().subscribe({
       next: (data) => {
         this.allTeams = data;
+        this.allTeams.forEach((team) => {
+          this.teamMembers=team.teamMembers
+          
+        })
+        this.cdr.detectChanges();
         this.progressColorCode()
        
         
@@ -98,6 +116,38 @@ export class TeamsComponent {
 
   ngOnInit(): void {
     this.getAllteams();
+   
+
+    
+
+  }
+
+  
+
+   visibleMembers(members:any[]){
+    return members ? members.slice(0, 5) : [];
+    
+  }
+
+  remainingMembers(member:any[]){
+    // if(member.length>3){
+    //   this.showAdditionalMembers=true;
+    //   console.log(this.showAdditionalMembers)
+    // }
+
+    // return member && member.length > 2 ? member.length - 2 : "";
+
+    if (member && member.length > 5) {
+      this.showAdditionalMembers = true;
+      console.log(this.showAdditionalMembers);
+      return member.length - 5;
+      
+    }else{
+      this.showAdditionalMembers=false
+      return "";
+
+    }
+    
   }
 
   openEditTeam(teamId: any){
