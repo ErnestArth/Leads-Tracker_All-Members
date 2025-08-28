@@ -68,14 +68,14 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   currentPage = 1;
   totalPages = 3;
   totalItems = 12;
-  limit = 6;
+  limit = 5;
   hasNext = false;
   hasPrevious = false;
 
   clientCurrentPage = 1;
   clientTotalPages = 3;
   clientTotalItems = 12;
-  clientLimit = 6;
+  clientLimit = 5;
   clientHasNext = false;
   clientHasPrevious = false;
 
@@ -90,41 +90,91 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   searchTerm="";
   statusFilter="";
   durationFilter="";
+  teamFilter="";
+
+  mainSelectedDates:any
+
+  fromDate=""
+  toDate=""
+
+  mainTeamFilter=""
+
+  statuses=[
+    'Awaiting Documentation',
+    'Interested',
+    'Not Interested',
+    'Onboarded',
+    'Pending',]
+
+    selectedStatus=""
+
+    selectedTeam=""
+
 
   onSearchClients(){
     console.log(this.searchTerm);
     if(this.searchTerm.length >= 3){
-      this.fetchAllClients(this.currentPage,this.searchTerm,this.statusFilter,this.durationFilter)
+      this.fetchAllClients(this.currentPage,this.searchTerm,this.statusFilter,this.teamFilter)
           
       
+    }else if (this.searchTerm.length == 0) {
+      this.fetchAllClients(this.currentPage,this.searchTerm,this.statusFilter,this.teamFilter)
+
+    }
+  }
+
+  onStatusChange(event:Event){
+    this.selectedStatus = (event.target as HTMLSelectElement).value;
+    if(this.selectedStatus === "All Status"){
+      this.statusFilter = ""
+      this.fetchAllClients(this.currentPage)
+    }else{
+      this.statusFilter = this.selectedStatus
+      this.fetchAllClients(this.currentPage)
+    }
+  }
+
+  onTableTeamChange(event:Event){
+    this.selectedTeam = (event.target as HTMLSelectElement).value;
+    console.log(this.teamFilter);
+    if(this.selectedTeam === "All Teams"){
+      this.teamFilter = ""
+      this.fetchAllClients(this.currentPage)
+    }else{
+      this.teamFilter = this.selectedTeam
+    this.fetchAllClients(this.currentPage)
     }
   }
 
   
 
-  onLimitChange(event: Event): void {
-    const newLimit = (event.target as HTMLSelectElement).value;
-    this.limit = +newLimit; // convert to number
+  onLimitChange(newLimit: number): void {
+    
+    this.limit = newLimit; // convert to number
     this.currentPage = 1;
     this.fetchAllClients(this.currentPage);
   }
 
-  onLimitChangess(newLimit: number): void {
-    this.limit = newLimit;
-    this.clientCurrentPage = 1;
-    this.clientFetchAllClients(this.currentPage);
-  }
+  // onLimitChangess(newLimit: number): void {
+  //   this.limit = newLimit;
+  //   this.clientCurrentPage = 1;
+  //   this.clientFetchAllClients(this.currentPage);
+  // }
 
-  onOverdueLimitChange(newLimit: number): void {
-    this.overdueClientLimit = newLimit;
-    this.overdueClientCurrentPage = 1;
-    this.fetchOverdueClients(this.overdueClientCurrentPage);
-  }
 
-  fetchAllClients(page: number, searchTerm?: string, statusFilter?: string, durationFilter?: string) {
+
+  // Was asked to remove after first presentation
+
+  // onOverdueLimitChange(newLimit: number): void {
+  //   this.overdueClientLimit = newLimit;
+  //   this.overdueClientCurrentPage = 1;
+  //   this.fetchOverdueClients(this.overdueClientCurrentPage);
+  // }
+
+  fetchAllClients(page: number, searchTerm?: string, statusFilter?: string, teamFilter?: string) {
     // get all clients for client activity tracker
 
-    this.userService.getAllClients(page, this.limit,this.searchTerm,this.statusFilter,this.durationFilter).subscribe({
+    this.userService.getAllClients(page, this.limit,this.searchTerm,this.statusFilter,this.teamFilter).subscribe({
       next: (data) => {
         this.clients = data;
         this.totalPages = data.totalPages;
@@ -133,6 +183,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         this.hasNext = data.hasNext;
         this.hasPrevious = data.hasPrevious;
         console.log(this.clients);
+        console.log(this.totalPages);
       },
       error: (err) => {
         console.log(err);
@@ -141,28 +192,31 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     });
   }
 
-  clientFetchAllClients(page: number, searchTerm?: string, statusFilter?: string, durationFilter?: string) {
-    // get all clients for client activity tracker
+  // fetch Overdue Clients
+  // Was asked to remove after first presentation
 
-    this.userService.getAllClients(page, this.limit,this.searchTerm,this.statusFilter,this.durationFilter).subscribe({
-      next: (data) => {
+  // clientFetchAllClients(page: number, searchTerm?: string, statusFilter?: string, durationFilter?: string) {
+    
+
+  //   this.userService.getAllClients(page, this.limit,this.searchTerm,this.statusFilter,this.durationFilter).subscribe({
+  //     next: (data) => {
        
-        this.clients = data;
-        this.clientTotalPages = data.totalPages;
-        this.clientTotalItems = data.totalItems;
-        this.clientCurrentPage = page;
-        this.clientHasNext = data.hasNext;
-        this.clientHasPrevious = data.hasPrevious;
-        console.log(this.clients);
+  //       this.clients = data;
+  //       this.clientTotalPages = data.totalPages;
+  //       this.clientTotalItems = data.totalItems;
+  //       this.clientCurrentPage = page;
+  //       this.clientHasNext = data.hasNext;
+  //       this.clientHasPrevious = data.hasPrevious;
+  //       console.log(this.clients);
 
-        // this.loadDoughnutChart();
-      },
-      error: (err) => {
-        console.log(err);
-        // this.router.navigate(['/authentication/login'])
-      },
-    });
-  }
+     
+  //     },
+  //     error: (err) => {
+  //       console.log(err);
+        
+  //     },
+  //   });
+  // }
 
   fetchOverdueClients(page: number) {
     this.userService
@@ -193,9 +247,15 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   displayedStatusCounts: any = {};
   doughnutTotalClients: any[] = [];
   doughnutTeamsTotalClients: any[] = [];
+  teamNames:any[]=[]
+  teamsTotalClientsOnboarded: any[] = [];
+  allTeams:any[]=[]
+
+  memberNames: any[] = [];
+  membersTotalClientsOnboarded: any[] = [];
 
   getStatusCounts() {
-    this.userService.getClientStatusCounts().subscribe({
+    this.userService.getClientStatusCounts(this.fromDate, this.toDate).subscribe({
       next: (data) => {
         this.overallStatusCounts = data;
         this.teamStats = data.teamStats;
@@ -213,13 +273,29 @@ export class DashboardComponent implements OnInit, AfterViewInit {
           this.overallStatusCounts.overallStatusCounts.totalClients,
         ];
 
+        // bar chart all teams
+        data.teamStats.forEach((team: any) => {
+          this.teamNames.push(team.teamName)
+
+          // total clients onboarded by each team
+          this.teamsTotalClientsOnboarded.push(team.totalClients)
+        })
+        console.log(this.teamsTotalClientsOnboarded)
+
+        
+
+
+  
+
         console.log(this.doughnutTotalClients);
         
         console.log(this.doughnutTeamsTotalClients)
-        console.log(data.teamStats.length);
+        console.log(data.teamStats);
 
         // call Chart
         this.loadDoughnutChart(this.doughnutTotalClients);
+
+        this.loadBarChart(this.teamNames,this.teamsTotalClientsOnboarded)
 
         console.log(this.displayedStatusCounts);
         console.log(
@@ -232,30 +308,114 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     });
   }
 
-  onMainDateChange(event:Event){
+  fetchAllTeams(){
+    this.userService.getAllTeams("",this.mainTeamFilter).subscribe({
+      next: (data) => {
+        // this.allTeams=data
+        data.forEach((team) => {
+        this.allTeams.push(team)
+        })
+        console.log(this.allTeams)
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
+  }
+
+  onMainDateChange(event: Event) {
+    this.mainSelectedDates = (event.target as HTMLInputElement).value
+    if(this.mainSelectedDates){
+      [this.fromDate,this.toDate]=this.mainSelectedDates.split(" to ")
+    }
+    console.log(this.fromDate)
+    console.log(this.toDate)
+
+    this.getStatusCounts()
+  
+
+     // reset
+     this.memberNames=[]
+     this.membersTotalClientsOnboarded=[]
+     this.teamsTotalClientsOnboarded=[]
+     this.teamNames=[]
 
   }
 
   onTeamChange() {
+
+   
+
+
     if (this.selectedTeamName === 'All Teams') {
       this.displayedStatusCounts = this.overallStatusCounts;
-    } else {
+      this.loadDoughnutChart(this.doughnutTotalClients)
+    } else  {
       const team = this.teamStats.find(
         (t) => t.teamName === this.selectedTeamName
       );
       this.displayedStatusCounts = team ? team : {};
       console.log(this.displayedStatusCounts);
-
      
 
-    //  this.doughnutChartInstance.data.datasets[0].data = this.doughnutTeamsTotalClients
-    //  this.doughnutChartInstance.update()
+      this.doughnutTeamsTotalClients =[
+        team.statusCounts.AWAITING_DOCUMENTATION,
+        team.statusCounts.INTERESTED,
+        team.statusCounts.NOT_INTERESTED,
+        team.statusCounts.ONBOARDED,
+        team.statusCounts.PENDING
 
-    
+      ]
+      console.log(this.doughnutTeamsTotalClients)
+     
+      // this.getStatusCounts()
+
+      this.loadDoughnutChart(this.doughnutTeamsTotalClients)
+
+     this.doughnutChartInstance.data.datasets[0].data =this.doughnutTeamsTotalClients
+     this.doughnutChartInstance.update()
+
+     // reset data
+     this.doughnutTeamsTotalClients=[]
+    //  this.teamsTotalClientsOnboarded=[]
       
     }
-  }
 
+
+    if(this.selectedTeamName==='All Teams'){
+      // display all teams data
+      this.loadBarChart(this.teamNames,this.teamsTotalClientsOnboarded)
+      console.log(this.membersTotalClientsOnboarded)
+    }else{
+
+     this.handlingBarChart()
+      
+    } 
+  }
+handlingBarChart(){
+  // reset
+  this.memberNames=[]
+  this.membersTotalClientsOnboarded=[]
+ 
+
+  const team = this.allTeams.find((t)=>{
+    return t.teamName===this.selectedTeamName
+  })
+  console.log(team)
+  team.teamMembers.forEach((member:any)=>{
+    this.memberNames.push(member.memberName)
+    this.membersTotalClientsOnboarded.push(member.totalClientsSubmitted)
+  })
+
+
+  this.loadBarChart(this.memberNames,this.membersTotalClientsOnboarded)
+
+  this.barChartInstance.data.datasets[0].data =this.membersTotalClientsOnboarded
+  this.barChartInstance.update()
+
+  console.log(this.memberNames)
+  console.log(this.membersTotalClientsOnboarded)
+}
 
   clickOutsideArea = false;
   isMenuOpen = false;
@@ -293,11 +453,15 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     this.fetchAllClients(this.currentPage);
     this.fetchOverdueClients(this.overdueClientCurrentPage);
 
-    this.fetchAllClients(this.currentPage);
+    // this.fetchAllClients(this.currentPage);
     // this.goToPage(this.currentPage);
 
     // get  client status count
     this.getStatusCounts();
+
+    this.fetchAllTeams()
+
+     
 
     // get all overdue clients
     // this.userService.getAllClientsOverdue().subscribe({
@@ -326,7 +490,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
     // this.loadDoughnutChart();
 
-    this.loadBarChart();
+    // this.loadBarChart();
   }
   
   loadDoughnutChart(data?: any) {
@@ -384,13 +548,16 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       });
     
   }
-  loadBarChart() {
+  loadBarChart(label?:any,data?:any) {
+    if(this.barChartInstance){
+      this.barChartInstance.destroy();
+     }
     const barData = {
-      labels: ['Team A', 'Team B', 'Team C', 'Team D', 'Team E'],
+      labels: label,
       datasets: [
         {
           label: 'Team Recommendations',
-          data: [480, 510, 800, 285, 700],
+          data: data,
           backgroundColor: '#F46036',
           borderWidth: 1,
           barThickness: 28,
@@ -400,7 +567,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       ],
     };
 
-    new Chart(this.barChart.nativeElement, {
+   this.barChartInstance = new Chart(this.barChart.nativeElement, {
       type: 'bar',
       data: barData,
       options: {

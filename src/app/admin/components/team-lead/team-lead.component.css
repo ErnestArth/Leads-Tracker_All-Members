@@ -131,13 +131,40 @@ li {
   box-sizing: border-box;
   padding: 20px;
 }
+.search{
+  display:flex;
+  justify-content: space-between;
+  position:relative;
+}
+.search-icon{
+  position:absolute;
+  top:12px;
+  left:40px;
+  color:#99A1B7
+}
 
 input {
-  width: 99%;
+  width: 81%;
   padding: 10px;
   border-radius: 6px;
-  background: #fcfcfc;
   border: 1px solid #dbdfe9;
+  background:#FCFCFC;
+  
+}
+input::content{
+  padding-left:70px;
+}
+input::placeholder{
+  /* padding:30px; */
+  color:#78829D;
+  font-weight:100;
+ 
+}
+.export-data{
+  border: 1px solid #dbdfe9;
+  padding: 10px;
+  border-radius: 6px;
+  background:#F5F5F5;
 }
 input::placeholder {
   color: #78829d;
@@ -162,6 +189,10 @@ input::placeholder {
   border-radius: 7px;
   height: 300px;
   justify-content: space-between;
+}
+.team-lead-name{
+  text-decoration: underline;
+  cursor: pointer;
 }
 .team-lead-info-and-view-details {
   display: flex;
@@ -317,9 +348,177 @@ input::placeholder {
   margin-bottom: 3px;
   color: #2f2e2d;
 }
-.container2 {
-  margin-bottom: 40px;
+
+
+/* table styles */
+
+table {
+  border-collapse: collapse;
 }
+
+.dropdown {
+  width: 120px;
+  border: 1px solid #DBDFE9;
+  background-color: #FCFCFC;
+  color: #78829d;
+  padding: 6px;
+  border-radius: 9px;
+}
+
+.client-activity-tracker-container {
+  margin-top: 30px;
+  padding: 10px 30px;
+  border: 1px solid #F1F1F4;
+  border-radius: 9px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+ 
+}
+
+.client-activity-header {
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  display: flex;
+  justify-content: space-between;
+  padding: 18px;
+  align-items: center;
+  color: black;
+  border-bottom: 1px solid #f1f1f4;
+}
+.icon-and-section-name {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+
+
+.badge {
+  display: inline-block;
+  border-radius: 4px;
+  width: fit-content;
+  height: fit-content;
+  padding: 10px;
+  padding: 6px;
+  font-size: 11px;
+  text-transform: lowercase;
+  font-weight: 500;
+}
+
+tbody{
+  font-family:"inter",sans-serif !important;
+
+}
+
+.badge::first-letter {
+  text-transform: capitalize;
+}
+.onboarded {
+  background: #eafff1;
+  color: #04b440;
+  border: 1px solid rgba(23, 198, 83, 0.2);
+}
+.badge.interested.Not {
+  background: #ffeef3;
+  color: #d81a48;
+  border: rgba(248, 40, 90, 0.2) solid 1px;
+}
+.badge.interested {
+  background: #fff8dd;
+  color: #dfa000;
+  border: rgba(246, 177, 0, 0.2) solid 1px;
+}
+.badge.PENDING {
+  background: #ece9ff;
+  color: #2c2368;
+  border: rgba(44, 35, 104, 0.2) solid 1px;
+}
+.badge.Awaiting.Documentation {
+  background: #ffede8;
+  color: #f46036;
+  border: 1px solid rgba(244, 96, 54, 0.2);
+}
+
+.pagination {
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.pagination label {
+  font-size: 0.85rem;
+}
+
+.pagination .pages {
+  display: flex;
+  gap: 0.3rem;
+}
+
+.pagination-button {
+  background: unset;
+  border: none;
+  padding: 0.4rem 0.7rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+.pagination-button:hover{
+  background:#F1F1F4;
+}
+
+.pagination button.active {
+  background: #F1F1F4;
+  color: #252F4A;
+  border:none;
+  padding:5px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+
+}
+
+.pag-select {
+  border: 1px solid #dbdfe9;
+  background-color: #fcfcfc;
+  padding: 0.3rem 0.5rem;
+  border-radius: 6px;
+  color: #78829d;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.pag-text {
+  color: #78829d;
+}
+.table-header {
+  width: 1%;
+  border: 1px solid #f1f1f4;
+  padding: 0.7rem 1rem;
+  text-align: left;
+  color: #4b5675;
+  font-weight: 800;
+  font-size: 13px;
+}
+.table-data {
+  background: #fcfcfc;
+  color: #172344;
+  padding: 1rem 1rem;
+  border: 1px solid #f1f1f4;
+  font-size: 14px;
+  font-weight: 400;
+  /* text-transform: capitalize; */
+  font-family:"inter",sans-serif !important;
+  font-size:14px;
+  font-weight:400;
+}
+
+.overdue {
+  width: 215.87px;
+  height: 60px;
+  width: 215.87px;
+  height: 40px;
+}
+
 
 @media (max-width: 1175px) {
   .team-lead-dash-cards {

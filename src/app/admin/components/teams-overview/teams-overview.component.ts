@@ -17,6 +17,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { AddTeamMemberPopupComponent } from '../add-team-member-popup/add-team-member-popup.component';
 import { DeactivateTeamDialogComponent } from '../deactivate-team-dialog/deactivate-team-dialog.component';
 import { FlatpickrModule } from 'angularx-flatpickr';
+import { AddTeamLeadPopupComponent } from '../add-team-lead-popup/add-team-lead-popup.component';
 @Component({
   selector: 'app-teams-overview',
   standalone: false,
@@ -27,7 +28,7 @@ export class TeamsOverviewComponent {
   OverlayRef: any;
   activeModal: any;
 
-  teamMembers: specificTeamMembers[] = [];
+  teamMembers: any;
   teamData: any;
   teamLeadUserId:string="";
   
@@ -96,7 +97,8 @@ export class TeamsOverviewComponent {
       
     })
     editTeamMemberDialog.componentInstance.effectTeamMemberChanges.subscribe((data)=>{
-      this.getTeamMembers(teamLeadUserId)
+      // this.getTeamMembers(teamLeadUserId)
+      this.getATeam()
     })
   
   }
@@ -112,29 +114,65 @@ export class TeamsOverviewComponent {
 
   getATeam(){
     const id =this.activatedRoute.snapshot.paramMap.get('teamId')
-    this.userService.getATeam(id!).subscribe({
-      next: (data) => {
-        console.log(data);
-        this.teamData = data.team
-        this.teamLeadUserId = data.team.teamLeadUserId
-        this.getTeamMembers(this.teamLeadUserId)
-        console.log(this.teamLeadUserId);
-      }
-    })
-  }
-  getTeamMembers(teamLeadId: string) {
-    let id = this.activatedRoute.snapshot.paramMap.get('teamId');
-    // console.log(this.activatedRoute.snapshot.paramMap);
-    console.log(teamLeadId)
-    if (id) {
-      this.userService.getTeamMembers(teamLeadId).subscribe({
+    if(id){
+      this.userService.getATeam(id).subscribe({
         next: (data) => {
-          this.teamMembers = data;
-          
-          
-          // console.log(this.res)
-        },
-      });
+          console.log(data);
+          this.teamData = data.team
+          this.teamLeadUserId = data.team.teamLeadUserId
+          this.teamMembers = data.team.teamMembers.data
+          console.log(data.team.teamMembers);
+        }
+      })
+      
     }
+    
+  }
+  // getTeamMembers(teamLeadId: string) {
+  //   let id = this.activatedRoute.snapshot.paramMap.get('teamId');
+  //   // console.log(this.activatedRoute.snapshot.paramMap);
+  //   console.log(teamLeadId)
+  //   if (id) {
+  //     this.userService.getTeamMembers(teamLeadId).subscribe({
+  //       next: (data) => {
+  //         this.teamMembers = data;
+          
+          
+  //         // console.log(this.res)
+  //       },
+  //     });
+  //   }
+  // }
+
+  addTeamMember(id:number) {
+    this.openAddTeamMemberDialog(id, 'Create Team Member');
+    console.log(id);
+  }
+
+  openAddTeamMemberDialog(id: any, title: any) {
+    const popup = this.dialog.open(AddTeamMemberPopupComponent, {
+      width: '500px',
+      data: {
+        title: title,
+        id: id,
+        teamName:this.teamData.name,
+        
+      },
+    });
+  }
+
+  addTeamLead() {
+    this.openAddTeamLeadDialog(0, 'Create Team Lead');
+  }
+
+  openAddTeamLeadDialog(id: any, title: any) {
+    const addLeadPopup = this.dialog.open(AddTeamLeadPopupComponent, {
+      width: '500px',
+      data: {
+        title: title,
+        id: id,
+        teamName:this.teamData.name
+      },
+    });
   }
 }

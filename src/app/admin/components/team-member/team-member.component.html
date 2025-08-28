@@ -223,34 +223,44 @@
       </div>
     </aside>
     <div class="dashboard-content">
-      <div class="search-container">
-        <div class="search">
-          <input
-            type="search"
-            name="searchTeamLeads"
-            id=""
-            placeholder="Search by Name"
-          />
-          <!-- <i class="fa-thin fa-magnifying-glass fa-rotate-by search-icon"></i> -->
-        </div>
-
-        <div class="team-search">
-          <select
-            title="team-search"
-            id="options"
-            name="options"
-            class="team-select"
+      <div class="search">
+        <i class="fa fa-search search-icon"></i>
+        <input
+          type="search"
+          name="searchTeamLeads"
+          id=""
+          placeholder="Search by Name"
+          [(ngModel)]="searchTerm"
+          (ngModelChange)="onSearchTeamMember()"
+        />
+        <select (change)="onTeamChange($event)" [(ngModel)]="selectedTeam" class="dropdown" aria-label="Filter by team">
+          <option disabled selected value="">Select Team</option>
+          <option value="All Teams">All Teams</option>
+          <option *ngFor="let team of allTeams" value="{{team.teamName}}">{{team.teamName}}</option>
+         
+        </select>
+        <input
+          class="filter-by-date-input"
+          placeholder="Select Date"
+          type="text"
+          mwlFlatpickr
+          [mode]="'range'"
+          [altInput]="true"
+          [altFormat]="'F j, Y'"
+          [dateFormat]="'Y-m-d'"
+          
+          
           >
-            <option value="all">Teams</option>
-            <option value="team1">Team 1</option>
-            <option value="team2">Team 2</option>
-            <option value="team3">Team 3</option>
-            <option value="team4">Team 4</option>
-          </select>
-        </div>
+         <button class="export-data">
+          <i class="fa-solid fa-cloud-arrow-down"></i>
+            Export Data
+          </button>
       </div>
 
-      <div class="team-lead-dash-cards-container">
+      <!-- Card Variation -->
+      <!-- was asked too remove after first presentation -->
+      <!-- <div class="team-lead-dash-cards-container">
+        
         <div *ngFor="let member of allTeamMembers" class="team-lead-dash-cards">
           <div class="team-lead-info-and-view-details">
             <div class="team-lead-info">
@@ -288,36 +298,88 @@
           </div>
         </div>
 
-        <!-- <div class="team-lead-dash-cards">
-          <div class="team-lead-info-and-view-details">
-            <div class="team-lead-info">
-              <div class="team-lead-info-image">
-                <img class="user-image" src="user-1.jpg" alt="user" />
-              </div>
-              <div class="team-lead-info-name-and-">
-                <p class="team-lead-name">Team Lead Name</p>
-                <span class="team-lead-email">name&#64;domain.com</span>
-              </div>
-            </div>
-            <div class="view-details">View Details</div>
+        
+      </div> -->
+
+
+      <div class="client-activity-tracker-container">
+        <div class="client-activity-header">
+          <div class="icon-and-section-name">
+            <span>Team Member Details</span>
           </div>
 
-          <div class="team-members-and-progress-bar">
-            <div class="Team-members">
-              <p class="team-members-text">Team Members</p>
-              <p class="team-leaders-name">Team Lead Name</p>
-            </div>
-
-            <div class="progress-bar">
-              <p>Total Recommendations Submitted: <span>50/80</span></p>
-              <div class="progress-outline red-outline">
-                <div class="progress red-progress"></div>
-                <span class="progress-percentage">60% </span>
-              </div>
-            </div>
-          </div>
-        </div> -->
+          <!-- <div class="filter-bar filter-sections">
+            <input
+              type="search"
+              placeholder="Search Client"
+              class="search-input"
+             
+            />
+            <select class="dropdown" aria-label="Filter by team">
+              <option value="">All Statuses</option>
+              <option value="team_a">Team A</option>
+              <option value="team_b">Team B</option>
+              <option value="team_c">Team C</option>
+            </select>
+            <select class="dropdown" aria-label="Filter by team">
+              <option value="">All Teams</option>
+              <option value="team_a">Team A</option>
+              <option value="team_b">Team B</option>
+              <option value="team_c">Team C</option>
+            </select>
+          </div> -->
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th class="act-cli-na table-header">Name</th>
+              <th class="act-stat table-header">Email</th>
+              <th class="act-date table-header">Team Name</th>
+              <th class="act-action  table-header">Team Lead</th>
+              <th class="act-ass table-header">Assigned Target</th>
+              <th class="act-for table-header">Total Onboarded</th>
+              <th class="act-team table-header">% Progress</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let member of  allTeamMembers">
+              <td class="client-con  table-data"
+              
+               >
+               <span class="team-member-name"
+                [routerLink]="['/admin/team-member', member.memberId]" >
+                 {{ member.memberName}} </span>
+              </td>
+              <td class="badge-con table-data">
+                <span class="">{{
+                  member.email
+                }}</span>
+              </td>
+              <td class="date table-data">
+                {{ member.teamName }}
+              </td>
+              <td class="days time-overdue-values table-data">{{ member.teamLeadName }}</td>
+              <td class="mem-name table-data">{{ member.target}}</td>
+              <td class="name table-data">{{member.totalClientsSubmitted}}</td>
+              <td class="team table-data">{{ member.progressPercentage }}</td>
+            </tr>
+          </tbody>
+        </table>
+        
+        <app-table-pagination
+          [totalItems]="totalItems"
+          [currentPage]="currentPage"
+          [totalPages]="totalPages"
+          [limit]="limit"
+          [hasNext]="hasNext"
+          [hasPrevious]="hasPrevious"
+          (pageChange)="fetchAllTeamMembers($event)"
+          (limitChange)="onLimitChange($event)"
+          >
+        </app-table-pagination>
       </div>
+
+
 
       <!-- <app-add-team-member-popup /> -->
     </div>

@@ -32,7 +32,7 @@
             <p>Unassign Members</p>
           </button>
 
-          <button (click)="openAddTeam()" class="add-team-button">
+          <button (click)="showAddTeam()" class="add-team-button">
             <svg
               width="14"
               height="13"
@@ -58,6 +58,7 @@
             src="dashboard-images/Headshot 2.jpg"
             alt="profile-image"
             class="profile-image"
+            routerLink="/admin/profile"
           />
         </div>
       </div>
@@ -71,6 +72,8 @@
             name="searchTeamLeads"
             id=""
             placeholder="Search by Name ..."
+            [(ngModel)]="searchTeamName"
+            (ngModelChange)="onSearchTeams()"
           />
 
           <!-- <div class="team-search">
@@ -189,8 +192,11 @@
                 <div  class="members-images">
                   <div *ngFor="let member of visibleMembers(team.teamMembers)" class="pop"> {{member.memberName.charAt(0)}}</div>
                   <!-- <img *ngFor="let member of visibleMembers(team.teamMembers)" src="noun-account-4986845.png" alt="members-img" /> -->
+                  
+                 
 
-                  <p  class="pop">+ {{remainingMembers(team.teamMembers)}}</p>
+                  <p *ngIf="team.teamMembers.length > 5" class="pop">+ {{remainingMembers(team.teamMembers)}}</p>
+
                   <!-- <img src="user-1.jpg" alt="members-img" />
                   <img src="user-1.jpg" alt="members-img" />
                   <img src="user-1.jpg" alt="members-img" />
@@ -209,132 +215,79 @@
          
         </div>
 
-        <!-- <div class="team-lead-dash-cards-container">
-        <div class="team-lead-dash-cards">
-          <div class="dash-cards-top-info">
-            <div class="team-lead-info-and-view-details">
-              <div class="team-lead-info">
-                <div class="team-lead-info-image">
-                  <img class="user-image" src="user-1.jpg" alt="user" />
-                </div>
-                <div class="team-lead-info-name-and-">
-                  <p class="team-lead-name">Team Lead Name</p>
-                  <span class="team-lead-email">name&#64;domain.com</span>
-                </div>
-              </div>
-              <div class="horizontal-dots">
-                <svg
-                  width="25"
-                  height="25"
-                  viewBox="0 0 25 25"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M12.1927 14.1656C11.2538 14.1656 10.4927 13.4045 10.4927 12.4656C10.4927 11.5267 11.2538 10.7656 12.1927 10.7656C13.1316 10.7656 13.8927 11.5267 13.8927 12.4656C13.8927 13.4045 13.1316 14.1656 12.1927 14.1656Z"
-                    fill="black"
-                  />
-                  <path
-                    d="M13.8927 5.76465C13.8926 6.70344 13.1313 7.46484 12.1925 7.46484C11.2538 7.46474 10.4924 6.70338 10.4923 5.76465C10.4923 4.82583 11.2537 4.06456 12.1925 4.06445C13.1314 4.06445 13.8927 4.82576 13.8927 5.76465ZM13.8927 19.1641C13.8927 20.1029 13.1314 20.8643 12.1925 20.8643C11.2537 20.8642 10.4923 20.1029 10.4923 19.1641C10.4925 18.2254 11.2538 17.4649 12.1925 17.4648C13.1313 17.4648 13.8925 18.2253 13.8927 19.1641Z"
-                    fill="black"
-                  />
-                </svg>
-              </div>
-            </div>
-
-            <div class="team-members-and-progress-bar">
-              <div class="progress-bar">
-                <p>Total Recommendations Submitted: <span>50/80</span></p>
-                <div class="progress-outline">
-                  <div class="progress"></div>
-                  <span class="progress-percentage">60% </span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="dash-cards-down-info">
-            <div class="no-of-members-and-pics">
-              <p>13Members</p>
-              <div class="members-images">
-                <img src="user-1.jpg" alt="members-img" />
-                <img src="user-1.jpg" alt="members-img" />
-                <img src="user-1.jpg" alt="members-img" />
-                <img src="user-1.jpg" alt="members-img" />
-                <img src="user-1.jpg" alt="members-img" />
-              </div>
-            </div>
-            <div class="view-details">
-              <p>View Details</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="team-lead-dash-cards">
-          <div class="dash-cards-top-info">
-            <div class="team-lead-info-and-view-details">
-              <div class="team-lead-info">
-                <div class="team-lead-info-image">
-                  <img class="user-image" src="user-1.jpg" alt="user" />
-                </div>
-                <div class="team-lead-info-name-and-">
-                  <p class="team-lead-name">Team Lead Name</p>
-                  <span class="team-lead-email">name&#64;domain.com</span>
-                </div>
-              </div>
-              <div class="horizontal-dots">
-                <svg
-                  width="25"
-                  height="25"
-                  viewBox="0 0 25 25"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M12.1927 14.1656C11.2538 14.1656 10.4927 13.4045 10.4927 12.4656C10.4927 11.5267 11.2538 10.7656 12.1927 10.7656C13.1316 10.7656 13.8927 11.5267 13.8927 12.4656C13.8927 13.4045 13.1316 14.1656 12.1927 14.1656Z"
-                    fill="black"
-                  />
-                  <path
-                    d="M13.8927 5.76465C13.8926 6.70344 13.1313 7.46484 12.1925 7.46484C11.2538 7.46474 10.4924 6.70338 10.4923 5.76465C10.4923 4.82583 11.2537 4.06456 12.1925 4.06445C13.1314 4.06445 13.8927 4.82576 13.8927 5.76465ZM13.8927 19.1641C13.8927 20.1029 13.1314 20.8643 12.1925 20.8643C11.2537 20.8642 10.4923 20.1029 10.4923 19.1641C10.4925 18.2254 11.2538 17.4649 12.1925 17.4648C13.1313 17.4648 13.8925 18.2253 13.8927 19.1641Z"
-                    fill="black"
-                  />
-                </svg>
-              </div>
-            </div>
-
-            <div class="team-members-and-progress-bar">
-              <div class="progress-bar">
-                <p>Total Recommendations Submitted: <span>50/80</span></p>
-                <div class="progress-outline">
-                  <div class="progress"></div>
-                  <span class="progress-percentage">60% </span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="dash-cards-down-info">
-            <div class="no-of-members-and-pics">
-              <p>13Members</p>
-              <div class="members-images">
-                <img src="user-1.jpg" alt="members-img" />
-                <img src="user-1.jpg" alt="members-img" />
-                <img src="user-1.jpg" alt="members-img" />
-                <img src="user-1.jpg" alt="members-img" />
-                <img src="user-1.jpg" alt="members-img" />
-              </div>
-            </div>
-            <div class="view-details">
-              <p>View Details</p>
-            </div>
-          </div>
-        </div>
-      </div> -->
+        
       </div>
     </div>
   </main>
 </div>
 
-<ng-template>
-  <dialog></dialog>
+
+<!-- add team dialog -->
+
+<ng-template #addTeamDialog>
+  @if(!areChangesSaved){
+    <mat-dialog-content>
+        <div class="edit-team-modal">
+            <div class="title">Add Team</div>
+            <form [formGroup]="addTeamForm">
+              <div class="form-group">
+                <label>Team Name</label>
+                <input placeholder="Input team name" 
+                    formControlName="name" type="text" />
+              </div>
+              <div class="form-group">
+                <!-- <label>Assign Team Lead</label>
+                <select formControlName="teamLeadUserId" class="select-team-lead" title="team-lead" id="team-lead">
+                  <option *ngFor="let teamLead of allTeamLeads" value="{{teamLead.teamLeadUserId}}">{{teamLead.teamLeadName}}</option>
+
+                </select> -->
+                @if(isThereError){
+                  <p class="error-message">{{errorMessage}}</p>
+    
+                }
+              </div>
+            </form>
+            <div class="cancel-save-buttons">
+              <button (click)="closeModal()"  class="cancel-button">cancel</button>
+              <button (click)="onAddTeamSubmit()" class="save-button">Save Team</button>
+            </div>
+          </div>
+        </mat-dialog-content>
+    }
+        <!-- if request is succesful -->
+    @if(areChangesSaved){
+        <div class="succesfully-updated">
+          <svg
+            width="71"
+            height="70"
+            viewBox="0 0 71 70"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <rect
+              x="0.807129"
+              y="0.296875"
+              width="69.3848"
+              height="69.3848"
+              rx="34.6924"
+              fill="#1B998B"
+            />
+            <path
+              d="M56.2949 33.0755V34.9887C56.2924 39.473 54.8403 43.8364 52.1553 47.428C49.4703 51.0196 45.6962 53.6471 41.3959 54.9186C37.0956 56.19 32.4995 56.0374 28.2931 54.4833C24.0867 52.9292 20.4953 50.0571 18.0546 46.2952C15.6139 42.5333 14.4546 38.0832 14.7497 33.6086C15.0447 29.134 16.7783 24.8746 19.6919 21.4658C22.6054 18.0569 26.5428 15.6812 30.9169 14.6929C35.291 13.7047 39.8673 14.1568 43.9634 15.9819M56.2949 18.3526L35.4998 39.1685L29.2612 32.93"
+              stroke="white"
+              stroke-width="4.15903"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+          <p>Team Successfully Added</p>
+          <button type="button" (click)="toggleAreChangesSaved()" class="back-button">Create Another Team</button>
+          <button type="button" (click)="closeModal()" class="back-button">Back</button>
+        </div>
+        }
+        
 </ng-template>
+
+<!-- <ng-template>
+  <dialog></dialog>
+</ng-template> -->

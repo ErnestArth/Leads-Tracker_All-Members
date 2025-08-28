@@ -18,18 +18,21 @@ export class CreateTeamMemberComponent {
   modalForm!: FormGroup;
   allTeamLeads: getAllTeamLeads[] = [];
 
+  page=0
+  limit=20
+
   constructor(private fb: FormBuilder, private UserService: UserService) {}
 
   ngOnInit(): void {
     // get all team Leads for select options
-    this.UserService.getAllTeamLeads().subscribe({
-      next: (data) => {
-        this.allTeamLeads = data;
-      },
-      error: (err) => {
-        console.log(err);
-      },
-    });
+    // this.UserService.getAllTeamLeads().subscribe({
+    //   next: (data) => {
+    //     this.allTeamLeads = data;
+    //   },
+    //   error: (err) => {
+    //     console.log(err);
+    //   },
+    // });
 
     this.modalForm = this.fb.group({
       firstName: ['', [Validators.required, Validators.minLength(3)]],

@@ -100,7 +100,6 @@ main {
   font-size: 20px;
 }
 .add-member-button {
-  display:none ! important;
   padding: 6px 12px;
   align-items: center;
   display: flex;
@@ -201,6 +200,24 @@ input::placeholder {
 }
 ::ng-deep .flatpickr-day.endRange{
   background-color: #f46036 !important;
+}
+
+::ng-deep .mat-mdc-menu-item-text {
+  display: flex;
+  align-items: anchor-center;
+  gap: 10px;
+  border-radius: 8px;
+}
+::ng-deep .mat-mdc-menu-panel {
+  min-width: 220px !important;
+  margin-left: -190px;
+}
+::ng-deep .add-lead:hover {
+  background-color: #f5f4ff !important;
+  color: black;
+}
+::ng-deep .add-member:hover {
+  background-color: #f4fffe !important;
 }
 .dropdown {
   width: 93px;

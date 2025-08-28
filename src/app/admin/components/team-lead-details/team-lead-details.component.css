@@ -277,7 +277,7 @@ li {
 .text-red{
   color:#E20408;
 }
-yellow-outline{
+.yellow-outline{
   background:#FFFBEA;
 }
 .progress-yellow{
@@ -584,7 +584,7 @@ input {
 }
 .cards-input{
   background:#F9F9F9;
-  width:100px;
+  width:10% !important;
 }
 .cards-input::placeholder{
   color:#A9A9A9
@@ -622,6 +622,8 @@ input {
   display: flex;
   gap: 10px;
   align-items: center;
+  font-family:inter;
+  font-weight: 600;
 }
 
 .badge {
@@ -638,12 +640,17 @@ input {
 .badge::first-letter {
   text-transform: capitalize;
 }
-.badge.completed-onboarding {
+.badge.Onboarded {
   background: #eafff1;
   color: #04b440;
   border: 1px solid rgba(23, 198, 83, 0.2);
 }
-.badge.not-interested {
+.badge.NOT_INTERESTED {
+  background: #ffeef3;
+  color: #d81a48;
+  border: rgba(248, 40, 90, 0.2) solid 1px;
+}
+.badge.NOT {
   background: #ffeef3;
   color: #d81a48;
   border: rgba(248, 40, 90, 0.2) solid 1px;
@@ -653,12 +660,17 @@ input {
   color: #dfa000;
   border: rgba(246, 177, 0, 0.2) solid 1px;
 }
-.badge.PENDING {
+.badge.Pending {
   background: #ece9ff;
   color: #2c2368;
   border: rgba(44, 35, 104, 0.2) solid 1px;
 }
-.badge.awaiting-documentation {
+.badge.AWAITING_DOCUMENTATION {
+  background: #ffede8;
+  color: #f46036;
+  border: 1px solid rgba(244, 96, 54, 0.2);
+}
+.badge.Awaiting {
   background: #ffede8;
   color: #f46036;
   border: 1px solid rgba(244, 96, 54, 0.2);
@@ -779,6 +791,9 @@ li:nth-child(1) {
 
 li:nth-child(2) {
   background-color: #e0f7fa;
+}
+.time-overdue{
+  color:#FF3B30
 }
 
 .modal-overlay {

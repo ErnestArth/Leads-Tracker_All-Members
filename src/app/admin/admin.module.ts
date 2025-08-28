@@ -46,7 +46,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
 import { TeamMemberDetailsComponent } from './components/team-member-details/team-member-details.component';
 import { AddTeamMemberPopupComponent } from './components/add-team-member-popup/add-team-member-popup.component';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { FormComponentComponent } from './components/form-component/form-component.component';
 import { TeamLeadComponent } from './components/team-lead/team-lead.component';
 import { TeamLeadDetailsComponent } from './components/team-lead-details/team-lead-details.component';
@@ -65,6 +65,8 @@ import { NoTargetComponent } from './components/no-target/no-target.component';
 import { ViewClientComponent } from './components/view-client/view-client.component';
 import { FlatpickrModule } from 'angularx-flatpickr';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+
+
 
 
 const routes: Routes = [
@@ -205,7 +207,9 @@ const routes: Routes = [
   ],
   providers: [
     importProvidersFrom(HttpClientModule),
-    provideHttpClient(withInterceptors([TokenInterceptor])),
+    provideHttpClient(withInterceptors([TokenInterceptor],
+    
+    )),
   ],
 })
 export class AdminModule {}

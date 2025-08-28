@@ -437,17 +437,25 @@ input::placeholder {
 input {
   width: 180px;
   height: 32px;
-  border: #f1f1f4 1px solid;
+  border: #DBDFE9 1px solid;
   border-radius: 6.65px;
+  background:#FCFCFC;
+}
+.search-input{
+  padding:10px;
 }
 
 .dropdown {
-  width: 93px;
-  border: 1px solid #f1f1f4;
-  background-color: white;
-  color: #78829d;
+  width: 120px;
+  border: 1px solid #DBDFE9;
+  background-color: #FCFCFC;
+  
   padding: 6px;
   border-radius: 9px;
+}
+
+.dropdown:first-child{
+  color: #78829d;
 }
 
 .client-activity-tracker-container {

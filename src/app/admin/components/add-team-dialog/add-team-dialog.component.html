@@ -9,18 +9,16 @@
             <input placeholder="Input team name" 
                 formControlName="name" type="text" />
           </div>
-          <div class="form-group">
+          <!-- <div class="form-group">
             <label>Assign Team Lead</label>
             <select formControlName="teamLeadUserId" class="select-team-lead" title="team-lead" id="team-lead">
               <option *ngFor="let teamLead of allTeamLeads" value="{{teamLead.teamLeadUserId}}">{{teamLead.teamLeadName}}</option>
-              <!-- <option value="">Kwadwo</option>
-              <option value="">Ama</option> -->
             </select>
             @if(isThereError){
               <p class="error-message">{{errorMessage}}</p>
 
             }
-          </div>
+          </div> -->
         </form>
         <div class="cancel-save-buttons">
           <button (click)="closeModal()"  class="cancel-button">cancel</button>

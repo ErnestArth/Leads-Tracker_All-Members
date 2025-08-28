@@ -90,17 +90,29 @@
       </div>
     </aside>
     <div class="dashboard-content">
-      <div class="searc">
+      
+      <div class="search">
+        <i class="fa fa-search search-icon"></i>
         <input
           type="search"
           name="searchTeamLeads"
           id=""
-          placeholder="Search by Name , Staff ID or Email..."
+          placeholder="Search by Name"
+          [(ngModel)]="searchTeamLead"
+          (ngModelChange)="onSearchTeamLead($event)"
         />
-        <i class="fa-thin fa-magnifying-glass fa-rotate-by search-icon"></i>
+        <select (change)="onTeamsChange($event)" class="dropdown">
+          <option  disabled value="">Select Team</option>
+          <option value="All Teams">All Teams</option>
+          <option *ngFor="let team of allTeams" value="{{team.teamName}}">{{team.teamName}}</option>
+        </select>
+         <button class="export-data">
+          <i class="fa-solid fa-cloud-arrow-down"></i>
+            Export Data
+          </button>
       </div>
-
-      <div class="team-lead-dash-cards-container">
+<!-- cards variation -->
+      <!-- <div class="team-lead-dash-cards-container">
         <div *ngFor="let teamLead of allTeamLeads" class="team-lead-dash-cards">
           <div class="team-lead-info-and-view-details">
             <div class="team-lead-info">
@@ -138,98 +150,83 @@
           </div>
         </div>
 
-        <!-- <div class="team-lead-dash-cards">
-            <div class="team-lead-info-and-view-details">
-              <div class="team-lead-info">
-                <div class="team-lead-info-image">
-                  <img class="user-image" src="user-1.jpg" alt="user" />
-                </div>
-                <div class="team-lead-info-name-and-">
-                  <p class="team-lead-name">Team Lead Name</p>
-                  <span class="team-lead-email">name&#64;domain.com</span>
-                </div>
-              </div>
-              <div class="view-details">View Details</div>
-            </div>
+        
+      </div> -->
 
-            <div class="team-members-and-progress-bar">
-              <div class="Team-members">
-                <p class="team-members-text">Team Members</p>
-                <p class="team-leaders-name">Team Lead Name</p>
-              </div>
+      <div class="client-activity-tracker-container">
+        <div class="client-activity-header">
+          <div class="icon-and-section-name">
+            <span>Team Lead Details</span>
+          </div>
 
-              <div class="progress-bar">
-                <p>Total Recommendations Submitted: <span>50/80</span></p>
-                <div class="progress-outline red-outline">
-                  <div class="progress red-progress"></div>
-                  <span class="progress-percentage">60% </span>
-                </div>
-              </div>
-            </div>
+          <!-- <div class="filter-bar filter-sections">
+            <input
+              type="search"
+              placeholder="Search Client"
+              class="search-input"
+             
+            />
+            <select class="dropdown" aria-label="Filter by team">
+              <option value="">All Statuses</option>
+              <option value="team_a">Team A</option>
+              <option value="team_b">Team B</option>
+              <option value="team_c">Team C</option>
+            </select>
+            <select class="dropdown" aria-label="Filter by team">
+              <option value="">All Teams</option>
+              <option value="team_a">Team A</option>
+              <option value="team_b">Team B</option>
+              <option value="team_c">Team C</option>
+            </select>
           </div> -->
+        </div>
+        <table>
+          <thead>
+            <tr >
+              <th class="act-cli-na table-header">Name</th>
+              <th class="act-stat table-header">Email</th>
+              <th class="act-date table-header">Team Name</th>
+              <th class="table-header">Number Of Team Members</th>
+              <th class="act-action  table-header">Assigned Target</th>
+              <th class="act-ass table-header">Total Onboarded</th>
+              <th class="act-for table-header">% Progress</th>
+              <!-- <th class="act-team table-header">Team</th> -->
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let lead of allTeamLeads" >
+              <td class="client-con  table-data"
+               >
+               <span class="team-lead-name" [routerLink]="['/admin/team-leads', lead.teamLeadUserId]">{{lead.teamLeadName}}</span>
+              </td>
+              <td class="badge-con table-data">
+                <span class=""> {{lead.email}}</span>
+              </td>
+              <td class="date table-data">
+                {{lead.teamName}}
+              </td>
+              <td class="table-data">{{lead.numberOfTeamMembers}}</td>
+              <td class="days time-overdue-values table-data">{{lead.teamTarget}}</td>
+              <td class="mem-name table-data">{{lead.totalClientsAdded}}</td>
+              <td class="name table-data">{{lead.progressPercentage}}</td>
+              <!-- <td class="team table-data">{{ client.teamName }}</td> -->
+            </tr>
+          </tbody>
+        </table>
+        
+        <app-table-pagination
+          [totalItems]="totalItems"
+          [currentPage]="currentPage"
+          [totalPages]="totalPages"
+          [limit]="limit"
+          [hasNext]="hasNext"
+          [hasPrevious]="hasPrevious"
+          (pageChange)="fetchAllTeamLeads($event)"
+          (limitChange)="onLimitChange($event)"
+          >
+        </app-table-pagination>
       </div>
-
-      <div class="team-lead-dash-cards-container container2">
-        <!-- <div class="team-lead-dash-cards">
-            <div class="team-lead-info-and-view-details">
-              <div class="team-lead-info">
-                <div class="team-lead-info-image">
-                  <img class="user-image" src="user-1.jpg" alt="user" />
-                </div>
-                <div class="team-lead-info-name-and-">
-                  <p class="team-lead-name">Team Lead Name</p>
-                  <span class="team-lead-email">name&#64;domain.com</span>
-                </div>
-              </div>
-              <div class="view-details">View Details</div>
-            </div>
-
-            <div class="team-members-and-progress-bar">
-              <div class="Team-members">
-                <p class="team-members-text">Team Members</p>
-                <p class="team-leaders-name">Team Lead Name</p>
-              </div>
-
-              <div class="progress-bar">
-                <p>Total Recommendations Submitted: <span>50/80</span></p>
-                <div class="progress-outline yellow-outline">
-                  <div class="progress yellow-progress"></div>
-                  <span class="progress-percentage">60% </span>
-                </div>
-              </div>
-            </div>
-          </div> -->
-
-        <!-- <div class="team-lead-dash-cards">
-            <div class="team-lead-info-and-view-details">
-              <div class="team-lead-info">
-                <div class="team-lead-info-image">
-                  <img class="user-image" src="user-1.jpg" alt="user" />
-                </div>
-                <div class="team-lead-info-name-and-">
-                  <p class="team-lead-name">Team Lead Name</p>
-                  <span class="team-lead-email">name&#64;domain.com</span>
-                </div>
-              </div>
-              <div class="view-details">View Details</div>
-            </div>
-
-            <div class="team-members-and-progress-bar">
-              <div class="Team-members">
-                <p class="team-members-text">Team Members</p>
-                <p class="team-leaders-name">Team Lead Name</p>
-              </div>
-
-              <div class="progress-bar">
-                <p>Total Recommendations Submitted: <span>50/80</span></p>
-                <div class="progress-outline red-outline">
-                  <div class="progress red-progress"></div>
-                  <span class="progress-percentage">60% </span>
-                </div>
-              </div>
-            </div>
-          </div> -->
-      </div>
+      
 
       <!-- <app-add-team-member-popup /> -->
     </div>

@@ -101,6 +101,9 @@ export class TeamLeadDetailsComponent {
 
   allTeam:getAllTeams[]=[]
 
+   searchTeamName=""
+   searchMember=""
+
   allStatuses=[
     "Awaiting Documentation",
     "Interested",
@@ -186,8 +189,13 @@ export class TeamLeadDetailsComponent {
     let id = this.activatedRoute.snapshot.paramMap.get('teamLeadId');
     console.log(this.activatedRoute.snapshot.paramMap);
     if (id) {
-      this.userService.getSpecificTeamLead(id,this.startDate,this.endDate).subscribe({
+      this.userService.getSpecificTeamLead(id,this.startDate,this.endDate,this.searchMember).subscribe({
         next: (data) => {
+          // reset data
+          this.teamMemberNames = [];
+          this.teamMembersData = [];
+
+          
           console.log(data);
           this.userData = data;
           this.teamMembers=data.teamPerformance.teamMembers
@@ -223,7 +231,7 @@ export class TeamLeadDetailsComponent {
 
           
           // call overdue clients
-          this.getOverdueClients(this.clientCurrentPage)
+          // this.getOverdueClients(this.clientCurrentPage)
           // call clients under user
           console.log("hey")
           this.fetchClients(this.clientCurrentPage)        },
@@ -592,7 +600,7 @@ export class TeamLeadDetailsComponent {
   }
 
   fetchTeams(){
-    this.userService.getAllTeams().subscribe({
+    this.userService.getAllTeams(this.searchTeamName,this.teamFilter).subscribe({
       next: (data) => {
         this.allTeam = data;
         console.log(data)
@@ -629,6 +637,14 @@ onStatusChange(event: Event) {
   }else{
     this.fetchClients(this.clientCurrentPage)
 
+  }
+}
+onMemberSearch(){
+  console.log(this.searchMember);
+  if (this.searchMember.length >= 3) {
+    this.fetchTeamLeadData()
+   }else if(this.searchMember.length == 0){
+    this.fetchTeamLeadData()
   }
 }
 
