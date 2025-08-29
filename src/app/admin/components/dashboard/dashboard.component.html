@@ -133,7 +133,7 @@
           <div class="filters">
           <div class="team-search">
            
-            <select [(ngModel)]="selectedTeamName" (change)="onTeamChange()" id="options" name="options" class="team-select" >
+            <select title="selectTeamName" [(ngModel)]="selectedTeamName" (change)="onTeamChange()" id="options" name="options" class="team-select" >
               <option value="All Teams" disabled selected hidden>All Teams</option>
               <option value="All Teams">All Teams</option>
               <option *ngFor="let team of teamStats" value="{{team.teamName}}">{{team.teamName}}</option>

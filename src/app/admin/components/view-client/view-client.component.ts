@@ -1,15 +1,22 @@
-import { Component } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-view-client',
-  standalone: false,
   templateUrl: './view-client.component.html',
-  styleUrl: './view-client.component.css'
+  styleUrls: ['./view-client.component.css'],
+  standalone: false,
 })
 export class ViewClientComponent {
-  isOpenNotification: boolean = false;
+  @Input() isVisible = false;
+  @Input() clientData: any;
 
-  onBackArrow(type: string): void {
-    this.isOpenNotification = !this.isOpenNotification; // toggle open/close
+  @Output() close = new EventEmitter<void>();
+
+  closeModal() {
+    this.close.emit();
   }
+  alertTeamLead() {
+  alert(`Alerting team lead for client ${this.clientData?.name}`);
+}
+
 }

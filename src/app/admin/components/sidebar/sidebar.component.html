@@ -198,7 +198,7 @@
                 <span class="active-bullet"></span>
                 <span>Set Targets</span>
               </li>
-              <li
+            <li
                 class="sub-link"
                 routerLink="/admin/view-target"
                 routerLinkActive="sub-selected"
@@ -206,6 +206,15 @@
                 <span class="active-bullet"></span>
                 <span>View Targets</span>
               </li>
+                <li
+                class="sub-link"
+                routerLink="/admin/preset-target"
+                routerLinkActive="sub-selected"
+              >
+                <span class="active-bullet"></span>
+                <span>Preset Targets</span>
+              </li>
+
             </ul>
           </div>
         </a>
@@ -260,11 +269,12 @@
         </svg>
 
         <p class="logout">Logout</p>
-        <a  routerLink="/authentication"
-        routerLinkActive="selected"
-        class="logout-link"
-        (click)="onOpenLogout('logout')"></a>
-
+        <a
+          routerLink="/authentication"
+          routerLinkActive="selected"
+          class="logout-link"
+          (click)="onOpenLogout('logout')"
+        ></a>
       </div>
     </div>
   </aside>

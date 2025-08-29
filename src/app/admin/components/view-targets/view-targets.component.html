@@ -1,78 +1,82 @@
 <div class="dashboard-container">
-  <app-sidebar />
+  <app-sidebar></app-sidebar>
   <main>
-    <div class="container">
-      <div class="header">
-        <span
-          class="back-arrow"
-          (click)="onBackArrow('dashboard')"
-          routerLink="/admin/dashboard"
-          routerLinkActive="selected"
-        >
-          <img src="Back arrow.png" alt="back-arrow" />
-        </span>
-        <h2>Team Targets Overview</h2>
-      </div>
+    <div class="header">
+      <button class="back-btn" (click)="onBackArrow()"><img src="Back arrow.png" alt="back-arrow" ></button>
+      <h2>Team Targets Overview</h2>
+      <button type="button" class="export-btn" (click)="exportData()"><img src="Export.png" alt="export-image">  Export Data</button>
+    </div>
 
-      <div class="controls">
-        <input
-          type="text"
-          class="search-input"
-          placeholder="Search by Team"
-        />
-        <select
-          title="frequency"
-          [(ngModel)]="selectedFrequency"
-          class="select-input"
-        >
-          <option value="Quarterly">Monthly</option>
-          <option value="Monthly">Quarterly</option>
-          <option value="Yearly">Yearly</option>
-        </select>
-      </div>
+    <div class="controls">
+      <input
+        type="text"
+        class="search-input"
+        [(ngModel)]="searchTerm"
+        placeholder="Search by Team"
+      />
+      <select title="select" class="select-input" [(ngModel)]="selectedFrequency">
+        <option value="Monthly">Monthly</option>
+        <option value="Quarterly">Quarterly</option>
+        <option value="Yearly">Yearly</option>
+      </select>
+    </div>
 
-      <!-- Show loader or error -->
-      <div *ngIf="isLoading">Loading targets...</div>
-      <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+    <div *ngIf="isLoading">Loading targets...</div>
+    <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
 
-      <!-- Target Cards -->
-      <div class="team-card" *ngFor="let team of teams">
-        <div class="card-header">
-          <div class="avatar"></div>
-          <div class="info">
-            <div class="team-name">{{ team.teamName }}</div>
-            <div class="lead">Lead: {{ team.teamLeadFullName }}</div>
-          </div>
-          <div class="dates">
-            <!-- Optional static Set Date; you may remove this if backend doesn't support it -->
-            <!-- <div><strong>Set Date:</strong> {{ team.setDate }}</div> -->
-            <div><strong>Due Date:</strong> {{ team.dueDate | date: 'longDate' }}</div>
-          </div>
-        </div>
+    <div class="table-wrapper" *ngIf="!isLoading && !errorMessage && paginatedData.length">
+       <table>
+              <thead>
+                <tr class="table-headers">
+                  <th class="table-header">Team Name</th>
+                  <th class="table-header">Team Lead Name</th>
+                  <th class="table-header">Current Target</th>
+                  <th class="table-header">Total Client Onboarded</th>
+                  <th class="table-header">Target Start Date</th>
+                  <th class="table-header">Target Due Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let team of paginatedData">
+                  <td class="client-na table-data"> <a [routerLink]="['/admin/team-breakdown']" [queryParams]="{ teamId: team.id }" class="team-link">
+                    {{ team.teamName }}
 
-        <div class="target-info">
-          <strong>Target:</strong> {{ team.targetValue }}
-          <br />
-          Total Recommendations Submitted:
-          <strong>-- / {{ team.targetValue }}</strong>
-        </div>
+                  </a></td>
+                  <td class="member-na table-data">{{ team.teamLeadFullName }}</td>
+                  <td class="date-allo table-data">
+                  {{ team.targetValue }}
+                  </td>
+                  <td class="time-overdue-values table-data">
+                   {{ team.totalClientsOnboarded }}
+                  </td>
+                  <td class="table-data">
+                    <span class=" badge ">
+                      {{ team.startDate | date: 'yyyy-MM-dd' }}</span
+                    >
+                  </td>
+                  <td class="team-na table-data">{{ team.dueDate | date: 'yyyy-MM-dd' }}</td>
+                </tr>
+              </tbody>
+            </table>
+            <!-- Pagination -->
+      <div class="pagination">
 
-        <div class="progress-bar-wrapper">
-          <div
-            class="progress-bar-fill"
-            [style.width.%]="getProgress(team.targetValue, team.targetValue)"
-          ></div>
-        </div>
+<app-table-pagination
+            [totalItems]="clientTotalItems"
+            [currentPage]="clientCurrentPage"
+            [totalPages]="clientTotalPages"
+            [limit]="clientLimit"
+            [hasNext]="clientHasNext"
+            [hasPrevious]="clientHasPrevious"
+            (pageChange)="clientFetchAllClients($event)"
+            (limitChange)="onLimitChangess($event)"
+            >
+          </app-table-pagination>
 
-        <div class="view-details">
-          <a routerLink="/admin/team-breakdown">View Details</a>
-        </div>
-      </div>
-
-      <!-- No results -->
-      <div *ngIf="!isLoading && !teams.length" class="no-results">
-        No team targets found.
       </div>
     </div>
+
+
+
   </main>
 </div>

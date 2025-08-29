@@ -1,62 +1,109 @@
 <div class="dashboard-container">
-  <app-sidebar />
+  <app-sidebar></app-sidebar>
   <main>
     <div class="container">
+      <!-- Header -->
       <div class="header">
-        <div class="header-details">
-          <span
-            class="back-btn"
-            (click)="onBackArrow('dashboard')"
-            routerLink="/admin/view-target"
-            routerLinkActive="selected"
-            ><img src="Back arrow.png" alt="back-arrow"
-          /></span>
-          <h2>Alpha Squad - Target Breakdown</h2>
+        <div class="header-left">
+          <button type="button" class="back-arrow" (click)="onBackArrow()">
+            <img src="Back arrow.png" alt="back-arrow" />
+          </button>
+          <h2>{{ teamName }} - Target Breakdown</h2>
         </div>
-        <p class="due-text">Due: {{ dueDate }}</p>
+        <button class="export-btn" (click)="exportData()">
+          <img src="Export.png" alt="export" />
+          Export Data
+        </button>
       </div>
+      <p class="due-text">Due: {{ dueDate }}</p>
 
+      <!-- Search -->
       <div class="search-box">
-        <input type="text" placeholder="Search member" />
+        <input
+          type="text"
+          [(ngModel)]="searchTerm"
+          placeholder="Search member"
+        />
       </div>
 
+      <!-- Team Lead Progress -->
       <div class="section">
         <h3>Team Lead Progress</h3>
-        <div class="progress-card">
-          <p class="name">{{ teamLead.name }}</p>
-          <p class="summary">
-            Total Recommendations Submitted: {{ teamLead.submitted }} /
-            {{ teamLead.total }}
-          </p>
-          <div class="progress-bar">
-            <div
-              class="progress-fill"
-              [style.width]="getPercentage(teamLead.submitted, teamLead.total)"
-            ></div>
-          </div>
-          <p class="percentage">
-            {{ getPercentage(teamLead.submitted, teamLead.total) }}
-          </p>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Team Lead Name</th>
+                <th>Current Target</th>
+                <th>Total Clients Onboarded</th>
+                <th>% Progress</th>
+                <th>Target Due Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>{{ teamLead.name }}</td>
+                <td>{{ teamLead.total }}</td>
+                <td class="highlight">{{ teamLead.submitted }}</td>
+                <td>{{ getProgress(teamLead.submitted, teamLead.total) }}%</td>
+                <td>{{ dueDate }}</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
 
+      <!-- Member Progress -->
       <div class="section">
         <h3>Member Progress</h3>
-        <div class="progress-card" *ngFor="let member of members">
-          <p class="name">{{ member.name }}</p>
-          <p class="summary">
-            Total Recommendations Submitted: {{ member.submitted }} /
-            {{ member.total }}
-          </p>
-          <div class="progress-bar">
-            <div
-              class="progress-fill"
-              [style.width]="getPercentage(member.submitted, member.total)"
-            ></div>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Team Lead Name</th>
+                <th>Current Target</th>
+                <th>Total Clients Onboarded</th>
+                <th>% Progress</th>
+                <th>Target Due Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let member of paginatedMembers">
+                <td>{{ member.name }}</td>
+                <td>{{ member.total }}</td>
+                <td class="highlight">{{ member.submitted }}</td>
+                <td>{{ getProgress(member.submitted, member.total) }}%</td>
+                <td>{{ dueDate }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Pagination -->
+        <div class="pagination" *ngIf="filteredMembers.length">
+          <span>
+            {{ (currentPage - 1) * itemsPerPage + 1 }} -
+            {{ getMin(currentPage * itemsPerPage, filteredMembers.length) }}
+            of {{ filteredMembers.length }}
+          </span>
+          <div class="page-controls">
+            <button (click)="setPage(currentPage - 1)" [disabled]="currentPage === 1">
+              &lt;
+            </button>
+            <button
+              *ngFor="let page of totalPagesArray"
+              (click)="setPage(page)"
+              [class.active]="page === currentPage"
+            >
+              {{ page }}
+            </button>
+            <button
+              (click)="setPage(currentPage + 1)"
+              [disabled]="currentPage >= totalPages"
+            >
+              &gt;
+            </button>
           </div>
-          <p class="percentage">
-            {{ getPercentage(member.submitted, member.total) }}
-          </p>
         </div>
       </div>
     </div>

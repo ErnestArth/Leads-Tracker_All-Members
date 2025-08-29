@@ -13,8 +13,10 @@ export class NotificationComponent implements OnInit {
   loading = false;
   isOpenOverview = false;
   isOpenViewClient = false;
+  isModalVisible = false;
+  selectedClient: any = null;
 
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService, ) {}
 
   ngOnInit(): void {
     this.fetchUnResolvedNotifications();
@@ -29,7 +31,7 @@ export class NotificationComponent implements OnInit {
         this.loading = false;
       },
       error: (error: any) => {
-        console.error('❌ Error fetching notifications:', error);
+        console.error('Error fetching notifications:', error);
         this.loading = false;
       }
     });
@@ -59,7 +61,13 @@ export class NotificationComponent implements OnInit {
     return `${seconds} seconds ago`;
 
   }
-  onViewClient(type: string): void {
-    this.isOpenViewClient = !this.isOpenViewClient; 
+   openViewClientModal(client: any) {
+    this.selectedClient = client;
+    this.isModalVisible = true;
+  }
+
+  closeViewClientModal() {
+    this.isModalVisible = false;
+    this.selectedClient = null;
   }
 }

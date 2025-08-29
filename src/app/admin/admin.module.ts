@@ -65,6 +65,10 @@ import { NoTargetComponent } from './components/no-target/no-target.component';
 import { ViewClientComponent } from './components/view-client/view-client.component';
 import { FlatpickrModule } from 'angularx-flatpickr';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { PresetTargetComponent } from './components/preset-target/preset-target.component';
+
+
 
 
 const routes: Routes = [
@@ -125,6 +129,7 @@ const routes: Routes = [
         component: CreateTeamMemberComponent,
         canActivate: [authGuard],
       },
+      {path: 'preset-target', component: PresetTargetComponent},
       { path: 'deactivate-team', component: DeactivateTeamModalComponent },
       {
         path: 'set-target',
@@ -175,13 +180,14 @@ const routes: Routes = [
     AddTeamLeadPopupComponent,
     NotificationComponent,
     ProfileComponent,
-    SetTargetsComponent,
     ViewTargetsComponent,
     TeamBreakdownComponent,
     EditTeamDialogComponent,
     AddTeamDialogComponent,
     NoTargetComponent,
     ViewClientComponent,
+    SetTargetsComponent,
+    PresetTargetComponent,
 
   ],
   imports: [
@@ -201,7 +207,9 @@ const routes: Routes = [
     MatTableModule,
     MatSortModule,
     MatPaginatorModule,
-    FlatpickrModule.forRoot(),  
+    FlatpickrModule.forRoot(),
+    MatDialogModule,
+    MatIconModule,
   ],
   providers: [
     importProvidersFrom(HttpClientModule),

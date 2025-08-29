@@ -422,6 +422,8 @@ export interface TeamTarget {
   teamLeadFullName: string;
   targetValue: number;
   dueDate: string;
+  totalClientsOnboarded: number;
+  startDate: string;
 }
 
 // const token =sessionStorage.getItem('token')

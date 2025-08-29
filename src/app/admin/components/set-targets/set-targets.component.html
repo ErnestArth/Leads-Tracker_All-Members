@@ -1,63 +1,78 @@
 <div class="dashboard-container">
-  <app-sidebar />
+  <app-sidebar></app-sidebar>
+
   <main>
     <div class="container">
+      <!-- Header -->
       <div class="header">
         <span
           class="back-arrow"
           (click)="onBackArrow('dashboard')"
           routerLink="/admin/dashboard"
-          routerLinkActive="selected"
         >
-          <img src="Back arrow.png" alt="back-arrow" />
+          <img src="Back arrow.png" alt="Back" />
         </span>
         <h2>Assign Team Targets</h2>
       </div>
 
-      <!-- Teams List -->
-      <div class="team-card" *ngFor="let team of teams">
-        <div class="team-info">
-          <div class="team-name">{{ team.name }}</div>
-          <div class="team-meta">
-            Lead: {{ team.lead }} | Members: {{ team.members }}
-          </div>
-          <div class="target-status" *ngIf="team.currentTarget; else noTarget">
-            <span class="active-target">
-              Current Target: {{ team.currentTarget }}
-              <span class="due-date">(Due: {{ team.dueDate }})</span>
-            </span>
-          </div>
-          <ng-template #noTarget>
-            <span class="no-target">No active target set.</span>
-          </ng-template>
-        </div>
-        <button class="set-btn" (click)="openTargetModal(team)">
-          Set New Target
-        </button>
+      <!-- Top Bar -->
+      <div class="top-bar">
+        <input
+          type="text"
+          placeholder="Search by Team"
+          [(ngModel)]="searchTerm"
+          (input)="applyFilter()"
+        />
+        <button type="button"  (click)="exportData()"> <img src="Export.png" class="export-image" alt="export-image">Export Data</button>
+      </div>
+
+      <!-- Table -->
+      <table>
+        <thead>
+          <tr class="table-header">
+            <th class="table-header">Team Name</th>
+            <th class="table-header">Team Lead Name</th>
+            <th class="table-header">No. of Members</th>
+            <th class="table-header">Current Target</th>
+            <th class="table-header">Target Due Date</th>
+            <th class="table-header">Assign Target</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of paginatedData">
+            <td class="client-na table-data" table-data>{{ row.teamName }}</td>
+            <td class="member-na table-data">{{ row.teamLead }}</td>
+            <td class="date-allo table-data">{{ row.members }}</td>
+            <td class="time-overdue-values table-data">{{ row.currentTarget || '—' }}</td>
+            <td class="table-data">{{ row.dueDate || '—' }}</td>
+            <td class="team-na table-data">
+              <a href="#" (click)="openTargetModal(row); $event.preventDefault()"
+                >Set New Target</a
+              >
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Pagination -->
+      <div class="pagination">
+
+<app-table-pagination
+            [totalItems]="clientTotalItems"
+            [currentPage]="clientCurrentPage"
+            [totalPages]="clientTotalPages"
+            [limit]="clientLimit"
+            [hasNext]="clientHasNext"
+            [hasPrevious]="clientHasPrevious"
+            (pageChange)="clientFetchAllClients($event)"
+            (limitChange)="onLimitChangess($event)"
+            >
+          </app-table-pagination>
+
       </div>
     </div>
 
-    <!-- Success Dialog -->
-    <ng-template #successDialog>
-      <div class="target-assigned-success">
-        <svg width="71" height="70" ...>  </svg>
-        <p>Target Assigned Successfully</p>
-        <mat-dialog-actions align="end">
-          <button
-            mat-raised-button
-            color="primary"
-            mat-dialog-close
-            type="button"
-            (click)="cancel()"
-            class="back-button"
-          >
-            Back
-          </button>
-        </mat-dialog-actions>
-      </div>
-    </ng-template>
-
-    <!-- Set Target Dialog -->
+    <!-- Target Dialog -->
     <ng-template #targetDialog>
       <h2 mat-dialog-title>Set Target for {{ teamName }}</h2>
 
@@ -74,7 +89,18 @@
             required
           />
         </div>
-
+        <div class="form-group">
+          <label for="startDate">Start Date</label>
+          <input
+            matInput
+            type="date"
+            id="startDate"
+            name="startDate"
+            placeholder="yyyy-mm-dd"
+            [(ngModel)]="startDate"
+            required
+          />
+        </div>
         <div class="form-group">
           <label for="dueDate">Due Date</label>
           <input
@@ -82,6 +108,7 @@
             type="date"
             id="dueDate"
             name="dueDate"
+            placeholder="yyyy-mm-dd"
             [(ngModel)]="dueDate"
             required
           />
@@ -90,7 +117,14 @@
 
       <mat-dialog-actions align="end">
         <button mat-button (click)="closeTargetModal()">Cancel</button>
-        <button mat-raised-button color="primary" (click)="saveTarget()">
+        <button
+          mat-raised-button
+          color="primary"
+          (click)="saveTarget()"
+          [disabled]="
+            !targetValue || !startDate || !dueDate || isLoading
+          "
+        >
           Save Target
         </button>
       </mat-dialog-actions>
@@ -100,12 +134,13 @@
     <ng-template #confirmDialog>
       <div class="assign-target-modal">
         <div class="target-assign-icon-and-title">
-          <img src="Alert.png" alt="logo" class="alert-img" />
+          <img src="Alert.png" alt="alert" class="alert-img" />
           <p>Confirm Target</p>
         </div>
         <div class="assign-target-message">
           <p mat-dialog-title>
-            Assign a target of {{ targetValue }} to {{ teamName }}?
+            Assign a target of <strong>{{ targetValue }}</strong> to
+            <strong>{{ teamName }}</strong>?
           </p>
         </div>
 
@@ -113,7 +148,7 @@
           <button
             mat-button
             type="button"
-            (click)="cancel()"
+            (click)="cancelDialog()"
             class="cancel-button"
           >
             Cancel
@@ -128,6 +163,27 @@
             Yes, Assign
           </button>
         </div>
+      </div>
+    </ng-template>
+
+    <!-- Success Dialog -->
+    <ng-template #successDialog>
+      <div class="target-assigned-success">
+        <svg width="71" height="70" viewBox="0 0 71 70" fill="none">
+          <!-- Add your checkmark SVG here -->
+        </svg>
+        <p>Target Assigned Successfully</p>
+        <mat-dialog-actions align="end">
+          <button
+            mat-raised-button
+            color="primary"
+            mat-dialog-close
+            type="button"
+            class="back-button"
+          >
+            Back
+          </button>
+        </mat-dialog-actions>
       </div>
     </ng-template>
   </main>

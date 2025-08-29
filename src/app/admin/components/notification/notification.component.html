@@ -64,11 +64,16 @@
         <!-- Actions -->
         <div class="actions">
           <button type="button" class="alert-btn">Alert Team Lead</button>
-          <button type="button" class="view-btn" (click)="onViewClient('View-Client')" 
-          routerLink="/admin/view-client"
-          routerLinkActive="selected">View Client</button>
+          <button type="button" class="view-btn" (click)="openViewClientModal('note.Client')" 
+         >View Client</button>
         </div>
       </div>
     </div>
   </main>
 </div>
+
+<app-view-client
+  [isVisible]="isModalVisible"
+  [clientData]="selectedClient"
+  (close)="closeViewClientModal()"
+></app-view-client>
