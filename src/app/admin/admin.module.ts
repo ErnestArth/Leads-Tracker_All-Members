@@ -192,6 +192,8 @@ const routes: Routes = [
     ViewClientComponent,
     AddEditUserComponent,
     AddEditMemberComponent,
+    AddEditUserComponent,
+    AddEditMemberComponent,
     SetTargetsComponent,
     PresetTargetComponent,
 
