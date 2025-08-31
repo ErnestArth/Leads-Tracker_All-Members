@@ -298,6 +298,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         this.loadDoughnutChart(this.doughnutTotalClients);
 
         this.loadBarChart(this.teamNames,this.teamsTotalClientsOnboarded)
+        
         if(this.selectedTeamName){
           this.handlingBarChart()
           this.handlingDoughnutChart()

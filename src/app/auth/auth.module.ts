@@ -25,11 +25,11 @@ const routes: Routes = [
       { path: '', redirectTo: 'login', pathMatch: 'full' },
       { path: 'otp-auth', component: OtpAuthComponent, canActivate: [authGuard] },
       { path: 'login', component: LoginComponent },
-      { path: 'reset-password', component: ResetForgotPasswordComponent, canActivate: [authGuard] },
+      { path: 'reset-password', component: ResetForgotPasswordComponent },
       // { path: 'otp-auth', component: OtpAuthComponent, canActivate: [authGuard] },
       {
         path: 'ResettingPasswordComponent',
-        component: ResettingPasswordComponent, canActivate: [authGuard],
+        component: ResettingPasswordComponent,
       },
       // { path: 'otp-auth', component: OtpAuthComponent },
     ],
