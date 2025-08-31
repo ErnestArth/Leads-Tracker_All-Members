@@ -39,9 +39,10 @@ export class EditTeamDialogComponent {
     // this.getAllTeamLeads();
   }
   getATeam(){
-    this.userService.getATeam(this.data.id).subscribe({
+    this.userService.getATeam(this.data.id,this.page,'',this.limit).subscribe({
       next: (data) => {
       this.editTeamForm.patchValue(data.team)
+      
         console.log(data);
       }
     })

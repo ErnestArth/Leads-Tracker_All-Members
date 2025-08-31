@@ -94,6 +94,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   teamFilter="";
 
   mainSelectedDates:any
+  inputedDate=""
 
   fromDate=""
   toDate=""
@@ -297,7 +298,11 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         this.loadDoughnutChart(this.doughnutTotalClients);
 
         this.loadBarChart(this.teamNames,this.teamsTotalClientsOnboarded)
-
+        if(this.selectedTeamName){
+          this.handlingBarChart()
+          this.handlingDoughnutChart()
+        }
+        console.log(this.memberNames)
         console.log(this.displayedStatusCounts);
         console.log(
           `hello ${this.displayedStatusCounts.overallStatusCounts.ONBOARDED}`
@@ -328,9 +333,17 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     this.mainSelectedDates = (event.target as HTMLInputElement).value
     if(this.mainSelectedDates){
       [this.fromDate,this.toDate]=this.mainSelectedDates.split(" to ")
+      
     }
+// unsets fromDate and to Date when the date entered is cleared
+    if(this.inputedDate.includes(" to ")){
+        this.fromDate=""
+        this.toDate=""
+    }
+
     console.log(this.fromDate)
     console.log(this.toDate)
+    console.log(this.inputedDate)
 
     this.getStatusCounts()
   
@@ -352,34 +365,8 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       this.displayedStatusCounts = this.overallStatusCounts;
       this.loadDoughnutChart(this.doughnutTotalClients)
     } else  {
-      const team = this.teamStats.find(
-        (t) => t.teamName === this.selectedTeamName
-      );
-      this.displayedStatusCounts = team ? team : {};
-      console.log(this.displayedStatusCounts);
-     
-
-      this.doughnutTeamsTotalClients =[
-        team.statusCounts.AWAITING_DOCUMENTATION,
-        team.statusCounts.INTERESTED,
-        team.statusCounts.NOT_INTERESTED,
-        team.statusCounts.ONBOARDED,
-        team.statusCounts.PENDING
-
-      ]
-      console.log(this.doughnutTeamsTotalClients)
-     
-      // this.getStatusCounts()
-
-      this.loadDoughnutChart(this.doughnutTeamsTotalClients)
-
-     this.doughnutChartInstance.data.datasets[0].data =this.doughnutTeamsTotalClients
-     this.doughnutChartInstance.update()
-
-     // reset data
-     this.doughnutTeamsTotalClients=[]
-    //  this.teamsTotalClientsOnboarded=[]
       
+      this.handlingDoughnutChart()
     }
 
 
@@ -392,6 +379,36 @@ export class DashboardComponent implements OnInit, AfterViewInit {
      this.handlingBarChart()
       
     } 
+  }
+
+  handlingDoughnutChart(){
+    const team = this.teamStats.find(
+      (t) => t.teamName === this.selectedTeamName
+    );
+    this.displayedStatusCounts = team ? team : {};
+    console.log(this.displayedStatusCounts);
+   
+
+    this.doughnutTeamsTotalClients =[
+      team.statusCounts.AWAITING_DOCUMENTATION,
+      team.statusCounts.INTERESTED,
+      team.statusCounts.NOT_INTERESTED,
+      team.statusCounts.ONBOARDED,
+      team.statusCounts.PENDING
+
+    ]
+    console.log(this.doughnutTeamsTotalClients)
+   
+    // this.getStatusCounts()
+
+    this.loadDoughnutChart(this.doughnutTeamsTotalClients)
+
+   this.doughnutChartInstance.data.datasets[0].data =this.doughnutTeamsTotalClients
+   this.doughnutChartInstance.update()
+
+   // reset data
+   this.doughnutTeamsTotalClients=[]
+  //  this.teamsTotalClientsOnboarded=[]
   }
 handlingBarChart(){
   // reset
@@ -458,11 +475,12 @@ handlingBarChart(){
     // this.goToPage(this.currentPage);
 
     // get  client status count
+    this.fetchAllTeams()
     this.getStatusCounts();
 
-    this.fetchAllTeams()
+    
 
-     
+
 
     // get all overdue clients
     // this.userService.getAllClientsOverdue().subscribe({
@@ -475,6 +493,8 @@ handlingBarChart(){
     //   }
     // })
   }
+
+  
   get modalTitle(): string {
     return this.modalType === 'team-lead'
       ? 'Create New Team Lead'
@@ -486,6 +506,7 @@ handlingBarChart(){
   ngAfterViewInit(): void {
     this.apiReady = true;
     Chart.register(...registerables);
+    //this.loadBarChart(this.teamNames,this.teamsTotalClientsOnboarded)
 
     // Load charts
 

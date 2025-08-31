@@ -35,8 +35,15 @@ export class TeamsOverviewComponent {
   teamLeadUserId:string="";
   teamId!: number;
   teamName!: string;
-  
 
+  currentPage = 0;
+  totalPages = 3;
+  totalItems = 12;
+  limit = 5;
+  hasNext = false;
+  hasPrevious = false;
+  
+  searchTerm=""
   constructor(
     private modal: ModalService,
     private userService: UserService,
@@ -67,7 +74,7 @@ export class TeamsOverviewComponent {
     });
     editTeamDialog.componentInstance.teamEdited.subscribe((data)=>{
       if(data){
-        this.getATeam()
+        this.getATeam(this.currentPage)
       }
     })
   }
@@ -102,12 +109,12 @@ export class TeamsOverviewComponent {
     })
     editTeamMemberDialog.componentInstance.effectTeamMemberChanges.subscribe((data)=>{
       // this.getTeamMembers(teamLeadUserId)
-      this.getATeam()
+      this.getATeam(this.currentPage)
     })
   
   }
   ngOnInit(): void {
-    this.getATeam()
+    this.getATeam(this.currentPage)
     console.log(this.activatedRoute.snapshot);
    
 
@@ -115,10 +122,17 @@ export class TeamsOverviewComponent {
     
   }
 
-  getATeam(){
+  onLimitChange(newLimit: number): void {
+    
+    this.limit = newLimit; // convert to number
+    this.currentPage = 0;
+    this.getATeam(this.currentPage)
+  }
+
+  getATeam(page:number){
     const id =this.activatedRoute.snapshot.paramMap.get('teamId')
     if(id){
-      this.userService.getATeam(id).subscribe({
+      this.userService.getATeam(id,page,this.searchTerm,this.limit).subscribe({
         next: (data) => {
           console.log(data);
           this.teamData = data.team
@@ -127,7 +141,15 @@ export class TeamsOverviewComponent {
           this.teamId=data.team.teamId
           this.teamName=data.team.name
           console.log(data.team.teamMembers);
-          console.log(data.team.name)
+          
+
+          this.hasNext=data.team.teamMembers.hasNext
+          this.hasPrevious=data.team.teamMembers.hasPrevious
+          this.currentPage=page
+          this.totalPages=data.team.teamMembers.totalPages
+          this.totalItems=data.team.teamMembers.totalItems
+
+
           
         }
       })
@@ -193,7 +215,7 @@ export class TeamsOverviewComponent {
       
     });
     addUserPopup.componentInstance.userCreated.subscribe((data)=>{
-       this.getATeam()
+       this.getATeam(this.currentPage)
     })
   }
 }

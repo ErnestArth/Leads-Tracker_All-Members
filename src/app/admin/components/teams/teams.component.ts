@@ -169,7 +169,7 @@ export class TeamsComponent {
 
     if (members && members.length > 3) {
       this.showAdditionalMembers = true;
-      console.log(this.showAdditionalMembers);
+      // console.log(this.showAdditionalMembers);
       return members.length - 3;
       
     }else{

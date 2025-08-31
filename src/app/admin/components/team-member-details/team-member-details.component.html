@@ -2,8 +2,8 @@
   <aside>
     <app-sidebar />
   </aside>
-  @if(!isEditTeamMemberActive){
-  <main>
+  <!-- @if(!isEditTeamMemberActive){ -->
+  <main [hidden]="isEditTeamMemberActive">
     <aside class="header">
       <div class="back-arrow"  (click)="goBack()">
         <svg
@@ -289,8 +289,9 @@
 
     <router-outlet></router-outlet>
   </main>
-  } @if(isEditTeamMemberActive){
-  <main>
+  <!-- } -->
+   <!-- @if(isEditTeamMemberActive){ -->
+  <main [hidden]="!isEditTeamMemberActive">
     <aside class="header">
       <div class="back-arrow" (click)="editTeamMember()">
         <svg
@@ -327,5 +328,5 @@
 
     <router-outlet></router-outlet>
   </main>
-  }
+  <!-- } -->
 </div>
