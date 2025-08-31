@@ -12,11 +12,18 @@
           <img src="dashboard-images/lets-icons_user-add-alt-fill.png" alt="add-user-icon" />
         </button> -->
 
+        <!-- this is supposed to open the sub-menu in the previous
+         version,
+         should be in the button tag below
+         deprecated for now! -->
+          <!-- matButton
+          [matMenuTriggerFor]="beforeMenu"
+          #menuTrigger -->
+
         <button
           class="add-user-btn"
-          matButton
-          [matMenuTriggerFor]="beforeMenu"
-          #menuTrigger
+          
+          (click)="openAddUserDialog()"
         >
           Add User
 
@@ -44,7 +51,7 @@
           </svg>
         </button>
         <mat-menu #beforeMenu="matMenu" xPosition="after">
-          <button class="add-lead" mat-menu-item (click)="addTeamLead()">
+          <button class="add-lead" mat-menu-item (click)="openAddUserDialog()">
             <svg
               width="24"
               height="25"

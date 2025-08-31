@@ -49,8 +49,12 @@ export class TeamMemberDetailsComponent {
     "Pending"
   ]
 
-  selectedDates: string = '';
+  progressColor: string = '';
+  progressTextColor: string = '';
+  progressOutlineColor: string = '';
 
+  selectedDates: string = '';
+  mainSelectedDate: string = '';
   searchTerm="";
   statusFilter=""
   teamFilter=""
@@ -59,7 +63,18 @@ export class TeamMemberDetailsComponent {
   fromDate="";
   toDate="";
 
+
+  startDate=""
+  endDate =""
+
+  memberDetails:any
+
+  memberId:any
+
   memberDoughnutChartInstance!: Chart;
+
+  doughnutStatusData: any[] = [];
+  
 
   @ViewChild('memberDoughnutChart') memberDoughnutChart!: ElementRef<HTMLCanvasElement>;
   constructor(
@@ -69,18 +84,49 @@ export class TeamMemberDetailsComponent {
     private userService: UserService
   ) {}
 
-  progressColorCoe(){
-    
+  
+
+  progressColorCode() {
+    if (
+      this.memberDetails &&
+      this.memberDetails.progressPercentage >= 80
+    ) {
+      if(this.memberDetails.progressPercentage >= 100){
+        this.memberDetails.progressPercentageColor='text-white';
+      }else{
+        this.memberDetails.progressPercentageColor='text-green';
+      }
+      this.progressColor = 'progress-green';
+      this.progressTextColor = 'text-green';
+      this.progressOutlineColor = 'green-outline';
+      console.log('green')
+    } else if (
+      this.memberDetails &&
+      this.memberDetails.progressPercentage >= 50
+    ) {
+      this.progressColor = 'progress-yellow';
+      this.progressTextColor='text-yellow';
+      this.progressOutlineColor='yellow-outline';
+      console.log('yellow')
+    }else if(this.memberDetails?.progressPercentage <= 50){
+      this.progressColor ='progress-red';
+      this.progressTextColor='text-red';
+      this.progressOutlineColor='red-outline';
+      console.log('red')
+    }
   }
 
   ngOnInit(): void {
     
    this.fetchUserData()
+   this.fetchTeamMember()
+   
   }
 
 
   fetchUserData(){
     let id = this.activatedRoute.snapshot.paramMap.get('memberId');
+    this.memberId = this.activatedRoute.snapshot.paramMap.get('memberId')
     console.log(this.activatedRoute.snapshot.paramMap.get('memberId'));
     if (id) {
       this.userService.getUser(id).subscribe({
@@ -97,6 +143,30 @@ export class TeamMemberDetailsComponent {
     } else {
       console.log('nothing');
     }
+  }
+
+  fetchTeamMember(){
+    this.userService.getTeamMemberPerformance(this.memberId, this.startDate, this.endDate).subscribe({
+      next: (data) => {
+       
+        this.memberDetails=data
+        console.log(this.memberDetails);
+        this.doughnutStatusData=[
+          this.memberDetails.clientStatus.Awaiting_Documentation,
+          this.memberDetails.clientStatus.Interested,
+          this.memberDetails.clientStatus.Not_Interested,
+          this.memberDetails.clientStatus.Onboarded,
+          this.memberDetails.clientStatus.Pending
+        ]
+        this.loadMemberDoughnutChart(this.doughnutStatusData)
+        console.log(this.doughnutStatusData)
+
+        this.progressColorCode()
+      },error: (err) => {
+        console.log(err);
+       
+      }
+    })
   }
 
   fetchClients(page: number){
@@ -118,11 +188,12 @@ export class TeamMemberDetailsComponent {
     })
   }
 
-  loadTeamDoughnutChart(data?: any) {
+  loadMemberDoughnutChart(data?: any) {
     if(this.memberDoughnutChartInstance){
     
      this.memberDoughnutChartInstance.destroy();
     }
+    Chart.register(...registerables);
        const doughnutData = {
          labels: [
            'Awaiting Documentation',
@@ -173,61 +244,61 @@ export class TeamMemberDetailsComponent {
        });
      
    }
-  ngAfterViewInit() {
-    Chart.register(...registerables);
-    const doughnutData = {
-      labels: [
-        'Awaiting Documentation',
-          'Interested',
-          'Not Interested',
-          'Onboarded',
-          'Pending',
-      ],
-      datasets: [
-        {
-          label: 'Onboarding Status',
-          data: [800, 260, 105, 85, 310],
-          backgroundColor: [
-            '#F46036', //orange
-            '#F6B100',  // yellow
-            '#FF3B30', //red
-            '#1B998B',   // green
-            '#2C2368',   //purple
-          ],
-          borderWidth: 4,
-        },
-      ],
-    };
-    const doughnutCanvas = document.getElementById(
-      'doughnutChart'
-    ) as HTMLCanvasElement;
+  // ngAfterViewInit() {
+   
+  //   const doughnutData = {
+  //     labels: [
+  //       'Awaiting Documentation',
+  //         'Interested',
+  //         'Not Interested',
+  //         'Onboarded',
+  //         'Pending',
+  //     ],
+  //     datasets: [
+  //       {
+  //         label: 'Onboarding Status',
+  //         data: [800, 260, 105, 85, 310],
+  //         backgroundColor: [
+  //           '#F46036', //orange
+  //           '#F6B100',  // yellow
+  //           '#FF3B30', //red
+  //           '#1B998B',   // green
+  //           '#2C2368',   //purple
+  //         ],
+  //         borderWidth: 4,
+  //       },
+  //     ],
+  //   };
+  //   const doughnutCanvas = document.getElementById(
+  //     'doughnutChart'
+  //   ) as HTMLCanvasElement;
 
-    if (doughnutCanvas) {
-      new Chart(doughnutCanvas.getContext('2d')!, {
-        type: 'doughnut',
-        data: doughnutData,
-        options: {
-          responsive: true,
-          plugins: {
-            legend: {
-              position: 'bottom',
-              labels: {
-                boxWidth: 12,
-                padding: 10,
-                color: '#333',
-                font: {
-                  size: 12,
-                },
-              },
-            },
-            datalabels: {
-                color:'white',
-            }
-          },
-        },
-      });
-    }
-  }
+  //   if (doughnutCanvas) {
+  //     new Chart(doughnutCanvas.getContext('2d')!, {
+  //       type: 'doughnut',
+  //       data: doughnutData,
+  //       options: {
+  //         responsive: true,
+  //         plugins: {
+  //           legend: {
+  //             position: 'bottom',
+  //             labels: {
+  //               boxWidth: 12,
+  //               padding: 10,
+  //               color: '#333',
+  //               font: {
+  //                 size: 12,
+  //               },
+  //             },
+  //           },
+  //           datalabels: {
+  //               color:'white',
+  //           }
+  //         },
+  //       },
+  //     });
+  //   }
+  // }
 
   onSearchClients() {
     console.log(this.searchTerm);
@@ -251,6 +322,12 @@ export class TeamMemberDetailsComponent {
     }
   }
 
+  onMainDateChange(event: Event) {
+    this.mainSelectedDate = (event.target as HTMLInputElement).value
+    console.log(this.mainSelectedDate);
+    [this.startDate, this.endDate] = this.mainSelectedDate.split(' to ');
+    this.fetchTeamMember()
+  }
   onDateChange(event: Event) {
     this.selectedDates = (event.target as HTMLInputElement).value
     console.log(this.selectedDates);

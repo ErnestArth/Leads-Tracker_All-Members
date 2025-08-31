@@ -65,6 +65,8 @@ import { NoTargetComponent } from './components/no-target/no-target.component';
 import { ViewClientComponent } from './components/view-client/view-client.component';
 import { FlatpickrModule } from 'angularx-flatpickr';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { AddEditUserComponent } from './components/add-edit-user/add-edit-user.component';
+import { AddEditMemberComponent } from './components/add-edit-member/add-edit-member.component';
 
 
 
@@ -184,6 +186,8 @@ const routes: Routes = [
     AddTeamDialogComponent,
     NoTargetComponent,
     ViewClientComponent,
+    AddEditUserComponent,
+    AddEditMemberComponent,
 
   ],
   imports: [

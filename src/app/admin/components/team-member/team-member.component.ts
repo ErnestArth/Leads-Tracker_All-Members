@@ -85,6 +85,12 @@ export class TeamMemberComponent {
       next: (data) => {
         console.log(data);
         this.allTeamMembers = data.data;
+        this.currentPage=page
+        this.totalPages=data.totalPages
+        this.totalItems=data.totalItems
+        this.hasNext=data.hasNext
+        this.hasPrevious=data.hasPrevious
+
         // ernest will have to paginate this endpooint so that i will
         // assign the total pages and total items etc!
         // this.progressColorCode();
@@ -110,7 +116,7 @@ export class TeamMemberComponent {
   onLimitChange(newLimit: number): void {
     
     this.limit = newLimit; // convert to number
-    this.currentPage = 1;
+    this.currentPage = 0;
     this.fetchAllTeamMembers(this.currentPage);
   }
 

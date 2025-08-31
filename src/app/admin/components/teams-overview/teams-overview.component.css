@@ -308,6 +308,9 @@ input::placeholder {
   margin-right: 10px;
 }
 
+.action-button{
+  cursor:pointer;
+}
 .pag-text {
   color: #78829d;
 }

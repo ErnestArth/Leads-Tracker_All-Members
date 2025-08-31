@@ -46,6 +46,23 @@ export interface createTeamMemberResponse {
   userId: string;
 }
 
+export interface teamMemberPerformance {
+  memberId:string
+  memberName: string;
+  totalClientsSubmitted: string;
+  clientStatus: clientStatus;
+  target: number;
+  progressPercentage: number;
+  progressFraction: number;
+  email: string;
+  teamName: string;
+  teamLeadName: string;
+  staffId: string;
+  createdDate: string;
+  phoneNumber: string;
+ 
+}
+
 export interface specificTeamMembers {
   userId: string;
   firstName: string;
@@ -362,6 +379,7 @@ export interface getATeamsTeamMembers {
 
 export interface team {
   name: string;
+  teamId:number
   teamLeadUserId: string;
   teamLeadName: string;
   teamLeadEmail: string;
@@ -569,6 +587,17 @@ export class UserService {
     return this.http.get<getAllClients>(
       `${this.apiUrl}/leads-tracker/api/v1/clients/user/${userId}/overdueClients`,
       { headers,params:{name, team,duration,page,limit} }
+    );
+  }
+
+  // get team member performance
+
+  getTeamMemberPerformance(userId: string, startDate: string, endDate: string): Observable<teamMemberPerformance> {
+    const token = sessionStorage.getItem('token');
+    const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
+    return this.http.get<teamMemberPerformance>(
+      `${this.apiUrl}/leads-tracker/api/v1/leads/team-members/${userId}`,
+      { headers, params:{startDate,endDate} }
     );
   }
 
