@@ -67,6 +67,10 @@ import { FlatpickrModule } from 'angularx-flatpickr';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { AddEditUserComponent } from './components/add-edit-user/add-edit-user.component';
 import { AddEditMemberComponent } from './components/add-edit-member/add-edit-member.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { PresetTargetComponent } from './components/preset-target/preset-target.component';
+
+
 
 
 
@@ -129,6 +133,7 @@ const routes: Routes = [
         component: CreateTeamMemberComponent,
         canActivate: [authGuard],
       },
+      {path: 'preset-target', component: PresetTargetComponent},
       { path: 'deactivate-team', component: DeactivateTeamModalComponent },
       {
         path: 'set-target',
@@ -179,7 +184,6 @@ const routes: Routes = [
     AddTeamLeadPopupComponent,
     NotificationComponent,
     ProfileComponent,
-    SetTargetsComponent,
     ViewTargetsComponent,
     TeamBreakdownComponent,
     EditTeamDialogComponent,
@@ -188,6 +192,10 @@ const routes: Routes = [
     ViewClientComponent,
     AddEditUserComponent,
     AddEditMemberComponent,
+    AddEditUserComponent,
+    AddEditMemberComponent,
+    SetTargetsComponent,
+    PresetTargetComponent,
 
   ],
   imports: [
@@ -207,12 +215,14 @@ const routes: Routes = [
     MatTableModule,
     MatSortModule,
     MatPaginatorModule,
-    FlatpickrModule.forRoot(),  
+    FlatpickrModule.forRoot(),
+    MatDialogModule,
+    MatIconModule,
   ],
   providers: [
     importProvidersFrom(HttpClientModule),
     provideHttpClient(withInterceptors([TokenInterceptor],
-    
+
     )),
   ],
 })

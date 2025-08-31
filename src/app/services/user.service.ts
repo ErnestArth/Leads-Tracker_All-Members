@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 export interface AddTeamRequest {
   name: string;
@@ -350,7 +351,9 @@ export interface getAllTeams {
   progressColor?: string;
   progressTextColor?: string;
   progressOutlineColor?: string;
-  progressPercentageColor?:string
+  progressPercentageColor?:string;
+  dueDate: string;
+  startDate : string
 }
 
 // Get A Team
@@ -480,6 +483,23 @@ export interface changeAdminPassword {
 
 export interface deactivateTeam{
   message:string
+}
+
+export interface TeamTarget {
+  id: string;
+  teamName: string;
+  teamLeadFullName: string;
+  targetValue: number;
+  dueDate: string;
+  totalClientsOnboarded: number;
+  startDate: string;
+}
+
+export interface SetTeamTargetRequest {
+  teamId: string;
+  targetValue: number;
+  startDate: string; // ISO format
+  dueDate: string;   // ISO format
 }
 
 // const token =sessionStorage.getItem('token')
@@ -752,4 +772,69 @@ export class UserService {
       { headers }
     );
   }
+
+  assignTeamTarget(
+    teamId: string,
+    targetValue: number,
+  dueDate: string
+  ): Observable<void> {
+    const token = sessionStorage.getItem('token');
+    const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
+    const body = {teamId, targetValue, dueDate};
+    return this.http.post<void>(
+      `${this.apiUrl}/leads-tracker/api/v1/leads/assign/team-target`,
+      {body},
+      { headers }
+    );
+  }
+
+  getTeamTargets():Observable<TeamTarget[]> {
+    const token = sessionStorage.getItem('token');
+    const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
+    return this.http.get<TeamTarget[]>(
+      `${this.apiUrl}/leads-tracker/api/v1/leads/team-targets`,
+      { headers }
+    );
+  }
+
+  setTeamTarget(request: SetTeamTargetRequest): Observable<any> {
+    const token = sessionStorage.getItem('token');
+    const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
+    return this.http.post<any>(
+      `${this.apiUrl}/leads-tracker/api/v1/leads/assign/team-target`,
+      request,
+      { headers }
+    );
+  }
+  // Fetch all teams with necessary details
+getAllTeamsWithDetails(name: string, team: string): Observable<Array<{
+  teamName: string;
+  teamLeadName: string;
+  numberOfTeamMembers: number;
+  teamTarget: number;
+  dueDate: string;
+  startDate: string;
+}>> {
+  const token = sessionStorage.getItem('token');
+  const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
+  return this.http.get<getAllTeams[]>(`${this.apiUrl}/leads-tracker/api/v1/teams/all-teams`, {
+    headers,
+    params: { name, team }
+  }).pipe(
+    map((teams: getAllTeams[]) => {
+      // Process or transform the teams data if needed
+      return teams.map((team: getAllTeams) => ({
+        teamName: team.teamName,
+        teamLeadName: team.teamLeadName,
+        numberOfTeamMembers: team.numberOfTeamMembers,
+        teamTarget: team.teamTarget,
+        dueDate: team.dueDate,
+        startDate: team.startDate
+      }));
+    })
+  );
 }
+
+
+}
+

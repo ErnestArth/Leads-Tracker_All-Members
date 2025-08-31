@@ -10,7 +10,6 @@
 .dashboard-container {
   display: flex;
   height: 100vh;
-  overflow: hidden;
 }
 main {
   background-color: #f9f9f9;
@@ -449,7 +448,7 @@ input {
   width: 120px;
   border: 1px solid #DBDFE9;
   background-color: #FCFCFC;
-  
+
   padding: 6px;
   border-radius: 9px;
 }

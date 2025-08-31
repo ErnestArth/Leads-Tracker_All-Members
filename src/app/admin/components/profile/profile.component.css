@@ -207,7 +207,7 @@ button[class="back-button"]:hover {
 }
 
 input::placeholder {
-  color: #78829d;
+  color: #0000007e;
   font-size: 14px;
 }
 
@@ -231,6 +231,7 @@ input:disabled {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  width: 99%;
 }
 
 .security-container {
@@ -258,4 +259,8 @@ button[class="save-button"]:hover {
   color: white;
   border-radius: 5px;
   cursor: pointer;
+}
+
+.showSecurity{
+  display: none;
 }

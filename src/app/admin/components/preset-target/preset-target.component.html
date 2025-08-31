@@ -1,0 +1,82 @@
+<div class="dashboard-container">
+  <app-sidebar></app-sidebar>
+
+  <main>
+    <div class="top-bar">
+      <div class="header">
+        <span class="back-arrow" routerLink="/admin/dashboard">
+          <img src="Back arrow.png" alt="Back" />
+        </span>
+        <h2>Preset Targets</h2>
+      </div>
+      <button class="save-btn" (click)="saveChanges()">Save All Changes</button>
+    </div>
+
+    <div class="content-wrapper">
+      <!-- Left: Team List -->
+      <div class="team-list">
+        <div
+          class="team-item"
+          *ngFor="let team of teams"
+          [class.active]="selectedTeam === team"
+          (click)="selectTeam(team)"
+        >
+          <div class="team-name">{{ team.name }}</div>
+          <div class="team-lead">{{ team.lead }}</div>
+        </div>
+      </div>
+
+      <!-- Right: Team Details -->
+      <div class="team-details">
+        <!-- No Team Selected -->
+        <div *ngIf="!selectedTeam" class="empty-state">
+          <p>No Preset targets have been assigned yet.</p>
+          <p>Select team to assign</p>
+        </div>
+
+        <!-- Team Selected -->
+        <div *ngIf="selectedTeam" class="assigned-state">
+          <h3>{{ selectedTeam.name }} Preset Target</h3>
+
+          <div class="form-container">
+            <!-- Target Input -->
+            <div class="form-group">
+              <label for="target">Target</label>
+              <input
+                type="number"
+                id="target"
+                [(ngModel)]="targetValue"
+                placeholder="Enter target"
+              />
+            </div>
+
+            <!-- Start Date -->
+            <div class="form-group">
+              <label for="startDate">Start Date</label>
+              <input
+                type="date"
+                id="startDate"
+                [(ngModel)]="startDate"
+              />
+            </div>
+
+            <!-- Due Date -->
+            <div class="form-group">
+              <label for="dueDate">Due Date</label>
+              <input
+                type="date"
+                id="dueDate"
+                [(ngModel)]="dueDate"
+              />
+            </div>
+
+            <!-- Assign Button -->
+            <div class="form-actions">
+              <button class="assign-btn" (click)="assignTarget()">Assign</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
