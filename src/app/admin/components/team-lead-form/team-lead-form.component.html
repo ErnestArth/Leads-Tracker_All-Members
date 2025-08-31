@@ -126,6 +126,32 @@
     </div>
   </div>
 
+   <!-- Team -->
+   <div class="form-group">
+    <label for="staffId">Team</label>
+   
+    <select
+    formControlName="teamName"
+      placeholder="select team"
+      title="team"
+      id="teamId"
+    >
+      <option *ngFor="let team of allTeams" value={{team.teamName}}>{{team.teamName}}</option>
+    </select>
+    <div
+      class="error"
+      *ngIf="
+        createTeamLeadForm.get('teamId')?.touched &&
+        createTeamLeadForm.get('teamId')?.invalid
+      "
+    >
+      <div *ngIf="createTeamLeadForm.get('teamId')?.hasError('required')">
+        Team is required.
+      </div>
+      
+    </div>
+  </div>
+
   <!-- Modal Buttons -->
   <div *ngIf="!isEditMode" class="modal-buttons">
     <button matButton mat-dialog-close type="button" (click)="cancel()">

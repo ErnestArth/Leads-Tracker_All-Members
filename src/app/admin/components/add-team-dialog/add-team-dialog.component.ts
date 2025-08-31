@@ -16,6 +16,9 @@ export class AddTeamDialogComponent {
   errorMessage = 'oops Something went wrong';
   @Output() teamAdded = new EventEmitter<any>();
 
+  page=0
+  limit=20
+
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,
   private dialogRef: MatDialogRef<AddTeamDialogComponent>,
    private fb: FormBuilder,
@@ -29,15 +32,15 @@ ngOnInit() {
     teamLeadUserId: ['', Validators.required],
   })
 
-  this.service.getAllTeamLeads().subscribe({
-    next: (data) => {
-      this.allTeamLeads = data;
-      console.log(data);
-    },
-    error: (err) => {
-      console.log(err);
-    },
-  })
+  // this.service.getAllTeamLeads(this.page,this.limit).subscribe({
+  //   next: (data) => {
+  //     this.allTeamLeads = data;
+  //     console.log(data);
+  //   },
+  //   error: (err) => {
+  //     console.log(err);
+  //   },
+  // })
 }
 onSubmit() {
   console.log(this.addTeamForm.value);
@@ -46,7 +49,7 @@ onSubmit() {
       console.log(data);
       this.areChangesSaved = true;
       this.teamAdded.emit(data);
-      // this.dialogRef.close(data);
+      this.dialogRef.close(data);
     },
     error: (err) => {
       console.log(err.message);

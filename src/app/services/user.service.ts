@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 export interface AddTeamRequest {
   name: string;
@@ -75,19 +76,28 @@ export interface getAllTeamLeads {
   // teamPerformance: string
   // memberPerformance: string
 
-  clientStatus: object;
-  numberOfClients: number;
-  numberOfTeamMembers: number;
-  progressFraction: string;
+  data: data[];
+  currentPage: number;
+  totalPages: number;
+  totalItems: number;
+  pageSize: number;
+  hasNext: boolean;
+  hasPrevious: boolean;
+
+  // clientStatus: object;
+  // numberOfClients: number;
+  // numberOfTeamMembers: number;
+  // progressFraction: string;
+  // progressPercentage: number;
+  // teamId: number;
+  // teamLeadName: string;
+  // teamMembers: getAllTeamTeamMembers[];
+  // teamLeadUserId: string;
+  // teamName: string;
+  // teamTarget: number;
+  // totalClientsAdded: number;
+  // email: string;
   progressPercentage: number;
-  teamId: number;
-  teamLeadName: string;
-  teamMembers: getAllTeamTeamMembers[];
-  teamLeadUserId: string;
-  teamName: string;
-  teamTarget: number;
-  totalClientsAdded: number;
-  email: string;
   color?: string;
   progressColor?: string;
   progressTextColor?: string;
@@ -108,7 +118,7 @@ export interface data{
   lastAction: string
   createdBy:string
   assignedTo: string
-  gpslocation:string
+  gpsLocation:string
   teamName:string
 }
 
@@ -175,6 +185,7 @@ export interface clientStatus{
   totalClients?: number
 
 }
+
 export interface teamMembers {
   memberId: string;
   memberName: string;
@@ -184,6 +195,8 @@ export interface teamMembers {
   email: string;
   teamName: string;
   teamLeadName: string;
+  target?: number
+  progressPercentage?: number
 }
 
 export interface teamPerformance{
@@ -234,22 +247,31 @@ export interface getSpecificTeamMember {
 }
 
 export interface getAllTeamMembers {
-  memberId: string;
-  memberName: string;
-  totalClientsSubmitted: number;
-  target: number;
-  progressPercentage: number;
-  clientStatus: object;
-  progressFraction: string;
-  email: string;
-  teamLeadName: string;
+  // memberId: string;
+  // memberName: string;
+  // totalClientsSubmitted: number;
+  // target: number;
+  // progressPercentage: number;
+  // clientStatus: object;
+  // progressFraction: string;
+  // email: string;
+  // teamLeadName: string;
   teamName: string;
+  progressPercentage: number;
   color?: string;
   progressColor?: string;
   progressTextColor?: string;
   progressOutlineColor?: string;
   // teamPerformance: null
   // memberPerformance: null
+
+  data: data[];
+  currentPage: number;
+  totalPages: number;
+  totalItems: number;
+  pageSize: number;
+  hasNext: boolean;
+  hasPrevious: boolean;
 }
 
 export interface getUserDetails {
@@ -312,15 +334,44 @@ export interface getAllTeams {
   progressColor?: string;
   progressTextColor?: string;
   progressOutlineColor?: string;
-  progressPercentageColor?:string
+  progressPercentageColor?:string;
+  dueDate: string;
+  startDate : string
 }
 
 // Get A Team
+
+export interface getATeamsData {
+  memberId: string;
+  memberName: string;
+  totalClientsSubmitted: number;
+  clientStatus: clientStatus;
+  progressFraction: number;
+  email: string;
+  teamName: string;
+  teamLeadName: string;
+  target?: number
+  progressPercentage?: number
+}
+export interface getATeamsTeamMembers {
+  data: getATeamsData[],
+  currentPage: number,
+  totalPages: number,
+  totalItems: number
+  pageSize: number
+  hasNext: boolean
+  hasPrevious: boolean
+}
 
 export interface team {
   name: string;
   teamLeadUserId: string;
   teamLeadName: string;
+  teamLeadEmail: string;
+  leadPhoneNumber: string;
+  leadStaffId: string;
+  createdDate: string;
+  teamMembers: getATeamsTeamMembers;
 }
 
 export interface getATeam {
@@ -426,6 +477,13 @@ export interface TeamTarget {
   startDate: string;
 }
 
+export interface SetTeamTargetRequest {
+  teamId: string;
+  targetValue: number;
+  startDate: string; // ISO format
+  dueDate: string;   // ISO format
+}
+
 // const token =sessionStorage.getItem('token')
 // console.log(token)
 // const headers = new HttpHeaders({
@@ -456,11 +514,11 @@ export class UserService {
   }
 
   // Update a team
-  updateTeam(team: AddTeamRequest): Observable<AddTeamRequest> {
+  updateTeam(team: AddTeamRequest,teamId:number): Observable<AddTeamRequest> {
     const token = sessionStorage.getItem('token');
     const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
     return this.http.put<AddTeamRequest>(
-      `${this.apiUrl}/leads-tracker/api/v1/leads/Edit-team/1`,
+      `${this.apiUrl}/leads-tracker/api/v1/leads/Edit-team/${teamId}`,
       team,
       { headers }
     );
@@ -496,12 +554,12 @@ export class UserService {
 
   // get total number of clients by status
 
-  getClientStatusCounts(): Observable<clientStatusCounts> {
+  getClientStatusCounts(fromDate: string, toDate: string): Observable<clientStatusCounts> {
     const token = sessionStorage.getItem('token');
     const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
     return this.http.get<clientStatusCounts>(
-      `${this.apiUrl}/leads-tracker/api/v1/clients/statistics?duration=week`,
-      { headers }
+      `${this.apiUrl}/leads-tracker/api/v1/clients/statistics`,
+      { headers , params: { fromDate, toDate } }
     );
   }
 
@@ -548,12 +606,12 @@ export class UserService {
 
   // get all teams
 
-  getAllTeams(): Observable<getAllTeams[]> {
+  getAllTeams(name: string, team: string): Observable<getAllTeams[]> {
     const token = sessionStorage.getItem('token');
     const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
     return this.http.get<getAllTeams[]>(
       `${this.apiUrl}/leads-tracker/api/v1/teams/all-teams?duration=week`,
-      { headers }
+      { headers, params: { name,team } }
     );
   }
 
@@ -567,40 +625,40 @@ export class UserService {
     );
   }
 
-  getAllTeamLeads(): Observable<getAllTeamLeads[]> {
+  getAllTeamLeads(page:number,limit:number,name:string,team:string): Observable<getAllTeamLeads> {
     const token = sessionStorage.getItem('token');
     const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
-    return this.http.get<getAllTeamLeads[]>(
+    return this.http.get<getAllTeamLeads>(
       `${this.apiUrl}/leads-tracker/api/v1/leads/team-leads`,
-      { headers }
+      { headers, params:{page,limit,name,team} }
     );
   }
 
-  getAllClients(page: number, limit: number, searchTerm: string, statusFilter: string, durationFilter: string): Observable<getAllClients> {
+  getAllClients(page: number, limit: number, name: string, status: string,team: string): Observable<getAllClients> {
     const token = sessionStorage.getItem('token');
     const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
     return this.http.get<getAllClients>(
       `${this.apiUrl}/leads-tracker/api/v1/clients/all-clients?page=${page}&limit=${limit}`,
-      { headers }
+      { headers, params:{name,status,team} }
     );
   }
 
   // get all team members
 
-  getAllTeamMembers(): Observable<getAllTeamMembers[]> {
+  getAllTeamMembers(page:number,limit:number,name:string,team:string): Observable<getAllTeamMembers> {
     const token = sessionStorage.getItem('token');
     const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
-    return this.http.get<getAllTeamMembers[]>(
+    return this.http.get<getAllTeamMembers>(
       `${this.apiUrl}/leads-tracker/api/v1/leads/team-members`,
-      { headers }
+      { headers, params:{page,limit,name,team} }
     );
   }
-  getSpecificTeamLead(userId: string,startDate: string,endDate:string): Observable<getSpecificTeamLead> {
+  getSpecificTeamLead(userId: string,startDate: string,endDate:string,name:string): Observable<getSpecificTeamLead> {
     const token = sessionStorage.getItem('token');
     const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
     return this.http.get<getSpecificTeamLead>(
       `${this.apiUrl}/leads-tracker/api/v1/leads/team-leads/${userId}`,
-      { headers, params: { startDate,endDate } }
+      { headers, params: { startDate,endDate,name } }
     );
   }
   getSpecificTeamMember(
@@ -709,6 +767,45 @@ export class UserService {
       { headers }
     );
   }
+
+  setTeamTarget(request: SetTeamTargetRequest): Observable<any> {
+    const token = sessionStorage.getItem('token');
+    const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
+    return this.http.post<any>(
+      `${this.apiUrl}/leads-tracker/api/v1/leads/assign/team-target`,
+      request,
+      { headers }
+    );
+  }
+  // Fetch all teams with necessary details
+getAllTeamsWithDetails(name: string, team: string): Observable<Array<{
+  teamName: string;
+  teamLeadName: string;
+  numberOfTeamMembers: number;
+  teamTarget: number;
+  dueDate: string;
+  startDate: string;
+}>> {
+  const token = sessionStorage.getItem('token');
+  const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
+  return this.http.get<getAllTeams[]>(`${this.apiUrl}/leads-tracker/api/v1/teams/all-teams`, {
+    headers,
+    params: { name, team }
+  }).pipe(
+    map((teams: getAllTeams[]) => {
+      // Process or transform the teams data if needed
+      return teams.map((team: getAllTeams) => ({
+        teamName: team.teamName,
+        teamLeadName: team.teamLeadName,
+        numberOfTeamMembers: team.numberOfTeamMembers,
+        teamTarget: team.teamTarget,
+        dueDate: team.dueDate,
+        startDate: team.startDate
+      }));
+    })
+  );
+}
+
 
 }
 

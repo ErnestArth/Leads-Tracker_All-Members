@@ -177,12 +177,13 @@
           <div class="status-breakdown bar-chart-container">
             <div class="team-members-and-progress-bar">
               <div class="Team-members">
-                <p class="team-members-text">Team Members</p>
+                <p class="team-members-text">Progress Summary</p>
                 <p class="team-leaders-name">{{userData?.teamPerformance?.numberOfTeamMembers}}</p>
               </div>
 
               <div class="progress-bar">
-                <p>Total Clients Onboarded <span><span>{{userData?.teamPerformance?.totalClientsAdded}}</span> / {{userData?.teamPerformance?.teamTarget}}</span></p>
+                <p>Assigned Target = <span>{{userData?.teamPerformance?.teamTarget}}</span></p>
+                <p>Total Clients Onboarded = <span class="{{progressTextColor}}">{{userData?.teamPerformance?.totalClientsAdded}}</span></p>
                 <div class="progress-outline {{progressOutlineColor}}">
                   <div class="progress {{progressColor}}" [ngStyle]="{ width: (userData?.teamPerformance?.progressPercentage || 0) + '%' ,backgroundColor:userData?.teamPerformance?.color}" ></div>
                   <span class="progress-percentage">{{userData?.teamPerformance?.progressPercentage}}%</span>
@@ -192,7 +193,7 @@
           </div>
         </div>
 
-        <div  class="overdue-actions-container">
+        <!-- <div  class="overdue-actions-container">
           <div class="overdue-actions-header">
             <span>Overdue Actions</span>
             <div class="overdue-actions-filter-section filter-sections">
@@ -207,16 +208,9 @@
               <select (change)="onTeamsChange($event)" class="dropdown filter-date" aria-label="Filter by team">
                 <option value="">All Teams</option>
                 <option *ngFor="let team of allTeam" value="{{team.teamName}}">{{team.teamName}}</option>
-                <!-- <option value="team_a">Team A</option>
-                <option value="team_b">Team B</option>
-                <option value="team_c">Team C</option> -->
+               
               </select>
-              <!-- <select class="dropdown filter-team" aria-label="Filter by team">
-                <option value="">Date</option>
-                <option value="team_a">Team A</option>
-                <option value="team_b">Team B</option>
-                <option value="team_c">Team C</option>
-              </select> -->
+           
               <input
               class="date-input"
               placeholder="Select Date"
@@ -272,29 +266,13 @@
 
 
 
-          <!-- <div class="pagination">
-            <label class="pag-text"
-              >Show
-              <select class="pag-select">
-                <option>2</option>
-              </select>
-              per page
-            </label>
-            <div class="pages">
-              <button type="button" class="pagination-button">1</button>
-              <button type="button" class="pagination-button">2</button>
-              <button type="button" class="pagination-button">3</button>
-              <button type="button" class="pagination-button">4</button>
-              <button type="button" class="pagination-button">5</button>
-            </div>
-          </div> -->
-        </div>
+          
+        </div> -->
 
         <div class="client-activity-tracker-container">
           <div class="client-activity-header">
             <div class="icon-and-section-name">
-              <img src="dashboard-images/client-alert.png" alt="client-image" />
-              <span>Client Activity Tracker</span>
+              <span>My Client Submissions</span>
             </div>
 
             <div class="filter-bar filter-sections">
@@ -330,24 +308,25 @@
               <tr>
                 <th class="act-cli-na table-header">Client Name</th>
                 <th class="act-stat table-header">Status</th>
-                <th class="act-date table-header">Date Added</th>
-                <th class="act-action table-header">Last Action</th>
-                <th class="act-ass table-header">Assigned To</th>
-                <th class="act-for table-header">Forwarded By</th>
-                <th class="act-team table-header">Team</th>
+                <th class="act-date table-header">Phone Number</th>
+                <!-- <th class="table-header">Date Added</th> -->
+                <th class="act-action table-header">GPS Address</th>
+                <th class="act-ass table-header">Date Added</th>
+                <th class="act-for table-header">Time Overdue</th>
+                <th class="act-team table-header">Forwarded By</th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let client of clientsUnderUserData.data" >
                 <td class="client-con table-data">{{client.firstName}} {{client.lastName}}</td>
                 <td class="badge-con table-data">
-                  <span class="badge PENDING">{{client.clientStatus}}</span>
+                  <span class="badge {{client.clientStatus}}">{{client.clientStatus}}</span>
                 </td>
-                <td class="date table-data">{{client.createdAt| date:'dd/MM/yyyy'}}</td>
-                <td class="days table-data">{{client.lastAction}}</td>
-                <td class="mem-name table-data">{{client.assignedTo}}</td>
-                <td class="name table-data">{{client.createdBy}}</td>
-                <td class="team table-data">{{client.teamName}}</td>
+                <td class="date table-data">{{client.phoneNumber}}</td>
+                <td class="days table-data">{{client.gpsLocation}}</td>
+                <td class="mem-name table-data">{{client.createdAt| date:'dd/MM/yyyy'}}</td>
+                <td class="time-overdue table-data">{{client.lastAction}}</td>
+                <td class="team table-data">{{client.createdBy}}</td>
               </tr>
               
             </tbody>
@@ -509,9 +488,19 @@
         <div class="member-details">
           <div class="member-details-title-and-search">
             <h2 class="member-details-text">Member Details</h2>
-            <form>
-              <input class="cards-input" placeholder="Find Members" title="members-details" type="text" />
-            </form>
+            
+              <input 
+              class="cards-input" 
+              placeholder="Search Members" 
+              title="members-details" 
+              type="text"
+              [(ngModel)]="searchMember"
+              (ngModelChange)="onMemberSearch()"
+              />
+              
+
+
+           
           </div>
 
           <div *ngFor="let member of teamMembers" class="member-cards">

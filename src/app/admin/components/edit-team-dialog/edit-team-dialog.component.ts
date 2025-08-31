@@ -13,6 +13,9 @@ export class EditTeamDialogComponent {
   editTeamForm!: FormGroup;
   areChangesSaved = false
 
+  page=0
+  limit=20
+
   @Output() teamEdited = new EventEmitter<any>();
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -26,14 +29,14 @@ export class EditTeamDialogComponent {
   ngOnInit(): void {
     this.editTeamForm = this.fb.group({
       name: ['', Validators.required],
-      teamLeadUserId: ['', Validators.required],
+      // teamLeadUserId: ['', Validators.required],
     })
 
 
    this.getATeam()
 
     console.log(this.data.id);
-    this.getAllTeamLeads();
+    // this.getAllTeamLeads();
   }
   getATeam(){
     this.userService.getATeam(this.data.id).subscribe({
@@ -43,17 +46,17 @@ export class EditTeamDialogComponent {
       }
     })
   }
-  getAllTeamLeads() {
-    this.userService.getAllTeamLeads().subscribe({
-      next: (data) => {
-        this.allTeamLeads = data;
-        console.log(data);
-      },
-    })
-  }
+  // getAllTeamLeads() {
+  //   this.userService.getAllTeamLeads(this.page,this.limit).subscribe({
+  //     next: (data) => {
+  //       this.allTeamLeads = data;
+  //       console.log(data);
+  //     },
+  //   })
+  // }
 
   onSubmit(){
-    this.userService.updateTeam(this.editTeamForm.value).subscribe({
+    this.userService.updateTeam(this.editTeamForm.value,this.data.id).subscribe({
       next: (data)=>{
         console.log(data);
         this.teamEdited.emit(data)

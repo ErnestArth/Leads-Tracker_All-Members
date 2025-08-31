@@ -24,8 +24,6 @@ export class ViewTargetsComponent implements OnInit {
   errorMessage = '';
   limit = 6;
   limitOptions = [6, 10, 20, 50];
-  
-
 
   constructor(private userService: UserService) {}
 
@@ -49,22 +47,33 @@ export class ViewTargetsComponent implements OnInit {
   }
 
   get filteredData(): TeamTarget[] {
-    return this.teams.filter(team =>
+    return this.teams.filter((team) =>
       team.teamName.toLowerCase().includes(this.searchTerm.toLowerCase())
     );
   }
 
   get paginatedData(): TeamTarget[] {
     const start = (this.currentPage - 1) * this.itemsPerPage;
-    return this.filteredData.slice(start, this.currentPage * this.itemsPerPage);
+    const end = start + this.itemsPerPage;
+    return this.filteredData.slice(start, end);
   }
 
   setPage(page: number): void {
-    this.currentPage = page;
+    if (page >= 1 && page <= this.totalPages) {
+      this.currentPage = page;
+    }
+  }
+
+  get totalPages(): number {
+    return Math.ceil(this.filteredData.length / this.itemsPerPage);
   }
 
   getProgress(submitted: number, target: number): number {
     return Math.min((submitted / target) * 100, 100);
+  }
+
+  getMin(a: number, b: number): number {
+    return Math.min(a, b);
   }
 
   onBackArrow(): void {
@@ -78,20 +87,20 @@ export class ViewTargetsComponent implements OnInit {
       'Current Target',
       'Total Clients Onboarded',
       'Target Start Date',
-      'Target Due Date'
+      'Target Due Date',
     ];
 
-    const rows = this.filteredData.map(team => [
+    const rows = this.filteredData.map((team) => [
       team.teamName,
-      team.teamLeadFullName,
+      team.teamLeadFullName || 'N/A',
       team.targetValue,
       team.totalClientsOnboarded,
       team.startDate,
-      team.dueDate
+      team.dueDate,
     ]);
 
     const csvContent = [headers, ...rows]
-      .map(row => row.map(cell => `"${cell}"`).join(','))
+      .map((row) => row.map((cell) => `"${cell}"`).join(','))
       .join('\n');
 
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
@@ -104,11 +113,19 @@ export class ViewTargetsComponent implements OnInit {
     link.click();
     document.body.removeChild(link);
   }
-  getMin(a: number, b: number): number {
-  return Math.min(a, b);
-}
-clientFetchAllClients(page: number, searchTerm?: string, statusFilter?: string, durationFilter?: string) {
-    console.log('Fetching clients for page:', page, 'with searchTerm:', searchTerm);
+
+  clientFetchAllClients(
+    page: number,
+    searchTerm?: string,
+    statusFilter?: string,
+    durationFilter?: string
+  ): void {
+    console.log(
+      'Fetching clients for page:',
+      page,
+      'with searchTerm:',
+      searchTerm
+    );
   }
 
   onLimitChange(newLimit: number): void {
@@ -116,6 +133,7 @@ clientFetchAllClients(page: number, searchTerm?: string, statusFilter?: string, 
     this.currentPage = 1;
     this.clientFetchAllClients(this.currentPage, this.searchTerm);
   }
+
   onLimitChangess(newLimit: number): void {
     this.limit = newLimit;
     this.clientCurrentPage = 1;

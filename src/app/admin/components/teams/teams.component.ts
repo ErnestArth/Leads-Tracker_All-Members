@@ -1,5 +1,5 @@
 import { Overlay, OverlayConfig } from '@angular/cdk/overlay';
-import { Component } from '@angular/core';
+import { Component, TemplateRef, ViewChild, viewChild } from '@angular/core';
 import { CreateTeamLeadComponent } from '../../crete-team-lead/create-team-lead.component';
 import { ComponentPortal } from '@angular/cdk/portal';
 import { ModalService } from '../../../services/modalService';
@@ -9,6 +9,7 @@ import { EditTeamModalComponent } from '../edit-team-modal/edit-team-modal.compo
 import { EditTeamDialogComponent } from '../edit-team-dialog/edit-team-dialog.component';
 import { AddTeamDialogComponent } from '../add-team-dialog/add-team-dialog.component';
 import { ChangeDetectorRef } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
 @Component({
   selector: 'app-teams',
   standalone: false,
@@ -26,10 +27,22 @@ export class TeamsComponent {
   allTeams: getAllTeams[] = [];
   teamMembers:getAllTeamTeamMembers[]=[]
   showAdditionalMembers= false;
+  searchTeamName=""
+  teamFilter=""
+
+  errorMessage = 'oops Something went wrong';
+
+  @ViewChild('addTeamDialog') addTeamDialog!: TemplateRef<any>;
+  addTeamForm: any;
+  areChangesSaved: boolean =false;
+  teamAdded: any;
+  isThereError: boolean=false
+  showAddTeamDialog: any;
 
   constructor(private modal: ModalService, 
     private userService: UserService,
     private dialog: MatDialog,
+    private fb: FormBuilder,
     private cdr: ChangeDetectorRef) {}
   openModal(
     type: 'addTeam' | 'editTeam' | 'deactivateTeam' | 'unassignedMembers'
@@ -99,7 +112,7 @@ export class TeamsComponent {
   }
 
   getAllteams(){
-    this.userService.getAllTeams().subscribe({
+    this.userService.getAllTeams(this.searchTeamName,this.teamFilter).subscribe({
       next: (data) => {
         this.allTeams = data;
         this.allTeams.forEach((team) => {
@@ -115,11 +128,28 @@ export class TeamsComponent {
   }
 
   ngOnInit(): void {
+
+    this.addTeamForm = this.fb.group({
+      name: ['', Validators.required],
+      // teamLeadUserId: ['', Validators.required],
+    })
+
     this.getAllteams();
    
 
     
 
+  }
+
+  onSearchTeams(){
+    console.log(this.searchTeamName)
+    if(this.searchTeamName.length>=3){
+      this.getAllteams();
+    }else if(this.searchTeamName.length==0){
+      this.getAllteams();
+
+    }
+    
   }
 
   
@@ -166,6 +196,9 @@ export class TeamsComponent {
     })
     
   }
+  
+  // this  open a modal in a different component 
+  // no more using it 
   openAddTeam(){
    const addTeamDialog= this.dialog.open(AddTeamDialogComponent,{
       width: '1200px',
@@ -180,5 +213,41 @@ export class TeamsComponent {
         }
     })
   }
+
+  //ends here
+  //show Add Team is being used now
+
+  showAddTeam(){
+   this.showAddTeamDialog= this.dialog.open(this.addTeamDialog,{
+      width: '600px',
+      data: {
+        title: 'Add Team'
+      }
+    });
+  }
+
+  onAddTeamSubmit() {
+    console.log(this.addTeamForm.value);
+    this.userService.addTeam(this.addTeamForm.value).subscribe({
+      next: (data) => {
+        console.log(data);
+        this.areChangesSaved = true;
+        this.getAllteams();
+        // this.dialogRef.close(data);
+      },
+      error: (err) => {
+        console.log(err.message);
+        this.isThereError = true;
+      },
+    })
+  }
+  toggleAreChangesSaved(){
+    this.areChangesSaved = !this.areChangesSaved;
+  }
+  
+    closeModal(){
+      this.showAddTeamDialog.close();
+    }
+  
   
 }

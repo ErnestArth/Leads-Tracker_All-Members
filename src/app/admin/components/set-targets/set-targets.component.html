@@ -23,10 +23,13 @@
           [(ngModel)]="searchTerm"
           (input)="applyFilter()"
         />
-        <button type="button"  (click)="exportData()"> <img src="Export.png" class="export-image" alt="export-image">Export Data</button>
+        <button type="button" (click)="exportData()">
+          <img src="Export.png" class="export-image" alt="export-image" />
+          Export Data
+        </button>
       </div>
 
-      <!-- Table -->
+      <!-- Team Table -->
       <table>
         <thead>
           <tr class="table-header">
@@ -40,39 +43,40 @@
         </thead>
         <tbody>
           <tr *ngFor="let row of paginatedData">
-            <td class="client-na table-data" table-data>{{ row.teamName }}</td>
-            <td class="member-na table-data">{{ row.teamLead }}</td>
-            <td class="date-allo table-data">{{ row.members }}</td>
-            <td class="time-overdue-values table-data">{{ row.currentTarget || '—' }}</td>
-            <td class="table-data">{{ row.dueDate || '—' }}</td>
-            <td class="team-na table-data">
-              <a href="#" (click)="openTargetModal(row); $event.preventDefault()"
-                >Set New Target</a
-              >
+            <td>{{ row.teamName }}</td>
+            <td>{{ row.teamLead }}</td>
+            <td>{{ row.members }}</td>
+            <td>{{ row.currentTarget || '—' }}</td>
+            <td>{{ row.dueDate || '—' }}</td>
+            <td>
+              <a href="#" (click)="openTargetModal(row); $event.preventDefault()">Set New Target</a>
             </td>
           </tr>
         </tbody>
       </table>
 
-      <!-- Pagination -->
+      <!-- Pagination Controls -->
       <div class="pagination">
-
-<app-table-pagination
-            [totalItems]="clientTotalItems"
-            [currentPage]="clientCurrentPage"
-            [totalPages]="clientTotalPages"
-            [limit]="clientLimit"
-            [hasNext]="clientHasNext"
-            [hasPrevious]="clientHasPrevious"
-            (pageChange)="clientFetchAllClients($event)"
-            (limitChange)="onLimitChangess($event)"
-            >
-          </app-table-pagination>
-
+        <button
+          (click)="changePage(currentPage - 1)"
+          [disabled]="currentPage === 1"
+        >
+          Previous
+        </button>
+        <span>Page {{ currentPage }} of {{ totalPages }}</span>
+        <button
+          (click)="changePage(currentPage + 1)"
+          [disabled]="currentPage === totalPages"
+        >
+          Next
+        </button>
+        <select title="select-limit" [(ngModel)]="limit" (change)="onLimitChange(limit)">
+          <option *ngFor="let opt of limitOptions" [value]="opt">{{ opt }}</option>
+        </select>
       </div>
     </div>
 
-    <!-- Target Dialog -->
+    <!-- Target Input Modal -->
     <ng-template #targetDialog>
       <h2 mat-dialog-title>Set Target for {{ teamName }}</h2>
 
@@ -83,35 +87,44 @@
             matInput
             type="number"
             id="target"
-            name="target"
             [(ngModel)]="targetValue"
             placeholder="Enter target value"
             required
+            [ngClass]="{'invalid-input': targetValue === null || targetValue <= 0}"
           />
+          <div *ngIf="targetValue === null || targetValue <= 0" class="error-message">
+            Target value must be greater than 0.
+          </div>
         </div>
+
         <div class="form-group">
           <label for="startDate">Start Date</label>
           <input
             matInput
             type="date"
             id="startDate"
-            name="startDate"
-            placeholder="yyyy-mm-dd"
             [(ngModel)]="startDate"
             required
+            [ngClass]="{'invalid-input': !startDate}"
           />
+          <div *ngIf="!startDate" class="error-message">
+            Start date is required.
+          </div>
         </div>
+
         <div class="form-group">
           <label for="dueDate">Due Date</label>
           <input
             matInput
             type="date"
             id="dueDate"
-            name="dueDate"
-            placeholder="yyyy-mm-dd"
             [(ngModel)]="dueDate"
             required
+            [ngClass]="{'invalid-input': !dueDate}"
           />
+          <div *ngIf="!dueDate" class="error-message">
+            Due date is required.
+          </div>
         </div>
       </mat-dialog-content>
 
@@ -121,22 +134,21 @@
           mat-raised-button
           color="primary"
           (click)="saveTarget()"
-          [disabled]="
-            !targetValue || !startDate || !dueDate || isLoading
-          "
+          [disabled]="!isFormValid() || isLoading"
         >
           Save Target
         </button>
       </mat-dialog-actions>
     </ng-template>
 
-    <!-- Confirm Dialog -->
+    <!-- Confirm Modal -->
     <ng-template #confirmDialog>
       <div class="assign-target-modal">
         <div class="target-assign-icon-and-title">
           <img src="Alert.png" alt="alert" class="alert-img" />
           <p>Confirm Target</p>
         </div>
+
         <div class="assign-target-message">
           <p mat-dialog-title>
             Assign a target of <strong>{{ targetValue }}</strong> to
@@ -166,11 +178,11 @@
       </div>
     </ng-template>
 
-    <!-- Success Dialog -->
+    <!-- Success Modal -->
     <ng-template #successDialog>
       <div class="target-assigned-success">
         <svg width="71" height="70" viewBox="0 0 71 70" fill="none">
-          <!-- Add your checkmark SVG here -->
+          <!-- ✔️ Add your checkmark SVG or icon here -->
         </svg>
         <p>Target Assigned Successfully</p>
         <mat-dialog-actions align="end">

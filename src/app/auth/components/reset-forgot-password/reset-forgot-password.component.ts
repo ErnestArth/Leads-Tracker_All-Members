@@ -70,6 +70,7 @@ export class ResetForgotPasswordComponent implements OnInit {
   }
 
   onSubmit(): void {
+    console.log('hello')
     if (this.emailForgotPasswordForm.valid) {
       this.authService
         .verifyforgotPassword(this.emailForgotPasswordForm.value)

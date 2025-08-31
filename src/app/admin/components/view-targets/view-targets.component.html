@@ -2,9 +2,13 @@
   <app-sidebar></app-sidebar>
   <main>
     <div class="header">
-      <button class="back-btn" (click)="onBackArrow()"><img src="Back arrow.png" alt="back-arrow" ></button>
+      <button class="back-btn" (click)="onBackArrow()">
+        <img src="Back arrow.png" alt="back-arrow" />
+      </button>
       <h2>Team Targets Overview</h2>
-      <button type="button" class="export-btn" (click)="exportData()"><img src="Export.png" alt="export-image">  Export Data</button>
+      <button type="button" class="export-btn" (click)="exportData()">
+        <img src="Export.png" alt="export-image" /> Export Data
+      </button>
     </div>
 
     <div class="controls">
@@ -13,8 +17,14 @@
         class="search-input"
         [(ngModel)]="searchTerm"
         placeholder="Search by Team"
+        (ngModelChange)="clientFetchAllClients(1)" 
       />
-      <select title="select" class="select-input" [(ngModel)]="selectedFrequency">
+      <select
+        title="select"
+        class="select-input"
+        [(ngModel)]="selectedFrequency"
+        (change)="clientFetchAllClients(1)"
+      >
         <option value="Monthly">Monthly</option>
         <option value="Quarterly">Quarterly</option>
         <option value="Yearly">Yearly</option>
@@ -25,58 +35,53 @@
     <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
 
     <div class="table-wrapper" *ngIf="!isLoading && !errorMessage && paginatedData.length">
-       <table>
-              <thead>
-                <tr class="table-headers">
-                  <th class="table-header">Team Name</th>
-                  <th class="table-header">Team Lead Name</th>
-                  <th class="table-header">Current Target</th>
-                  <th class="table-header">Total Client Onboarded</th>
-                  <th class="table-header">Target Start Date</th>
-                  <th class="table-header">Target Due Date</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let team of paginatedData">
-                  <td class="client-na table-data"> <a [routerLink]="['/admin/team-breakdown']" [queryParams]="{ teamId: team.id }" class="team-link">
-                    {{ team.teamName }}
+      <table>
+        <thead>
+          <tr class="table-headers">
+            <th class="table-header">Team Name</th>
+            <th class="table-header">Team Lead Name</th>
+            <th class="table-header">Current Target</th>
+            <th class="table-header">Total Client Onboarded</th>
+            <th class="table-header">Target Start Date</th>
+            <th class="table-header">Target Due Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let team of paginatedData">
+            <td class="client-na table-data">
+              <a
+                [routerLink]="['/admin/team-breakdown']"
+                [queryParams]="{ teamId: team.id }"
+                class="team-link"
+              >
+                {{ team.teamName }}
+              </a>
+            </td>
+            <td class="member-na table-data">{{ team.teamLeadFullName || 'N/A' }}</td>
+            <td class="date-allo table-data">{{ team.targetValue }}</td>
+            <td class="time-overdue-values table-data">{{ team.totalClientsOnboarded }}</td>
+            <td class="table-data">
+              <span class="badge">{{ team.startDate | date: 'yyyy-MM-dd' }}</span>
+            </td>
+            <td class="team-na table-data">{{ team.dueDate | date: 'yyyy-MM-dd' }}</td>
+          </tr>
+        </tbody>
+      </table>
 
-                  </a></td>
-                  <td class="member-na table-data">{{ team.teamLeadFullName }}</td>
-                  <td class="date-allo table-data">
-                  {{ team.targetValue }}
-                  </td>
-                  <td class="time-overdue-values table-data">
-                   {{ team.totalClientsOnboarded }}
-                  </td>
-                  <td class="table-data">
-                    <span class=" badge ">
-                      {{ team.startDate | date: 'yyyy-MM-dd' }}</span
-                    >
-                  </td>
-                  <td class="team-na table-data">{{ team.dueDate | date: 'yyyy-MM-dd' }}</td>
-                </tr>
-              </tbody>
-            </table>
-            <!-- Pagination -->
+      <!-- Pagination -->
       <div class="pagination">
-
-<app-table-pagination
-            [totalItems]="clientTotalItems"
-            [currentPage]="clientCurrentPage"
-            [totalPages]="clientTotalPages"
-            [limit]="clientLimit"
-            [hasNext]="clientHasNext"
-            [hasPrevious]="clientHasPrevious"
-            (pageChange)="clientFetchAllClients($event)"
-            (limitChange)="onLimitChangess($event)"
-            >
-          </app-table-pagination>
-
+        <app-table-pagination
+          [totalItems]="clientTotalItems"
+          [currentPage]="clientCurrentPage"
+          [totalPages]="clientTotalPages"
+          [limit]="clientLimit"
+          [hasNext]="clientHasNext"
+          [hasPrevious]="clientHasPrevious"
+          (pageChange)="clientFetchAllClients($event)"
+          (limitChange)="onLimitChangess($event)"
+        >
+        </app-table-pagination>
       </div>
     </div>
-
-
-
   </main>
 </div>
