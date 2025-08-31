@@ -1,0 +1,254 @@
+
+ <mat-dialog-content>
+    @if(!showSuccess){
+    <form [formGroup]="modalForm" (ngSubmit)="onSubmit()">
+
+        <h1>Add User</h1>
+    
+        <!-- First Name -->
+        <div class="form-group">
+          <label for="firstName">First Name</label>
+          <input
+            type="text"
+            formControlName="firstName"
+            placeholder="Enter first name"
+            title="First Name"
+            id="firstName"
+          />
+          <div
+            class="error"
+            *ngIf="modalForm.get('firstName')?.touched && modalForm.get('firstName')?.invalid"
+          >
+            <div *ngIf="modalForm.get('firstName')?.hasError('required')">
+              First name is required.
+            </div>
+            <div *ngIf="modalForm.get('firstName')?.hasError('minlength')">
+              First name must be at least 3 characters long.
+            </div>
+          </div>
+        </div>
+    
+        <!-- Other Name(s) -->
+    
+        <!-- last Name(s) -->
+        <div class="form-group">
+          <label for="lastName">Last Name(s)</label>
+          <input
+            type="text"
+            formControlName="lastName"
+            placeholder="Enter last names"
+            title="last Names"
+            id="lastNames"
+          />
+          <div
+            class="error"
+            *ngIf="modalForm.get('lastNames')?.touched && modalForm.get('lastNames')?.invalid"
+          >
+            <div *ngIf="modalForm.get('lastNames')?.hasError('minlength')">
+              last name(s) must be at least 3 characters long.
+            </div>
+          </div>
+        </div>
+    
+        <!-- Business Email -->
+        <div class="form-group">
+          <label for="email">Business Email</label>
+          <input
+            type="email"
+            formControlName="email"
+            placeholder="Enter business email"
+            title="Business Email"
+            id="email"
+          />
+          <div
+            class="error"
+            *ngIf="modalForm.get('email')?.touched && modalForm.get('email')?.invalid"
+          >
+            <div *ngIf="modalForm.get('email')?.hasError('required')">
+              Business email is required.
+            </div>
+            <div *ngIf="modalForm.get('email')?.hasError('email')">
+              Please enter a valid business email address.
+            </div>
+          </div>
+        </div>
+    
+        <!-- Phone Number -->
+    
+        <!-- phone Number -->
+        <div class="form-group">
+          <label for="phoneNumber">Phone Number</label>
+          <input
+    
+            formControlName="phoneNumber"
+            placeholder="Enter phone number"
+            title="phone Number"
+            id="phone"
+          />
+          <div
+            class="error"
+            *ngIf="modalForm.get('phoneNumber')?.touched && modalForm.get('phoneNumber')?.invalid"
+          >
+            <div *ngIf="modalForm.get('phoneNumber')?.hasError('required')">
+              phone number is required.
+            </div>
+            <div *ngIf="modalForm.get('phoneNumber')?.hasError('pattern')">
+              Please enter a valid phone number (e.g., 0257689009).
+            </div>
+          </div>
+        </div>
+    
+        <!-- Staff ID -->
+      <div class="form-group">
+        <label for="staffId">Staff ID</label>
+        <input
+          type="text"
+          formControlName="staffId"
+          placeholder="Enter staff ID"
+          title="Staff ID"
+          id="staffId"
+        />
+        <div
+          class="error"
+          *ngIf="modalForm.get('staffId')?.touched && modalForm.get('staffId')?.invalid"
+        >
+          <div *ngIf="modalForm.get('staffId')?.hasError('required')">
+            Staff ID is required.
+          </div>
+          <div *ngIf="modalForm.get('staffId')?.hasError('minlength')">
+            Staff ID must be at least 5 characters long.
+          </div>
+        </div>
+      </div>
+
+      <!-- select Role  -->
+      <div class="form-group">
+        <label for="assignTeam">Role</label>
+        <select title="team-lead-name" formControlName="role" name="" id="assign-team">
+            <option disabled  value="">Select Role</option>
+            <option value="ROLE_TEAM_MEMBER"> Team Member</option> 
+          <option value="ROLE_TEAM_LEAD"> Team Lead</option> 
+  
+        </select>
+      </div>
+    
+        <!-- select team  -->
+        <div class="form-group">
+          <label for="assignTeam">Team</label>
+          <select title="team-lead-name" formControlName="teamName" name="" id="assign-team">
+            <option disabled  value="">Select Team</option>
+            <option *ngFor="let team of allTeams"  value={{team.teamName}}>{{team.teamName}}</option> 
+    
+          </select>
+        </div>
+    
+        <!-- Modal Buttons -->
+         @if(isEditUser){
+        <div class="modal-buttons">
+          <button type="submit" (click)="onSubmit()" (click)="openSuccessChangeDialog()"  [disabled]="modalForm.invalid">Save Changes</button>
+        </div>
+      }
+    
+      @if(!isEditUser){
+        <div class="modal-buttons">
+          <button matButton mat-dialog-close  type="button" >Cancel</button>
+          <button type="submit" (click)="onSubmit()" [disabled]="modalForm.invalid">save</button>
+          
+        </div>
+      }
+      </form>
+ }
+
+    
+    
+       <!-- success -->
+    @if(showSuccess && !isEditUser){
+      <div  class="success-container">
+        <div class="succesfully-added">
+          <svg
+            width="71"
+            height="70"
+            viewBox="0 0 71 70"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <rect
+              x="0.807129"
+              y="0.296875"
+              width="69.3848"
+              height="69.3848"
+              rx="34.6924"
+              fill="#1B998B"
+            />
+            <path
+              d="M56.2949 33.0755V34.9887C56.2924 39.473 54.8403 43.8364 52.1553 47.428C49.4703 51.0196 45.6962 53.6471 41.3959 54.9186C37.0956 56.19 32.4995 56.0374 28.2931 54.4833C24.0867 52.9292 20.4953 50.0571 18.0546 46.2952C15.6139 42.5333 14.4546 38.0832 14.7497 33.6086C15.0447 29.134 16.7783 24.8746 19.6919 21.4658C22.6054 18.0569 26.5428 15.6812 30.9169 14.6929C35.291 13.7047 39.8673 14.1568 43.9634 15.9819M56.2949 18.3526L35.4998 39.1685L29.2612 32.93"
+              stroke="white"
+              stroke-width="4.15903"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+          @if(isEditUser){
+          <p>Team Lead Successfully Updated</p>
+          <button matButton mat-dialog-close   class="back-button">Back</button>
+        }
+        @if(!isEditUser){
+          <p>Team Lead Successfully Added</p>
+          <button (click)="createAnotherUser()"  class="assign-button">
+            Create Another User
+          </button>
+          <button matButton mat-dialog-close   class="back-button">Back</button>
+        }
+        </div>
+    
+    
+        
+    
+        </div>
+    }
+    
+    
+    
+      
+    
+    <ng-template #successChangeDialog>
+      <div class="succesfully-added">
+        <svg
+          width="71"
+          height="70"
+          viewBox="0 0 71 70"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <rect
+            x="0.807129"
+            y="0.296875"
+            width="69.3848"
+            height="69.3848"
+            rx="34.6924"
+            fill="#1B998B"
+          />
+          <path
+            d="M56.2949 33.0755V34.9887C56.2924 39.473 54.8403 43.8364 52.1553 47.428C49.4703 51.0196 45.6962 53.6471 41.3959 54.9186C37.0956 56.19 32.4995 56.0374 28.2931 54.4833C24.0867 52.9292 20.4953 50.0571 18.0546 46.2952C15.6139 42.5333 14.4546 38.0832 14.7497 33.6086C15.0447 29.134 16.7783 24.8746 19.6919 21.4658C22.6054 18.0569 26.5428 15.6812 30.9169 14.6929C35.291 13.7047 39.8673 14.1568 43.9634 15.9819M56.2949 18.3526L35.4998 39.1685L29.2612 32.93"
+            stroke="white"
+            stroke-width="4.15903"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+        @if(isEditUser){
+        <p>Changes successfully saved</p>
+        <button (click)="refreshPage()"   class="back-button">Back</button>
+      }
+      @if(!isEditUser){
+        <p>Team Lead Successfully Added</p>
+        <button (click)="createAnotherUser()"  class="assign-button">
+          Create Another User
+        </button>
+        <button matButton mat-dialog-close   class="back-button">Back</button>
+      }
+      </div>
+      </ng-template>
+        
+     </mat-dialog-content>
+    

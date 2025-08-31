@@ -32,6 +32,7 @@ import { Router } from '@angular/router';
 import { AddTeamMemberPopupComponent } from '../add-team-member-popup/add-team-member-popup.component';
 import { AddTeamLeadPopupComponent } from '../add-team-lead-popup/add-team-lead-popup.component';
 import { FlatpickrModule } from 'angularx-flatpickr';
+import { AddEditUserComponent } from '../add-edit-user/add-edit-user.component';
 Chart.register(...registerables);
 
 @Component({
@@ -622,6 +623,14 @@ handlingBarChart(){
       data: {
         title: title,
         id: id,
+      },
+    });
+  }
+
+  openAddUserDialog(){
+    const addUserPopup = this.dialog.open(AddEditUserComponent, {
+      width: '500px',
+      data: {
       },
     });
   }

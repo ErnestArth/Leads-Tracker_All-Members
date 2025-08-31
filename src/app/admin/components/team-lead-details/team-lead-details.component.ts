@@ -143,6 +143,13 @@ export class TeamLeadDetailsComponent {
       this.userData.teamPerformance &&
       this.userData.teamPerformance.progressPercentage >= 80
     ) {
+      if(this.userData?.teamPerformance?.progressPercentage>=100){
+       this.progressTextColor='text-white'
+       console.log('white')
+      }else{
+        this.progressTextColor='text-green'
+        console.log('green')
+      }
       this.progressColor = 'progress-green';
       this.progressTextColor = 'text-green';
       this.progressOutlineColor = 'green-outline';

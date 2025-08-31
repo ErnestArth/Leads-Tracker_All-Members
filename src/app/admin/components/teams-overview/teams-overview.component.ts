@@ -18,6 +18,8 @@ import { AddTeamMemberPopupComponent } from '../add-team-member-popup/add-team-m
 import { DeactivateTeamDialogComponent } from '../deactivate-team-dialog/deactivate-team-dialog.component';
 import { FlatpickrModule } from 'angularx-flatpickr';
 import { AddTeamLeadPopupComponent } from '../add-team-lead-popup/add-team-lead-popup.component';
+import { AddEditUserComponent } from '../add-edit-user/add-edit-user.component';
+import { AddEditMemberComponent } from '../add-edit-member/add-edit-member.component';
 @Component({
   selector: 'app-teams-overview',
   standalone: false,
@@ -31,6 +33,8 @@ export class TeamsOverviewComponent {
   teamMembers: any;
   teamData: any;
   teamLeadUserId:string="";
+  teamId!: number;
+  teamName!: string;
   
 
   constructor(
@@ -103,7 +107,6 @@ export class TeamsOverviewComponent {
   
   }
   ngOnInit(): void {
-
     this.getATeam()
     console.log(this.activatedRoute.snapshot);
    
@@ -121,7 +124,11 @@ export class TeamsOverviewComponent {
           this.teamData = data.team
           this.teamLeadUserId = data.team.teamLeadUserId
           this.teamMembers = data.team.teamMembers.data
+          this.teamId=data.team.teamId
+          this.teamName=data.team.name
           console.log(data.team.teamMembers);
+          console.log(data.team.name)
+          
         }
       })
       
@@ -174,5 +181,19 @@ export class TeamsOverviewComponent {
         teamName:this.teamData.name
       },
     });
+  }
+  openAddMemberDialog(teamName:any,memberId:any) {
+    const addUserPopup = this.dialog.open(AddEditMemberComponent, {
+      width: '500px',
+      data: {
+          teamName:teamName,
+          memberId:memberId
+       
+      },
+      
+    });
+    addUserPopup.componentInstance.userCreated.subscribe((data)=>{
+       this.getATeam()
+    })
   }
 }

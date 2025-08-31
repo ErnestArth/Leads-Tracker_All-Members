@@ -186,7 +186,7 @@
                 <p>Total Clients Onboarded = <span class="{{progressTextColor}}">{{userData?.teamPerformance?.totalClientsAdded}}</span></p>
                 <div class="progress-outline {{progressOutlineColor}}">
                   <div class="progress {{progressColor}}" [ngStyle]="{ width: (userData?.teamPerformance?.progressPercentage || 0) + '%' ,backgroundColor:userData?.teamPerformance?.color}" ></div>
-                  <span class="progress-percentage">{{userData?.teamPerformance?.progressPercentage}}%</span>
+                  <span class="progress-percentage ">{{userData?.teamPerformance?.progressPercentage}}%</span>
                 </div>
               </div>
             </div>
@@ -549,7 +549,8 @@
     
     @if(showEditForm ){
     <div class="main-content">
-      <app-team-lead-form  (updateChanges)="updateEditChanges()"/>
+      <!-- <app-team-lead-form  (updateChanges)="updateEditChanges()"/> -->
+      <add-edit-user/>
     </div>
     }
 

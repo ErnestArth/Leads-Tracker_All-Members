@@ -28,10 +28,10 @@
         </div>
         <div class="team-member-info-name-and-email">
           <p class="team-member-name">
-            {{ userData.firstName }} {{ userData.lastName }}
+            {{ memberDetails?.memberName }}
           </p>
           <span class="team-member-email"
-            >{{ userData.email }} / {{ userData.staffId }}</span
+            >{{ memberDetails?.email }} / {{ memberDetails?.staffId }}</span
           >
         </div>
       </div>
@@ -94,7 +94,7 @@
               [altInput]="true"
               [altFormat]="'F j, Y'"
               [dateFormat]="'Y-m-d'"
-              (change)="onDateChange($event)"
+              (change)="onMainDateChange($event)"
               >
           </div>
         </div>
@@ -142,7 +142,7 @@
             </div>
             <div class="doughnut-chart">
               <div class="doughnut">
-                <canvas #myChart id="doughnutChart"></canvas>
+                <canvas #myChart #memberDoughnutChart id="doughnutChart"></canvas>
                 
               </div>
             </div>
@@ -150,15 +150,16 @@
           <div class="status-breakdown bar-chart-container">
             <div class="team-members-and-progress-bar">
               <div class="Team-members">
-                <p class="team-members-text">Clients </p>
-                <p class="team-leaders-name">18</p>
+                <p class="team-members-text">Progress Summary </p>
+                <!-- <p class="team-leaders-name">18</p> -->
               </div>
 
               <div class="progress-bar">
-                <p>Total Recommendations Submitted: <span>50/80</span></p>
-                <div class="progress-outline green-outline">
-                  <div class="progress green-progress"></div>
-                  <span class="progress-percentage">60% </span>
+                <p>Assigned Target = <span>{{memberDetails?.target}}</span> </p>
+                <p>Total Clients Onboarded = <span class="{{progressTextColor}}">{{memberDetails?.totalClientsSubmitted}}</span></p>
+                <div class="progress-outline  {{progressOutlineColor}}">
+                  <div class="progress  {{progressColor}}" [ngStyle]="{ width: (memberDetails?.progressPercentage || 0) + '%' ,backgroundColor:memberDetails?.color}"></div>
+                  <span class="progress-percentage {{progressTextColor}}">{{memberDetails?.progressPercentage}}% </span>
                 </div>
               </div>
             </div>
@@ -178,7 +179,7 @@
                 placeholder="Search Client"
                 class="search-input"
                 [(ngModel)]="searchTerm"
-                (change)="onSearchClients()"
+                (ngModelChange)="onSearchClients()"
               />
               <select (change)="onStatusChange($event)" class="dropdown" aria-label="Filter by team">
                 <option value="">All Statuses</option>
@@ -320,7 +321,8 @@
     </aside>
 
     <div class="main-content">
-      <app-form-component (sucessPage)="updateEditChanges()" />
+      <!-- <app-form-component (sucessPage)="updateEditChanges()" /> -->
+      <add-edit-user/>
     </div>
 
     <router-outlet></router-outlet>

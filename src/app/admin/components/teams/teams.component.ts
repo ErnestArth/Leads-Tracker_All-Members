@@ -155,11 +155,11 @@ export class TeamsComponent {
   
 
    visibleMembers(members:any[]){
-    return members ? members.slice(0, 5) : [];
+    return members ? members.slice(0, 3) : [];
     
   }
 
-  remainingMembers(member:any[]){
+  remainingMembers(members:any[]){
     // if(member.length>3){
     //   this.showAdditionalMembers=true;
     //   console.log(this.showAdditionalMembers)
@@ -167,10 +167,10 @@ export class TeamsComponent {
 
     // return member && member.length > 2 ? member.length - 2 : "";
 
-    if (member && member.length > 5) {
+    if (members && members.length > 3) {
       this.showAdditionalMembers = true;
       console.log(this.showAdditionalMembers);
-      return member.length - 5;
+      return members.length - 3;
       
     }else{
       this.showAdditionalMembers=false
