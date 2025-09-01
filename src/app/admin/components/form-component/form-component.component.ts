@@ -238,8 +238,6 @@ export class FormComponentComponent {
    }
 
   onCancel() {
-    // console.log('helo')
-    // this.router.navigate(['/admin/dashboard'])
     this.cancelClicked.emit();
   }
 

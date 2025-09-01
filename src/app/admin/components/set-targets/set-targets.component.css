@@ -3,7 +3,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Instrument Sans", sans-serif;
+  font-family: "Instrument Sans", inter;
 }
 
 /* Layout Containers */
@@ -280,6 +280,29 @@ tbody td a:hover {
 
 ::ng-deep button[mat-raised-button]:hover {
   background-color: #e64424;
+}
+::ng-deep .mat-mdc-dialog-title{
+  color:black !important;
+  padding: 20px;
+}
+::ng-deep .mat-mdc-button-base {
+  margin: 20px;
+    padding: 10px;
+}
+
+::ng-deep .mdc-button--raised{
+  /*  */
+  color:white;
+  box-shadow:none
+}
+::ng-deep .mat-mdc-raised-button:not(:disabled){
+  background:#e64424 !important;
+  color:white;
+}
+
+.error-message {
+  color: black;
+ 
 }
 
 /* Responsive Behavior */

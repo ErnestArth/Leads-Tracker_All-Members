@@ -655,12 +655,12 @@ export class UserService {
   }
 
   //get a team
-  getATeam(teamId: string): Observable<getATeam> {
+  getATeam(teamId: string,page: number , name: string,limit: number): Observable<getATeam> {
     const token = sessionStorage.getItem('token');
     const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
     return this.http.get<getATeam>(
       `${this.apiUrl}/leads-tracker/api/v1/leads/team/${teamId}`,
-      { headers }
+      { headers, params: { page,name,limit } }
     );
   }
 
