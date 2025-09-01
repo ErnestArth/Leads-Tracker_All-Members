@@ -453,8 +453,29 @@ input {
   border-radius: 6.65px;
   background:#FCFCFC;
 }
+input::placeholder{
+  padding-left:0px;
+  margin-right:10px;
+ 
+}
 .search-input{
   padding:10px;
+  padding-left:40px;
+  ;
+}
+.search-input::placeholder{
+  padding-right:90px;
+}
+.search{
+  display:flex;
+  justify-content: space-between;
+  position:relative;
+}
+.search-icon{
+  position: absolute;
+  top: 8px;
+  left: 14px;
+  color: #99A1B7;
 }
 
 .dropdown {

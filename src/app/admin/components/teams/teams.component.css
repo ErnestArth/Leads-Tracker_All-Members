@@ -462,6 +462,25 @@ select {
   color: #1e1e1e;
   font-weight: 300;
 }
+input{
+  padding-left: 40px;
+}
+input::placeholder {
+  /* padding-left: 40px; */
+}
+
+.search{
+  display:flex;
+  justify-content: space-between;
+  position:relative;
+  width:100%
+}
+.search-icon{
+  position: absolute;
+  top: 13px;
+  left: 14px;
+  color: #99A1B7;
+}
 .error-message{
   color:red
 }
