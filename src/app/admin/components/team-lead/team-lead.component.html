@@ -90,7 +90,7 @@
       </div>
     </aside>
     <div class="dashboard-content">
-      
+
       <div class="search">
         <i class="fa fa-search search-icon"></i>
         <input
@@ -101,7 +101,7 @@
           [(ngModel)]="searchTeamLead"
           (ngModelChange)="onSearchTeamLead($event)"
         />
-        <select (change)="onTeamsChange($event)" class="dropdown">
+        <select title="select" (change)="onTeamsChange($event)" class="dropdown">
           <option  disabled value="">Select Team</option>
           <option value="All Teams">All Teams</option>
           <option *ngFor="let team of allTeams" value="{{team.teamName}}">{{team.teamName}}</option>
@@ -138,7 +138,7 @@
               </div>
               <div class="team-lead-info-name-and-">
                 <p class="team-lead-name">
-                  {{ teamLead.teamLeadName }} 
+                  {{ teamLead.teamLeadName }}
                 </p>
                 <span class="team-lead-email">{{ teamLead.email }}</span>
               </div>
@@ -167,7 +167,7 @@
           </div>
         </div>
 
-        
+
       </div> -->
 
       <div class="client-activity-tracker-container">
@@ -181,7 +181,7 @@
               type="search"
               placeholder="Search Client"
               class="search-input"
-             
+
             />
             <select class="dropdown" aria-label="Filter by team">
               <option value="">All Statuses</option>
@@ -230,7 +230,7 @@
             </tr>
           </tbody>
         </table>
-        
+
         <app-table-pagination
           [totalItems]="totalItems"
           [currentPage]="currentPage"
@@ -243,7 +243,7 @@
           >
         </app-table-pagination>
       </div>
-      
+
 
       <!-- <app-add-team-member-popup /> -->
     </div>

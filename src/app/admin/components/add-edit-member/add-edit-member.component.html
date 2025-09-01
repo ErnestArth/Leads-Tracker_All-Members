@@ -9,7 +9,7 @@
         @if(isEditUser){
             <h1>Edit Member</h1>
             }
-    
+
         <!-- First Name -->
         <div class="form-group">
           <label for="firstName">First Name</label>
@@ -32,9 +32,9 @@
             </div>
           </div>
         </div>
-    
+
         <!-- Other Name(s) -->
-    
+
         <!-- last Name(s) -->
         <div class="form-group">
           <label for="lastName">Last Name(s)</label>
@@ -54,7 +54,7 @@
             </div>
           </div>
         </div>
-    
+
         <!-- Business Email -->
         <div class="form-group">
           <label for="email">Business Email</label>
@@ -77,14 +77,14 @@
             </div>
           </div>
         </div>
-    
+
         <!-- Phone Number -->
-    
+
         <!-- phone Number -->
         <div class="form-group">
           <label for="phoneNumber">Phone Number</label>
           <input
-    
+
             formControlName="phoneNumber"
             placeholder="Enter phone number"
             title="phone Number"
@@ -102,7 +102,7 @@
             </div>
           </div>
         </div>
-    
+
         <!-- Staff ID -->
       <div class="form-group">
         <label for="staffId">Staff ID</label>
@@ -112,8 +112,8 @@
           placeholder="Enter staff ID"
           title="Staff ID"
           id="staffId"
-          
-          
+
+
         />
         <div
           class="error"
@@ -131,21 +131,21 @@
       <!-- select Role  -->
       <div class="form-group">
         <label for="assignTeam">Role</label>
-        <select  title="team-lead-name" formControlName="role" name="" id="assign-team">
+        <select  title="team-lead-name" formControlName="role" name="" id="assign-team1">
             <option disabled  value="">Select Role</option>
-            <option value="ROLE_TEAM_MEMBER"> Team Member</option> 
-          <option value="ROLE_TEAM_LEAD"> Team Lead</option> 
-  
+            <option value="ROLE_TEAM_MEMBER"> Team Member</option>
+          <option value="ROLE_TEAM_LEAD"> Team Lead</option>
+
         </select>
       </div>
-    
+
         <!-- select team  -->
         <div class="form-group">
           <label for="assignTeam">Team</label>
           <select  title="team-lead-name" formControlName="teamName" name="" id="assign-team">
             <option disabled  value="">Select Team</option>
-            <option *ngFor="let team of allTeams"  value={{team.teamName}}>{{team.teamName}}</option> 
-    
+            <option *ngFor="let team of allTeams"  value={{team.teamName}}>{{team.teamName}}</option>
+
           </select>
         </div>
 
@@ -153,33 +153,33 @@
             <label for="assignTeam">Team</label>
             <select title="team-lead-name" formControlName="teamName" name="" id="assign-team">
               <option disabled  value="">Select Team</option>
-              <option *ngFor="let team of allTeams"  value={{team.teamName}}>{{team.teamName}}</option> 
-      
+              <option *ngFor="let team of allTeams"  value={{team.teamName}}>{{team.teamName}}</option>
+
             </select>
           </div> -->
           @if(showError){
-            <p class="error-message">{{errorMessage}}</p>   
+            <p class="error-message">{{errorMessage}}</p>
           }
-          
+
         <!-- Modal Buttons -->
          @if(isEditUser){
         <div class="modal-buttons">
           <button type="submit" (click)="onSubmit()" (click)="openSuccessChangeDialog()"  [disabled]="modalForm.invalid">Save Changes</button>
         </div>
       }
-    
+
       @if(!isEditUser){
         <div class="modal-buttons">
           <button matButton mat-dialog-close  type="button" >Cancel</button>
           <button type="submit" (click)="onSubmit()" [disabled]="modalForm.invalid">save</button>
-          
+
         </div>
       }
       </form>
  }
 
-    
-    
+
+
        <!-- success -->
     @if(showSuccess && !isEditUser){
       <div  class="success-container">
@@ -219,17 +219,17 @@
           <button matButton mat-dialog-close   class="back-button">Back</button>
         }
         </div>
-    
-    
-        
-    
+
+
+
+
         </div>
     }
-    
-    
-    
-      
-    
+
+
+
+
+
     <ng-template #successChangeDialog>
       <div class="succesfully-added">
         <svg
@@ -268,6 +268,5 @@
       }
       </div>
       </ng-template>
-        
+
      </mat-dialog-content>
-    
