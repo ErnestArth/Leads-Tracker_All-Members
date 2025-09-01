@@ -111,6 +111,8 @@
                 [altInput]="true"
                 [altFormat]="'F j, Y'"
                 [dateFormat]="'Y-m-d'"
+                [(ngModel)]="selectedDates"
+                (change)="onMainDateChange($event)"
                 
                 >
                 <svg class="dropdown-icon" width="11" height="6" viewBox="0 0 11 6" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -305,6 +307,9 @@
                   [altInput]="true"
                   [altFormat]="'F j, Y'"
                   [dateFormat]="'Y-m-d'"
+                  [(ngModel)]="selectedDates"
+                 
+                  (change)="onDateChange($event)"
                   
                   >
                   <svg class="dropdown-icon" width="11" height="6" viewBox="0 0 11 6" fill="none" xmlns="http://www.w3.org/2000/svg">

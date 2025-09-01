@@ -299,6 +299,9 @@ tbody td a:hover {
   background:#e64424 !important;
   color:white;
 }
+::ng-deep .mat-mdc-button:not(:disabled){
+  color:#1E1E1E !important;
+}
 
 .error-message {
   color: black;

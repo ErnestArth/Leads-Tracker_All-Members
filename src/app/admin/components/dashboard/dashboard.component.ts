@@ -336,6 +336,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       [this.fromDate,this.toDate]=this.mainSelectedDates.split(" to ")
       
     }
+    console.log(this.mainSelectedDates)
 // unsets fromDate and to Date when the date entered is cleared
     if(this.inputedDate.includes(" to ")){
         this.fromDate=""
