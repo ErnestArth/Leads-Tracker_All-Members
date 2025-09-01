@@ -1,14 +1,18 @@
+
+
 import {
   Component,
   EventEmitter,
   Output,
   TemplateRef,
   ViewChild,
+  OnInit,
 } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
+import { UserService } from '../../../services/user.service';
 
 interface Team {
   teamId: string;
@@ -17,6 +21,15 @@ interface Team {
   members: number;
   currentTarget?: number;
   dueDate?: string;
+}
+export interface TeamSummary {
+  teamId: string;
+  teamName: string;
+  teamLeadName: string;
+  numberOfTeamMembers: number;
+  teamTarget: number;
+  dueDate: string;
+  startDate: string;
 }
 
 interface AssignTeamTargetRequest {
@@ -32,59 +45,26 @@ interface AssignTeamTargetRequest {
   styleUrls: ['./set-targets.component.css'],
   standalone: false,
 })
-export class SetTargetsComponent {
+export class SetTargetsComponent implements OnInit {
   @Output() onCancel = new EventEmitter<void>();
 
-  // Dialog and UI States
   isOpenOverview = false;
   isTargetAssign = false;
   isLoading = false;
 
-  clientCurrentPage = 1;
-  clientTotalPages = 3;
-  clientTotalItems = 12;
-  clientLimit = 6;
+  searchTerm = '';
+  currentPage = 1;
+  limit = 6;
+  limitOptions = [6, 10, 20, 50];
 
-  // Target Form Fields
   teamName = '';
   teamId = '';
   targetValue: number | null = null;
   dueDate = '';
   startDate = '';
 
-  // Search & Pagination
-  searchTerm = '';
-  currentPage = 1;
-  limit = 6;
-  limitOptions = [6, 10, 20, 50];
+  allTeams: Team[] = [];
   filteredTeams: Team[] = [];
-
-  allTeams: Team[] = [
-    {
-      teamId: 'team-001',
-      teamName: 'Alpha Squad',
-      teamLead: 'Paul Wilbur',
-      members: 22,
-      currentTarget: 100,
-      dueDate: '2025-08-31',
-    },
-    {
-      teamId: 'team-002',
-      teamName: 'Bravo Team',
-      teamLead: 'Nancy Kyei',
-      members: 23,
-      currentTarget: 120,
-      dueDate: '2025-08-31',
-    },
-    {
-      teamId: 'team-003',
-      teamName: 'Charlie Unit',
-      teamLead: 'John Doe',
-      members: 18,
-      currentTarget: 120,
-      dueDate: '2025-09-21',
-    },
-  ];
 
   @ViewChild('targetDialog') targetDialog!: TemplateRef<any>;
   @ViewChild('confirmDialog') confirmDialog!: TemplateRef<any>;
@@ -92,21 +72,37 @@ export class SetTargetsComponent {
 
   targetDialogRef: any;
 
-  constructor(private dialog: MatDialog, private router: Router, private http: HttpClient) {
-    this.filteredTeams = [...this.allTeams];
+  constructor(
+    private dialog: MatDialog,
+    private router: Router,
+    private http: HttpClient,
+    private userService: UserService
+  ) {}
+
+  ngOnInit() {
+    this.fetchTeamsFromBackend();
   }
 
-  // === Form Validation ===
-  isFormValid(): boolean {
-    return (
-      this.targetValue !== null &&
-      this.dueDate !== '' &&
-      this.startDate !== '' &&
-      this.targetValue > 0
-    );
+  fetchTeamsFromBackend() {
+    this.userService.getAllTeamsWithDetails('', '').subscribe({
+      next: (teams: any[]) => {
+        this.allTeams = teams.map((team) => ({
+          teamId: team.teamId ?? '', // fallback if missing
+          teamName: team.teamName,
+          teamLead: team.teamLeadName,
+          members: team.numberOfTeamMembers,
+          currentTarget: team.teamTarget,
+          dueDate: team.dueDate,
+        }));
+        this.filteredTeams = [...this.allTeams];
+      },
+      error: (err) => {
+        console.error('Failed to fetch teams:', err);
+        alert('Failed to load teams from backend.');
+      },
+    });
   }
 
-  // === Search / Filter ===
   applyFilter() {
     const term = this.searchTerm.toLowerCase();
     this.filteredTeams = this.allTeams.filter((team) =>
@@ -115,7 +111,6 @@ export class SetTargetsComponent {
     this.currentPage = 1;
   }
 
-  // === Pagination ===
   get paginatedData(): Team[] {
     const start = (this.currentPage - 1) * this.limit;
     const end = start + this.limit;
@@ -132,7 +127,6 @@ export class SetTargetsComponent {
     }
   }
 
-  // === Export CSV ===
   exportData() {
     const headers = [
       'Team Name',
@@ -142,7 +136,7 @@ export class SetTargetsComponent {
       'Target Due Date',
     ];
 
-    const rows = this.paginatedData.map((row) => [
+    const rows = this.filteredTeams.map((row) => [
       row.teamName,
       row.teamLead,
       row.members,
@@ -165,10 +159,12 @@ export class SetTargetsComponent {
     document.body.removeChild(link);
   }
 
-  // === Target Modal ===
   openTargetModal(team: Team) {
     this.teamName = team.teamName;
     this.teamId = team.teamId;
+    this.targetValue = team.currentTarget ?? null;
+    this.dueDate = team.dueDate ?? '';
+    this.startDate = '';
     this.dialog.closeAll();
     this.targetDialogRef = this.dialog.open(this.targetDialog, {
       width: '600px',
@@ -185,8 +181,8 @@ export class SetTargetsComponent {
   }
 
   saveTarget() {
-    if (!this.isFormValid()) {
-      alert('Please fill in all fields correctly.');
+    if (!this.targetValue || !this.dueDate || !this.startDate) {
+      alert('Please fill in all fields: target value, start date, and due date.');
       return;
     }
 
@@ -260,7 +256,6 @@ export class SetTargetsComponent {
     this.teamId = '';
   }
 
-  // === Navigation / Events ===
   cancel() {
     this.onCancel.emit();
   }
@@ -271,23 +266,8 @@ export class SetTargetsComponent {
     }
   }
 
-  // Placeholder for client pagination
-  clientFetchAllClients(page: number, searchTerm?: string, statusFilter?: string, durationFilter?: string) {
-    console.log('Fetching clients for page:', page, 'with searchTerm:', searchTerm);
-    // You can make an HTTP request here to fetch the clients based on filters and page number.
-    // This will typically be a call to a service, for example:
-    // return this.http.get(`/api/clients`, { params: { page, searchTerm } });
-  }
-
-  onLimitChange(newLimit: number): void {
+  onLimitChange(newLimit: number) {
     this.limit = newLimit;
     this.currentPage = 1;
-    this.clientFetchAllClients(this.currentPage, this.searchTerm);
-  }
-
-  onLimitChangess(newLimit: number): void {
-    this.limit = newLimit;
-    this.clientCurrentPage = 1;
-    this.clientFetchAllClients(this.clientCurrentPage);
   }
 }

@@ -61,7 +61,7 @@ export interface teamMemberPerformance {
   staffId: string;
   createdDate: string;
   phoneNumber: string;
- 
+
 }
 
 export interface specificTeamMembers {
@@ -379,6 +379,16 @@ export interface getATeamsTeamMembers {
   hasNext: boolean
   hasPrevious: boolean
 }
+export interface TeamSummary {
+  teamId: string;
+  teamName: string;
+  teamLeadName: string;
+  numberOfTeamMembers: number;
+  teamTarget: number;
+  dueDate: string;
+  startDate: string;
+}
+
 
 export interface team {
   name: string;
