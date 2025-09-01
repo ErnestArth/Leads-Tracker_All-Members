@@ -1,5 +1,5 @@
 * {
-    font-family: "Instrument Sans", sans-serif;
+    font-family: "Instrument Sans", inter;
     font-optical-sizing: auto;
     font-style: normal;
     font-variation-settings: "wdth" 100;
@@ -13,7 +13,7 @@
     background-color: #ffffff;
     border-radius: 8px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-    font-family: "Instrument Sans", sans-serif;
+    font-family: "Instrument Sans", inter;
     box-sizing: border-box;
   }
 
@@ -52,9 +52,9 @@
     border: 1px solid #d9d9d9;
     border-radius: 8px;
     font-size: 16px;
-    font-family: sans-serif;
+    font-family: inter;
     color: #1e1e1e;
-    font-weight: 100;
+    font-weight: 300;
   }
   
   .cancel-save-buttons {

@@ -101,17 +101,24 @@
       <div *ngIf="!showEditForm" class="welcome-text-and-filter">
         <div class="dashboard-text-options">
           <div class="team-search">
-            <input
-              class="filter-by-date-input"
-              placeholder="Select Date"
-              type="text"
-              mwlFlatpickr
-              [mode]="'range'"
-              [altInput]="true"
-              [altFormat]="'F j, Y'"
-              [dateFormat]="'Y-m-d'"
-              (change)="onMainDateChange($event)"
-              >
+            <div class="date-div">
+              <input
+                class="filter-by-date-input"
+                placeholder="Select Date"
+                type="text"
+                mwlFlatpickr
+                [mode]="'range'"
+                [altInput]="true"
+                [altFormat]="'F j, Y'"
+                [dateFormat]="'Y-m-d'"
+                
+                >
+                <svg class="dropdown-icon" width="11" height="6" viewBox="0 0 11 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M10.5608 0.224535C10.8386 0.492666 10.8386 0.927392 10.5608 1.19552L5.81924 5.7728C5.54149 6.04093 5.09116 6.04093 4.81341 5.7728L0.335269 1.44982C0.0575145 1.18168 0.0575145 0.746959 0.335269 0.478829C0.613023 0.210698 1.06335 0.210698 1.34111 0.478829L5.31633 4.31632L9.55497 0.224535C9.83272 -0.0435952 10.283 -0.0435952 10.5608 0.224535Z" fill="#78829D"/>
+                  </svg>
+                  
+                </div>
+          
           </div>
         </div>
       </div>
@@ -288,18 +295,23 @@
                 <option *ngFor="let status of allStatuses" value="{{status}}">{{status}}</option>
                 
               </select>
-              
-              <input
-              class="date-input"
-              placeholder="Select Date"
-              type="text"
-              mwlFlatpickr
-              [mode]="'range'"
-              [altInput]="true"
-              [altFormat]="'F j, Y'"
-              [dateFormat]="'Y-m-d'"
-              (change)="onDateChange($event)"
-              >
+              <div class="date-div">
+                <input
+                  class="date-input"
+                  placeholder="Select Date"
+                  type="text"
+                  mwlFlatpickr
+                  [mode]="'range'"
+                  [altInput]="true"
+                  [altFormat]="'F j, Y'"
+                  [dateFormat]="'Y-m-d'"
+                  
+                  >
+                  <svg class="dropdown-icon" width="11" height="6" viewBox="0 0 11 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M10.5608 0.224535C10.8386 0.492666 10.8386 0.927392 10.5608 1.19552L5.81924 5.7728C5.54149 6.04093 5.09116 6.04093 4.81341 5.7728L0.335269 1.44982C0.0575145 1.18168 0.0575145 0.746959 0.335269 0.478829C0.613023 0.210698 1.06335 0.210698 1.34111 0.478829L5.31633 4.31632L9.55497 0.224535C9.83272 -0.0435952 10.283 -0.0435952 10.5608 0.224535Z" fill="#78829D"/>
+                    </svg>
+                    
+                  </div>
             
             </div>
           </div>

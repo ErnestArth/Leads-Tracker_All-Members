@@ -1,5 +1,5 @@
 * {
-  font-family: "Instrument Sans", sans-serif;
+  font-family: "Instrument Sans", inter;
   font-optical-sizing: auto;
   font-style: normal;
   font-variation-settings: "wdth" 100;
@@ -13,7 +13,7 @@
   background-color: #ffffff;
   border-radius: 8px;
   /* box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15); */
-  font-family: "Segoe UI", sans-serif;
+  font-family: "Segoe UI", inter;
 }
 
 form {
