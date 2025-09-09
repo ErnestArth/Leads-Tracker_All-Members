@@ -668,12 +668,12 @@ export class UserService {
 }
 
 
-  getAllTeamLeads(page:number,limit:number,name:string,team:string): Observable<getAllTeamLeads> {
+  getAllTeamLeads(page:number,limit:number,name:string,team:string, startDate:string,endDate:string): Observable<getAllTeamLeads> {
     const token = sessionStorage.getItem('token');
     const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
     return this.http.get<getAllTeamLeads>(
       `${this.apiUrl}/leads-tracker/api/v1/leads/team-leads`,
-      { headers, params:{page,limit,name,team} }
+      { headers, params:{page,limit,name,team,startDate,endDate} }
     );
   }
 

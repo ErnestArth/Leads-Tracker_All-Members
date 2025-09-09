@@ -20,6 +20,10 @@ export class TeamLeadComponent {
   allTeams:any
   
   
+  startDate = '';
+  endDate = '';
+  selectedDates = '';
+
 
   currentPage = 0;
   totalPages = 3;
@@ -68,7 +72,7 @@ export class TeamLeadComponent {
   }
 
   fetchAllTeamLeads(page:number){
-    this.userService.getAllTeamLeads(page,this.limit,this.searchTeamLead,this.teamFilter).subscribe({
+    this.userService.getAllTeamLeads(page,this.limit,this.searchTeamLead,this.teamFilter,this.startDate,this.endDate).subscribe({
       next: (data) => {
         console.log(data.data);
         this.allTeamLeads = data.data;
@@ -121,6 +125,14 @@ export class TeamLeadComponent {
     console.log(this.teamFilter); 
     }
    
+  }
+  onDateChange(event: Event) {
+    this.selectedDates = (event.target as HTMLInputElement).value;
+    console.log(this.selectedDates)
+    if (this.selectedDates) {
+      [this.startDate, this.endDate] = this.selectedDates.split(' to ');
+      this.fetchAllTeamLeads(this.currentPage);
+    }
   }
   addTeamMember() {
     this.openAddTeamMemberDialog(0, 'Create Team Member');
