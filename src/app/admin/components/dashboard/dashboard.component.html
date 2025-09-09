@@ -22,7 +22,7 @@
 
         <button
           class="add-user-btn"
-          
+
           (click)="openAddUserDialog()"
         >
           Add User
@@ -161,12 +161,12 @@
               [altInput]="true"
               [altFormat]="'F j, Y'"
               [dateFormat]="'Y-m-d'"
-              
+
               >
               <svg class="dropdown-icon" width="11" height="6" viewBox="0 0 11 6" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd" clip-rule="evenodd" d="M10.5608 0.224535C10.8386 0.492666 10.8386 0.927392 10.5608 1.19552L5.81924 5.7728C5.54149 6.04093 5.09116 6.04093 4.81341 5.7728L0.335269 1.44982C0.0575145 1.18168 0.0575145 0.746959 0.335269 0.478829C0.613023 0.210698 1.06335 0.210698 1.34111 0.478829L5.31633 4.31632L9.55497 0.224535C9.83272 -0.0435952 10.283 -0.0435952 10.5608 0.224535Z" fill="#78829D"/>
                 </svg>
-                
+
               </div>
           </div>
         </div>
@@ -551,12 +551,12 @@
             <thead>
               <tr>
                 <th class="act-cli-na table-header">Client Name</th>
-                <th class="act-stat table-header">Status</th>
-                <th class="act-date table-header">Date Added</th>
-                <th class="act-action  table-header">Time Overdue</th>
-                <th class="act-ass table-header">Assigned To</th>
-                <th class="act-for table-header">Forwarded By</th>
-                <th class="act-team table-header">Team</th>
+                <th class="act-stat table-header">Forwarded By</th>
+                <th class="act-date table-header">Assigned To</th>
+                <th class="act-action  table-header">Team</th>
+                <th class="act-ass table-header">Days Overdue</th>
+                <th class="act-for table-header">Date Added</th>
+                <th class="act-team table-header">Status</th>
               </tr>
             </thead>
             <tbody>
@@ -564,18 +564,19 @@
                 <td class="client-con table-data">
                   {{ client.firstName }} {{ client.lastName }}
                 </td>
+                
+                <td class="mem-name table-data">{{ client.assignedTo}}</td>
+                <td class="name table-data">{{client.createdBy}}</td>
+                <td class="team table-data">{{ client.teamName }}</td>
+                <td class="days time-overdue-values table-data">{{ client.lastAction|| "NA" }}</td>
+                <td class="date table-data">
+                  {{ client.createdAt | date : "dd/MM/yyyy" }}
+                </td>
                 <td class="badge-con table-data">
                   <span class="badge {{ client.clientStatus }}">{{
                     client.clientStatus
                   }}</span>
                 </td>
-                <td class="date table-data">
-                  {{ client.createdAt | date : "dd/MM/yyyy" }}
-                </td>
-                <td class="days time-overdue-values table-data">{{ client.lastAction|| "NA" }}</td>
-                <td class="mem-name table-data">{{ client.assignedTo}}</td>
-                <td class="name table-data">{{client.createdBy}}</td>
-                <td class="team table-data">{{ client.teamName }}</td>
               </tr>
             </tbody>
           </table>

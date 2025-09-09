@@ -87,7 +87,7 @@
             of {{ filteredMembers.length }}
           </span>
           <div class="page-controls">
-            <button (click)="setPage(currentPage - 1)" [disabled]="currentPage === 1">
+            <button type="button" (click)="setPage(currentPage - 1)" [disabled]="currentPage === 1">
               &lt;
             </button>
             <button
@@ -97,7 +97,7 @@
             >
               {{ page }}
             </button>
-            <button
+            <button type="button"
               (click)="setPage(currentPage + 1)"
               [disabled]="currentPage >= totalPages"
             >

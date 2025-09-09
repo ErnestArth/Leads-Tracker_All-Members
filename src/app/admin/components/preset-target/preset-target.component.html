@@ -2,81 +2,55 @@
   <app-sidebar></app-sidebar>
 
   <main>
-    <div class="top-bar">
+
       <div class="header">
-        <span class="back-arrow" routerLink="/admin/dashboard">
-          <img src="Back arrow.png" alt="Back" />
-        </span>
+        <button class="back-btn" (click)="onBackArrow('dashboard')">
+        <img src="Back arrow.png" alt="back-arrow" />
+      </button>
         <h2>Preset Targets</h2>
-      </div>
-      <button class="save-btn" (click)="saveChanges()">Save All Changes</button>
     </div>
-
-    <div class="content-wrapper">
-      <!-- Left: Team List -->
-      <div class="team-list">
-        <div
-          class="team-item"
-          *ngFor="let team of teams"
-          [class.active]="selectedTeam === team"
-          (click)="selectTeam(team)"
-        >
-          <div class="team-name">{{ team.name }}</div>
-          <div class="team-lead">{{ team.lead }}</div>
-        </div>
+    <div class="top-bar">
+        <input
+          type="text"
+          placeholder="Search by Team"
+          [(ngModel)]="searchTerm"
+          (input)="applyFilter()"
+        />
+        <button type="button" (click)="exportData()">
+          <img src="Export.png" class="export-image" alt="export-image" />
+          Export Data
+        </button>
       </div>
 
-      <!-- Right: Team Details -->
-      <div class="team-details">
-        <!-- No Team Selected -->
-        <div *ngIf="!selectedTeam" class="empty-state">
-          <p>No Preset targets have been assigned yet.</p>
-          <p>Select team to assign</p>
-        </div>
 
-        <!-- Team Selected -->
-        <div *ngIf="selectedTeam" class="assigned-state">
-          <h3>{{ selectedTeam.name }} Preset Target</h3>
+    <table>
+            <thead>
+              <tr>
+                <th class="table-header">Team Name</th>
+                <th class="table-header">Team Lead Name</th>
+                <th class="table-header">No. of Members</th>
+                <th class="  table-header">Target Due Date</th>
+                <th class=" table-header">Assigned Target</th>
+                <th class=" table-header">Assign Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="client-con table-data">
+                  NAME
+                </td>
+                <td class="date table-data">
+               NAME 2
+                </td>
+                <td class="days time-overdue-values table-data">NAME 3</td>
+                <td class="mem-name table-data">NAME 4</td>
+                <td class="name table-data">NAME 5</td>
+                <td>
+              <a href="#" (click)="openTargetModal(); $event.preventDefault()">Assign Target</a>
+            </td>
+              </tr>
+            </tbody>
+          </table>
 
-          <div class="form-container">
-            <!-- Target Input -->
-            <div class="form-group">
-              <label for="target">Target</label>
-              <input
-                type="number"
-                id="target"
-                [(ngModel)]="targetValue"
-                placeholder="Enter target"
-              />
-            </div>
-
-            <!-- Start Date -->
-            <div class="form-group">
-              <label for="startDate">Start Date</label>
-              <input
-                type="date"
-                id="startDate"
-                [(ngModel)]="startDate"
-              />
-            </div>
-
-            <!-- Due Date -->
-            <div class="form-group">
-              <label for="dueDate">Due Date</label>
-              <input
-                type="date"
-                id="dueDate"
-                [(ngModel)]="dueDate"
-              />
-            </div>
-
-            <!-- Assign Button -->
-            <div class="form-actions">
-              <button class="assign-btn" (click)="assignTarget()">Assign</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
   </main>
 </div>

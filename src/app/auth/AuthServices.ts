@@ -69,7 +69,7 @@ export interface forgotPasswordResponse{
 export class AuthService {
   private email: string | null = null;
   private password: string | null = null;
-  private apiUrl = 'http://13.60.76.198:8080';
+  private apiUrl = 'http://16.171.57.63:8080';
 //  http://127.0.0.1:4010
 //   http://13.48.84.210:8080
 // leads-tracker/leads/login

@@ -20,7 +20,7 @@ export class PresetTargetComponent {
     { name: 'Bravo Team', lead: 'Nancy Kyei' },
     { name: 'Charlie Unit', lead: 'John Doe' }
   ];
-
+  searchTerm = '';
   selectedTeam: Team | null = null;
 
   // Form fields
@@ -73,5 +73,10 @@ export class PresetTargetComponent {
     } else {
       alert('Please fill in all fields before assigning.');
     }
+  }
+  applyFilter() {}
+  exportData() {}
+  openTargetModal() {
+
   }
 }
