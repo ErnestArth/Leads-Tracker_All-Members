@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { UserService, getATeamsData, getATeam } from '../../../services/user.service';
+import { ActivatedRoute } from '@angular/router';
 
 interface MemberProgress {
   name: string;
@@ -13,13 +15,14 @@ interface MemberProgress {
   standalone: false,
 })
 export class TeamBreakdownComponent implements OnInit {
-  teamName = 'Alpha Squad';
-  dueDate = '2025-09-30';
+  teamName = '';
+  dueDate = '';
+  teamLeadName = '';
 
   teamLead: MemberProgress = {
-    name: 'Adwoa Mansah',
-    submitted: 50,
-    total: 80,
+    name: '',
+    submitted: 0,
+    total: 0,
   };
 
   members: MemberProgress[] = [];
@@ -27,28 +30,57 @@ export class TeamBreakdownComponent implements OnInit {
   currentPage = 1;
   itemsPerPage = 10;
 
+  constructor(private route: ActivatedRoute, private userService: UserService) {}
+
   ngOnInit(): void {
-    // Dummy data for members
-    this.members = Array.from({ length: 50 }).map((_, i) => ({
-      name: `Team Lead Name ${i + 1}`,
-      submitted: 50,
-      total: 80,
-    }));
+    const teamId = this.route.snapshot.paramMap.get('teamId');
+    if (teamId) {
+      this.loadTeamData(teamId);
+    }
+  }
+
+  loadTeamData(teamId: string): void {
+    this.userService.getATeam(teamId, 1, '', 100,).subscribe({
+      next: (res: getATeam) => {
+        const team = res.team;
+        this.teamName = team.name;
+        this.teamLeadName = team.teamLeadName;
+        this.dueDate = ''; // You can populate this when it's available in API
+
+        const membersData: getATeamsData[] = team.teamMembers?.data || [];
+
+        this.members = membersData.map((m) => ({
+          name: m.memberName,
+          submitted: m.totalClientsSubmitted,
+          total: m.target || 0,
+        }));
+
+        const totalSubmitted = this.members.reduce((sum, m) => sum + m.submitted, 0);
+        const totalTarget = this.members.reduce((sum, m) => sum + m.total, 0);
+
+        this.teamLead = {
+          name: this.teamLeadName,
+          submitted: totalSubmitted,
+          total: totalTarget,
+        };
+      },
+      error: (err) => {
+        console.error('Failed to fetch team data:', err);
+      },
+    });
   }
 
   getProgress(submitted: number, total: number): number {
-    return Math.round((submitted / total) * 1000) / 10;
+    return total === 0 ? 0 : Math.round((submitted / total) * 1000) / 10;
   }
 
-  // Filtered list based on search term
-  get filteredMembers() {
+  get filteredMembers(): MemberProgress[] {
     return this.members.filter((m) =>
       m.name.toLowerCase().includes(this.searchTerm.toLowerCase())
     );
   }
 
-  // Paginated list
-  get paginatedMembers() {
+  get paginatedMembers(): MemberProgress[] {
     const start = (this.currentPage - 1) * this.itemsPerPage;
     return this.filteredMembers.slice(start, start + this.itemsPerPage);
   }

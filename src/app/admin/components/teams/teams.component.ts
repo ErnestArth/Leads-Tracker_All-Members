@@ -22,7 +22,7 @@ export class TeamsComponent {
   progressColor: string = '';
   progressTextColor:string='';
   progressOutlineColor:string='';
-  
+
 
   allTeams: getAllTeams[] = [];
   teamMembers:getAllTeamTeamMembers[]=[]
@@ -39,7 +39,7 @@ export class TeamsComponent {
   isThereError: boolean=false
   showAddTeamDialog: any;
 
-  constructor(private modal: ModalService, 
+  constructor(private modal: ModalService,
     private userService: UserService,
     private dialog: MatDialog,
     private fb: FormBuilder,
@@ -90,7 +90,7 @@ export class TeamsComponent {
         team.progressTextColor='text-green';
         team.progressOutlineColor='green-outline';
 
-      
+
 
       } else if (team.progressPercentage >=50 ) {
 
@@ -104,11 +104,11 @@ export class TeamsComponent {
         team.progressTextColor='text-red';
         team.progressOutlineColor='red-outline';
         // console.log(team.teamName)
-        
+
       }
-      
+
     })
-  
+
   }
 
   getAllteams(){
@@ -117,12 +117,12 @@ export class TeamsComponent {
         this.allTeams = data;
         this.allTeams.forEach((team) => {
           this.teamMembers=team.teamMembers
-          
+
         })
         this.cdr.detectChanges();
         this.progressColorCode()
-       
-        
+
+
       },
     });
   }
@@ -135,9 +135,9 @@ export class TeamsComponent {
     })
 
     this.getAllteams();
-   
 
-    
+
+
 
   }
 
@@ -149,14 +149,14 @@ export class TeamsComponent {
       this.getAllteams();
 
     }
-    
+
   }
 
-  
+
 
    visibleMembers(members:any[]){
     return members ? members.slice(0, 3) : [];
-    
+
   }
 
   remainingMembers(members:any[]){
@@ -171,13 +171,13 @@ export class TeamsComponent {
       this.showAdditionalMembers = true;
       // console.log(this.showAdditionalMembers);
       return members.length - 3;
-      
+
     }else{
       this.showAdditionalMembers=false
       return "";
 
     }
-    
+
   }
 
   openEditTeam(teamId: any){
@@ -186,7 +186,7 @@ export class TeamsComponent {
       data:{
         title: 'Edit Team',
         id:teamId
-        
+
       }
     })
     editTeamDialog.componentInstance.teamEdited.subscribe((data)=>{
@@ -194,17 +194,17 @@ export class TeamsComponent {
         this.getAllteams();
       }
     })
-    
+
   }
-  
-  // this  open a modal in a different component 
-  // no more using it 
+
+  // this  open a modal in a different component
+  // no more using it
   openAddTeam(){
    const addTeamDialog= this.dialog.open(AddTeamDialogComponent,{
       width: '1200px',
       data:{
         title: 'Edit Team',
-        
+
       }
     })
     addTeamDialog.componentInstance.teamAdded.subscribe((data) => {
@@ -244,10 +244,10 @@ export class TeamsComponent {
   toggleAreChangesSaved(){
     this.areChangesSaved = !this.areChangesSaved;
   }
-  
+
     closeModal(){
       this.showAddTeamDialog.close();
     }
-  
-  
+
+
 }

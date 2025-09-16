@@ -369,6 +369,7 @@ export interface getATeamsData {
   teamLeadName: string;
   target?: number
   progressPercentage?: number
+  dueDate: string;
 }
 export interface getATeamsTeamMembers {
   data: getATeamsData[],
@@ -378,6 +379,7 @@ export interface getATeamsTeamMembers {
   pageSize: number
   hasNext: boolean
   hasPrevious: boolean
+  dueDate: string,
 }
 export interface TeamSummary {
   teamId: string;
@@ -405,6 +407,7 @@ export interface team {
 export interface getATeam {
   team: team;
   message: string;
+  dueDate: string;
 }
 
 // interface for getting unresolved notificatioon
@@ -655,14 +658,15 @@ export class UserService {
   }
 
   //get a team
-  getATeam(teamId: string,page: number , name: string,limit: number): Observable<getATeam> {
-    const token = sessionStorage.getItem('token');
-    const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
-    return this.http.get<getATeam>(
-      `${this.apiUrl}/leads-tracker/api/v1/leads/team/${teamId}`,
-      { headers, params: { page,name,limit } }
-    );
-  }
+  getATeam(teamId: string, page: number , name: string, limit: number,): Observable<getATeam> {
+  const token = sessionStorage.getItem('token');
+  const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
+  return this.http.get<getATeam>(
+    `${this.apiUrl}/leads-tracker/api/v1/leads/team/${teamId}`,
+    { headers, params: { page, name, limit } }
+  );
+}
+
 
   getAllTeamLeads(page:number,limit:number,name:string,team:string, startDate:string,endDate:string): Observable<getAllTeamLeads> {
     const token = sessionStorage.getItem('token');

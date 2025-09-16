@@ -39,7 +39,7 @@ main {
 
 .top-bar input {
   padding: 8px 12px;
-  width: 88%;
+  width: 93%;
   border: 1px solid #ccc;
   border-radius: 6px;
   font-size: 14px;
@@ -305,7 +305,7 @@ tbody td a:hover {
 
 .error-message {
   color: black;
- 
+
 }
 
 /* Responsive Behavior */
