@@ -33,6 +33,7 @@ import { AddTeamMemberPopupComponent } from '../add-team-member-popup/add-team-m
 import { AddTeamLeadPopupComponent } from '../add-team-lead-popup/add-team-lead-popup.component';
 import { FlatpickrModule } from 'angularx-flatpickr';
 import { AddEditUserComponent } from '../add-edit-user/add-edit-user.component';
+import { ClientDetailsComponent } from '../client-details/client-details.component';
 Chart.register(...registerables);
 
 @Component({
@@ -93,6 +94,12 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   durationFilter="";
   teamFilter="";
 
+  overdueSearchTerm="";
+  overdueStatusFilter="";
+  overdueTeamFilter="";
+  overdueSelectedTeam="";
+  overdueSelectedStatus=""
+
   mainSelectedDates:any
   inputedDate=""
 
@@ -111,6 +118,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     selectedStatus=""
 
     selectedTeam=""
+  teamNameArray :any = []
 
 
   onSearchClients(){
@@ -123,6 +131,15 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       this.fetchAllClients(this.currentPage,this.searchTerm,this.statusFilter,this.teamFilter)
 
     }
+  }
+  onOverdueSearchClients(){
+
+    console.log(this.overdueSearchTerm);
+    // if(this.overdueSearchTerm.length >= 3){
+      this.fetchOverdueClients(this.overdueClientCurrentPage)
+    // }else if(this.overdueSearchTerm.length == 0){
+      this.fetchOverdueClients(this.overdueClientCurrentPage)
+    // }
   }
 
   onStatusChange(event:Event){
@@ -148,6 +165,30 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     }
   }
 
+  onOverdueTableTeamChange(event:Event){
+    this.overdueSelectedTeam = (event.target as HTMLSelectElement).value;
+    console.log(this.overdueTeamFilter);
+    if(this.overdueSelectedTeam === "All Teams"){
+      this.overdueTeamFilter = ""
+      this.fetchOverdueClients(this.overdueClientCurrentPage)
+    }else{
+      this.overdueTeamFilter = this.overdueSelectedTeam
+    this.fetchOverdueClients(this.overdueClientCurrentPage)
+    }
+  }
+
+  onOverdueStatusChange(event:Event){
+    this.overdueSelectedStatus = (event.target as HTMLSelectElement).value;
+    console.log(this.overdueTeamFilter);
+    if(this.overdueSelectedStatus === "All Status"){
+      this.overdueStatusFilter = ""
+      this.fetchOverdueClients(this.overdueClientCurrentPage)
+    }else{
+      this.overdueStatusFilter = this.overdueSelectedStatus
+    this.fetchOverdueClients(this.overdueClientCurrentPage)
+    }
+  }
+
   
 
   onLimitChange(newLimit: number): void {
@@ -167,11 +208,11 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
   // Was asked to remove after first presentation
 
-  // onOverdueLimitChange(newLimit: number): void {
-  //   this.overdueClientLimit = newLimit;
-  //   this.overdueClientCurrentPage = 1;
-  //   this.fetchOverdueClients(this.overdueClientCurrentPage);
-  // }
+  onOverdueLimitChange(newLimit: number): void {
+    this.overdueClientLimit = newLimit;
+    this.overdueClientCurrentPage = 1;
+    this.fetchOverdueClients(this.overdueClientCurrentPage);
+  }
 
   fetchAllClients(page: number, searchTerm?: string, statusFilter?: string, teamFilter?: string) {
     // get all clients for client activity tracker
@@ -222,7 +263,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
   fetchOverdueClients(page: number) {
     this.userService
-      .getAllClientsOverdue(page, this.overdueClientLimit)
+      .getAllClientsOverdue(page, this.overdueClientLimit,this.overdueSearchTerm,this.overdueTeamFilter,this.overdueStatusFilter)
       .subscribe({
         next: (data) => {
           this.overdueClients = data;
@@ -261,6 +302,14 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       next: (data) => {
         this.overallStatusCounts = data;
         this.teamStats = data.teamStats;
+        this.teamStats.forEach((team:any) => {
+          
+          this.teamNameArray.push(team.teamName);
+          
+
+        })
+        console.log(this.teamNameArray.sort())
+        
 
         // show default team status counts
         this.displayedStatusCounts = this.overallStatusCounts;
@@ -658,6 +707,13 @@ handlingBarChart(){
     });
   }
 
+  openClientDetails(){
+    const clientDetailsPopup = this.dialog.open(ClientDetailsComponent, {
+      width: '800px',
+      data: {
+      },
+    });
+  }
 
 
   closeModal(): void {

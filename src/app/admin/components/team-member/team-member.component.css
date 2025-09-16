@@ -387,6 +387,7 @@ table {
   color: #78829d;
   padding: 6px;
   border-radius: 9px;
+  text-transform:capitalize;
 }
 
 .client-activity-tracker-container {

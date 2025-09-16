@@ -121,6 +121,8 @@ export class TeamLeadDetailsComponent {
   selectedDates: string = '';
   mainSelectedDates: string = '';
 
+  inputedDate=""
+
   clientDataForm!: FormGroup;
 
 
@@ -263,6 +265,12 @@ export class TeamLeadDetailsComponent {
       console.log(this.startDate)
       console.log(this.endDate)
     }
+    console.log(this.mainSelectedDates)
+    // unsets fromDate and to Date when the date entered is cleared
+    if(this.inputedDate.includes(" to ")){
+      this.startDate=""
+      this.endDate=""
+  }
 
 
    

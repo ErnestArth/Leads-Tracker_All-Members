@@ -31,6 +31,7 @@ export class TeamLeadComponent {
   limit = 5;
   hasNext = false;
   hasPrevious = false;
+  teamNameArray: any=[]
 
   constructor(private userService: UserService, private dialog: MatDialog) {}
 
@@ -89,6 +90,11 @@ export class TeamLeadComponent {
       next: (data) => {
         this.allTeams=data
         console.log(data)
+
+        data.forEach((team) => {
+          this.teamNameArray.push(team.teamName)
+          this.teamNameArray.sort()
+        })
       },
       error: (err) => {
         console.log(err);

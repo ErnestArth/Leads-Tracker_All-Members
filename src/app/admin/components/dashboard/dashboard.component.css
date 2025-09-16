@@ -192,6 +192,7 @@ li {
   font-size: 14px;
   background-color: #f5f5f5;
   padding: 10px;
+  text-transform:capitalize;
 }
 .chart-filter-select {
   /* width: 120.33px;
@@ -412,6 +413,13 @@ li {
   border-right: 1px solid #f46036;
   border-left: 1px solid #f46036;
   border-bottom: 1px solid #f46036;
+  margin-bottom: 40px;
+}
+.export-data{
+  border: 1px solid #dbdfe9;
+  padding: 10px;
+  border-radius: 6px;
+  background:#F5F5F5;
 }
 table {
   border-collapse: collapse;
@@ -485,6 +493,9 @@ input::placeholder{
 
   padding: 6px;
   border-radius: 9px;
+}
+.team-names{
+  text-transform: capitalize;
 }
 
 .dropdown:first-child{

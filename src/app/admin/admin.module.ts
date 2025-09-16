@@ -69,6 +69,8 @@ import { AddEditUserComponent } from './components/add-edit-user/add-edit-user.c
 import { AddEditMemberComponent } from './components/add-edit-member/add-edit-member.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { PresetTargetComponent } from './components/preset-target/preset-target.component';
+import { ClientDetailsComponent } from './components/client-details/client-details.component';
+import { ReportsComponent } from './components/reports/reports.component';
 
 
 
@@ -105,6 +107,7 @@ const routes: Routes = [
       { path: 'team-member/:memberId', component: TeamMemberDetailsComponent },
       { path: 'team-leads', component: TeamLeadComponent },
       { path: 'team-leads/:teamLeadId', component: TeamLeadDetailsComponent },
+      {path:'reports',component:ReportsComponent},
 
       // { path: 'otpAuthComponent', component:OtpAuthComponent} ,
       {
@@ -196,6 +199,8 @@ const routes: Routes = [
     AddEditMemberComponent,
     SetTargetsComponent,
     PresetTargetComponent,
+    ClientDetailsComponent,
+    ReportsComponent,
 
   ],
   imports: [

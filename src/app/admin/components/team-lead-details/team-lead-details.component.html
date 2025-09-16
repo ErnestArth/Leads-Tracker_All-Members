@@ -112,6 +112,7 @@
                 [altFormat]="'F j, Y'"
                 [dateFormat]="'Y-m-d'"
                 [(ngModel)]="selectedDates"
+                [(ngModel)]="inputedDate"
                 (change)="onMainDateChange($event)"
                 
                 >
@@ -308,7 +309,7 @@
                   [altFormat]="'F j, Y'"
                   [dateFormat]="'Y-m-d'"
                   [(ngModel)]="selectedDates"
-                 
+                  
                   (change)="onDateChange($event)"
                   
                   >

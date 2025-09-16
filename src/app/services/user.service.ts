@@ -522,7 +522,7 @@ export interface SetTeamTargetRequest {
   providedIn: 'root',
 })
 export class UserService {
-  private apiUrl = 'http://13.60.76.198:8080'; //
+  private apiUrl = 'http://13.61.145.166:8080'; //
 
   private teamMembers: createTeamMember[] = [];
 
@@ -714,13 +714,17 @@ export class UserService {
 
   getAllClientsOverdue(
     page: number,
-    limit: number
+    limit: number,
+    name:string,
+    team:string,
+    status:string
+
   ): Observable<getAllClientsOverdue> {
     const token = sessionStorage.getItem('token');
     const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
     return this.http.get<getAllClientsOverdue>(
       `${this.apiUrl}/leads-tracker/api/v1/clients/admin/overdueClients?page=${page}&limit=${limit}`,
-      { headers }
+      { headers,params:{name,team,status} }
     );
   }
 

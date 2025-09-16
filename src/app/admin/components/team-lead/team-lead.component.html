@@ -2,7 +2,7 @@
   <app-sidebar />
   <main>
     <aside class="header">
-      <h4>Overview</h4>
+      <h4>Team Lead</h4>
       <div class="add-user-profile">
         <button
           class="add-user-btn"
@@ -104,7 +104,7 @@
         <select title="select" (change)="onTeamsChange($event)" class="dropdown">
           <option  disabled value="">Select Team</option>
           <option value="All Teams">All Teams</option>
-          <option *ngFor="let team of allTeams" value="{{team.teamName}}">{{team.teamName}}</option>
+          <option *ngFor="let team of teamNameArray" value="{{team}}">{{team}}</option>
         </select>
         <div class="date-div">
           <input
