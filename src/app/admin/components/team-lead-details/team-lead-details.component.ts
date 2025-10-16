@@ -44,6 +44,7 @@ export class TeamLeadDetailsComponent {
 
   doughnutChartInstance!: Chart ;
   doughnutStatusData: any[] = [];
+  teamLeadDoughnutStatusData: any[] = [];
 
   barChartInstance!: Chart ;
   teamMembers:any[]=[]
@@ -218,24 +219,35 @@ export class TeamLeadDetailsComponent {
             console.log(this.teamMemberNames, this.teamMembersData);
           })
           console.log(this.userData);
-          console.log(this.userData.teamPerformance.clientStatus)
+        
           this.progressColorCode();
 
-          this.doughnutStatusData =[
-            this.userData.teamPerformance.clientStatus.Awaiting_Documentation,
-            this.userData.teamPerformance.clientStatus.Interested,
-            this.userData.teamPerformance.clientStatus.Not_Interested,
-            this.userData.teamPerformance.clientStatus.Onboarded,
-            this.userData.teamPerformance.clientStatus.Pending
+          // this.doughnutStatusData =[
+          //   this.userData.teamPerformance.clientStatus.Awaiting_Documentation,
+          //   this.userData.teamPerformance.clientStatus.Interested,
+          //   this.userData.teamPerformance.clientStatus.Not_Interested,
+          //   this.userData.teamPerformance.clientStatus.Onboarded,
+          //   this.userData.teamPerformance.clientStatus.Pending
+          // ]
+
+          this.teamLeadDoughnutStatusData =[
+            this.userData.teamPerformance.leadPerformance.clientStatus.Awaiting_Documentation,
+            this.userData.teamPerformance.leadPerformance.clientStatus.Interested,
+            this.userData.teamPerformance.leadPerformance.clientStatus.Not_Interested,
+            this.userData.teamPerformance.leadPerformance.clientStatus.Onboarded,
+            this.userData.teamPerformance.leadPerformance.clientStatus.Pending
           ]
 
-         // call  charts
-         console.log(this.doughnutStatusData)
-          this.loadDoughnutChart(this.doughnutStatusData)
-          this.loadTeamDoughnutChart(this.doughnutStatusData)
-          console.log(this.userData.teamPerformance.clientStatus.Interested,)
+          // console.log(this.teamLeadDoughnutStatusData)
 
-          this.loadBarChart(this.teamMemberNames,this.teamMembersData)
+         // call  charts
+         //console.log(this.doughnutStatusData)
+          //this.loadDoughnutChart(this.doughnutStatusData)
+          
+         this.loadTeamDoughnutChart(this.teamLeadDoughnutStatusData)
+         // console.log(this.userData.teamPerformance.clientStatus.Interested,)
+
+      this.loadBarChart(this.teamMemberNames,this.teamMembersData)
 
 
           
@@ -243,7 +255,7 @@ export class TeamLeadDetailsComponent {
           // this.getOverdueClients(this.clientCurrentPage)
           // call clients under user
           console.log("hey")
-          this.fetchClients(this.clientCurrentPage)        },
+          this.fetchClients(this.clientCurrentPage)   },
         error: (err) => {
           console.log(err);
         },

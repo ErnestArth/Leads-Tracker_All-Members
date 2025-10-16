@@ -132,8 +132,8 @@ export class TeamLeadComponent {
     }
    
   }
-  onDateChange(event: Event) {
-    this.selectedDates = (event.target as HTMLInputElement).value;
+  onDateChange(value: string) {
+    this.selectedDates = value;
     console.log(this.selectedDates)
     if (this.selectedDates) {
       [this.startDate, this.endDate] = this.selectedDates.split(' to ');

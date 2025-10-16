@@ -34,6 +34,9 @@ export class TeamMemberComponent {
   searchTerm=""
   allTeams:any=[]
   selectedTeam=""
+  inputedDate=""
+  startDate=""
+  endDate=""
   constructor(private dialog: MatDialog, private userService: UserService) {}
 
   // progressColorCode(){
@@ -81,7 +84,7 @@ export class TeamMemberComponent {
   }
 
   fetchAllTeamMembers(page:number){
-    this.userService.getAllTeamMembers(page,this.limit,this.searchTerm,this.selectedTeam).subscribe({
+    this.userService.getAllTeamMembers(page,this.limit,this.searchTerm,this.selectedTeam,this.startDate,this.endDate).subscribe({
       next: (data) => {
         console.log(data);
         this.allTeamMembers = data.data;
@@ -140,6 +143,13 @@ export class TeamMemberComponent {
     }
     
 
+  }
+  onDateChange(event:Event){
+    this.inputedDate = (event.target as HTMLInputElement).value;
+    if(this.inputedDate){
+      [this.startDate,this.endDate]=this.inputedDate.split(" to ")
+      this.fetchAllTeamMembers(this.currentPage)
+    }
   }
   addTeamMember() {
     this.openAddTeamMemberDialog(0, 'Create Team Member');

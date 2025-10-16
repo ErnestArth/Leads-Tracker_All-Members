@@ -81,7 +81,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   clientHasNext = false;
   clientHasPrevious = false;
 
-  overdueClientCurrentPage = 1;
+  overdueClientCurrentPage = 0;
   overdueClientTotalPages = 3;
   overdueClientTotalItems = 12;
   overdueClientLimit = 6;
@@ -210,7 +210,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
   onOverdueLimitChange(newLimit: number): void {
     this.overdueClientLimit = newLimit;
-    this.overdueClientCurrentPage = 1;
+    this.overdueClientCurrentPage = 0;
     this.fetchOverdueClients(this.overdueClientCurrentPage);
   }
 
@@ -303,6 +303,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         this.overallStatusCounts = data;
         this.teamStats = data.teamStats;
         this.teamStats.forEach((team:any) => {
+          
           
           this.teamNameArray.push(team.teamName);
           
@@ -404,6 +405,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
      this.membersTotalClientsOnboarded=[]
      this.teamsTotalClientsOnboarded=[]
      this.teamNames=[]
+     this.teamNameArray=[]
 
   }
 

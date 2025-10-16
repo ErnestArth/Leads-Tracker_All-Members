@@ -216,6 +216,22 @@ export interface teamMembers {
   progressPercentage?: number
 }
 
+export interface leadPerformance{
+  memberId: string;
+  memberName: string;
+  totalClientsSubmitted: string;
+  clientStatus: clientStatus;
+  target: number;
+  progressPercentage: number;
+  progressFraction: number;
+  email: string;
+  teamName: string;
+  teamLeadName: string;
+  staffId: string;
+  createdDate: string;
+  phoneNumber: string;
+}
+
 export interface teamPerformance{
   teamLeadName:string
   teamName:string
@@ -228,6 +244,7 @@ export interface teamPerformance{
   numberOfTeamMembers:number
   progressFraction:number
   email:string
+  leadPerformance:leadPerformance
   color?:string
 }
 
@@ -525,7 +542,7 @@ export interface SetTeamTargetRequest {
   providedIn: 'root',
 })
 export class UserService {
-  private apiUrl = 'http://13.61.145.166:8080'; //
+  private apiUrl = 'http://16.170.221.204:8080'; //
 
   private teamMembers: createTeamMember[] = [];
 
@@ -688,12 +705,12 @@ export class UserService {
 
   // get all team members
 
-  getAllTeamMembers(page:number,limit:number,name:string,team:string): Observable<getAllTeamMembers> {
+  getAllTeamMembers(page:number,limit:number,name:string,team:string,startDate:string,endDate:string): Observable<getAllTeamMembers> {
     const token = sessionStorage.getItem('token');
     const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
     return this.http.get<getAllTeamMembers>(
       `${this.apiUrl}/leads-tracker/api/v1/leads/team-members`,
-      { headers, params:{page,limit,name,team} }
+      { headers, params:{page,limit,name,team,startDate,endDate} }
     );
   }
   getSpecificTeamLead(userId: string,startDate: string,endDate:string,name:string): Observable<getSpecificTeamLead> {
